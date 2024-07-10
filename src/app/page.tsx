@@ -1,20 +1,31 @@
 import Head from 'next/head';
+import Image from 'next/image';
+import { Vector, cart, icon, pic1, logo, flag, phone, expert, person, chair, bed, textile, sofa, toy, armchair, table, storage, lighting, decor } from "../../public/image";
+import Banner from '@/components/Banner';
+import Categories from '@/components/Categories';
+import Sellers from '@/components/Sellers';
+import Brands from '@/components/Brands';
+import Collection from '@/components/Collection';
+import Furniture from '@/components/Furniture';
+import Rules from '@/components/Rules';
+import Latestarticle from '@/components/Latestarticle';
+
+
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <Head>
-        <title>Welcome Home</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <div>
 
-      <main className="flex flex-col items-center justify-center flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to <span className="text-blue-600">Your New Home Page!</span>
-        </h1>
-      </main>
-
-
+      <Banner />
+      <Categories />
+      <Sellers />
+      <Brands />
+      <Collection />
+      <Furniture />
+      <Rules />
+      <Latestarticle />
+      
     </div>
+
   );
 }
