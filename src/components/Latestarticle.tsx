@@ -4,7 +4,7 @@ import { mackay, steak, bathroom, office, resto, share, comment } from "../../pu
 
 const Latestarticle = () => {
     return (
-        <div className='py-8 h-fit centred flex flex-col gap-10 justify-center items-center'>
+        <div className='py-8 h-fit centred flex flex-col gap-10 '>
             <div className='  max-md:text-center flex justify-between items-center max-md:w-full w-full max-md:flex-col max-md:gap-4  '>
                 <h3 className=' font-bold max-md:text-2xl text-2xl text-gray-800'>
                     Latest articles

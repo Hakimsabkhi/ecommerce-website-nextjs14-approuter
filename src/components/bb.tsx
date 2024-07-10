@@ -17,7 +17,7 @@ import { GoHeart } from "react-icons/go";
 export default function Bb() {
     return (
         <div>
-            <div className='bg-black items-center justify-center max-md:hidden flex py-8 gap-10 flex-col w-full'>
+            <div className='bg-black items-center justify-center  flex pt-8 max-md:pb-28 max-md:pt-8 gap-10 flex-col w-full'>
                 <div className='flex w-4/5 max-sm:flex-col max-sm:flex max-sm:items-center max-sm:justify-center justify-between items-center'>
                     <div className="  flex justify-center md:justify-start">
                         <Image src={luxehome} alt="luxehome" />
