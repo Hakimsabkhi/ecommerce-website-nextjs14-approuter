@@ -1,88 +1,246 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import Image from 'next/image';
+import { Vector, refresh, cart, logo, person } from "../../public/image";
+import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
+import { chair, table, sofa, armchair, bed, storage, textile, lighting, toy, decor } from "../../public/image";
 
 const Header: React.FC = () => {
-  const { data: session } = useSession();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('categories');
 
-  const handleToggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  const handleNav = () => {
+    setMenuOpen(!menuOpen);
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-      setIsDropdownOpen(false);
-    }
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
   };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   return (
-    <header className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-4 shadow-md">
-      <nav className="container mx-auto flex justify-between items-center">
-        <div className="text-2xl font-bold">
-          <Link href="/">
-            My Blog
-          </Link>
-        </div>
-        <div className="flex items-center space-x-4">
-          <Link href="/" className="hover:text-gray-300 transition-colors duration-300">Home</Link>
-          <Link href="/about" className="hover:text-gray-300 transition-colors duration-300">About Us</Link>
-          <Link href="/services" className="hover:text-gray-300 transition-colors duration-300">Services</Link>
-          <Link href="/contact" className="hover:text-gray-300 transition-colors duration-300">Contact</Link>
-          <Link href="/blog" className="hover:text-gray-300 transition-colors duration-300">Blog</Link>
-          {session ? (
-            <div className="relative inline-block" ref={dropdownRef}>
-              <span
-                onClick={handleToggleDropdown}
-                className="cursor-pointer hover:text-gray-300 transition-colors duration-300"
-              >
-                {session.user?.name || session.user?.email}
-              </span>
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg py-2 z-20">
-                  <Link href="/profile" className="block px-4 py-2 hover:bg-gray-100 transition-colors duration-300">
-                    Profile
-                  </Link>
-                  {session.user?.role === 'Admin' && (
-                    <Link href="/admin/dashboard" className="block px-4 py-2 hover:bg-gray-100 transition-colors duration-300">
-                      Dashboard
-                    </Link>
-                  )}
-                  <button
-                    onClick={() => signOut()}
-                    className="block w-full text-left px-4 py-2 hover:bg-gray-100 transition-colors duration-300"
-                  >
-                    Log Out
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <>
-              <button onClick={() => signIn()} className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded transition-colors duration-300">
-                Sign In
+    <div className='w-full max-md:fixed max-md:z-50 max-md:bg-white max-md:py-1 py-2 bg-gray-200 justify-center flex '>
+      <div className='flex w-11/12 justify-between items-center max-md:bg-white bg-gray-200'>
+        <Link href="/">
+          <Image className="w-52 h-14" src={logo} alt="Logo" />
+        </Link>
+        <input
+          className="w-full md:w-1/2 h-12 px-4 py-2 rounded-full max-md:hidden border border-gray-300"
+          type="text"
+          placeholder='Search for products'
+        />
+        <div className='max-md:hidden'>
+          <div className='flex max-md:flex gap-4 md:gap-20 items-center'>
+            <div className='flex gap-4 items-center max-md:hidden'>
+              <button className="w-10 h-10 bg-gray-300 flex justify-center items-center rounded-full">
+                <Image className='w-5.5 h-5.5' src={refresh} alt='refresh' />
               </button>
-              <Link href="/auth/signup">
-                <button className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded transition-colors duration-300">
-                  Sign Up
-                </button>
+              <button className="w-10 h-10 bg-gray-300 flex justify-center items-center rounded-full">
+                <Image className='w-5.5 h-5.5' src={Vector} alt='Vector' />
+              </button>
+            </div>
+            <div className='flex gap-4 items-center max-md:hidden'>
+              <button className="flex items-center space-x-2 text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2">
+                <Image src={person} alt="person" />
+                <span>Login / Register</span>
+              </button>
+              <button className="flex items-center space-x-2 text-white bg-black hover:bg-gray-500 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-3 py-3">
+                <Image src={cart} alt="cart" />
+                <span>$0.00</span>
+                <span className="relative top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-white rounded-full transform translate-x-1/2 -translate-y-1/2">0</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div onClick={handleNav} className='md:hidden cursor-pointer'>
+          <AiOutlineMenu size={25} />
+        </div>
+      </div>
+      {menuOpen && (
+        <div onClick={handleNav} className='fixed inset-0 bg-black opacity-50 z-40'>
+          <AiOutlineMenu size={25} />
+        </div>
+      )}
+      <div className={
+        menuOpen
+          ? "fixed z-50 left-0 top-0 w-[80%] md:hidden  h-screen bg-[#ecf0f3] ease-in duration-300"
+          : "fixed z-50 left-[-100%] top-0 h-screen  ease-in duration-300"
+      }>
+        <input
+          className="w-full h-12 px-4 py-2 border border-gray-300"
+          type="text"
+          placeholder='Search for products'
+        />
+        <div className='flex'>
+          <button
+            className={`flex-1 text-center text-sm py-3 ${activeTab === 'categories' ? 'bg-gray-300 border-b-2 border-orange-400' : 'bg-gray-200 opacity-50'}`}
+            onClick={() => handleTabClick('categories')}
+          >
+            Categories
+          </button>
+          <button
+            className={`flex-1 text-center text-sm py-3 ${activeTab === 'menu' ? 'bg-gray-300 border-b-2 border-orange-400' : 'bg-gray-200 opacity-50'}`}
+            onClick={() => handleTabClick('menu')}
+          >
+            Menu
+          </button>
+        </div>
+        <div className='flex-col gap-4'>
+          {activeTab === 'menu' && (
+            <ul className='text-sm'>
+              <Link href="/">
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className='cursor-pointer  h-10 items-center flex pl-5 hover:bg-gray-200 border'
+                >
+                  Home
+                </li>
               </Link>
-            </>
+              <Link href="/blog">
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
+                >
+                  Blog
+                </li>
+              </Link>
+              <Link href="/about">
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
+                >
+                  About Us
+                </li>
+              </Link>
+              <Link href="/contactus">
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
+                >
+                  Contact Us
+                </li>
+              </Link>
+              <Link href="/showrooms">
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
+                >
+                  Showrooms
+                </li>
+              </Link>
+              <Link href="/giftcards">
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
+                >
+                  Gift Cards
+                </li>
+              </Link>
+            </ul>
+          )}
+          {activeTab === 'categories' && (
+            <ul className="text-sm">
+              <Link href="/chairs" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
+                <div className=''>
+                  <Image src={chair} alt="chair" />
+                </div>
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className=''
+                >
+                  Chairs
+                </li>
+              </Link>
+              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
+                <Image src={table} alt="table" />
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className=''
+                >
+                  Tables
+                </li>
+              </Link>
+              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
+                <Image src={sofa} alt="sofa" />
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className=''
+                >
+                  Sofas
+                </li>
+              </Link>
+              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
+                <Image src={armchair} alt="armchair" />
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className=''
+                >
+                  Armchairs
+                </li>
+              </Link>
+              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
+                <Image src={bed} alt="bed" />
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className=''
+                >
+                  Beds
+                </li>
+              </Link>
+              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
+                <Image src={storage} alt="storage" />
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className=''
+                >
+                  Storage
+                </li>
+              </Link>
+              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
+                <Image src={textile} alt="textile" />
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className=''
+                >
+                  Textiles
+                </li>
+              </Link>
+              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
+                <Image src={lighting} alt="lighting" />
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className=''
+                >
+                  Lighting
+                </li>
+              </Link>
+              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
+                <Image src={toy} alt="toy" />
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className=''
+                >
+                  Toys
+                </li>
+              </Link>
+              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
+                <Image src={decor} alt="decor" />
+                <li
+                  onClick={() => setMenuOpen(false)}
+                  className=''
+                >
+                  Decor
+                </li>
+              </Link>
+            </ul>
           )}
         </div>
-      </nav>
-    </header>
+      </div>
+    </div>
   );
 };
 
 export default Header;
+
+
