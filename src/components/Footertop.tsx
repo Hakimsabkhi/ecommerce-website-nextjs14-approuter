@@ -2,8 +2,8 @@ import React from 'react';
 
 const Footertop = () => {
     return (
-        <div className='py-8 max-md:pb-20 h-fit w-full flex flex-col gap-10 justify-center items-center '>
-            <div className='max-md:text-left flex flex-col gap-2 text-left max-md:w-4/5 w-4/5 '>
+        <div className='py-8 max-md:pb-20 h-fit centred flex flex-col gap-10 justify-center items-center '>
+            <div className='max-md:text-left flex flex-col gap-2 text-left max-md:w-full w-full '>
                 <div className='space-y-2'>
                     <h3 className='font-bold text-2xl text-gray-800'>
                         Online store with a wide selection of furniture and  decor

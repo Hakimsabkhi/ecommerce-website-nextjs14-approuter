@@ -3,15 +3,15 @@ import Image from 'next/image';
 import { elitispic, elitislogo, HAYpic, HAYlogo, kettallogo, kettalpic, lladropic, lladrologo, poliformpic, poliformlogo } from "../../public/image";
 const Brands = () => {
     return (
-        <div className='w-full flex flex-col justify-center items-center gap-10 max-md:gap-4 py-8'>
-            <div className='  flex-col max-md:text-left  flex gap-2 max-md:gap-1 text-center w-4/5 '>
+        <div className='centred flex flex-col justify-center items-center gap-10 max-md:gap-4 py-8'>
+            <div className='  flex-col max-md:text-left  flex gap-2 max-md:gap-1 text-left w-full '>
                 <h3 className=' font-bold text-2xl text-gray-800'>
                     Shopping by brands
                 </h3>
                 <p className='text-sm text-gray-400'>Discover lots products from poplular brands</p>
             </div>
             <div className=' flex-col w-full justify-center items-center  flex'>
-                <div className='flex items-center w-4/5 justify-between gap-6  max-md:flex-col max-md:w-4/5 '>
+                <div className='flex items-center w-full justify-between gap-6  max-md:flex-col max-md:w-full '>
                     <div className='relative w-full '>
                         <Image className='w-[300px]' src={elitispic} alt="elitisbrand" />
                         <div className='absolute top-6 left-4'>

@@ -3,8 +3,8 @@ import Image from 'next/image';
 import { decor3, decor4 } from "../../public/image";
 const Aboutonlinestore = () => {
     return (
-        <div className='flex w-full justify-center items-center  py-8 '>
-            <div className='w-4/5 flex gap-20 justify-between items-center max-md:flex-col-reverse max-md:gap-10'>
+        <div className='flex centred justify-center items-center  py-8 '>
+            <div className='w-full flex gap-20 justify-between items-center max-md:flex-col-reverse max-md:gap-10'>
                 <div className='flex gap-10 max-md:flex-col '>
                     <Image src={decor3} alt="decor" />
                     <Image src={decor4} alt="decor" />

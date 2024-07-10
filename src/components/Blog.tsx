@@ -4,8 +4,8 @@ import { mackay, steak, bathroom, office, resto, share, comment, resto1, office1
 
 const Blog = () => {
     return (
-        <div className='gap-12 py-8  w-full justify-center items-center flex-col flex max-md:gap-6'>
-            <div className='flex items-center w-4/5 justify-between gap-6 max-md:flex-col'>
+        <div className='gap-12 py-8  centred justify-center items-center flex-col flex max-md:gap-6'>
+            <div className='flex items-center w-full justify-between gap-6 max-md:flex-col'>
                 <div className='relative max-md:relative group '>
                         <div className='absolute flex gap-1 items-center top-48  left-1'>
                             <Image className='w-5  ' src={mackay} alt="person" />
@@ -119,7 +119,7 @@ const Blog = () => {
                     <Image className='w-[340px]' src={resto} alt="resto" />
                 </div>
             </div>
-            <div className='flex items-center w-4/5 justify-between gap-6 max-md:flex-col'>
+            <div className='flex items-center w-full justify-between gap-6 max-md:flex-col'>
                 <div className='relative'>
                     <div className='absolute flex gap-1 items-center top-48 left-1'>
                         <Image className='w-5  ' src={mackay} alt="person" />
