@@ -7,7 +7,7 @@ const Categories = () => {
         <div className='centred flex flex-col   gap-10 py-8  '>
             <div className='flex-col flex gap-2 text-left w-full'>
                 <h3 className='font-bold text-2xl text-gray-800'>
-                    Our categories
+                    Our categories hhhh
                 </h3>
                 <p className='text-sm text-gray-400'>Lots of new products and product collections</p>
             </div>
