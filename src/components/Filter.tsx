@@ -449,7 +449,7 @@ const Filter = () => {
                     </div>
                     <Image src={sortby} alt="sortby" />
                 </div>
-                <div className=' grid grid-cols-3 max-md:gap-2  gap-5 max-md:grid max-md:grid-cols-2 px-3 '>
+                <div className=' grid grid-cols-3 max-md:gap-2  gap-5 max-md:grid max-md:grid-cols-2 max-md:px-3 '>
                     <div className='relative w-fit'>
                         <Image className='shadow-lg rounded-md max-md:h-[350px] ' src={chair6} alt="chair" />
                         <div className='absolute top-2 right-2'>
@@ -457,7 +457,7 @@ const Filter = () => {
                         </div >
                         <div className='absolute top-1 left-1'>
                             <p className='bg-green-600 rounded-full px-2 text-white'>NEW</p>
-                        </div>
+                        </div>                        
                         <div className='absolute  flex justify-between w-[90%] max-md:w-4/5 bottom-4 max-md:bottom-12 left-5'>
                             <div>
                                 <p className='text-sm font-semibold'>Revolt</p>
@@ -468,7 +468,7 @@ const Filter = () => {
                                 <p className='text-sm text-bold font-semibold'>5</p>
                                 <Image className='w-5' src={star} alt="star" />
                             </div>
-                        </div>
+                        </div>                                                    
                     </div>
                     <div className='relative w-fit'>
                         <Image className='shadow-lg rounded-md max-md:h-[350px]' src={chair7} alt="sofa" />

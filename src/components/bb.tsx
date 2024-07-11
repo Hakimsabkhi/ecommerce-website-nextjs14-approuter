@@ -32,7 +32,7 @@ export default function Bb() {
                         </div>
                     </div>
                 </div>
-                <div className=" flex max-sm:gap-10 max-sm:flex-wrap w-4/5 justify-between items-center  ">
+                <div className=" flex max-md:gap-10 max-md:flex-wrap w-4/5 justify-between items-center  ">
                     <ul className='flex-col flex gap-4'>
                         <p className="text-white font-bold text-xl md:text-2xl ">Useful links</p>
                         <div className='flex-col gap-8 flex'>
