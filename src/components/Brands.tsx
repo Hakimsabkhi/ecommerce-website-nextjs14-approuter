@@ -1,6 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
 import { elitispic, elitislogo, HAYpic, HAYlogo, kettallogo, kettalpic, lladropic, lladrologo, poliformpic, poliformlogo } from "../../public/image";
+const brands = [
+    { src: HAYpic, logo: HAYlogo, name: "Hay", place: "Barcelona / Spain" },
+    { src: kettalpic, logo: kettallogo, name: "Kettal", place: "Barcelona / Spain" },
+    { src: elitispic, logo: elitislogo, name: "Elitis", place: "Tolosa / france" },
+    { src: lladropic, logo: lladrologo, name: "llardo", place: "Valencia / Spain" },
+    { src: poliformpic, logo: poliformlogo, name: "Poliform", place: "Como / Italy" }
+]
 const Brands = () => {
     return (
         <div className='centred flex flex-col  gap-10 max-md:gap-4 py-8'>
@@ -11,56 +18,18 @@ const Brands = () => {
                 <p className='text-sm text-gray-400'>Discover lots products from poplular brands</p>
             </div>
             <div className='flex items-center w-full justify-between gap-6  max-md:flex-col max-md:w-full '>
-                <div className='relative w-full '>
-                    <Image className='w-[300px]' src={elitispic} alt="elitisbrand" />
-                    <div className='absolute top-6 left-4'>
-                        <Image src={elitislogo} alt="elitisbrand" />
+                {brands.map((brand, index) => (
+                    <div key={index} className='relative w-full '>
+                        <Image className='w-[300px]' src={brand.src} alt={brand.name} />
+                        <div className='absolute top-6 left-4'>
+                            <Image src={brand.logo} alt="elitisbrand" />
+                        </div>
+                        <div className='absolute top-7 left-24 space-y-2 '>
+                            <p className='text-xl  font-bold text-white '>{brand.name}</p>
+                            <p className='text-white text-sm'>{brand.place}</p>
+                        </div>
                     </div>
-                    <div className='absolute top-7 left-24 space-y-2 '>
-                        <p className='text-xl  font-bold text-white '>Elitis</p>
-                        <p className='text-white text-sm'>Talosa / France</p>
-                    </div>
-                </div>
-                <div className='relative w-full '>
-                    <Image className='w-[300px]' src={HAYpic} alt="HAYbrand" />
-                    <div className='absolute top-6 left-4'>
-                        <Image src={HAYlogo} alt="HAYbrand" />
-                    </div>
-                    <div className='absolute top-7 left-24 space-y-2'>
-                        <p className='text-xl font-bold text-white '>Hay</p>
-                        <p className='text-white text-sm'>Barcelona / Spain</p>
-                    </div>
-                </div>
-                <div className='relative w-full  '>
-                    <Image className='w-[300px]' src={kettalpic} alt="kettalbrand" />
-                    <div className='absolute top-6 left-4'>
-                        <Image src={kettallogo} alt="kettlabrand" />
-                    </div>
-                    <div className='absolute top-7 left-24 space-y-2'>
-                        <p className='text-xl font-bold text-white '>Kettal</p>
-                        <p className='text-white text-sm'>Barcelona / Spain</p>
-                    </div>
-                </div>
-                <div className='relative w-full '>
-                    <Image className='w-[300px]' src={lladropic} alt="lladrobrand" />
-                    <div className='absolute top-6 left-4'>
-                        <Image src={lladrologo} alt="lladrobrand" />
-                    </div>
-                    <div className='absolute top-7 left-24 space-y-2'>
-                        <p className='text-xl font-bold text-white '>Llardo</p>
-                        <p className='text-white text-sm'>Valencia / Spain</p>
-                    </div>
-                </div>
-                <div className='relative w-full  '>
-                    <Image className='w-[300px]' src={poliformpic} alt="poliformbrand" />
-                    <div className='absolute top-6 left-4'>
-                        <Image src={poliformlogo} alt="poliformbrand" />
-                    </div>
-                    <div className='absolute top-7 left-24 space-y-2'>
-                        <p className='text-xl font-bold text-white '>Poliform</p>
-                        <p className='text-white text-sm'>Como / Italy</p>
-                    </div>
-                </div>
+                ))}
             </div>
         </div>
     );

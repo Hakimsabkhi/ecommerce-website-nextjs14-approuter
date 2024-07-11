@@ -1,9 +1,23 @@
 "use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Hay1, poliform1, vitra1, diag1, diag2, diag3, right, heart, star, decor2, chair6, chair7, chair8, chair9, chair10, chair11, chair12, chair13, chair14, chair15, chair16, chair17, } from "../../public/image";
+import { Hay1, poliform1, vitra1, diag1, chair2, diag2, diag3, right, heart, star, decor2, chair6, chair7, chair8, chair9, chair10, chair11, chair12, chair13, chair14, chair15, chair16, chair17, } from "../../public/image";
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { sortby } from "../../public/image";
+const items = [
+    { src: chair6, name: "Revolt", type: "chairs", price: "275.00 TND", rating: 5 },
+    { src: chair7, name: "Avana", type: "Chairs", price: "458.00 TND", oldPrice: "538.00 TND" },
+    { src: chair8, name: "Sophie", type: "chairs", price: "520.00 TND" },
+    { src: chair9, name: "Curve", type: "chairs", price: "320.00 TND", rating: 4.5 },
+    { src: chair10, name: "Curve", type: "Chairs", price: "320.00 TND" },
+    { src: chair11, name: "16 side", type: "chairs", price: "295.00 TND" },
+    { src: chair12, name: "12 side", type: "chairs", price: "339.00 TND", oldPrice: "375.00 TND" },
+    { src: chair13, name: "Soft Edge", type: "chairs", price: "440.00 TND" },
+    { src: chair14, name: "Result", type: "chairs", price: "279.00 TND", oldPrice: "310.00 TND" },
+    { src: chair15, name: "Frames Upholstered", type: "chairs", price: "399.00 TND", },
+    { src: chair16, name: "Hal Wood", type: "chairs", price: "625.00 TND", },
+    { src: chair15, name: "Fauteuil Direction", type: "chairs", price: "372.00 TND", }
+];
 
 const Filter = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -11,7 +25,7 @@ const Filter = () => {
         setMenuOpen(!menuOpen);
     };
     return (
-        <div className='flex py-8 w-full justify-center gap-8  max-md:flex-col '>
+        <div className='flex py-8 w-full justify-center gap-8 max-md:items-center max-md:flex-col '>
             <div className='flex-col flex gap-4 max-md:flex-col max-md:justify-center max-md:hidden max-md:items-center'>
                 <div className=' flex-col gap-4 flex bg-white container w-full rounded-lg px-10 py-8 '>
                     <p className='font-bold'>Filter By Price</p>
@@ -212,7 +226,7 @@ const Filter = () => {
             )}
             <div className={
                 menuOpen
-                    ? "fixed z-50 left-0 top-0 w-[80%] md:hidden h-screen bg-[#ecf0f3] ease-in duration-300"
+                    ? "fixed z-50 left-0 top-0 w-[80%] md:hidden h-screen bg-[#ecf3ec] ease-in duration-300"
                     : "fixed z-50 left-[-100%] top-0 h-screen ease-in duration-300"
             }>
                 <div onClick={handleNav} className='fixed flex pr-4 justify-end bg-white h-20 border-b-2 w-[80%] items-center z-40'>
@@ -449,235 +463,29 @@ const Filter = () => {
                     </div>
                     <Image src={sortby} alt="sortby" />
                 </div>
-                <div className=' grid grid-cols-3 max-md:gap-2  gap-5 max-md:grid max-md:grid-cols-2 max-md:px-3 '>
-                    <div className='relative w-fit'>
-                        <Image className='shadow-lg rounded-md max-md:h-[350px] ' src={chair6} alt="chair" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6 ' src={heart} alt="heart" />
-                        </div >
-                        <div className='absolute top-1 left-1'>
-                            <p className='bg-green-600 rounded-full px-2 text-white'>NEW</p>
-                        </div>                        
-                        <div className='absolute  flex justify-between w-[90%] max-md:w-4/5 bottom-4 max-md:bottom-12 left-5'>
-                            <div>
-                                <p className='text-sm font-semibold'>Revolt</p>
-                                <p className='text-sm text-gray-400'>Chairs</p>
-                                <p className='text-sm text-orange-900'>275.00 TND</p>
-                            </div>
-                            <div className="flex h-fit gap-2">
-                                <p className='text-sm text-bold font-semibold'>5</p>
-                                <Image className='w-5' src={star} alt="star" />
-                            </div>
-                        </div>                                                    
-                    </div>
-                    <div className='relative w-fit'>
-                        <Image className='shadow-lg rounded-md max-md:h-[350px]' src={chair7} alt="sofa" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6 ' src={heart} alt="heart" />
-                        </div>
-                        <div className='absolute top-1 left-1'>
-                            <p className='bg-orange-400 rounded-full px-2 text-white'>-15%</p>
-                        </div>
-                        <div className='absolute top-8 left-1'>
-                            <p className='bg-red-600 rounded-full px-2 text-white'>HOT</p>
-                        </div>
-                        <div className='absolute flex w-[90%] max-md:w-4/5 justify-between   bottom-4 max-md:bottom-8  left-5'>
-                            <div>
-                                <p className='text-sm font-bold'>Avana</p>
-                                <p className='text-sm text-gray-400'>Chairs</p>
-                                <div className='max-md:flex-row md:flex gap-1'>
-                                    <p className='text-sm line-through opacity-50'>538.00 TND</p>
-                                    <p className='text-sm text-orange-900'>399.00 TND</p>
+                <div className=' grid justify-center items-center  grid-cols-3 max-md:grid-cols-2 max-xl:grid-cols-2  gap-8  '>
+                    {items.map((item, index) => (
+                        <div key={index} className='bg-white rounded-lg w-[329px] h-[481px] max-md:w-[168px] max-md:h-[332px] relative '>
+                            <Image className='absolute right-1 top-1 w-4' src={heart} alt="heart" />
+                            <Image className='absolute right-2 top-5 max-md:w-[150px] max-md:h-[150px]' src={item.src} alt="chair" />
+                            <div className='flex-col flex bottom-0 absolute w-full px-2 '>
+                                <div className='flex justify-between'>
+                                    <p className='text-gray-700 font-bold'>{item.name}</p>
+                                    {item.rating && (<p className='flex gap-2 items-center'>5 <Image src={star} alt="star" /> </p>)}
+                                </div>
+                                <p className='text-gray-400'>{item.type}</p>
+                                <div className='flex gap-1'>
+                                    {item.oldPrice &&(
+                                        <p className='line-through opacity-50'>{item.oldPrice}</p>
+                                    )}
+                                    <p className='text-orange-800'>{item.price}</p>
+                                </div>
+                                <div className='flex xl:hidden justify-center'>
+                                    <p className='bg-orange-400 rounded-full text-center w-4/5 text-white py-2 mb-1'>add to cart</p>
                                 </div>
                             </div>
-                            <div className="flex h-fit gap-2">
-                                <p className='text-sm text-bold font-semibold'>5</p>
-                                <Image className='w-5' src={star} alt="star" />
-                            </div>
                         </div>
-                    </div>
-                    <div className='relative w-fit'>
-                        <Image className='shadow-lg rounded-md max-md:h-[350px]' src={chair8} alt="chair" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6 ' src={heart} alt="heart" />
-                        </div>
-                        <div className='absolute flex justify-between w-[90%] max-md:w-4/5 bottom-4 left-5'>
-                            <div className="">
-                                <p className='text-sm  font-bold'>Frames Upholstered</p>
-                                <p className='text-sm text-gray-400'>Chairs</p>
-                                <p className='text-sm text-orange-900'>399.00 TND</p>
-                            </div>
-                            <div className="flex h-fit gap-2 ">
-                                <p className='text-sm text-bold font-semibold'>5</p>
-                                <Image className='w-5 max-md:w-8' src={star} alt="star" />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='relative w-fit'>
-                        <Image className='shadow-lg rounded-md max-md:h-[350px]' src={chair9} alt="chair" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6 ' src={heart} alt="heart" />
-                        </div>
-                        <div className='absolute w-[90%] max-md:w-4/5 flex justify-between max-md:bottom-10 bottom-4 left-5'>
-                            <div>
-                                <p className='text-sm font-semibold'>Petit</p>
-                                <p className='text-sm text-gray-400'>Chairs</p>
-                                <p className='text-sm text-orange-900'>327.00 TND</p>
-                            </div>
-                            <div className="flex h-fit gap-2">
-                                <p className='text-sm text-bold font-semibold'>4.5</p>
-                                <Image className='w-5' src={star} alt="star" />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='relative w-fit'>
-                        <Image className='shadow-lg rounded-md max-md:h-[350px]' src={chair10} alt="sofa" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6 ' src={heart} alt="heart" />
-                        </div>
-                        <div className='absolute  flex justify-between w-[90%] max-md:w-4/5 max-md:bottom-14 bottom-4  left-5'>
-                            <div>
-                                <p className='text-sm font-bold'>Curve</p>
-                                <p className='text-sm text-gray-400'>Chairs</p>
-                                <p className='text-sm text-orange-900'>320.00 TND</p>
-                            </div>
-                            <div className='flex h-fit gap-2'>
-                                <p className='text-sm text-bold font-semibold'>4.5</p>
-                                <Image className='w-5' src={star} alt="star" />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='relative w-fit'>
-                        <Image className='shadow-lg rounded-md max-md:h-[350px]' src={chair11} alt="chair" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6 ' src={heart} alt="heart" />
-                        </div>
-                        <div className='absolute  flex justify-between w-[90%] max-md:w-4/5 max-md:bottom-14 bottom-4 left-5'>
-                            <div>
-                                <p className='text-sm font-bold'>16 side</p>
-                                <p className='text-sm text-gray-400'>Chairs</p>
-                                <p className='text-sm text-orange-900'>295.00 TND</p>
-                            </div>
-                            <div className="flex h-fit gap-2">
-                                <p className='text-sm text-bold font-semibold'>4.5</p>
-                                <Image className='w-5' src={star} alt="star" />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='relative w-fit'>
-                        <Image className='shadow-lg rounded-md max-md:h-[350px]' src={chair12} alt="chair" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6 ' src={heart} alt="heart" />
-                        </div>
-                        <div className='absolute top-1 left-1'>
-                            <p className='bg-orange-400 rounded-full px-2 text-white'>-10%</p>
-                        </div>
-                        <div className='absolute  flex justify-between w-[90%] max-md:w-4/5 bottom-4 left-5'>
-                            <div>
-                                <p className='text-sm font-semibold'>12 side</p>
-                                <p className='text-sm text-gray-400'>Chairs</p>
-                                <div className='md:flex gap-1 max-md:flex-wrap'>
-                                    <p className='text-sm line-through opacity-50'>375.00 TND</p>
-                                    <p className='text-sm text-orange-900'>399.00 TND</p>
-                                </div>
-                            </div>
-                            <div className='flex h-fit gap-2'>
-                                <p className='text-sm text-bold font-semibold'>4.5</p>
-                                <Image className='w-5' src={star} alt="star" />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='relative w-fit'>
-                        <Image className='shadow-lg rounded-md max-md:h-[350px]' src={chair13} alt="sofa" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6 ' src={heart} alt="heart" />
-                        </div>
-                        <div className='absolute flex justify-between w-[90%] max-md:w-4/5 max-md:bottom-14 bottom-4  left-5'>
-                            <div>
-                                <p className='text-sm font-bold'>Soft Edge</p>
-                                <p className='text-sm text-gray-400'>Chairs</p>
-                                <p className='text-sm text-orange-900'>440.00 TND</p>
-                            </div>
-                            <div className='h-fit flex gap-2'>
-                                <p className='text-sm text-bold font-semibold'>4.5</p>
-                                <Image className='w-5' src={star} alt="star" />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='relative w-fit'>
-                        <Image className='shadow-lg rounded-md max-md:h-[350px]' src={chair14} alt="chair" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6 ' src={heart} alt="heart" />
-                        </div>
-                        <div className='absolute top-1 left-1'>
-                            <p className='bg-orange-400 rounded-full px-2 text-white'>-10%</p>
-                        </div>
-                        <div className='absolute  flex justify-between w-[90%] max-md:w-4/5 max-md:bottom-10 bottom-4 left-5'>
-                            <div>
-                                <p className='text-sm font-bold'>Result</p>
-                                <p className='text-sm text-gray-400'>Chairs</p>
-                                <div className='md:flex max-md:flex-row gap-1'>
-                                    <p className='text-sm line-through opacity-50'>310.00 TND</p>
-                                    <p className='text-sm text-orange-900'>279.00 TND</p>
-                                </div>
-                            </div>
-                            <div className="flex h-fit gap-2">
-                                <p className='text-sm text-bold font-semibold'>4.5</p>
-                                <Image className='w-5' src={star} alt="star" />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='relative w-fit'>
-                        <Image className='shadow-lg rounded-md max-md:h-[350px]' src={chair15} alt="chair" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6 ' src={heart} alt="heart" />
-                        </div>
-                        <div className='absolute flex justify-between w-[90%] max-md:w-4/5 max-md:bottom-8 bottom-4 left-5'>
-                            <div>
-                                <p className='text-sm font-semibold'>Frames Upholstered</p>
-                                <p className='text-sm text-gray-400'>Chairs</p>
-                                <p className='text-sm text-orange-900'>399.00 TND</p>
-                            </div>
-                            <div className='flex h-fit gap-2'>
-                                <p className='text-sm text-bold font-semibold'>5</p>
-                                <Image className='w-5 max-md:w-8' src={star} alt="star" />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='relative w-fit'>
-                        <Image className='shadow-lg rounded-md max-md:h-[350px]' src={chair16} alt="sofa" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6 ' src={heart} alt="heart" />
-                        </div>
-                        <div className='absolute  flex justify-between w-[90%] max-md:w-4/5 bottom-4 max-md:bottom-14 left-5'>
-                            <div>
-                                <p className='text-sm font-bold'>Hal Wood</p>
-                                <p className='text-sm text-gray-400'>Chairs</p>
-                                <p className='text-sm text-orange-900'>625.00 TND</p>
-                            </div>                            
-                            <div className='flex h-fit gap-2'>
-                                <p className='text-sm text-bold font-semibold'>4.5</p>
-                                <Image className='w-5' src={star} alt="star" />
-                            </div>
-                        </div>                        
-                    </div>
-                    <div className='relative w-fit'>
-                        <Image className='shadow-lg rounded-md max-md:h-[350px]' src={chair17} alt="chair" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6 ' src={heart} alt="heart" />
-                        </div>
-                        <div className='absolute flex justify-between w-[90%] max-md:w-4/5 max-md:bottom-8  bottom-4 left-5'>
-                            <div className='max-md:w-18 max-md:flex-col max-md:flex '>
-                                <p className='text-sm font-bold'>Fauteuil Direction</p>
-                                <p className='text-sm text-gray-400'>Chairs</p>
-                                <p className='text-sm text-orange-900'>372.00 TND</p>
-                            </div>
-                            <div className='flex gap-2 h-fit'>
-                                <p className='text-sm text-bold font-semibold'>4.5</p>
-                                <Image className='w-5 max-md:w-8' src={star} alt="star" />
-                            </div>
-                        </div>                        
-                    </div>
+                    ))}                    
                 </div>
                 <div className='flex justify-center items-center gap-x-4 '>
                     <p className='px-5  py-3 text-3xl rounded-lg bg-orange-400'>1</p>
