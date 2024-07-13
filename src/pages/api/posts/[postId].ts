@@ -1,3 +1,6 @@
+
+/* pages/api/posts/[postId].ts */
+
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../lib/db';
 import Post from '../../../models/Post';
