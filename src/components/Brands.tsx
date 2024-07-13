@@ -1,13 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { elitispic, elitislogo, HAYpic, HAYlogo, kettallogo, kettalpic, lladropic, lladrologo, poliformpic, poliformlogo } from "../../public/image";
-const brands = [
-    { src: HAYpic, logo: HAYlogo, name: "Hay", place: "Barcelona / Spain" },
-    { src: kettalpic, logo: kettallogo, name: "Kettal", place: "Barcelona / Spain" },
-    { src: elitispic, logo: elitislogo, name: "Elitis", place: "Tolosa / france" },
-    { src: lladropic, logo: lladrologo, name: "llardo", place: "Valencia / Spain" },
-    { src: poliformpic, logo: poliformlogo, name: "Poliform", place: "Como / Italy" }
-]
+import { brands } from 'public/data';
 const Brands = () => {
     return (
         <div className='centred flex flex-col  gap-10 max-md:gap-4 py-8'>

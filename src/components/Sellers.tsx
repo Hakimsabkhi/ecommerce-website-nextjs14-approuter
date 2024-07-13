@@ -1,19 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { chair2, chair3, star, heart, chair4, chair5, table2, table3, table1, sofa2, sofa3, sofa4 } from "../../public/image";
-
-const items = [
-    { src: chair2, name: "curve", type: "chairs", price: "320.00 TND", rating: 4.5 },
-    { src: sofa2, name: "Can", type: "Sofas", price: "2,100.00 TND" },
-    { src: chair3, name: "Belt", type: "Armchairs", price: "680.00 TND" },
-    { src: table1, name: "Giro LR", type: "Tables", price: "449.00 TND", rating: 4.5 },
-    { src: chair4, name: "Soft Edge", type: "Chairs", price: "440.00 TND" },
-    { src: sofa3, name: "Palissade", type: "Sofas", price: "1,890.00 TND", rating: 4.5 },
-    { src: table2, name: "Bitta", type: "Tables", price: "1,367.10 TND", oldPrice: "1,519.00 TND" },
-    { src: chair5, name: "Albert", type: "Armchairs", price: "1,600.00 TND" },
-    { src: sofa4, name: "Navana", type: "Sofas", price: "1,669.00 TND", oldPrice: "1,850.00 TND" },
-    { src: table3, name: "Aruda", type: "Tables", price: "699.00 TND", rating: 4.5 }
-];
+import {items} from "../../public/data";
 
 const Sellers = () => {
     return (

@@ -1,20 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { chairpic, armchairpic, sofapic, tablepic, bedpic, storagepic, textilepic, lightingpic, toyspic, decorpic } from "../../public/image";
-const categories = [
-    {src: chairpic, name:"Chairs"},
-    {src: tablepic, name:"tables"},
-    {src: sofapic, name:"Sofas"},
-    {src: armchairpic, name:"Armchairs"},
-    {src: bedpic, name:"beds"},
-    {src: storagepic, name:"storages"},
-    {src: textilepic, name:"textiles"},
-    {src: lightingpic, name:"lighting"},
-    {src: toyspic, name:"toys"},
-    {src: decorpic, name:"decor"},
-
-
-]
+import { categories } from 'public/data';
 const Categories = () => {
     return (
         <div className='centred flex flex-col   gap-10 py-8  '>

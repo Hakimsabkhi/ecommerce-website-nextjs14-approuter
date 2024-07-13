@@ -1,13 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { mackay, steak1, bathroom, office, resto, share, comment } from "../../public/image";
-const items = [
-    { src: steak1, date: "Decoration / 26 May 2023", title: "In the heart of Valencia", text: "As an alternative theory, (and because latin scholars do this sort of thing) someone tracked down a ..." },
-    { src: bathroom, date: "Furniture / 09 May 2023", title: "Ethimo mountain style", text: "So how did the classical latin become so incohere,t? According to McClintock, a 15th century typeset.." },
-    { src: office, date: "Wooden accessories / 30 Apr 2023", title: "For clear thinking", text: "The passage experienced a surge in popularity during the 1960s when Letraset used it on their dry-tr..." },
-    { src: resto, date: "Furniture / 28 Mar 2023", title: "Flowing serpentines ", text: "As an alternative theory, (and because latin scholars do this sort of thing) someone tracked down a ..." },
-
-]
+import {itemsarticle} from "../../public/data"
 const Latestarticle = () => {
     return (
         <div className='py-8 h-fit w-full flex flex-col justify-center items-center gap-10 '>
@@ -18,8 +12,8 @@ const Latestarticle = () => {
                 <a href='/blog' className='bg-white px-6 py-2 rounded-full font-bold '>Visit the Blog ---&gt; </a>
             </div>
             <div className='grid grid-cols-4 max-xl:grid-cols-2 max-md:grid-cols-1 max-xl:gap-8  gap-16   '>
-                {items.map((item, index) => (<div className='flex flex-col justify-center items-center w-[322px]  '>
-                    <div className="relative justify-center w-[322px] flex ">
+                {itemsarticle.map((item, index) => (<div className='flex flex-col justify-center items-center w-[322px]  '>
+                    <div key={index} className="relative justify-center w-[322px] flex ">
                         <div className="absolute flex items-center justify-between w-[95%] bottom-1">
                             <div className='flex gap-2 items-center'>
                                 <Image className='w-5 h-5' src={mackay} alt="person" />
