@@ -1,11 +1,19 @@
+/* /app/blog/create/Page.tsx */
+
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 const CreatePost = () => {
   const [formData, setFormData] = useState({ title: '', content: '' });
   const router = useRouter();
+  
+  // Ensure router is ready before executing client-side code
+  useEffect(() => {
+    if (!router.isReady) return;
+    // Your logic here that requires the router
+  }, [router.isReady]);
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
