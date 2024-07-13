@@ -1,31 +1,27 @@
 // src/app/admin/users/posts/[postId]/page.tsx
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { ParsedUrlQuery } from 'querystring';
+import { use } from 'react';
+import { useRouter } from 'next/router';
 
 interface PostPageProps {
-  postId: string;
+  params: {
+    postId: string;
+  };
 }
 
-interface Params extends ParsedUrlQuery {
-  postId: string;
+async function fetchPostData(postId: string) {
+  // Replace with your data fetching logic
+  const res = await fetch(`https://api.example.com/posts/${postId}`);
+  const data = await res.json();
+  return data;
 }
 
-const PostPage: React.FC<PostPageProps> = ({ postId }) => {
+export default function PostPage({ params }: PostPageProps) {
+  const post = use(fetchPostData(params.postId));
+  
   return (
     <div>
-      <h1>Post ID: {postId}</h1>
+      <h1>Post ID: {post.id}</h1>
+      <p>{post.content}</p>
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  const { postId } = context.params as Params;
-
-  return {
-    props: {
-      postId,
-    },
-  };
-};
-
-export default PostPage;
+}
