@@ -4,7 +4,7 @@ import { mags, frames, skygarden, heart, kitchen2 } from "../../public/image";
 
 const Furniture = () => {
     return (
-        <div className='w-full flex max-md:flex-col max-md:justify-center max-md:items-center  justify-center items-end gap-6 py-8'>
+        <div className='centred flex max-md:flex-col max-md:justify-center max-md:items-center  justify-center items-end gap-6 py-8'>
             <div className='flex max-md:flex-col gap-10 flex-col'>
                 <div className='text-left max-md:text-center'>
                     <h3 className='font-bold text-2xl text-gray-800'>

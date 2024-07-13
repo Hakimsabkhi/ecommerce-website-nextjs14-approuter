@@ -4,8 +4,8 @@ import { milanopic, torinopic } from "../../public/image";
 
 const Milanotorino = () => {
     return (
-        <div className='w-full flex flex-col justify-center items-center gap-8 py-8'>
-            <div className='flex justify-between items-center w-4/5 max-md:flex-col max-md:items-center max-md:justify-center max-md:flex max-md:gap-8 '>
+        <div className='centred flex flex-col justify-center items-center gap-8 py-8'>
+            <div className='flex justify-between items-center w-full max-md:flex-col max-md:items-center max-md:justify-center max-md:flex max-md:gap-8 '>
                 <div className='flex items-center justify-center gap-8 '>
                     <Image className='w-[350px] max-md:w-[100px]' src={milanopic} alt='brand' />
                     <div className='flex flex-col gap-8 max-md:flexx-col max-md:gap-1'>
@@ -49,7 +49,7 @@ const Milanotorino = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex justify-between w-4/5  gap-10 max-md:flex-col '>
+            <div className='flex justify-between w-full  gap-10 max-md:flex-col '>
                 <div className='flex flex-col w-2/4  gap-4 max-md:w-full max-md:flex-col '>
                     <p className='text-3xl'>Contact with an expert</p>
                     <div className='flex-col flex gap-3'>

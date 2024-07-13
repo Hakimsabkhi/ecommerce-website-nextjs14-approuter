@@ -3,13 +3,13 @@ import Image from 'next/image';
 import { decor1 } from "../../public/image";
 const Rules = () => {
     return (
-        <div className=' py-8 h-fit w-full flex flex-col gap-10 justify-center items-center'>
-            <div className='max-md:text-center text-left max-md:w-4/5 w-4/5  '>
+        <div className=' py-8 h-fit centred flex flex-col gap-10 justify-center items-center'>
+            <div className='max-md:text-center text-left max-md:w-full w-full  '>
                 <h3 className='font-bold max-md:text-2xl text-2xl text-gray-800'>
                     Rules of choosing furniture
                 </h3>
             </div>
-            <div className='flex max-md:w-4/5 w-4/5 max-md:flex-col  gap-16'>
+            <div className='flex max-md:w-full w-full max-md:flex-col  gap-16'>
                 <div className='w-fit'>
                     <Image className='w-[600px]  rounded-md shadow-lg' src={decor1} alt="decor" />
                 </div>

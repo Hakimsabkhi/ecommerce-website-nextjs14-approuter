@@ -3,8 +3,8 @@ import { giftcard1, giftcard2 } from "../../public/image";
 import Image from 'next/image';
 const Giftcard = () => {
     return (
-        <div className='py-8 w-full gap-16 justify-center items-center flex flex-col     '>
-            <div className='flex gap-6  w-4/5 justify-between max-md:flex-col'>
+        <div className='py-8 centred gap-16 justify-center items-center flex flex-col     '>
+            <div className='flex gap-6  w-full justify-between max-md:flex-col'>
                 <div className='gap-8 flex flex-col'>
                     <div className='relative w-fit '>
                         <div className='absolute flex-col items-center flex top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white '>
@@ -34,7 +34,7 @@ const Giftcard = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex-col justify-center w-4/5 items-center  gap-2 flex '>
+            <div className='flex-col justify-center w-full items-center  gap-2 flex '>
                 <p className='text-xl max-md:text-center'>If you can't decide on the perfect gift, let them choose with the LUXEHOME gift card</p>
                 <div className='text-gray-400 flex-col   '>
                     <p className='max-md:text-center'>The luxehome Gift Card is easy! just pick the value of the card and your friends or family are free to get exactly what they want it's perfect for.</p>
