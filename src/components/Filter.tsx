@@ -25,7 +25,7 @@ const Filter = () => {
         setMenuOpen(!menuOpen);
     };
     return (
-        <div className='flex py-8 w-full justify-center gap-8 max-md:items-center max-md:flex-col '>
+        <div className='flex py-8 centred justify-center gap-8 max-md:items-center max-md:flex-col '>
             <div className='flex-col flex gap-4 max-md:flex-col max-md:justify-center max-md:hidden max-md:items-center'>
                 <div className=' flex-col gap-4 flex bg-white container w-full rounded-lg px-10 py-8 '>
                     <p className='font-bold'>Filter By Price</p>
@@ -430,7 +430,7 @@ const Filter = () => {
                 </div>
             </div>
 
-            <div className='flex-col flex   gap-5'>
+            <div className='flex-col flex w-full  gap-5'>
                 <div className='flex items-center max-md:hidden justify-between max-md:flex-col'>
                     <p className='text-gray-400'>Showing 1-12 of 16 results</p>
                     <div className='flex items-center  gap-x-8 max-md:flex-col'>
@@ -463,11 +463,11 @@ const Filter = () => {
                     </div>
                     <Image src={sortby} alt="sortby" />
                 </div>
-                <div className=' grid justify-center items-center  grid-cols-3 max-md:grid-cols-2 max-xl:grid-cols-2  gap-8  '>
+                <div className=' grid justify-center items-center  grid-cols-3 max-md:grid-cols-2 max-xl:grid-cols-2 max-md:gap-3  gap-8  '>
                     {items.map((item, index) => (
-                        <div key={index} className='bg-white rounded-lg w-[329px] h-[481px] max-md:w-[168px] max-md:h-[332px] relative '>
+                        <div key={index} className='bg-white rounded-lg h-[481px]  max-md:h-[332px] relative '>
                             <Image className='absolute right-1 top-1 w-4' src={heart} alt="heart" />
-                            <Image className='absolute right-2 top-5 max-md:w-[150px] max-md:h-[150px]' src={item.src} alt="chair" />
+                            <Image className='absolute inset-0 mx-auto top-5 max-md:w-[200px] max-md:h-[200px]' src={item.src} alt="chair" />
                             <div className='flex-col flex bottom-0 absolute w-full px-2 '>
                                 <div className='flex justify-between'>
                                     <p className='text-gray-700 font-bold'>{item.name}</p>

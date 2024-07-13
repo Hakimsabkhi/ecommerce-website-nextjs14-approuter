@@ -5,8 +5,8 @@ import {items} from "../../public/data";
 
 const Sellers = () => {
     return (
-        <div className='w-full flex flex-col justify-center items-center gap-10 py-8'>
-            <div className='flex flex-col sm:flex-row items-center justify-between w-4/5 '>
+        <div className='centred flex flex-col justify-center items-center gap-10 py-8'>
+            <div className='flex  w-full flex-col sm:flex-row items-center justify-between  '>
                 <h3 className='font-bold text-2xl text-gray-800'>
                     Weekly bestsellers
                 </h3>
@@ -18,11 +18,11 @@ const Sellers = () => {
                     <a href="#">Tables</a>
                 </div>
             </div>
-            <div className='grid grid-cols-5 max-md:grid-cols-2 max-xl:grid-cols-3 gap-6'>
+            <div className='grid grid-cols-5 w-full  max-md:grid-cols-2  max-xl:grid-cols-3  gap-8  max-md:gap-3'>
                 {items.map((item, index) => (
-                    <div key={index} className='bg-white rounded-lg w-[258px] h-[397px] max-md:w-[168px] max-md:h-[332px] relative'>
+                    <div key={index} className='bg-white rounded-lg  h-[397px]  max-md:h-[332px]  relative'>
                         <Image className='absolute right-1 top-1 w-4' src={heart} alt="heart" />
-                        <Image className='absolute right-2 top-5 max-md:w-[150px] max-md:h-[150px]' src={item.src} alt={item.name} />
+                        <Image className=' absolute inset-0 mx-auto top-5 max-md:w-[200px]  max-md:h-[200px]' src={item.src} alt={item.name} />
                         <div className='flex-col flex bottom-0 absolute w-full px-2'>
                             <div className='flex justify-between'>
                                 <p className='text-gray-700 font-bold'>{item.name}</p>
