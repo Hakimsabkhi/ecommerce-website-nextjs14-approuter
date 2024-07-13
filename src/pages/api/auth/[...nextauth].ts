@@ -2,17 +2,23 @@ import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import connectToDatabase from '../../../lib/db';
-import User from '../../../models/User';
 import bcrypt from 'bcryptjs';
+import mongoose, { Document, Schema, Model } from 'mongoose';
+import User from '../../../models/User';
+
+// Type guard to ensure environment variables are defined
+function getEnvVar(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+  return value;
+}
 
 // Ensure environment variables are defined
-const googleClientId = process.env.GOOGLE_CLIENT_ID!;
-const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET!;
-const nextAuthSecret = process.env.NEXTAUTH_SECRET!;
-
-if (!googleClientId || !googleClientSecret || !nextAuthSecret) {
-  throw new Error('Missing required environment variables for Google authentication or NextAuth secret.');
-}
+const googleClientId: string = getEnvVar('GOOGLE_CLIENT_ID');
+const googleClientSecret: string = getEnvVar('GOOGLE_CLIENT_SECRET');
+const nextAuthSecret: string = getEnvVar('NEXTAUTH_SECRET');
 
 export default NextAuth({
   providers: [
@@ -27,10 +33,14 @@ export default NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       authorize: async (credentials) => {
-        await connectToDatabase();
-        const user = await User.findOne({ email: credentials?.email });
+        if (!credentials || !credentials.email || !credentials.password) {
+          return null;
+        }
 
-        if (user && bcrypt.compareSync(credentials!.password, user.password)) {
+        await connectToDatabase();
+        const user = await User.findOne({ email: credentials.email });
+
+        if (user && bcrypt.compareSync(credentials.password!, user.password ?? '')) {
           return { id: user._id, name: user.username, email: user.email, role: user.role };
         } else {
           return null;
@@ -69,12 +79,12 @@ export default NextAuth({
 
       // Check if the user already exists in the database
       const existingUser = await User.findOne({ email: user.email });
-
+      
       if (!existingUser) {
         // If the user does not exist, create a new user
         const newUser = new User({
           username: user.name,
-          email: user.email,
+          email: user.email as string, // Ensure email is a string
           password: undefined, // No password for Google users
           role: 'Visitor', // Default role
         });
@@ -91,3 +101,21 @@ export default NextAuth({
   },
   secret: nextAuthSecret,
 });
+
+export interface IUser extends Document {
+  username: string;
+  email: string;
+  password?: string;
+  role: 'Visitor' | 'Rédacteur' | 'Admin';
+}
+
+const UserSchema: Schema = new Schema({
+  username: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String },
+  role: { type: String, enum: ['Visitor', 'Rédacteur', 'Admin'], default: 'Visitor' },
+});
+
+const UserModel: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
+
+export { UserModel }; // Change to named export
