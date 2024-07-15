@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import { marvin, facebook, X, linkedin, instagram, dianne, livingroom3, kristin } from "../../public/image";
-
+import {  livingroom3,  } from "../../public/image";
+import {members} from "../../public/data";
 const Teammembers = () => {
     return (
         <div className='flex flex-col centred  justify-center items-center py-8 gap-20 max-md:flex-col'>
@@ -10,37 +10,21 @@ const Teammembers = () => {
                 <p className='text-gray-400'>Explore product collections from our vendors</p>
             </div>
             <div className='flex w-full justify-between max-md:flex-col max-md:gap-10'>
-                <div className='flex-col flex justify-center items-center gap-2'>
-                    <Image src={marvin} alt='person' />
-                    <p className='text-xl font-semibold'>Marvin McKinney</p>
-                    <p className='text-gray-400'>CEO,co-founder</p>
-                    <div className='flex gap-4'>
-                        <Image className='w-8 h-8' src={facebook} alt="socials" />
-                        <Image className='w-8 h-8' src={X} alt="socials" />
-                        <Image className='w-8 h-8' src={linkedin} alt="socials" />
-                    </div>
-                </div>
-                <div className='flex-col flex justify-center items-center gap-2'>
-                    <Image src={dianne} alt='person' />
-                    <p className='text-xl font-semibold'>Dianne Russel</p>
-                    <p className='text-gray-400'>CEO,co-founder</p>
-                    <div className='flex gap-4'>
-                        <Image className='w-8 h-8' src={facebook} alt="socials" />
-                        <Image className='w-8 h-8' src={X} alt="socials" />
-                        <Image className='w-8 h-8' src={linkedin} alt="socials" />
-                        <Image className='w-8 h-8' src={instagram} alt="socials" />
-                    </div>
-                </div>
-                <div className='flex-col flex justify-center items-center gap-2'>
-                    <Image src={kristin} alt='person' />
-                    <p className='text-xl font-semibold'>Kristin Watsony</p>
-                    <p className='text-gray-400'>CEO,co-founder</p>
-                    <div className='flex gap-4'>
-                        <Image className='w-8 h-8' src={facebook} alt="socials" />
-                        <Image className='w-8 h-8' src={X} alt="socials" />
-                        <Image className='w-8 h-8' src={linkedin} alt="socials" />
-                    </div>
-                </div>
+                {members.map((member,index) => (
+                    <div className='flex-col flex justify-center items-center gap-2'>
+                        <Image src={member.src} alt='person' />
+                        <p className='text-xl font-semibold'>{member.name}</p>
+                        <p className='text-gray-400'>{member.title}</p>
+                        <div className='flex gap-4'>
+                            <Image className='w-8 h-8 cursor-pointer' src={member.facebook} alt="socials" />
+                            <Image className='w-8 h-8 cursor-pointer' src={member.X} alt="socials" />
+                            <Image className='w-8 h-8 cursor-pointer' src={member.linkedin} alt="socials" />
+                            {member.instagram &&(
+                                <Image className='w-8 h-8 cursor-pointer' src={member.instagram} alt="socials" />
+                            )}
+                        </div>
+                    </div> 
+                ))}                               
             </div>
             <Image className='' src={livingroom3} alt="livingroom" />
         </div>

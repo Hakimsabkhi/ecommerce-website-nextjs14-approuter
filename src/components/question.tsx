@@ -14,7 +14,7 @@ const Question = () => {
             </div>
             <div className='w-full flex justify-center max-md:flex-wrap max-md:text-sm items-center gap-1 '>
                 <p className='text-gray-400'>If you want more information about Gift Cards</p>
-                <p>Contact us</p>
+                <a href="contactus">Contact us</a>
             </div>
         </div>
     );

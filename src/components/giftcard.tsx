@@ -1,38 +1,27 @@
 import React from 'react';
 import { giftcard1, giftcard2 } from "../../public/image";
 import Image from 'next/image';
+import {cards} from "../../public/data";
 const Giftcard = () => {
     return (
         <div className='py-8 centred gap-16 justify-center items-center flex flex-col     '>
             <div className='flex gap-6  w-full justify-between max-md:flex-col'>
-                <div className='gap-8 flex flex-col'>
-                    <div className='relative w-fit '>
-                        <div className='absolute flex-col items-center flex top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white '>
-                            <p className='text-xl max-md:text-sm opacity-50'>LUXEHOME</p>
-                            <p className='text-4xl max-md:text-xl  '>e-Gift cards</p>
+                {cards.map((card,index) => (
+                    <div className='gap-8 flex flex-col'>
+                        <div className='relative w-fit '>
+                            <div className='absolute flex-col items-center flex top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white '>
+                                <p className='text-xl max-md:text-sm opacity-50'>LUXEHOME</p>
+                                <p className='text-4xl max-md:text-xl  '>{card.name}</p>
+                            </div>
+                            <Image className='w-[800px]' src={card.src} alt="giftcard" />
                         </div>
-                        <Image className='w-[800px]' src={giftcard1} alt="giftcard" />
-                    </div>
-                    <div className='flex-col flex items-center justify-center gap-1'>
-                        <p className='text-gray-400 max-md:text-center'>Purshase online and the e-Gift Card is sent straight to their inbox!</p>
-                        <p className='text-xl max-md:text-center'>Purshase e-Gift cards up to 1 000 TND in value</p>
-                        <p className='w-fit bg-orange-500 px-10 py-2 rounded-full text-white'>Buy now</p>
-                    </div>
-                </div>
-                <div className='gap-8 flex flex-col'>
-                    <div className='relative w-fit'>
-                        <div className='absolute flex-col items-center flex top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white'>
-                            <p className='text-xl max-md:text-sm opacity-50'>LUXEHOME</p>
-                            <p className='text-4xl max-md:text-xl '>Gift cards</p>
+                        <div className='flex-col flex items-center justify-center gap-1'>
+                            <p className='text-gray-400 max-md:text-center'>{card.text1}</p>
+                            <p className='text-xl max-md:text-center'>{card.text2}</p>
+                            <p className='w-fit bg-orange-500 px-10 py-2 rounded-full text-white cursor-pointer'>Buy now</p>
                         </div>
-                        <Image className='w-[800px]' src={giftcard2} alt="giftcard" />
                     </div>
-                    <div className='flex-col flex items-center justify-center gap-1'>
-                        <p className='text-gray-400 max-md:text-center'>Purshase in-store and it's ready for gifting! Just pick the value of the card.</p>
-                        <p className='text-xl max-md:text-center'>Purshase e-Gift cards up to 500 TND in value</p>
-                        <p className='w-fit bg-orange-500 px-10 py-2 rounded-full text-white'>Buy now</p>
-                    </div>
-                </div>
+                ))}                              
             </div>
             <div className='flex-col justify-center w-full items-center  gap-2 flex '>
                 <p className='text-xl max-md:text-center'>If you can't decide on the perfect gift, let them choose with the LUXEHOME gift card</p>

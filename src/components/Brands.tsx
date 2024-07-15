@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { elitispic, elitislogo, HAYpic, HAYlogo, kettallogo, kettalpic, lladropic, lladrologo, poliformpic, poliformlogo } from "../../public/image";
-import { brands } from 'public/data';
+import { brands, } from 'public/data';
 const Brands = () => {
     return (
         <div className='centred flex flex-col  gap-10 max-md:gap-4 py-8'>
@@ -13,8 +13,8 @@ const Brands = () => {
             </div>
             <div className='flex items-center w-full justify-between gap-6  max-md:flex-col max-md:w-full '>
                 {brands.map((brand, index) => (
-                    <div key={index} className='relative w-full '>
-                        <Image className='w-[300px]' src={brand.src} alt={brand.name} />
+                    <div key={index} className='relative  cursor-pointer'>
+                        <Image className='w-[300px]  max-lg:w-[500px] ' src={brand.src} alt={brand.name} />
                         <div className='absolute top-6 left-4'>
                             <Image src={brand.logo} alt="elitisbrand" />
                         </div>

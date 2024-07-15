@@ -12,7 +12,7 @@ const Latestarticle = () => {
                 <a href='/blog' className='bg-white px-6 py-2 rounded-full font-bold '>Visit the Blog ---&gt; </a>
             </div>
             <div className='grid grid-cols-4 max-xl:grid-cols-2 max-md:grid-cols-1 max-xl:gap-8  gap-16   '>
-                {itemsarticle.map((item, index) => (<div className='flex flex-col justify-center items-center w-[322px]  '>
+                {itemsarticle.map((item, index) => (<div className='flex cursor-pointer flex-col justify-center items-center w-[322px]  '>
                     <div key={index} className="relative justify-center w-[322px] flex ">
                         <div className="absolute flex items-center justify-between w-[95%] bottom-1">
                             <div className='flex gap-2 items-center'>

@@ -21,16 +21,16 @@ const Sellers = () => {
             <div className='grid grid-cols-5 w-full  max-md:grid-cols-2  max-xl:grid-cols-3  gap-8  max-md:gap-3'>
                 {items.map((item, index) => (
                     <div key={index} className='bg-white rounded-lg  h-[397px]  max-md:h-[332px]  relative'>
-                        <Image className='absolute right-1 top-1 w-4' src={heart} alt="heart" />
+                        <Image className='absolute cursor-pointer right-1 top-1 w-4' src={heart} alt="heart" />
                         <Image className=' absolute inset-0 mx-auto top-5 max-md:w-[200px]  max-md:h-[200px]' src={item.src} alt={item.name} />
                         <div className='flex-col flex bottom-0 absolute w-full px-2'>
                             <div className='flex justify-between'>
-                                <p className='text-gray-700 font-bold'>{item.name}</p>
+                                <p className='text-gray-700 cursor-pointer font-bold'>{item.name}</p>
                                 {item.rating && (
                                     <p className='flex gap-2 items-center'>{item.rating} <Image src={star} alt="star" /> </p>
                                 )}
                             </div>
-                            <p className='text-gray-400'>{item.type}</p>
+                            <p className='text-gray-400 cursor-pointer hover:opacity-50'>{item.type}</p>
                             <div className='flex gap-1'>
                                 {item.oldPrice && (
                                     <p className='line-through opacity-50'>{item.oldPrice}</p>

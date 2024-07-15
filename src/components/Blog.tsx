@@ -7,7 +7,7 @@ const Blog = () => {
         <div className=' py-8 w-full items-center flex flex-col gap-5 justify-center '>
             <div className='grid grid-cols-4 gap-8  max-md:grid-cols-1 max-lg:grid-cols-2 max-xl:grid-cols-3 '>
                 {itemsblog.map((item, index) => (
-                    <div key={index} className='flex flex-col justify-center items-center w-[322px]  '>
+                    <div key={index} className='flex flex-col cursor-pointer justify-center items-center w-[322px]  '>
                         <div className="relative justify-center w-[322px] flex ">
                             <div className="absolute flex items-center justify-between w-[95%] bottom-1">
                                 <div className='flex gap-2 items-center'>
@@ -36,9 +36,9 @@ const Blog = () => {
                 ))}
             </div>
             <div className='flex justify-center items-center gap-x-4 '>
-                <p className='px-5  py-3 text-3xl rounded-lg bg-orange-400'>1</p>
-                <p className='px-5  py-3 text-3xl rounded-lg '>2</p>
-                <Image src={right} alt="arrow" />
+                <p className='px-5 cursor-pointer py-3 text-3xl rounded-lg bg-orange-400'>1</p>
+                <p className='px-5 cursor-pointer py-3 text-3xl rounded-lg '>2</p>
+                <Image className='cursor-pointer' src={right} alt="arrow" />
             </div>
         </div>
     );
