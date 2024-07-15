@@ -4,7 +4,7 @@ import { chairpic, armchairpic, sofapic, tablepic, bedpic, storagepic, textilepi
 import { categories } from 'public/data';
 const Categories = () => {
     return (
-        <div className='centred flex flex-col   gap-10 py-8  '>
+        <div className='desktop  max-md:w-[95%]  flex flex-col   gap-10 py-8  '>
             <div className='flex-col flex gap-2 text-left w-full'>
                 <h3 className='font-bold text-2xl text-gray-800'>
                     Our categories 

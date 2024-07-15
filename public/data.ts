@@ -71,7 +71,7 @@ const categories = [
 ];
 const productCollection = [
     {titre:"GLADOM",description:"The new common language will be more simple and regular than the existing languages."},
-    {titre:"GLADOM",description:"The new common language will be more simple and regular than the existing languages."},
+    {titre:"HALLAN",description:"The new common language will be more simple and regular than the existing languages."},
 ];
 const cards = [
     {src:giftcard1 ,name:"e-Gift cards",text1:"Purshase online and the e-Gift Card is sent straight to their inbox!",text2:"Purshase e-Gift cards up to 1 000 TND in valure"},

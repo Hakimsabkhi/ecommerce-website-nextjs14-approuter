@@ -5,7 +5,7 @@ import {items} from "../../public/data";
 
 const Sellers = () => {
     return (
-        <div className='centred flex flex-col justify-center items-center gap-10 py-8'>
+        <div className='desktop  max-md:w-[95%] flex flex-col justify-center items-center gap-10 py-8'>
             <div className='flex  w-full flex-col sm:flex-row items-center justify-between  '>
                 <h3 className='font-bold text-2xl text-gray-800'>
                     Weekly bestsellers

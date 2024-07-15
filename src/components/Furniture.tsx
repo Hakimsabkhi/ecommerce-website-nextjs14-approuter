@@ -5,7 +5,7 @@ import {itemsFurniture} from "../../public/data";
 
 const Furniture = () => {
     return (
-        <div className='centred  gap-4 flex justify-between max-xl:flex-col      py-8'>
+        <div className='desktop  max-md:w-[95%]  gap-4 flex justify-between max-xl:flex-col      py-8'>
             <div className='flex  gap-10 flex-col'>
                 <div className='text-left max-md:text-center'>
                     <h3 className='font-bold text-2xl text-gray-800'>

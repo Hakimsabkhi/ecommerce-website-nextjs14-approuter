@@ -4,7 +4,7 @@ import {  livingroom3,  } from "../../public/image";
 import {members} from "../../public/data";
 const Teammembers = () => {
     return (
-        <div className='flex flex-col centred  justify-center items-center py-8 gap-20 max-md:flex-col'>
+        <div className='flex flex-col desktop  max-md:w-[95%] justify-center items-center py-8 gap-20 max-md:flex-col'>
             <div className='justify-center flex w-full flex-col items-center max-md:text-center'>
                 <h1 className='text-2xl font-bold'>Teammembers</h1>
                 <p className='text-gray-400'>Explore product collections from our vendors</p>

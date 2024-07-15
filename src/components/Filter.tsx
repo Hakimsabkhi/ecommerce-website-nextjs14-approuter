@@ -12,7 +12,7 @@ const Filter = () => {
         setMenuOpen(!menuOpen);
     };
     return (
-        <div className='flex py-8 centred justify-center gap-8 max-md:items-center max-md:flex-col '>
+        <div className='flex py-8 desktop  max-md:w-[95%]  justify-center gap-8 max-md:items-center max-md:flex-col '>
             <div className='flex-col flex gap-4 max-md:flex-col max-md:justify-center max-lg:hidden max-md:items-center'>
                 <div className=' flex-col gap-4 flex bg-white container w-full rounded-lg px-10 py-8 '>
                     <p className='font-bold'>Filter By Price</p>

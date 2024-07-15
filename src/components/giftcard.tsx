@@ -4,7 +4,7 @@ import Image from 'next/image';
 import {cards} from "../../public/data";
 const Giftcard = () => {
     return (
-        <div className='py-8 centred gap-16 justify-center items-center flex flex-col     '>
+        <div className='py-8 desktop  max-md:w-[95%] gap-16 justify-center items-center flex flex-col     '>
             <div className='flex gap-6  w-full justify-between max-md:flex-col'>
                 {cards.map((card,index) => (
                     <div className='gap-8 flex flex-col'>

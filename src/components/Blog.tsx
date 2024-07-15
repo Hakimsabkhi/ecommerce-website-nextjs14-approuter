@@ -36,7 +36,7 @@ const Blog = () => {
                 ))}
             </div>
             <div className='flex justify-center items-center gap-x-4 '>
-                <p className='px-5 cursor-pointer py-3 text-3xl rounded-lg bg-orange-400'>1</p>
+                <p className='cursor-pointer text-3xl rounded-lg py-3 px-5 bg-orange-400'>1</p>
                 <p className='px-5 cursor-pointer py-3 text-3xl rounded-lg '>2</p>
                 <Image className='cursor-pointer' src={right} alt="arrow" />
             </div>

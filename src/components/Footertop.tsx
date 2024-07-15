@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footertop = () => {
     return (
-        <div className='py-8 max-md:pb-20 h-fit centred flex flex-col gap-10 justify-center items-center '>
+        <div className='py-8 max-md:pb-20 h-fit desktop  max-md:w-[95%] flex flex-col gap-10 justify-center items-center '>
             <div className='max-md:text-left flex flex-col gap-2 text-left max-md:w-full w-full '>
                 <div className='space-y-2'>
                     <h3 className='font-bold text-2xl text-gray-800'>
