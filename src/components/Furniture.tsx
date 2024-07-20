@@ -24,13 +24,12 @@ const Furniture = () => {
                             <div className='flex-col flex bottom-0 absolute w-full gap-1 px-2'>                            
                                 <p className='text-gray-700 text-3xl cursor-pointer font-bold'>{item.name}</p>                                                                                            
                                 <p className='text-orange-400 text-2xl font-bold'>{item.price}</p>
-                                <div className="flex gap-1 items-center ">
+                                <div className="flex gap-2 items-center ">
                                     <Image className="size-5" src={star} alt="star" />
                                     <Image className="size-5" src={star} alt="star" />
                                     <Image className="size-5" src={star} alt="star" />
                                     <Image className="size-5" src={star} alt="star" />
-                                    <Image className="size-5" src={star} alt="star" />
-                                    <Image className="size-5" src={star} alt="star" />
+                                    <Image className="size-5" src={star} alt="star" />                                    
                                     <p className='font-bold text-xl '>{item.rating}</p>
                                  
                                 </div>                            

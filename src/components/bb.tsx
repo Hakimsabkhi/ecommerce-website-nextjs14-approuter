@@ -18,6 +18,8 @@ import { CiMail } from "react-icons/ci";
 import { FaFacebookF } from "react-icons/fa6";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
+import { TransitionLink } from './utils/TransitionLink';
+import { FaArrowRight } from "react-icons/fa6";
 export default function Bb() {
     return (
         <div>
@@ -35,24 +37,36 @@ export default function Bb() {
                         <ul className='flex-col flex gap-4'>
                             <p className="text-white font-bold text-xl md:text-2xl ">Quick links</p>
                             <div className='flex-col gap-2 flex'>
-                                <li className=" text-xs  hover:text-white cursor-pointer">
-                                    Home
-                                </li>
-                                <li className=" text-xs  hover:text-white cursor-pointer">
-                                    About
-                                </li>
-                                <li className=" text-xs  hover:text-white cursor-pointer">
-                                    Annonce
-                                </li>
-                                <li className=" text-xs  hover:text-white cursor-pointer">
-                                    Services
-                                </li>
-                                <li className=" text-xs  hover:text-white cursor-pointer">
-                                    Blogs
-                                </li>
-                                <li className=" text-xs  hover:text-white cursor-pointer">
-                                    Devenez vendeur
-                                </li>
+                                <TransitionLink href="/">
+                                    <li className=" text-xs  hover:text-white cursor-pointer">
+                                        Home
+                                    </li>
+                                </TransitionLink>
+                                <TransitionLink href="/about">
+                                    <li className=" text-xs  hover:text-white cursor-pointer">
+                                        About
+                                    </li>
+                                </TransitionLink>
+                                <TransitionLink href="#">
+                                    <li className=" text-xs  hover:text-white cursor-pointer">
+                                        Annonce
+                                    </li>
+                                </TransitionLink>
+                                <TransitionLink href="#">
+                                    <li className=" text-xs  hover:text-white cursor-pointer">
+                                        Services
+                                    </li>
+                                </TransitionLink>
+                                <TransitionLink href="/blog">
+                                    <li className=" text-xs  hover:text-white cursor-pointer">
+                                        Blogs
+                                    </li>
+                                </TransitionLink>
+                                <TransitionLink href="/">
+                                    <li className=" text-xs  hover:text-white cursor-pointer">
+                                        devenez vendeur
+                                    </li>
+                                </TransitionLink>                                
                             </div>
                         </ul>
                         <ul className='flex flex-col mb-7 gap-4'>
@@ -80,23 +94,31 @@ export default function Bb() {
                     </div>
                     <div className='flex flex-col gap-4 items-start'>
                         <p>Abonnez-vous a notre newsletter!</p>
-                        <input
-                            className="w-full  h-12 px-4 py-2 rounded-full  border border-gray-300"
-                            type="text"
-                            placeholder='Email address'
-                        />
+                        <div className="relative w-full">
+                            <input
+                                className="w-full h-12 px-4 py-2 rounded-full border text-black border-gray-300 pr-16"
+                                type="text"
+                                placeholder="Email address"
+                            />
+                            <div className=" absolute right-2 top-1/2 group overflow-hidden  -translate-y-1/2">
+                                <button className="relative  py-2 w-[40px] h-[40px]     px-2   rounded-full text-white bg-orange-500 hover:bg-orange-600 ">                                        
+                                </button>
+                                <FaArrowRight className="absolute top-1/2 right-1/2 -translate-y-1/2 translate-x-1/2 duration-500 group-hover:translate-x-[250%]" />
+                                <FaArrowRight className="absolute  top-1/2 right-[150%] -translate-y-1/2 translate-x-1/2 duration-500 group-hover:translate-x-[300%]" />
+                            </div>
+                        </div>
                         <p>Suivez-nous sur</p>
                         <div className='flex ms-8 items-center gap-2'>
-                            <FaLinkedinIn size={25} />
-                            <FaFacebookF size={25} />
-                            <FaInstagram size={25} />                            
+                            <FaLinkedinIn className="hover:text-blue-500"  size={25} />
+                            <FaFacebookF className="hover:text-blue-500" size={25} />
+                            <FaInstagram className='hover:bg-gradient-to-r from-orange-500 overflow-hidden rounded-lg via-pink-500 to-indigo-500 ' fill="currentcolor" size={25} />                            
                         </div>
                     </div>
                 </div>
             </div>
             <div className="bg-white flex items-center justify-center w-full py-3">
                 <div className="w-[60%] flex items-center justify-between text-cyan-500 font-bold">
-                    <p>Nproject - All rights reserved</p>
+                    <p>© Nproject - All rights reserved</p>
                     <div className=" flex items-center gap-8">
                         <p>Terms and conditions</p>
                         <p>Privacy Policy</p>

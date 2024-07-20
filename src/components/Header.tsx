@@ -5,11 +5,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Vector, refresh, cart, logo, person } from "../../public/image";
 import { AiOutlineMenu } from 'react-icons/ai';
-import { chair, table, sofa, armchair, bed,luxehome, storage, textile, lighting, toy, decor } from "../../public/image";
+import {  table, sofa, armchair, bed,luxehome, storage, textile, lighting, toy, decor } from "../../public/image";
 import { TransitionLink } from './utils/TransitionLink';
 import { FiHeart } from "react-icons/fi";
 import { SlBag } from "react-icons/sl";
 import { FaCartShopping } from "react-icons/fa6";
+import { CiSearch } from "react-icons/ci";
+import { FaArrowRight } from "react-icons/fa6";
 
 
 const Header: React.FC = () => {
@@ -27,17 +29,22 @@ const Header: React.FC = () => {
 
   return (
     <div className='w-full max-lg:fixed max-lg:z-50 max-lg:bg-white max-lg:py-2 py-6 bg-blue-900 justify-center flex'>
-      <div className='flex w-[85%] justify-between max-lg:justify-between  items-center  max-lg:bg-white '>
+      <div className='flex w-[85%] max-lg:hidden justify-between max-lg:justify-between  items-center  max-lg:bg-white '>
         <TransitionLink href="/" >
           <div className="mb-1">
             <Image className='w-[300px] h-[60px] max-lg:hidden' src={luxehome} alt="luxehome" />
           </div>
         </TransitionLink>
-        <input
-          className="w-full md:w-1/2 h-12 px-4 py-2 rounded-full max-lg:hidden border border-gray-300"
-          type="text"
-          placeholder='Search for products'
-        />
+        <div className="relative w-[800px]">
+          <input
+            className="w-full  h-12 px-4 py-2 rounded-full max-lg:hidden border border-gray-300"
+            type="text"
+            placeholder='Search for products'
+          />
+          <button className=" absolute h-full py-2 px-4 right-0 top-1/2 -translate-y-1/2 rounded-r-full text-white bg-orange-400 hover:bg-orange-600 ">                                        
+            <CiSearch  className='w-8 h-8 ' />
+          </button>
+        </div>
         <div className='max-lg:hidden '>
           <div className='flex  gap-14  items-center'>
             <div className='flex items-center gap-4'>                        
@@ -54,20 +61,27 @@ const Header: React.FC = () => {
             </div>
             <div className='flex items-center gap-4 text-white'>                          
               <FiHeart size={25} />
-              <SlBag size={25} />
+              <div className="relative">
+                <SlBag size={25} />
+                <span className=" w-4 flex justify-center h-4 items-center text-xs rounded-full absolute -top-1 -right-1 text-white bg-orange-400">
+                  <p>0</p>
+                </span>
+              </div>
               <span className='text-xl'>$0.00</span>
             </div>
           </div>
-        </div>
-        <div onClick={handleNav} className='lg:hidden cursor-pointer'>
-          <AiOutlineMenu size={25} />
-        </div>
-        <TransitionLink href="/" >
-          <div className="mb-1 lg:hidden">
-            <Image src={logo} alt="logo" />
+        </div>                
+      </div >
+      <div className=' lg:hidden flex w-[85%] justify-between max-lg:justify-between  items-center  max-lg:bg-white '>
+          <div onClick={handleNav} className=' cursor-pointer'>
+            <AiOutlineMenu size={25} />
           </div>
-        </TransitionLink>
-        <FaCartShopping className="lg:hidden"  size={25} />        
+          <TransitionLink href="/" >
+            <div className="mb-1 ">
+              <Image src={logo} alt="logo" />
+            </div>
+          </TransitionLink>
+          <FaCartShopping className=""  size={25} />
       </div>
       {menuOpen && (
         <div onClick={handleNav} className='fixed inset-0 bg-black opacity-50 z-40'>
@@ -168,7 +182,7 @@ const Header: React.FC = () => {
               <TransitionLink href="/chairs">
                 <Link href="#" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
                   <div className=''>
-                    <Image src={chair} alt="chair" />
+                    
                   </div>
                   <li
                     onClick={() => setMenuOpen(false)}
