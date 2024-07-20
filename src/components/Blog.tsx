@@ -1,13 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
-import { mackay, steak1, bathroom, office, resto, share, comment, resto1, office1, livingroom4, livingroom5, right } from "../../public/image";
+import { mackay,  share, comment,  right } from "../../public/image";
 import { itemsblog } from "../../public/data"
 const Blog = () => {
     return (
         <div className=' py-8 w-full items-center flex flex-col gap-5 justify-center '>
-            <div className='grid grid-cols-4 gap-8  max-md:grid-cols-1 max-lg:grid-cols-2 max-xl:grid-cols-3 '>
+            <div className='grid grid-cols-4 gap-8 group  max-md:grid-cols-1 max-lg:grid-cols-2 max-xl:grid-cols-3 '>
                 {itemsblog.map((item, index) => (
-                    <div key={index} className='flex flex-col cursor-pointer justify-center items-center w-[322px]  '>
+                    <div key={index} className='flex flex-col cursor-pointer duration-500 lg:group-hover:scale-[0.95] lg:hover:!scale-100 justify-center items-center w-[322px]  '>
                         <div className="relative justify-center w-[322px] flex ">
                             <div className="absolute flex items-center justify-between w-[95%] bottom-1">
                                 <div className='flex gap-2 items-center'>

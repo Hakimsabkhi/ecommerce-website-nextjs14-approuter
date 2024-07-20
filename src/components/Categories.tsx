@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-import { chairpic, armchairpic, sofapic, tablepic, bedpic, storagepic, textilepic, lightingpic, toyspic, decorpic } from "../../public/image";
 import { categories } from 'public/data';
 const Categories = () => {
     return (
@@ -13,9 +12,11 @@ const Categories = () => {
             </div>
             <div className='gap-6  w-full  grid grid-cols-5 max-md:grid-cols-2  '>
                 {categories.map((category,index) => (
-                    <div key={index} className='relative w-full    '>
-                        <p className=' cursor-pointer absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white  text-black text-sm rounded-3xl px-8 py-1'>{category.name}</p>
-                        <Image className='w-full' src={category.src} alt={category.name} />
+                    <div key={index} className='relative w-full group  overflow-hidden   '>
+                        <div className='w-full  h-full bg-black/60 absolute rounded-full opacity-0 lg:group-hover:opacity-80  duration-500'></div>
+                        <p className=' cursor-pointer  absolute xl:group-hover:top-32 lg:group-hover:top-12 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white  text-black text-xl max-xl:text-sm max-md:text-xl rounded-3xl max-xl:px-3 max-md:px-8 px-8 py-1    duration-500'>{category.name}</p>
+                        <p className=' cursor-pointer  absolute top-[80%] xl:group-hover:top-40 lg:group-hover:top-20  left-1/2 transform -translate-x-1/2 -translate-y-1/2   text-white text-xl max-xl:text-xs  opacity-0 lg:group-hover:opacity-100  pt-2 duration-500'>16 products</p>                        
+                        <Image className='  w-full' src={category.src} alt={category.name} />
                     </div>                        
                 ))}                                
             </div>

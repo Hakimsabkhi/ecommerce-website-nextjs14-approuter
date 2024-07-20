@@ -2,6 +2,10 @@ import React from 'react';
 import Image from 'next/image';
 import { mackay, steak1, bathroom, office, resto, share, comment } from "../../public/image";
 import {itemsarticle} from "../../public/data"
+import Link from 'next/link';
+import { TransitionLink } from './utils/TransitionLink';
+import { FaArrowRight } from "react-icons/fa6";
+
 const Latestarticle = () => {
     return (
         <div className='py-8 h-fit w-full flex flex-col justify-center items-center gap-10 '>
@@ -9,10 +13,20 @@ const Latestarticle = () => {
                 <h3 className=' font-bold max-md:text-2xl text-2xl text-gray-800'>
                     Latest articles
                 </h3>
-                <a href='/blog' className='bg-white px-6 py-2 rounded-full font-bold '>Visit the Blog ---&gt; </a>
+                <TransitionLink href="/blog">
+                    <Link href='#' className='relative flex items-center justify-center p-4 px-12 py-4 overflow-hidden  transition duration-300 ease-out  rounded-full group'>
+                        <span className="absolute flex items-center  justify-center w-full h-full text-white duration-300 -translate-x-full bg-black group-hover:translate-x-0 ease">
+                            <FaArrowRight  className='w-5 h-5 ' />
+                        </span>
+                        <span className="absolute flex items-center text-xl font-bold justify-center w-full h-full bg-white text-black transition-all duration-300 transform group-hover:translate-x-full ease ">
+                            Visit the Blog
+                        </span>
+                        <span className="relative invisible">Visit the Blog</span>                          
+                    </Link>
+                </TransitionLink>
             </div>
-            <div className='grid grid-cols-4 max-xl:grid-cols-2 max-md:grid-cols-1 max-xl:gap-8  gap-16   '>
-                {itemsarticle.map((item, index) => (<div className='flex cursor-pointer flex-col justify-center items-center w-[322px]  '>
+            <div className='grid grid-cols-4 group max-xl:grid-cols-2 max-md:grid-cols-1 max-xl:gap-8  gap-16   '>
+                {itemsarticle.map((item, index) => (<div className='flex cursor-pointer duration-500 lg:group-hover:scale-[0.95] lg:hover:!scale-100 flex-col justify-center items-center w-[322px]  '>
                     <div key={index} className="relative justify-center w-[322px] flex ">
                         <div className="absolute flex items-center justify-between w-[95%] bottom-1">
                             <div className='flex gap-2 items-center'>

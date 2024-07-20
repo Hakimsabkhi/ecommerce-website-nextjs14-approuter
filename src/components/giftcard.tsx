@@ -2,32 +2,36 @@ import React from 'react';
 import { giftcard1, giftcard2 } from "../../public/image";
 import Image from 'next/image';
 import {cards} from "../../public/data";
+import { CiShop, CiShoppingCart,CiUser } from "react-icons/ci";
 const Giftcard = () => {
     return (
-        <div className='py-8 desktop  max-md:w-[95%] gap-16 justify-center items-center flex flex-col     '>
-            <div className='flex gap-6  w-full justify-between max-md:flex-col'>
+        <div className='py-8 desktop  max-lg:w-[95%] gap-16 justify-center items-center flex flex-col     '>
+            <div className='flex gap-6  w-full justify-between max-lg:flex-col'>
                 {cards.map((card,index) => (
                     <div className='gap-8 flex flex-col'>
                         <div className='relative w-fit '>
                             <div className='absolute flex-col items-center flex top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white '>
-                                <p className='text-xl max-md:text-sm opacity-50'>LUXEHOME</p>
-                                <p className='text-4xl max-md:text-xl  '>{card.name}</p>
+                                <p className='text-xl max-lg:text-sm opacity-50'>LUXEHOME</p>
+                                <p className='text-4xl max-lg:text-xl  '>{card.name}</p>
                             </div>
                             <Image className='w-[800px]' src={card.src} alt="giftcard" />
                         </div>
                         <div className='flex-col flex items-center justify-center gap-1'>
-                            <p className='text-gray-400 max-md:text-center'>{card.text1}</p>
-                            <p className='text-xl max-md:text-center'>{card.text2}</p>
-                            <p className='w-fit bg-orange-500 px-10 py-2 rounded-full text-white cursor-pointer'>Buy now</p>
+                            <p className='text-gray-400 max-lg:text-center'>{card.text1}</p>
+                            <p className='text-xl max-lg:text-center'>{card.text2}</p>                            
+                            <button className="bg-orange-500 rounded-full   w-28 h-10  items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  ">
+                                <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform group-hover/box:translate-y-[-100%] ease  ">Buy now</p>
+                                <CiShoppingCart  size={25} className="  text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-y-[-100%] group-hover/box:translate-y-0 ease  " aria-hidden="true" fill="currentColor"/>                                                                                                                    
+                            </button>
                         </div>
                     </div>
                 ))}                              
             </div>
             <div className='flex-col justify-center w-full items-center  gap-2 flex '>
-                <p className='text-xl max-md:text-center'>If you can't decide on the perfect gift, let them choose with the LUXEHOME gift card</p>
+                <p className='text-xl max-lg:text-center'>If you can't decide on the perfect gift, let them choose with the LUXEHOME gift card</p>
                 <div className='text-gray-400 flex-col   '>
-                    <p className='max-md:text-center'>The luxehome Gift Card is easy! just pick the value of the card and your friends or family are free to get exactly what they want it's perfect for.</p>
-                    <p className='justify-center flex max-md:text-center'>graduations,holidays,back to college shopping, baby showers, weddings and house warming gifts. available in increments of €5-€1000.</p>
+                    <p className='max-lg:text-center'>The luxehome Gift Card is easy! just pick the value of the card and your friends or family are free to get exactly what they want it's perfect for.</p>
+                    <p className='justify-center flex max-lg:text-center'>graduations,holidays,back to college shopping, baby showers, weddings and house warming gifts. available in increments of €5-€1000.</p>
                 </div>
             </div>
         </div>

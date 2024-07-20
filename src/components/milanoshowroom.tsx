@@ -1,11 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
-import { lladrologo, poliformlogo, minottilogo, kettallogo, tacchinilogo, milanoroom1, milanoroom2, milanoroom3, torinoroom1, torinoroom2 } from "../../public/image";
+import { lladrologo, poliformlogo, minottilogo, kettallogo, tacchinilogo, milanoroom1, milanoroom2, milanoroom3,  } from "../../public/image";
 const Milanoshowroom = () => {
     return (
         <div className='flex flex-col py-8 gap-4 items-center justify-center'>
-            <div className='flex w-4/5 items-center justify-between max-md:flex-col max-md:gap-8'>
-                <div className='w-1/3 flex flex-col gap-4 max-md:w-full max-md:text-start'>
+            <div className='flex w-4/5 items-center justify-between max-lg:flex-col max-lg:gap-8'>
+                <div className='w-1/3 flex flex-col gap-4 max-lg:w-full max-lg:text-start'>
                     <p className='text-4xl font-semibold'>Milano showroom</p>
                     <p className='text-gray-400'>Furniture is an invariable attribute of any room. it is they who give it the right atmosphere, making the space cozy and comfortbale. More and more often, customers want to place an order in an onli e store, when you can sit down at the computer in your free time, arrange the furniture in the photo and calmly buy the furniture you like.</p>
                     <div className='flex gap-4'>
@@ -16,7 +16,7 @@ const Milanoshowroom = () => {
                         <Image src={minottilogo} alt="brand" />
                     </div>
                 </div>
-                <div className='w-1/3 flex-col  flex gap-4 max-md:w-full max-md:justify-center max-md:flex max-md:flex-colr max-md:items-center max-md:gap-1 max-md:text-center'>
+                <div className='w-1/3 flex-col  flex gap-4 max-lg:w-full max-lg:justify-center max-lg:flex max-lg:flex-colr max-lg:items-center max-lg:gap-1 max-lg:text-center'>
                     <div className='flex-col flex '>
                         <p>Milano Piazzale</p>
                         <p>Ferrara</p>
@@ -35,7 +35,7 @@ const Milanoshowroom = () => {
                     </div>
                 </div>
             </div>
-            <div className=' flex max-md:flex-col gap-5  justify-center '>
+            <div className=' flex max-xl:flex-col gap-5  justify-center '>
                 <Image src={milanoroom1} alt="milano" />
                 <Image src={milanoroom2} alt="milano" />
                 <Image src={milanoroom3} alt="milano" />
