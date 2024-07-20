@@ -20,6 +20,9 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #e5e7eb;
+  transition-property: opacity, background, transform, filter, z-index;
+  transition-timing-function: ease-in-out;
+  transition-duration: 300ms;
 }
 
 
@@ -61,3 +64,23 @@ body {
 .mobile {
   width: 95%;
 }
+.page-transition {
+  opacity: 0;
+  background: #d1d5db;
+  transform: translateY(40px);
+  filter: blur(5px);
+  z-index: 10;
+  
+}
+/* In your global CSS or a relevant CSS file */
+.hide-placeholder::placeholder {
+  opacity: 0;
+}
+
+.hide-placeholder:focus::placeholder {
+  opacity: 1;
+}
+.hide {
+  display:none;
+}
+

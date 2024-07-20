@@ -1,10 +1,13 @@
 "use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Hay1, poliform1, vitra1, diag1, chair2, diag2, diag3, right, heart, star, decor2, chair6, chair7, chair8, chair9, chair10, chair11, chair12, chair13, chair14, chair15, chair16, chair17, } from "../../public/image";
+import { Hay1, poliform1, vitra1, diag1, diag2, diag3, right, heart, star, decor2,  } from "../../public/image";
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { sortby } from "../../public/image";
 import {itemsFilter} from "../../public/data";
+import { CiShoppingCart } from 'react-icons/ci';
+import { FaEye } from 'react-icons/fa';
+import { FaCartShopping } from 'react-icons/fa6';
 
 const Filter = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -450,29 +453,64 @@ const Filter = () => {
                     </div>
                     <Image src={sortby} alt="sortby" />
                 </div>
-                <div className=' grid justify-center items-center  grid-cols-3 max-md:grid-cols-2 max-xl:grid-cols-2 max-md:gap-3  gap-8  '>
+                <div className=' grid   group  grid-cols-3 max-md:grid-cols-2 max-xl:grid-cols-2 max-md:gap-3 gap-8    '>                    
                     {itemsFilter.map((item, index) => (
-                        <div key={index} className='bg-white rounded-lg h-[481px]  max-sm:h-[332px] relative '>
-                            <Image className='absolute right-1 top-1 w-4 cursor-pointer' src={heart} alt="heart" />
-                            <Image className='absolute inset-0 mx-auto top-5 max-sm:w-[200px] max-sm:h-[200px]' src={item.src} alt="chair" />
-                            <div className='flex-col flex bottom-0 absolute w-full px-2 '>
-                                <div className='flex justify-between'>
-                                    <p className='text-gray-700 cursor-pointer font-bold'>{item.name}</p>
-                                    {item.rating && (<p className='flex gap-2 items-center'>5 <Image src={star} alt="star" /> </p>)}
+                    <div
+                        key={index}
+                        className="bg-white rounded-lg duration-500  lg:group-hover:scale-[0.85]lg:hover:!scale-100 h-[481px]   max-md:h-[320px]  relative">
+                        <Image
+                            
+                            className=" z-10 absolute cursor-pointer right-2 top-2 w-6"
+                            src={heart}
+                            alt="heart"
+                        />
+                        <Image
+                            className="absolute inset-0 mx-auto top-5 "
+                            src={item.src}
+                            alt={item.name}
+                        />
+                        <div className="flex-col flex bottom-0 gap-2 absolute w-full px-2">
+                            <div className="h-24 max-md:h-20">
+                                <p className="text-gray-700 cursor-pointer text-3xl max-md:text-xl font-bold">
+                                    {item.name}
+                                </p>
+                                <div className="flex-col gap-1">
+                                    <p className="text-orange-400 text-2xl max-md:text-lg font-bold">
+                                        {item.price}
+                                    </p>
+                                    {item.oldPrice && (
+                                        <div className="flex gap-1">
+                                            <p className="line-through opacity-50">{item.oldPrice}</p>
+                                            <p className='text-white rounded-lg bg-orange-400 px-2'>20%</p>
+                                        </div>
+                                    )}                                
                                 </div>
-                                <p className='text-gray-400 cursor-pointer hover:opacity-50'>{item.type}</p>
-                                <div className='flex gap-1'>
-                                    {item.oldPrice &&(
-                                        <p className='line-through opacity-50'>{item.oldPrice}</p>
-                                    )}
-                                    <p className='text-orange-800'>{item.price}</p>
-                                </div>
-                                <div className='flex xl:hidden justify-center'>
-                                    <p className='bg-orange-400 rounded-full text-center cursor-pointer w-4/5 text-white py-2 mb-1'>add to cart</p>
-                                </div>
+                            </div>                            
+                            <div className="flex gap-2 items-center">
+                                <Image className="size-5 max-md:size-4" src={star} alt="star" />
+                                <Image className="size-5 max-md:size-4" src={star} alt="star" />
+                                <Image className="size-5 max-md:size-4" src={star} alt="star" />
+                                <Image className="size-5 max-md:size-4" src={star} alt="star" />
+                                <Image className="size-5 max-md:size-4" src={star} alt="star" />
+                                <p className="flex gap-2 text-xl max-md:text-sm font-bold items-center">{item.rating} </p>
+                            </div>                                                        
+                            <div className="flex mb-1 text-lg max-md:text-sm justify-between">
+                            <button className="bg-orange-400 rounded-lg py-1 w-[65%] items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  ">
+                                        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform group-hover/box:translate-x-[10%] ease  ">add to cart</p>
+                                        <p className="  text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] group-hover/box:translate-x-[-30%] ease  ">
+                                            <FaCartShopping   className="w-8 h-8" aria-hidden="true" fill="currentColor"/>                                                                                                                    
+                                        </p>
+                                    </button>
+                                    <button className="bg-white rounded-lg py-5 w-[33%] items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-orange-400 border border-orange-400  ">
+                                        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform group-hover/box:translate-y-[-100%] ease   ">View</p>
+                                        <p className="text-orange-400 absolute  w-full h-full flex items-center justify-center duration-300 -translate-y-[-100%] group-hover/box:translate-y-0 ease  ">
+                                            <FaEye   className=" w-5 h-5   " aria-hidden="true" fill="currentColor"/>                                                                                                                    
+                                        </p>
+                                    </button>
                             </div>
                         </div>
-                    ))}                    
+                    </div>
+                ))}                    
                 </div>
                 <div className='flex justify-center items-center gap-x-4 '>
                     <p className='px-5 cursor-pointer py-3 text-3xl rounded-lg bg-orange-400'>1</p>
