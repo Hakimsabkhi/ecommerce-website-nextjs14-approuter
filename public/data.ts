@@ -1,4 +1,5 @@
-import { chair2, chair3, star, heart, chair4, chair5, table2, table3, table1, sofa2, sofa3, sofa4, steak1, bathroom, office, resto, resto1, office1, livingroom5, livingroom4, HAYpic, kettalpic, HAYlogo, kettallogo, elitislogo, lladrologo, poliformpic, elitispic, lladropic, poliformlogo, armchairpic, bedpic, chairpic, decorpic, lightingpic, sofapic, storagepic, tablepic, textilepic, toyspic } from "../public/image";
+import { chair2,marvin,dianne,kristin,facebook,X,instagram,linkedin, chair3,giftcard1,giftcard2, star, heart, chair4, chair5, table2, table3, table1, sofa2, sofa3, sofa4, steak1, bathroom, office, resto, resto1, office1, livingroom5, livingroom4, HAYpic, kettalpic, HAYlogo, kettallogo, elitislogo, lladrologo, poliformpic, elitispic, lladropic, poliformlogo, armchairpic, bedpic, chairpic, decorpic, lightingpic, sofapic, storagepic, tablepic, textilepic, toyspic, bedroom1, bedroom2, coffe, food1, food2, kitchen, livingroom1, livingroom2, mags, skygarden,frames, chair10, chair11, chair12, chair13, chair14, chair15, chair16, chair6, chair7, chair8, chair9 } from "../public/image";
+
 const items = [
     { src: chair2, name: "curve", type: "chairs", price: "320.00 TND", rating: 4.5 },
     { src: sofa2, name: "Can", type: "Sofas", price: "2,100.00 TND" },
@@ -11,6 +12,20 @@ const items = [
     { src: sofa4, name: "Navana", type: "Sofas", price: "1,669.00 TND", oldPrice: "1,850.00 TND" },
     { src: table3, name: "Aruda", type: "Tables", price: "699.00 TND", rating: 4.5 }
 ];
+const itemsFilter = [
+    { src: chair6, name: "Revolt", type: "chairs", price: "275.00 TND", rating: 5 },
+    { src: chair7, name: "Avana", type: "Chairs", price: "458.00 TND", oldPrice: "538.00 TND" },
+    { src: chair8, name: "Sophie", type: "chairs", price: "520.00 TND" },
+    { src: chair9, name: "Curve", type: "chairs", price: "320.00 TND", rating: 4.5 },
+    { src: chair10, name: "Curve", type: "Chairs", price: "320.00 TND" },
+    { src: chair11, name: "16 side", type: "chairs", price: "295.00 TND" },
+    { src: chair12, name: "12 side", type: "chairs", price: "339.00 TND", oldPrice: "375.00 TND" },
+    { src: chair13, name: "Soft Edge", type: "chairs", price: "440.00 TND" },
+    { src: chair14, name: "Result", type: "chairs", price: "279.00 TND", oldPrice: "310.00 TND" },
+    { src: chair15, name: "Frames Upholstered", type: "chairs", price: "399.00 TND", },
+    { src: chair16, name: "Hal Wood", type: "chairs", price: "625.00 TND", },
+    { src: chair15, name: "Fauteuil Direction", type: "chairs", price: "372.00 TND", }
+];
 const itemsblog =[
     {src: steak1, date:"Decoration / 26 May 2023", title: "In the heart of Valencia", text: "As an alternative theory, (and because latin scholars do this sort of thing) someone tracked down a ..." },
     {src: bathroom, date:"Furniture / 09 May 2023", title: "Ethimo mountain style", text: "So how did the classical latin become so incohere,t? According to McClintock, a 15th century typeset.." },
@@ -21,6 +36,11 @@ const itemsblog =[
     {src: livingroom4, date:"Decoration / 03 Apr 2023", title: "luxury bed now available", text: "As an alternative theory, (and because latin scholars do this sort of thing) someone tracked down a ..." },
     {src: livingroom5, date:"Furniture / 28 Mar 2023", titlexl: "Expands furniture resources", text: "So how did the classical latin become so incohere,t? According to McClintock, a 15th century typeset.." }
 ];
+const itemsFurniture = [
+    { src: mags, name: "Mags", type: "Sofas", price: "3,620.00 TND",  },
+    { src: skygarden, name: "Skygarden", type: "Lighting", price: "780.00 TND" },
+    { src: frames, name: "Frames Upholstered", type: "Chairs", price: "399.00 TND" },
+];    
 const itemsarticle = [
     { src: steak1, date: "Decoration / 26 May 2023", title: "In the heart of Valencia", text: "As an alternative theory, (and because latin scholars do this sort of thing) someone tracked down a ..." },
     { src: bathroom, date: "Furniture / 09 May 2023", title: "Ethimo mountain style", text: "So how did the classical latin become so incohere,t? According to McClintock, a 15th century typeset.." },
@@ -48,5 +68,18 @@ const categories = [
     {src: decorpic, name:"decor"},
 
 
+];
+const productCollection = [
+    {titre:"GLADOM",description:"The new common language will be more simple and regular than the existing languages."},
+    {titre:"HALLAN",description:"The new common language will be more simple and regular than the existing languages."},
+];
+const cards = [
+    {src:giftcard1 ,name:"e-Gift cards",text1:"Purshase online and the e-Gift Card is sent straight to their inbox!",text2:"Purshase e-Gift cards up to 1 000 TND in valure"},
+    {src:giftcard2 ,name:"Gift cards",text1:"Purshase in-store and it's ready fro gifting! Just pick the valure of the card",text2:"Purshase e-Gift cards up to 500 TND in valure"}
+];
+const members = [
+    {src:marvin, name:"Marvin mcKinney", title:"CEO,co-founde", facebook:facebook, X:X,linkedin:linkedin, },
+    {src:dianne, name:"Dianne Russel", title:"CEO,co-founde", facebook:facebook, X:X,linkedin:linkedin, instagram:instagram},
+    {src:kristin, name:"Kristin Watsony", title:"CEO,co-founde", facebook:facebook, X:X,linkedin:linkedin, },
 ]
- export {items,itemsblog,itemsarticle,brands,categories,} 
+ export {items,itemsblog,itemsarticle,itemsFilter,brands,categories,productCollection,cards,itemsFurniture,members} 

@@ -30,7 +30,7 @@ const Milanoshowroom = () => {
                         <p>xtemos@gmail.com</p>
                         <p>(686) 492-1044</p>
                     </div>
-                    <div className='w-24 bg-orange-400 items-center justify-center rounded-full text-white text-sm px-1  py-1 '>
+                    <div className='w-24 cursor-pointer bg-orange-400 items-center justify-center rounded-full text-white text-sm px-1  py-1 '>
                         <p >make a route</p>
                     </div>
                 </div>

@@ -1,55 +1,37 @@
 import React from 'react';
 import Image from 'next/image';
 import { mags, frames, skygarden, heart, kitchen2 } from "../../public/image";
+import {itemsFurniture} from "../../public/data";
 
 const Furniture = () => {
     return (
-        <div className='centred flex max-md:flex-col max-md:justify-center max-md:items-center  justify-center items-end gap-6 py-8'>
-            <div className='flex max-md:flex-col gap-10 flex-col'>
+        <div className='desktop  max-md:w-[95%]  gap-4 flex justify-between max-xl:flex-col      py-8'>
+            <div className='flex  gap-10 flex-col'>
                 <div className='text-left max-md:text-center'>
                     <h3 className='font-bold text-2xl text-gray-800'>
                         Furniture collection of the week
                     </h3>
                     <p className='text-sm text-gray-400'>The most popular products from the collection</p>
                 </div>
-                <div className='flex max-md:flex-col gap-6 max-md:justify-center max-md:items-center  justify-center'>
-                    <div className='relative'>
-                        <Image className='shadow-lg rounded-md w-[300px]' src={frames} alt="chair" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6' src={heart} alt="heart" />
+                <div className=' flex max-md:flex-col gap-10 max-xl:justify-center max-xl:items-center max-xl:gap-4  '>
+                    {itemsFurniture.map((item, index) => (
+                        <div key={index} className='bg-white rounded-lg  w-[300px] h-[397px]  max-md:h-[400px]  relative'>
+                            <Image className='absolute cursor-pointer right-1 top-1 w-4' src={heart} alt="heart" />
+                            <Image className=' absolute inset-0 mx-auto top-5 max-md:w-[200px]  max-md:h-[200px]' src={item.src} alt={item.name} />
+                            <div className='flex-col flex bottom-0 absolute w-full px-2'>                            
+                                <p className='text-gray-700 cursor-pointer font-bold'>{item.name}</p>                                                            
+                                <p className='text-gray-400 cursor-pointer hover:opacity-50'>{item.type}</p>                                                            
+                                <p className='text-orange-800'>{item.price}</p>                            
+                                <div className='flex xl:hidden justify-center'>
+                                <p className='bg-orange-400 rounded-full text-center w-4/5 text-white py-2 mb-1'>add to cart</p>
+                                </div>
+                            </div>
                         </div>
-                        <div className='absolute bottom-4 left-5 space-y-1'>
-                            <p className='text-sm font-semibold'>Frames Upholstered</p>
-                            <p className='text-sm text-gray-400'>Chairs</p>
-                            <p className='text-sm text-orange-900'>399.00 TND</p>
-                        </div>
-                    </div>
-                    <div className='relative'>
-                        <Image className='shadow-lg rounded-md w-[300px]' src={skygarden} alt="lighting" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6' src={heart} alt="heart" />
-                        </div>
-                        <div className='absolute bottom-4 left-5 space-y-1'>
-                            <p className='text-sm font-semibold'>Skygarden</p>
-                            <p className='text-sm text-gray-400'>lighting</p>
-                            <p className='text-sm text-orange-900'>780.00 TND</p>
-                        </div>
-                    </div>
-                    <div className='relative'>
-                        <Image className='shadow-lg rounded-md w-[300px]' src={mags} alt="sofa" />
-                        <div className='absolute top-2 right-2'>
-                            <Image className='w-6' src={heart} alt="heart" />
-                        </div>
-                        <div className='absolute bottom-4 left-5 space-y-1'>
-                            <p className='text-sm font-semibold'>Mags</p>
-                            <p className='text-sm text-gray-400'>Sofas</p>
-                            <p className='text-sm text-orange-900'>3,620.00 TND</p>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
-            <div className='flex justify-center items-center  '>
-                <Image className='rounded-lg shadow-lg max-md:w-[300px] max-md:h-[200px] w-[560px] h-[600px] object-cover' src={kitchen2} alt="kitchen" />
+            <div className='  '>
+                <Image className='rounded-lg cursor-pointer shadow-lg h-full  object-cover' src={kitchen2} alt="kitchen" />
             </div>
         </div>
     );

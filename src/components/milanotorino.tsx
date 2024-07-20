@@ -4,7 +4,7 @@ import { milanopic, torinopic } from "../../public/image";
 
 const Milanotorino = () => {
     return (
-        <div className='centred flex flex-col justify-center items-center gap-8 py-8'>
+        <div className='desktop  max-md:w-[95%] flex flex-col justify-center items-center gap-8 py-8'>
             <div className='flex justify-between items-center w-full max-md:flex-col max-md:items-center max-md:justify-center max-md:flex max-md:gap-8 '>
                 <div className='flex items-center justify-center gap-8 '>
                     <Image className='w-[350px] max-md:w-[100px]' src={milanopic} alt='brand' />

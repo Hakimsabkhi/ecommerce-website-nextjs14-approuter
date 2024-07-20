@@ -3,7 +3,7 @@ import React from 'react';
 const Question = () => {
     return (
 
-        <div className='centred py-4  flex flex-col justify-center items-center '>
+        <div className='desktop  max-md:w-[95%] py-4  flex flex-col justify-center items-center '>
             <p className=' w-full border-b border-black h-10 text-3xl max-md:text-xl'>Frequently asked questions</p>
             <div className='w-full'>
                 <p className='border-b max-md:text-sm border-black h-10 flex items-center'>What is the difference between an e-Gift Card and physical Card ?</p>
@@ -14,7 +14,7 @@ const Question = () => {
             </div>
             <div className='w-full flex justify-center max-md:flex-wrap max-md:text-sm items-center gap-1 '>
                 <p className='text-gray-400'>If you want more information about Gift Cards</p>
-                <p>Contact us</p>
+                <a href="contactus">Contact us</a>
             </div>
         </div>
     );
