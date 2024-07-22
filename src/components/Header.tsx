@@ -3,9 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Vector, refresh, cart, logo, perso,chair } from "../../public/image";
 import { AiOutlineMenu } from 'react-icons/ai';
-import {  table, sofa, armchair, bed,luxehome, storage, textile, lighting, toy, decor } from "../../public/image";
+import {  table, sofa, armchair, bed,luxehome, storage, textile, lighting, toy, decor,logo, chair } from "../../public/image";
 import { TransitionLink } from './utils/TransitionLink';
 import { FiHeart } from "react-icons/fi";
 import { SlBag } from "react-icons/sl";
