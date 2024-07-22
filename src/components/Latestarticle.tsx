@@ -15,10 +15,10 @@ const Latestarticle = () => {
                 </h3>
                 <TransitionLink href="/blog">
                     <Link href='#' className='relative flex items-center justify-center p-4 px-12 py-4 overflow-hidden  transition duration-300 ease-out  rounded-full group'>
-                        <span className="absolute flex items-center  justify-center w-full h-full text-white duration-300 -translate-x-full bg-black group-hover:translate-x-0 ease">
+                        <span className="absolute flex items-center  justify-center w-full h-full text-white duration-300 -translate-x-full bg-black lg:group-hover:translate-x-0 ease">
                             <FaArrowRight  className='w-5 h-5 ' />
                         </span>
-                        <span className="absolute flex items-center text-xl font-bold justify-center w-full h-full bg-white text-black transition-all duration-300 transform group-hover:translate-x-full ease ">
+                        <span className="absolute flex items-center text-xl font-bold justify-center w-full h-full bg-white text-black transition-all duration-300 transform lg:group-hover:translate-x-full ease ">
                             Visit the Blog
                         </span>
                         <span className="relative invisible">Visit the Blog</span>                          

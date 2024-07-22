@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Hay1, poliform1, vitra1, diag1, diag2, diag3, right, heart, star, decor2,  } from "../../public/image";
+import { Hay1, poliform1, vitra1, diag1, diag2, diag3, right, heart,left, star, decor2,  } from "../../public/image";
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { sortby } from "../../public/image";
 import {itemsFilter} from "../../public/data";
@@ -9,7 +9,20 @@ import { CiShoppingCart } from 'react-icons/ci';
 import { FaEye } from 'react-icons/fa';
 import { FaCartShopping } from 'react-icons/fa6';
 
-const Filter = () => {
+const Filter: React.FC = () => {
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const itemsPerPage = 6; // Adjust the number of items per page as needed
+
+    // Calculate the total number of pages
+    const totalPages = Math.ceil(itemsFilter.length / itemsPerPage);
+
+    // Get the items to display on the current page
+    const currentItems = itemsFilter.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+        window.scrollTo({ top: 800 , behavior: 'smooth' });
+    };
     const [menuOpen, setMenuOpen] = useState(false);
     const handleNav = () => {
         setMenuOpen(!menuOpen);
@@ -454,7 +467,7 @@ const Filter = () => {
                     <Image src={sortby} alt="sortby" />
                 </div>
                 <div className=' grid   group  grid-cols-3 max-md:grid-cols-2 max-xl:grid-cols-2 max-md:gap-3 gap-8    '>                    
-                    {itemsFilter.map((item, index) => (
+                    {currentItems.map((item, index) => (
                     <div
                         key={index}
                         className="bg-white rounded-lg duration-500  lg:group-hover:scale-[0.85]lg:hover:!scale-100 h-[481px]   max-md:h-[320px]  relative">
@@ -496,14 +509,14 @@ const Filter = () => {
                             </div>                                                        
                             <div className="flex mb-1 text-lg max-md:text-sm justify-between">
                             <button className="bg-orange-400 rounded-lg py-1 w-[65%] items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  ">
-                                        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform group-hover/box:translate-x-[10%] ease  ">add to cart</p>
-                                        <p className="  text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] group-hover/box:translate-x-[-30%] ease  ">
+                                        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease  ">add to cart</p>
+                                        <p className="  text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] lg:group-hover/box:translate-x-[-30%] ease  ">
                                             <FaCartShopping   className="w-8 h-8" aria-hidden="true" fill="currentColor"/>                                                                                                                    
                                         </p>
                                     </button>
                                     <button className="bg-white rounded-lg py-5 w-[33%] items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-orange-400 border border-orange-400  ">
-                                        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform group-hover/box:translate-y-[-100%] ease   ">View</p>
-                                        <p className="text-orange-400 absolute  w-full h-full flex items-center justify-center duration-300 -translate-y-[-100%] group-hover/box:translate-y-0 ease  ">
+                                        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-y-[-100%] ease   ">View</p>
+                                        <p className="text-orange-400 absolute  w-full h-full flex items-center justify-center duration-300 -translate-y-[-100%] lg:group-hover/box:translate-y-0 ease  ">
                                             <FaEye   className=" w-5 h-5   " aria-hidden="true" fill="currentColor"/>                                                                                                                    
                                         </p>
                                     </button>
@@ -513,9 +526,31 @@ const Filter = () => {
                 ))}                    
                 </div>
                 <div className='flex justify-center items-center gap-x-4 '>
-                    <p className='px-5 cursor-pointer py-3 text-3xl rounded-lg bg-orange-400'>1</p>
-                    <p className='px-5 cursor-pointer py-3 text-3xl rounded-lg '>2</p>
-                    <Image className='cursor-pointer' src={right} alt="arrow" />
+                    {currentPage > 1 && (
+                        <Image
+                            className='cursor-pointer'
+                            src={left}
+                            alt="arrow"
+                            onClick={() => handlePageChange(currentPage - 1)}
+                        />
+                    )}
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <p
+                            key={i + 1}
+                            onClick={() => handlePageChange(i + 1)}
+                            className={`cursor-pointer text-3xl rounded-lg py-3 px-5 ${currentPage === i + 1 ? 'bg-orange-400' : ''}`}
+                        >
+                            {i + 1}
+                        </p>
+                    ))}
+                        {currentPage < totalPages && (
+                        <Image
+                            className='cursor-pointer'
+                            src={right}
+                            alt="arrow"
+                            onClick={() => handlePageChange(currentPage + 1)}
+                        />
+                    )}                    
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Vector, refresh, cart, logo, person } from "../../public/image";
+import { Vector, refresh, cart, logo, perso,chair } from "../../public/image";
 import { AiOutlineMenu } from 'react-icons/ai';
 import {  table, sofa, armchair, bed,luxehome, storage, textile, lighting, toy, decor } from "../../public/image";
 import { TransitionLink } from './utils/TransitionLink';
@@ -181,9 +181,7 @@ const Header: React.FC = () => {
             <ul className="text-sm">
               <TransitionLink href="/chairs">
                 <Link href="#" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
-                  <div className=''>
-                    
-                  </div>
+                  <Image src={chair} alt="table" />
                   <li
                     onClick={() => setMenuOpen(false)}
                     className=''

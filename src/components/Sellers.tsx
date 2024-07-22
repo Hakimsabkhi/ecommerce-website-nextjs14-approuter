@@ -73,14 +73,14 @@ const Sellers = () => {
                                 </div>                                                        
                                 <div className="flex mb-1 text-lg max-md:text-sm justify-between">
                                     <button className="bg-orange-400 rounded-lg py-5 w-[65%] items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  ">
-                                        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform group-hover/box:translate-x-[10%] ease  ">add to cart</p>
-                                        <p className="  text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] group-hover/box:translate-x-[-30%] ease  ">                                        
+                                        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease  ">add to cart</p>
+                                        <p className="  text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] lg:group-hover/box:translate-x-[-30%] ease  ">                                        
                                             <FaCartShopping   className="w-8  h-8" aria-hidden="true" fill="currentColor"/>                                                                                                                    
                                         </p>
                                     </button>                                                                        
                                     <button className="bg-white rounded-lg py-5 w-[33%] items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-orange-400 border border-orange-400  ">
-                                        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform group-hover/box:translate-y-[-100%] ease   ">View</p>
-                                        <p className="text-orange-400 absolute  w-full h-full flex items-center justify-center duration-300 -translate-y-[-100%] group-hover/box:translate-y-0 ease  ">
+                                        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-y-[-100%] ease   ">View</p>
+                                        <p className="text-orange-400 absolute  w-full h-full flex items-center justify-center duration-300 -translate-y-[-100%] lg:group-hover/box:translate-y-0 ease  ">
                                             <FaEye   className=" w-5 h-5   " aria-hidden="true" fill="currentColor"/>                                                                                                                    
                                         </p>
                                     </button>

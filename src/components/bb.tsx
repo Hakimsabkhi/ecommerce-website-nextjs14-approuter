@@ -23,17 +23,17 @@ import { FaArrowRight } from "react-icons/fa6";
 export default function Bb() {
     return (
         <div>
-            <div className='bg-blue-900 text-white items-center justify-center  flex py-12 max-md:pb-28 max-md:pt-8   w-[full]'>
-                <div className='flex items-start justify-between  w-[80%]'>
-                    <div className='flex flex-col gap-8  max-sm:flex-col max-sm:flex max-sm:items-center max-sm:justify-centeritems-center'>                    
+            <div className='bg-blue-900 text-white items-center justify-center  flex py-12  max-md:py-8   w-[full]'>
+                <div className='flex items-start justify-between  w-[80%] max-lg:w-[98%] max-md:w-[80%] max-md:flex-col max-md:items-center max-md:gap-10'>
+                    <div className='flex flex-col gap-8  items-center'>                    
                         <Image src={luxehome} alt="luxehome" />
-                        <div className="gap-5 flex flex-col "> 
+                        <div className="gap-5 flex flex-col max-md:items-center "> 
                             <p>5080 Teboulba Monastir, Tunisie</p>
                             <p className="flex items-center gap-2 "><CiPhone size={25} /> +216 12 345 778</p>
                             <p className='flex gap-2 items-center'><CiMail className='fill-cyan-400 ' size={25}/> support@Nproject.com</p>                                           
                         </div>
                     </div>
-                    <div className=" flex max-md:gap-10 max-md:flex-wrap w-1/3 justify-between items-center  ">
+                    <div className=" flex w-1/3 max-md:w-full justify-between items-center  ">
                         <ul className='flex-col flex gap-4'>
                             <p className="text-white font-bold text-xl md:text-2xl ">Quick links</p>
                             <div className='flex-col gap-2 flex'>
@@ -69,7 +69,7 @@ export default function Bb() {
                                 </TransitionLink>                                
                             </div>
                         </ul>
-                        <ul className='flex flex-col mb-7 gap-4'>
+                        <ul className='flex flex-col mb-6 gap-4'>
                             <p className="text-white font-bold text-xl md:text-2xl ">Decouverte</p>
                             <div className='flex max-sm:flex max-sm:gap-8 justify-between'>
                                 <div className='flex flex-col gap-2'>
@@ -92,7 +92,7 @@ export default function Bb() {
                             </div>
                         </ul>                    
                     </div>
-                    <div className='flex flex-col gap-4 items-start'>
+                    <div className='flex flex-col gap-4 items-start max-md:items-center'>
                         <p>Abonnez-vous a notre newsletter!</p>
                         <div className="relative w-full">
                             <input
@@ -108,7 +108,7 @@ export default function Bb() {
                             </div>
                         </div>
                         <p>Suivez-nous sur</p>
-                        <div className='flex ms-8 items-center gap-2'>
+                        <div className='flex md:ms-8 items-center gap-2'>
                             <FaLinkedinIn className="hover:text-blue-500"  size={25} />
                             <FaFacebookF className="hover:text-blue-500" size={25} />
                             <FaInstagram className='hover:bg-gradient-to-r from-orange-500 overflow-hidden rounded-lg via-pink-500 to-indigo-500 ' fill="currentcolor" size={25} />                            
@@ -116,10 +116,10 @@ export default function Bb() {
                     </div>
                 </div>
             </div>
-            <div className="bg-white flex items-center justify-center w-full py-3">
-                <div className="w-[60%] flex items-center justify-between text-cyan-500 font-bold">
+            <div className="bg-white flex items-center justify-center w-full py-3 max-md:pb-20">
+                <div className="w-[60%] flex items-center justify-between text-cyan-500 font-bold max-md:w-[95%] max-md:text-[10px]">
                     <p>© Nproject - All rights reserved</p>
-                    <div className=" flex items-center gap-8">
+                    <div className=" flex items-center gap-8 max-md:gap-1">
                         <p>Terms and conditions</p>
                         <p>Privacy Policy</p>
                         <p>Disclaimer</p>
