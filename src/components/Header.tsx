@@ -27,50 +27,46 @@ const Header: React.FC = () => {
   };
 
   return (
-    <div className='w-full max-lg:fixed max-lg:z-50 max-lg:bg-white max-lg:py-2 py-6 bg-blue-900 justify-center flex'>
-      <div className='flex w-[85%] max-lg:hidden justify-between max-lg:justify-between  items-center  max-lg:bg-white '>
-        <TransitionLink href="/" >
-          <div className="mb-1">
-            <Image className='w-[300px] h-[60px] max-lg:hidden' src={luxehome} alt="luxehome" />
-          </div>
-        </TransitionLink>
-        <div className="relative w-[800px]">
-          <input
-            className="w-full  h-12 px-4 py-2 rounded-full max-lg:hidden border border-gray-300"
-            type="text"
-            placeholder='Search for products'
-          />
-          <button className=" absolute h-full py-2 px-4 right-0 top-1/2 -translate-y-1/2 rounded-r-full text-white bg-orange-400 hover:bg-orange-600 ">                                        
-            <CiSearch  className='w-8 h-8 ' />
-          </button>
-        </div>
-        <div className='max-lg:hidden '>
-          <div className='flex  gap-14  items-center'>
-            <div className='flex items-center gap-4'>                        
-              <Link href="/signin">
-                <button className="flex items-center space-x-2 text-white bg-orange-400   font-bold rounded-full px-8  py-2">              
-                  <span>Login</span>
-                </button>
-              </Link>
-              <TransitionLink href="/signin">
-                <button className="flex items-center space-x-2 text-orange-400 bg-white   font-bold rounded-full  px-8  py-2">              
-                  <span>Register</span>
-                </button>
-              </TransitionLink>
+    <div className='w-full max-lg:fixed max-lg:z-50 max-lg:bg-white max-lg:py-2 py-6 bg-[#15335E] justify-center flex'>
+        <div className='flex w-[85%] max-lg:hidden justify-center  gap-14  items-center  max-lg:bg-white '>
+          <TransitionLink href="/" >
+            <div className="mb-1">
+              <Image className='xl:w-[300px] xl:h-[60px]  max-lg:hidden' src={luxehome} alt="luxehome" />
             </div>
-            <div className='flex items-center gap-4 text-white'>                          
-              <FiHeart size={25} />
-              <div className="relative">
-                <SlBag size={25} />
-                <span className=" w-4 flex justify-center h-4 items-center text-xs rounded-full absolute -top-1 -right-1 text-white bg-orange-400">
-                  <p>0</p>
-                </span>
-              </div>
-              <span className='text-xl'>$0.00</span>
-            </div>
+          </TransitionLink>
+          <div className="relative w-[800px]">
+            <input
+              className="w-full  h-12 px-4 py-2 rounded-full max-lg:hidden border border-gray-300"
+              type="text"
+              placeholder='Search for products'
+            />
+            <button className=" absolute h-full py-2 px-4 right-0 top-1/2 -translate-y-1/2 rounded-r-full text-white bg-orange-400 hover:bg-orange-600 ">                                        
+              <CiSearch  className='w-8 h-8 ' />
+            </button>
+          </div>                  
+          <div className='flex items-center gap-2'>                        
+            <Link href="/signin">
+              <button className="flex items-center space-x-2 text-white bg-orange-400   font-bold rounded-full px-8  py-2">              
+                <span>Login</span>
+              </button>
+            </Link>
+            <TransitionLink href="/signin">
+              <button className="flex items-center space-x-2 text-orange-400 bg-white   font-bold rounded-full  px-8  py-2">              
+                <span>Register</span>
+              </button>
+            </TransitionLink>
           </div>
-        </div>                
-      </div >
+          <div className='flex items-center gap-4 text-white'>                          
+            <FiHeart size={25} />
+            <div className="relative">
+              <SlBag size={25} />
+              <span className=" w-4 flex justify-center h-4 items-center text-xs rounded-full absolute -top-1 -right-1 text-white bg-orange-400">
+                <p>0</p>
+              </span>
+            </div>
+            <span className='text-xl'>$0.00</span>
+          </div>                                
+      </div>
       <div className=' lg:hidden flex w-[85%] justify-between max-lg:justify-between  items-center  max-lg:bg-white '>
           <div onClick={handleNav} className=' cursor-pointer'>
             <AiOutlineMenu size={25} />
