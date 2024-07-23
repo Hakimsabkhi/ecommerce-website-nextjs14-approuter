@@ -94,7 +94,7 @@ export default function Bb() {
                         </ul>                    
                     </div>
                     <div className='flex flex-col gap-4  items-center'>
-                        <p className='max-md:text-2xl max-md:text-xl'>Abonnez-vous a notre newsletter!</p>
+                        <p className='max-md:text-2xl max-sm:text-xl'>Abonnez-vous a notre newsletter!</p>
                         <div className="relative w-full">
                             <input
                                 className="w-full h-12 px-4 py-2 max-md:h-16 rounded-full border text-black border-gray-300 pr-16"
@@ -117,8 +117,8 @@ export default function Bb() {
                     </div>
                 </div>
             </div>
-            <div className="bg-white flex items-center justify-center w-full py-3 max-md:pb-20">
-                <div className="w-[60%] flex items-center justify-between text-cyan-500 font-bold max-md:w-[95%] max-md:text-[10px]">
+            <div className="bg-white flex items-center justify-center w-full py-3 max-lg:pb-20">
+                <div className="w-[60%] flex items-center justify-between text-cyan-500 font-bold max-lg:w-[95%] max-md:text-[10px]">
                     <p>© Nproject - All rights reserved</p>
                     <div className=" flex items-center gap-8 max-md:gap-1">
                         <p>Terms and conditions</p>

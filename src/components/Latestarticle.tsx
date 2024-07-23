@@ -25,9 +25,9 @@ const Latestarticle = () => {
                     </Link>
                 </TransitionLink>
             </div>
-            <div className='grid grid-cols-4 group max-xl:grid-cols-2 max-md:grid-cols-1 max-xl:gap-8  gap-16   '>
-                {itemsarticle.map((item, index) => (<div className='flex cursor-pointer duration-500 lg:group-hover:scale-[0.95] lg:hover:!scale-100 flex-col justify-center items-center w-[322px]  '>
-                    <div key={index} className="relative justify-center w-[322px] flex ">
+            <div className='grid grid-cols-4 group max-xl:grid-cols-2 max-md:grid-cols-1 max-2xl:gap-4  gap-16   '>
+                {itemsarticle.map((item, index) => (<div className='flex cursor-pointer duration-500 lg:group-hover:scale-[0.95] lg:hover:!scale-100 flex-col justify-center items-center w-[322px] max-2xl:w-[300px]  '>
+                    <div key={index} className="relative justify-center w-[322px] max-2xl:w-[300px] flex ">
                         <div className="absolute flex items-center justify-between w-[95%] bottom-1">
                             <div className='flex gap-2 items-center'>
                                 <Image className='w-5 h-5' src={mackay} alt="person" />
@@ -38,9 +38,9 @@ const Latestarticle = () => {
                                 <Image src={comment} alt="comment" />
                             </div>
                         </div>
-                        <Image className='rounded-t-lg w-[322px] ' src={item.src} alt="steak" />
+                        <Image className='rounded-t-lg w-[322px] max-2xl:w-[300px] ' src={item.src} alt="steak" />
                     </div>
-                    <div className='flex flex-col rounded-b-lg gap-2  bg-white w-[322px]  h-[214px] pl-2  '>
+                    <div className='flex flex-col rounded-b-lg gap-2  bg-white w-[322px] max-2xl:w-[300px]  h-[214px] pl-2  '>
                         <p className="text-gray-400">{item.date}</p>
                         <div className="flex flex-col gap-10">
                             <div className="flex flex-col gap-2">

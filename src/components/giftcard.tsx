@@ -8,7 +8,7 @@ const Giftcard = () => {
         <div className='py-8 desktop  max-lg:w-[95%] gap-16 justify-center items-center flex flex-col     '>
             <div className='flex gap-6  w-full justify-between max-lg:flex-col'>
                 {cards.map((card,index) => (
-                    <div className='gap-8 flex flex-col'>
+                    <div className='gap-8 flex flex-col items-center'>
                         <div className='relative w-fit '>
                             <div className='absolute flex-col items-center flex top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white '>
                                 <p className='text-xl max-lg:text-sm opacity-50'>LUXEHOME</p>

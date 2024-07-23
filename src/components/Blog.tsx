@@ -6,7 +6,7 @@ import { itemsblog } from "../../public/data";
 
 const Blog: React.FC = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const itemsPerPage = 4; // Adjust the number of items per page as needed
+    const itemsPerPage = 8; // Adjust the number of items per page as needed
 
     // Calculate the total number of pages
     const totalPages = Math.ceil(itemsblog.length / itemsPerPage);
@@ -21,10 +21,10 @@ const Blog: React.FC = () => {
 
     return (
         <div className='py-8 w-full items-center flex flex-col gap-5 justify-center'>
-            <div className='grid grid-cols-4 gap-8 group max-md:grid-cols-1 max-lg:grid-cols-2 max-xl:grid-cols-3'>
+            <div className='grid grid-cols-4 gap-8 max-2xl:gap-4  group max-md:grid-cols-1 max-lg:grid-cols-2 max-xl:grid-cols-3'>
                 {currentItems.map((item, index) => (
-                    <div key={index} className='flex flex-col cursor-pointer duration-500 lg:group-hover:scale-[0.95] lg:hover:!scale-100 justify-center items-center w-[322px]'>
-                        <div className="relative justify-center w-[322px] flex">
+                    <div key={index} className='flex flex-col cursor-pointer duration-500 lg:group-hover:scale-[0.95] lg:hover:!scale-100 justify-center items-center w-[322px] max-2xl:w-[300px]'>
+                        <div className="relative justify-center w-[322px] max-2xl:w-[300px] flex">
                             <div className="absolute flex items-center justify-between w-[95%] bottom-1">
                                 <div className='flex gap-2 items-center'>
                                     <Image className='w-5 h-5' src={mackay} alt="person" />
@@ -35,9 +35,9 @@ const Blog: React.FC = () => {
                                     <Image src={comment} alt="comment" />
                                 </div>
                             </div>
-                            <Image className='rounded-t-lg w-[322px]' src={item.src} alt="steak" />
+                            <Image className='rounded-t-lg w-[322px] max-2xl:w-[300px]' src={item.src} alt="steak" />
                         </div>
-                        <div className='flex flex-col rounded-b-lg gap-2 bg-white w-[322px] h-[214px] pl-2'>
+                        <div className='flex flex-col rounded-b-lg gap-2 bg-white w-[322px] max-2xl:w-[300px] h-[214px] pl-2'>
                             <p className="text-gray-400">{item.date}</p>
                             <div className="flex flex-col gap-10">
                                 <div className="flex flex-col gap-2">
