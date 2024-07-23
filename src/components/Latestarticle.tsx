@@ -41,8 +41,8 @@ const Latestarticle = () => {
                                 </div>
                                 <button className="bg-orange-400 rounded-lg w-full h-14 items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  ">
                                     <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform  ease text-xl  ">continue reading</p>
-                                    <p className="  text-white absolute flex items-center justify-center w-full h-full duration-500 translate-x-[35%] translate-y-[3%] opacity-0 lg:group-hover/box:opacity-100 ease  ">                                        
-                                        <FaReadme    className="w-5  h-5" aria-hidden="true" fill="currentColor"/>                                                                                                                    
+                                    <p className="  text-white absolute flex items-center justify-center w-full h-full duration-500 translate-x-[-35%] translate-y-[3%] opacity-0 lg:group-hover/box:opacity-100 ease  ">                                        
+                                        <FaReadme    className="w-8  h-8" aria-hidden="true" fill="currentColor"/>                                                                                                                    
                                     </p>
                                 </button> 
                             </div>
