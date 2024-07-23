@@ -5,7 +5,7 @@ import {itemsarticle} from "../../public/data"
 import Link from 'next/link';
 import { TransitionLink } from './utils/TransitionLink';
 import { FaArrowRight } from "react-icons/fa6";
-
+import { FaReadme } from "react-icons/fa6";
 const Latestarticle = () => {
     return (
         <div className='py-8 h-fit w-[96%] mx-auto flex flex-col justify-center items-center gap-10 '>
@@ -39,9 +39,12 @@ const Latestarticle = () => {
                                     <p className="text-gray-700 text-2xl max-sm:text-xl font-bold">{item.title}</p>
                                     <p className="text-gray-400">{item.text} </p>
                                 </div>
-                                <div className="w-ful h-14 items-center bg-orange-400 flex justify-center rounded-lg">
-                                    <p className="text-white text-xl">Continue reading</p>
-                                </div>
+                                <button className="bg-orange-400 rounded-lg w-full h-14 items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  ">
+                                    <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform  ease text-xl  ">continue reading</p>
+                                    <p className="  text-white absolute flex items-center justify-center w-full h-full duration-500 translate-x-[35%] translate-y-[3%] opacity-0 lg:group-hover/box:opacity-100 ease  ">                                        
+                                        <FaReadme    className="w-5  h-5" aria-hidden="true" fill="currentColor"/>                                                                                                                    
+                                    </p>
+                                </button> 
                             </div>
                         </div>
                     </div>
