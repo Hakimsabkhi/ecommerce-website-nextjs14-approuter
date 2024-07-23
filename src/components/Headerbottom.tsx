@@ -10,9 +10,9 @@ const Headerbottom: React.FC = () => {
     return (
         <header>
             <nav className='w-full py-4 flex justify-center bg-white max-lg:hidden'>
-                <div className="flex flex-wrap justify-center lg:justify-between w-[85%] font-bold  items-center text-xl">                    
+                <div className="flex   justify-between w-[85%] max-xl:w-[95%] font-bold items-center text-xl max-2xl:text-sm">                    
                         <TransitionLink href="/chairs" > 
-                            <div  className="flex items-center gap-3  duration-300 hover:text-orange-400">
+                            <div  className="flex items-center gap-3   duration-300 hover:text-orange-400">
                                 <Image className='w-10 h-10' src={chair} alt="chair" />
                                 <span>Chairs</span>
                             </div> 
