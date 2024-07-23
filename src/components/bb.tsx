@@ -34,7 +34,7 @@ export default function Bb() {
                             <p className='flex gap-2 items-center'><CiMail className='fill-cyan-400 ' size={25}/> support@Nproject.com</p>                                           
                         </div>
                     </div>
-                    <div className=" flex w-1/3 max-md:w-full justify-between items-center  ">
+                    <div className=" flex w-1/3 max-md:w-full justify-between max-md:justify-center items-center max-md:gap-20  ">
                         <ul className='flex-col flex gap-4'>
                             <p className="text-white  text-xl max-md:text-2xl  ">Quick links</p>
                             <div className='flex-col gap-2 text-xs max-md:text-base flex'>
@@ -70,7 +70,7 @@ export default function Bb() {
                                 </TransitionLink>                                
                             </div>
                         </ul>
-                        <ul className='flex flex-col mb-6 gap-4'>
+                        <ul className='flex flex-col mb-6 max-md:mb-9 gap-4'>
                             <p className="text-white  text-xl max-md:text-2xl ">Découverte</p>
                             <div className='flex max-sm:flex max-sm:gap-8 justify-between'>
                                 <div className='flex flex-col text-xs max-md:text-base gap-2'>
@@ -104,8 +104,8 @@ export default function Bb() {
                             <div className=" absolute right-2 top-1/2 group overflow-hidden  -translate-y-1/2">
                                 <button className="relative  py-2 w-[40px] h-[40px] max-md:w-[50px] max-md:h-[50px]      px-2   rounded-full text-white bg-orange-500 hover:bg-orange-600 ">                                        
                                 </button>
-                                <FaArrowRight className="absolute top-1/2 right-1/2 -translate-y-1/2 translate-x-1/2 duration-500 group-hover:translate-x-[250%]" />
-                                <FaArrowRight className="absolute  top-1/2 right-[150%] -translate-y-1/2 translate-x-1/2 duration-500 group-hover:translate-x-[300%]" />
+                                <FaArrowRight className="absolute top-1/2 right-1/2 -translate-y-1/2 translate-x-1/2 duration-500 lg:group-hover:translate-x-[250%]" />
+                                <FaArrowRight className="absolute  top-1/2 right-[150%] -translate-y-1/2 translate-x-1/2 duration-500 lg:group-hover:translate-x-[300%]" />
                             </div>
                         </div>
                         <p className="max-md:text-xl">Suivez-nous sur</p>

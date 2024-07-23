@@ -470,7 +470,7 @@ const Filter: React.FC = () => {
                     {currentItems.map((item, index) => (
                     <div
                         key={index}
-                        className="bg-white rounded-lg duration-500  lg:group-hover:scale-[0.85]lg:hover:!scale-100 h-[481px]   max-md:h-[320px]  relative">
+                        className="bg-white rounded-lg duration-500  lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[481px]   max-md:h-[320px]  relative">
                         <Image
                             
                             className=" z-10 absolute cursor-pointer right-2 top-2 w-6"

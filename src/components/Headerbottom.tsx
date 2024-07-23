@@ -13,46 +13,46 @@ const Headerbottom: React.FC = () => {
                 <div className="flex   justify-between w-[85%] max-xl:w-[95%] font-bold items-center text-xl max-2xl:text-sm">                    
                         <TransitionLink href="/chairs" > 
                             <div  className="flex items-center gap-3   duration-300 hover:text-orange-400">
-                                <Image className='w-10 h-10' src={chair} alt="chair" />
+                                <Image className='w-10 h-10 max-xl:w-7 max-xl:h-7' src={chair} alt="chair" />
                                 <span>Chairs</span>
                             </div> 
                         </TransitionLink>
                         <TransitionLink href="/chairs" > 
                             <div  className="flex items-center gap-3 duration-300 hover:text-orange-400">
-                                <Image className='w-10 h-10' src={table} alt="table" />
+                                <Image className='w-10 h-10 max-xl:w-7 max-xl:h-7' src={table} alt="table" />
                                 <span>Tables</span>
                             </div> 
                         </TransitionLink>
                         <Link href="#" className="flex items-center gap-3 duration-300 hover:text-orange-400">
-                            <Image className='w-10 h-10' src={sofa} alt="sofa" />
+                            <Image className='w-10 h-10 max-xl:w-7 max-xl:h-7' src={sofa} alt="sofa" />
                             <span>Sofas</span>
                         </Link>
                         <Link href="#" className="flex items-center gap-3 duration-300 hover:text-orange-400">
-                            <Image className='w-10 h-10' src={armchair} alt="armchair" />
+                            <Image className='w-10 h-10 max-xl:w-7 max-xl:h-7' src={armchair} alt="armchair" />
                             <span>Armchairs</span>
                         </Link>
                         <Link href="#" className="flex items-center gap-3 duration-300 hover:text-orange-400">
-                            <Image className='w-10 h-10' src={bed} alt="bed" />
+                            <Image className='w-10 h-10 max-xl:w-7 max-xl:h-7' src={bed} alt="bed" />
                             <span>Beds</span>
                         </Link>
                         <Link href="#" className="flex items-center gap-3 duration-300 hover:text-orange-400">
-                            <Image className='w-10 h-10' src={storage} alt="storage" />
+                            <Image className='w-10 h-10 max-xl:w-7 max-xl:h-7' src={storage} alt="storage" />
                             <span>Storage</span>
                         </Link>
                         <Link href="#" className="flex items-center gap-3 duration-300 hover:text-orange-400">
-                            <Image className='w-10 h-10' src={textile} alt="textile" />
+                            <Image className='w-10 h-10 max-xl:w-7 max-xl:h-7' src={textile} alt="textile" />
                             <span>Textiles</span>
                         </Link>
                         <Link href="#" className="flex items-center gap-3 duration-300 hover:text-orange-400">
-                            <Image className='w-10 h-10' src={lighting} alt="lighting" />
+                            <Image className='w-10 h-10 max-xl:w-7 max-xl:h-7' src={lighting} alt="lighting" />
                             <span>Lighting</span>
                         </Link>
                         <Link href="#" className="flex items-center gap-3 duration-300 hover:text-orange-400">
-                            <Image className='w-10 h-10' src={toy} alt="toy" />
+                            <Image className='w-10 h-10 max-xl:w-7 max-xl:h-7' src={toy} alt="toy" />
                             <span>Toys</span>
                         </Link>
                         <Link href="#" className="flex items-center gap-3 duration-300 hover:text-orange-400">
-                            <Image className='w-10 h-10' src={decor} alt="decor" />
+                            <Image className='w-10 h-10 max-xl:w-7 max-xl:h-7' src={decor} alt="decor" />
                             <span>Decor</span>
                         </Link>                                        
                 </div>
