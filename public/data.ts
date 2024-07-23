@@ -37,14 +37,17 @@ const itemsblog =[
     {src: livingroom5, date:"Furniture / 28 Mar 2023", titlexl: "Expands furniture resources", text: "So how did the classical latin become so incohere,t? According to McClintock, a 15th century typeset.." }
 ];
 const itemsFurniture = [
-    { src: mags, name: "Mags", type: "Sofas", price: "3,620.00 TND",rating:"4,5"  },
-    { src: skygarden, name: "Skygarden", type: "Lighting", price: "780.00 TND",rating:"4,5" },
-    { src: frames, name: "Frames Upholstered", type: "Chairs", price: "399.00 TND",rating:"4,5" },
+    { src: chair2, name: "curve", type: "chairs", price: "320.00 TND",oldPrice: "1,519.00 TND", rating: 4.5 },
+    { src: sofa2, name: "Can", type: "Sofas", price: "2,100.00 TND", rating: 4.5 },
+    { src: chair3, name: "Belt", type: "Armchairs", price: "680.00 TND", rating: 4.5 },
+    { src: table1, name: "Giro LR", type: "Tables", price: "449.00 TND", rating: 4.5 },
+    { src: chair4, name: "Soft Edge", type: "Chairs", price: "440.00 TND", rating: 4.5 },
+    { src: sofa3, name: "Palissade", type: "Sofas", price: "1,890.00 TND", rating: 4.5 },
 ];    
 const itemsarticle = [
     { src: steak1, date: "Decoration / 26 May 2023", title: "In the heart of Valencia", text: "As an alternative theory, (and because latin scholars do this sort of thing) someone tracked down a ..." },
     { src: bathroom, date: "Furniture / 09 May 2023", title: "Ethimo mountain style", text: "So how did the classical latin become so incohere,t? According to McClintock, a 15th century typeset.." },
-    { src: office, date: "Wooden accessories / 30 Apr 2023", title: "For clear thinking", text: "The passage experienced a surge in popularity during the 1960s when Letraset used it on their dry-tr..." },
+    { src: resto, date: "Wooden accessories / 30 Apr 2023", title: "For clear thinking", text: "The passage experienced a surge in popularity during the 1960s when Letraset used it on their dry-tr..." },
     { src: resto, date: "Furniture / 28 Mar 2023", title: "Flowing serpentines ", text: "As an alternative theory, (and because latin scholars do this sort of thing) someone tracked down a ..." },
 
 ];

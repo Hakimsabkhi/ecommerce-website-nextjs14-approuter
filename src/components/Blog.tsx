@@ -20,8 +20,8 @@ const Blog: React.FC = () => {
     };
 
     return (
-        <div className='py-8 w-full items-center flex flex-col gap-5 justify-center'>
-            <div className='grid grid-cols-4 gap-8 max-2xl:gap-4  group max-md:grid-cols-1 max-lg:grid-cols-2 max-xl:grid-cols-3'>
+        <div className='py-8 w-[96%] mx-auto items-center flex flex-col gap-5 justify-center'>
+            {/* <div className='grid grid-cols-4 gap-8 max-2xl:gap-4  group max-md:grid-cols-1 max-lg:grid-cols-2 max-xl:grid-cols-3'>
                 {currentItems.map((item, index) => (
                     <div key={index} className='flex flex-col cursor-pointer duration-500 lg:group-hover:scale-[0.95] lg:hover:!scale-100 justify-center items-center w-[322px] max-2xl:w-[300px]'>
                         <div className="relative justify-center w-[322px] max-2xl:w-[300px] flex">
@@ -50,6 +50,29 @@ const Blog: React.FC = () => {
                         </div>
                     </div>
                 ))}
+            </div> */}
+            <div className='grid grid-cols-4 max-xl:grid-cols-2 max-md:grid-cols-1 w-full group gap-10     '>
+                {currentItems.map((item, index) => (
+                <div className='flex cursor-pointer duration-500 lg:group-hover:scale-[0.95] lg:hover:!scale-100 flex-col items-center relative'>
+                    <div key={index} className=" w-full   ">                        
+                        <Image className=' w-full' src={item.src} alt="steak" />
+                    </div>
+                    <div className='flex flex-col  gap-2 items-center    bg-white w-full h-[235px]'>
+                        <div className="w-[302px]  max-sm:w-[90%] pt-2">
+                            <p className="text-gray-400    ">{item.date}</p>
+                            <div className="flex flex-col  gap-5 max-md:gap-2 ">
+                                <div className="flex flex-col  gap-2">
+                                    <p className="text-gray-700 text-xl font-bold">{item.titlexl}</p>
+                                    <p className="text-gray-700 text-2xl max-sm:text-xl font-bold">{item.title}</p>
+                                    <p className="text-gray-400">{item.text} </p>
+                                </div>
+                                <div className="w-ful h-14 items-center bg-orange-400 flex justify-center rounded-lg">
+                                    <p className="text-white text-xl">Continue reading</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>))}
             </div>
             <div className='flex justify-center items-center gap-x-4'>
                 {currentPage > 1 && (
