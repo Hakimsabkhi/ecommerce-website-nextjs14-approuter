@@ -123,4 +123,3 @@ const members = [
 ]
 const noHeaderFooterUrls = ['/signin'];
 export { items, itemsblog, collection, itemsarticle, noHeaderFooterUrls, products, brands, categories, productCollection, cards, itemsFurniture, members };export type { Product };
- 
