@@ -8,7 +8,7 @@ const Giftcard = () => {
         <div className='py-8 desktop  max-lg:w-[95%] gap-16 justify-center items-center flex flex-col     '>
             <div className='flex gap-6  w-full justify-between max-lg:flex-col'>
                 {cards.map((card,index) => (
-                    <div className='gap-8 flex flex-col'>
+                    <div className='gap-8 flex flex-col items-center'>
                         <div className='relative w-fit '>
                             <div className='absolute flex-col items-center flex top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white '>
                                 <p className='text-xl max-lg:text-sm opacity-50'>LUXEHOME</p>
@@ -20,8 +20,8 @@ const Giftcard = () => {
                             <p className='text-gray-400 max-lg:text-center'>{card.text1}</p>
                             <p className='text-xl max-lg:text-center'>{card.text2}</p>                            
                             <button className="bg-orange-500 rounded-full   w-28 h-10  items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  ">
-                                <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform group-hover/box:translate-y-[-100%] ease  ">Buy now</p>
-                                <CiShoppingCart  size={25} className="  text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-y-[-100%] group-hover/box:translate-y-0 ease  " aria-hidden="true" fill="currentColor"/>                                                                                                                    
+                                <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-y-[-100%] ease  ">Buy now</p>
+                                <CiShoppingCart  size={25} className="  text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-y-[-100%] lg:group-hover/box:translate-y-0 ease  " aria-hidden="true" fill="currentColor"/>                                                                                                                    
                             </button>
                         </div>
                     </div>

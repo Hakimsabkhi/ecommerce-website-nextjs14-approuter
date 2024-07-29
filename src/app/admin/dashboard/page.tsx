@@ -19,7 +19,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     if (status === 'loading') return; // Do nothing while loading
     if (!session || !session.user || session.user.role !== 'Admin') {
-      router.push('/auth/signin');
+      router.push('/signin');
     } else {
       fetchUsers();
     }
