@@ -11,11 +11,17 @@ import { SlBag } from "react-icons/sl";
 import { FaCartShopping } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa6";
+import Dropdown from '../components/Dropdown';
 
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('categories');
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const toggleLogin = () => {
+    setIsAdmin(!isAdmin);
+  };
   
 
   const handleNav = () => {
@@ -28,7 +34,7 @@ const Header: React.FC = () => {
 
   return (
     <div className='w-full max-lg:fixed max-lg:z-50 max-lg:bg-white max-lg:py-2 py-6 bg-[#15335E] justify-center flex'>
-        <div className='flex w-[85%] max-xl:w-[95%] max-lg:hidden justify-center  gap-14  items-center  max-lg:bg-white '>
+        <div className='flex w-[90%] max-xl:w-[95%] max-lg:hidden justify-between  gap-14  items-center  max-lg:bg-white '>
           <TransitionLink href="/" >
             <div className="mb-1">
               <Image className='xl:w-[300px] xl:h-[60px] max-xl:w-[800px] max-xl:h-[60px]  max-lg:hidden' src={luxehome} alt="luxehome" />
@@ -44,18 +50,20 @@ const Header: React.FC = () => {
               <CiSearch  className='w-8 h-8 ' />
             </button>
           </div>                  
-          <div className='flex items-center gap-2'>                        
-            <Link href="/signin">
-              <button className="flex items-center space-x-2 text-white bg-orange-400   font-bold rounded-full px-8  py-2">              
+          {!isAdmin &&<div className='flex items-center gap-2'>                        
+            <Link href="/auth/signin">
+              <button className="flex items-center space-x-2 text-white bg-orange-400   font-bold rounded-md px-8  py-2"
+                      onClick={toggleLogin}
+              >              
                 <span>Login</span>
               </button>
             </Link>
-            <TransitionLink href="/signin">
-              <button className="flex items-center space-x-2 text-orange-400 bg-white   font-bold rounded-full  px-8  py-2">              
+            <Link href="/auth/signup">
+              <button className="flex items-center space-x-2 text-orange-400 bg-white   font-bold rounded-md  px-8  py-2">              
                 <span>Register</span>
               </button>
-            </TransitionLink>
-          </div>
+            </Link>                        
+          </div>}
           <div className='flex items-center gap-4 text-white'>                          
             <FiHeart size={25} />
             <div className="relative">
@@ -65,7 +73,10 @@ const Header: React.FC = () => {
               </span>
             </div>
             <span className='text-xl'>$0.00</span>
-          </div>                                
+          </div>
+          {isAdmin && 
+            <Dropdown username="Hakim Sabkhi" role="Admin" />            
+          }                                
       </div>
       <div className=' lg:hidden flex w-[85%] justify-between max-lg:justify-between  items-center  max-lg:bg-white '>
           <div onClick={handleNav} className=' cursor-pointer'>

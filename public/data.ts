@@ -1,3 +1,4 @@
+import { StaticImageData } from "next/image";
 import {tableamanger,cuisine,salon,chambreparent,chambreenfant, chair2,marvin,dianne,kristin,facebook,X,instagram,linkedin, chair3,giftcard1,giftcard2, star, heart, chair4, chair5, table2, table3, table1, sofa2, sofa3, sofa4, steak1, bathroom, office, resto, resto1, office1, livingroom5, livingroom4, HAYpic, kettalpic, HAYlogo, kettallogo, elitislogo, lladrologo, poliformpic, elitispic, lladropic, poliformlogo, armchairpic, bedpic, chairpic, decorpic, lightingpic, sofapic, storagepic, tablepic, textilepic, toyspic, bedroom1, bedroom2, coffe, food1, food2, kitchen, livingroom1, livingroom2, mags, skygarden,frames, chair10, chair11, chair12, chair13, chair14, chair15, chair16, chair6, chair7, chair8, chair9, chair17,  } from "../public/image";
 
 const items = [
@@ -12,19 +13,49 @@ const items = [
     { src: sofa4, name: "Navana", type: "Sofas", price: "1,669.00 TND", oldPrice: "1,850.00 TND" , rating: 4.5},
     { src: table3, name: "Aruda", type: "Tables", price: "699.00 TND", rating: 4.5 }
 ];
-const itemsFilter = [
-    { src: chair6, name: "Revolt", type: "chairs", price: "275.00 TND", rating: 5 },
-    { src: chair7, name: "Avana", type: "Chairs", price: "458.00 TND", oldPrice: "538.00 TND", rating: 5 },
-    { src: chair8, name: "Sophie", type: "chairs", price: "520.00 TND", rating: 5 },
-    { src: chair9, name: "Curve", type: "chairs", price: "320.00 TND", rating: 4.5 },
-    { src: chair10, name: "Curve", type: "Chairs", price: "320.00 TND" , rating: 5},
-    { src: chair11, name: "16 side", type: "chairs", price: "295.00 TND", rating: 5 },
-    { src: chair12, name: "12 side", type: "chairs", price: "339.00 TND", oldPrice: "375.00 TND", rating: 5 },
-    { src: chair13, name: "Soft Edge", type: "chairs", price: "440.00 TND" , rating: 5},
-    { src: chair14, name: "Result", type: "chairs", price: "279.00 TND", oldPrice: "310.00 TND", rating: 5 },
-    { src: chair15, name: "Frames Upholstered", type: "chairs", price: "399.00 TND", rating: 5 },
-    { src: chair16, name: "Hal Wood", type: "chairs", price: "625.00 TND", rating: 5 },
-    { src: chair17, name: "Fauteuil Direction", type: "chairs", price: "372.00 TND", rating: 5 }
+interface ProductType {
+    id: string;
+    src: StaticImageData;
+    name: string;
+    type: string;
+}
+
+const products = [
+    {id:"1", src: chair6, name: "Revolt", type: "chairs", price: "275.00 TND", rating: 5, color: "Bone", brand: "Hay", material: "Ratan", status: "On sale" },
+    {id:"2", src: chair6, name: "Revolt", type: "chairs", price: "275.00 TND", rating: 5, color: "white", brand: "Hay", material: "Wood", status: "In stock" },
+    {id:"3",src: chair6, name: "Revolt", type: "chairs", price: "275.00 TND", rating: 5, color: "Jet", brand: "Hay", material: "Plastic", status: "On backorder" },
+    {id:"4", src: chair7, name: "Avana", type: "Chairs", price: "458.00 TND", oldPrice: "538.00 TND", rating: 5, color: "Bone", brand: "Poliform", material: "Metal", status: "On sale"},
+    /* { src: chair7, name: "Avana", type: "Chairs", price: "458.00 TND", oldPrice: "538.00 TND", rating: 5, color: "Gray", brand: "Poliform", material: "Leather", status: "On backorder" },
+    { src: chair7, name: "Avana", type: "Chairs", price: "458.00 TND", oldPrice: "538.00 TND", rating: 5, color: "DarkGray", brand: "Hay", material: "Fabric", status: "In stock" },
+    { src: chair8, name: "Sophie", type: "chairs", price: "520.00 TND", rating: 5, color: "Dark Gray", brand: "Hay", material: "Wood", status: "On sale"},
+    { src: chair8, name: "Sophie", type: "chairs", price: "520.00 TND", rating: 5, color: "Dark Gray", brand: "Hay", material: "Wood", status: "In stock"},
+    { src: chair8, name: "Sophie", type: "chairs", price: "520.00 TND", rating: 5, color: "Dark Gray", brand: "Poliform", material: "Wood", status: "On backorder"},
+    { src: chair9, name: "Curve", type: "chairs", price: "320.00 TND", rating: 4.5, color: "Gray", brand: "Hay", material: "Plastic", status: "On sale"},
+    { src: chair9, name: "Curve", type: "chairs", price: "320.00 TND", rating: 4.5, color: "Gray", brand: "Poliform", material: "Metal", status: "On backorder"},
+    { src: chair9, name: "Curve", type: "chairs", price: "320.00 TND", rating: 4.5, color: "Gray", brand: "Hay", material: "Fabric", status: "In stock"},
+    { src: chair10, name: "Curve", type: "Chairs", price: "320.00 TND" , rating: 5, color: "green", brand: "Hay", material: "Leather", status: "On sale"},
+    { src: chair10, name: "Curve", type: "Chairs", price: "320.00 TND" , rating: 5, color: "green", brand: "Hay", material: "Wood", status: "In stock"},
+    { src: chair10, name: "Curve", type: "Chairs", price: "320.00 TND" , rating: 5, color: "green", brand: "Hay", material: "Rattan", status: "On backorder"},
+    { src: chair11, name: "16 side", type: "chairs", price: "295.00 TND", rating: 5, color: "Bone", brand: "Poliform", material: "Wood", status: "On sale"},
+    { src: chair11, name: "16 side", type: "chairs", price: "295.00 TND", rating: 5, color: "Bone", brand: "Hay", material: "Fabric", status: "On backorder"},
+    { src: chair11, name: "16 side", type: "chairs", price: "295.00 TND", rating: 5, color: "Bone", brand: "Poliform", material: "Metal", status: "In stock"},
+    { src: chair12, name: "12 side", type: "chairs", price: "339.00 TND", oldPrice: "375.00 TND", rating: 5, color: "Jet", brand: "vitra", material: "Wood", status: "On sale"},
+    { src: chair12, name: "12 side", type: "chairs", price: "339.00 TND", oldPrice: "375.00 TND", rating: 5, color: "Jet", brand: "vitra", material: "Fabric", status: "In stock"},
+    { src: chair12, name: "12 side", type: "chairs", price: "339.00 TND", oldPrice: "375.00 TND", rating: 5, color: "Jet", brand: "vitra", material: "Wood", status: "On backorder"},
+    { src: chair13, name: "Soft Edge", type: "chairs", price: "440.00 TND" , rating: 5, color: "Jet", brand: "Poliform", material: "Leather", status: "On sale"},
+    { src: chair13, name: "Soft Edge", type: "chairs", price: "440.00 TND" , rating: 5, color: "Gray", brand: "Poliform", material: "Plastic", status: "On backorder"},
+    { src: chair13, name: "Soft Edge", type: "chairs", price: "440.00 TND" , rating: 5, color: "Dark Gray", brand: "Poliform", material: "Metal", status: "In stock"},
+    { src: chair14, name: "Result", type: "chairs", price: "279.00 TND", oldPrice: "310.00 TND", rating: 5, color: "Dark Gray", brand: "vitra", material: "Rattan", status: "On sale"},
+    { src: chair14, name: "Result", type: "chairs", price: "279.00 TND", oldPrice: "310.00 TND", rating: 5, color: "White", brand: "vitra", material: "Metal", status: "In stock"},
+    { src: chair14, name: "Result", type: "chairs", price: "279.00 TND", oldPrice: "310.00 TND", rating: 5, color: "White", brand: "vitra", material: "Wood", status: "On backorder"},
+    { src: chair15, name: "Frames Upholstered", type: "chairs", price: "399.00 TND", rating: 5, color: "Gray", brand: "vitra", material: "Fabric", status: "On sale"},
+    { src: chair15, name: "Frames Upholstered", type: "chairs", price: "399.00 TND", rating: 5, color: "Gray", brand: "vitra", material: "Leather", status: "On backorder"},
+    { src: chair15, name: "Frames Upholstered", type: "chairs", price: "399.00 TND", rating: 5, color: "Gray", brand: "vitra", material: "Rattan", status: "In stock"},
+    { src: chair16, name: "Hal Wood", type: "chairs", price: "625.00 TND", rating: 5, color: "Bone", brand: "Poliform" , material: "Plastic", status: "On sale"},
+    { src: chair16, name: "Hal Wood", type: "chairs", price: "625.00 TND", rating: 5, color: "Bone", brand: "vitra", material: "Wood", status: "In stock"},
+    { src: chair16, name: "Hal Wood", type: "chairs", price: "625.00 TND", rating: 5, color: "Bone", brand: "vitra", material: "Wood", status: "On backorder"},
+    { src: chair17, name: "Fauteuil Direction", type: "chairs", price: "372.00 TND", rating: 5, color: "Jet", brand: "vitra", material: "Wood", status: "On sale"},
+    { src: chair17, name: "Fauteuil Direction", type: "chairs", price: "372.00 TND", rating: 5, color: "Jet", brand: "vitra", material: "Wood", status: "On backorder"} */
 ];
 const itemsblog =[
     {src: steak1, date:"Decoration / 26 May 2023", title: "In the heart of Valencia", text: "As an alternative theory, (and because latin scholars do this sort of thing) someone tracked down a ..." },
@@ -93,4 +124,5 @@ const members = [
     {src:kristin, name:"Kristin Watsony", title:"CEO,co-founde", facebook:facebook, X:X,linkedin:linkedin, },
 ]
 const noHeaderFooterUrls = ['/signin'];
- export {items,itemsblog,collection,itemsarticle,noHeaderFooterUrls,itemsFilter,brands,categories,productCollection,cards,itemsFurniture,members} 
+export { items, itemsblog, collection, itemsarticle, noHeaderFooterUrls, products, brands, categories, productCollection, cards, itemsFurniture, members };export type { ProductType };
+ 

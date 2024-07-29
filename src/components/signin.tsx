@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { pic4 } from "../../../public/image";
+import { pic4 } from "../../public/image";
 import Image from 'next/image';
 import React from 'react';
 
@@ -27,7 +27,7 @@ const SignIn = () => {
       email: credentials.email,
       password: credentials.password,
     });
-
+ 
     if (result?.ok) {
       router.push('/');
     } else {

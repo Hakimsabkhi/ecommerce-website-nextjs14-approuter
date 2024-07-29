@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
+import Link from "next/link"
 import {
     facebook,
     linkedin,
@@ -110,7 +111,9 @@ export default function Bb() {
                         </div>
                         <p className="max-md:text-xl">Suivez-nous sur</p>
                         <div className='flex  items-center gap-2'>
-                            <FaLinkedinIn className="hover:text-blue-500"  size={25} />
+                            <Link href="https://www.youtube.com/">
+                                <FaLinkedinIn className="hover:text-blue-500"  size={25} />
+                            </Link>
                             <FaFacebookF className="hover:text-blue-500" size={25} />
                             <FaInstagram className='hover:bg-gradient-to-r from-orange-500 overflow-hidden rounded-lg via-pink-500 to-indigo-500 ' fill="currentcolor" size={25} />                            
                         </div>
