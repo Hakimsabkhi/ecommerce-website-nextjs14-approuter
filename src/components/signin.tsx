@@ -77,7 +77,7 @@ const SignIn = () => {
           </div>
           <div className="flex justify-between items-center max-md:text-xs mb-4">
             <div className="flex items-center h-5">
-              <input id="remember" type="checkbox"  className="w-5 h-5   rounded bg-gray-400  "required  />
+              <input id="remember" type="checkbox"  className="w-5 h-5   rounded bg-gray-400  "  />
               <label  className="md:ms-2   font-bold text-gray-400 ">Remember me</label>
             </div>
             <h1 className="text-blue-600 font-bold"> Forgot password?</h1>            
