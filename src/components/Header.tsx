@@ -23,7 +23,7 @@ const Header: React.FC = () => {
   const toggleLogin = () => {
     setIsAdmin(!isAdmin);
   };
-  
+  console.log("session",session);
 
   const handleNav = () => {
     setMenuOpen(!menuOpen);

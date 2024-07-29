@@ -3,7 +3,6 @@ import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import connectToDatabase from '../../../lib/db';
 import bcrypt from 'bcryptjs';
-import mongoose, { Document, Schema, Model } from 'mongoose';
 import User from '../../../models/User';
 
 // Type guard to ensure environment variables are defined
@@ -37,12 +36,17 @@ export default NextAuth({
           return null;
         }
 
-        await connectToDatabase();
-        const user = await User.findOne({ email: credentials.email });
+        try {
+          await connectToDatabase();
+          const user = await User.findOne({ email: credentials.email });
 
-        if (user && bcrypt.compareSync(credentials.password!, user.password ?? '')) {
-          return { id: user._id, name: user.username, email: user.email, role: user.role };
-        } else {
+          if (user && bcrypt.compareSync(credentials.password, user.password || '')) {
+            return { id: user._id, name: user.username, email: user.email, role: user.role };
+          } else {
+            return null;
+          }
+        } catch (error) {
+          console.error('Error during authorization:', error);
           return null;
         }
       },
@@ -63,36 +67,47 @@ export default NextAuth({
           name: token.name as string,
           email: token.email as string,
           role: token.role as 'Visitor' | 'Rédacteur' | 'Admin',
+      
         };
       }
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account, profile }) {
       if (user) {
         token.id = user.id;
-        token.role = user.role;
+        token.role = user.role; // Add role to the token
       }
+      
       return token;
     },
     async signIn({ user, account, profile }) {
-      await connectToDatabase();
+      try {
+        await connectToDatabase();
 
-      // Check if the user already exists in the database
-      const existingUser = await User.findOne({ email: user.email });
-      
-      if (!existingUser) {
-        // If the user does not exist, create a new user
-        const newUser = new User({
-          username: user.name,
-          email: user.email as string, // Ensure email is a string
-          password: undefined, // No password for Google users
-          role: 'Visitor', // Default role
-        });
+        // Check if the user already exists in the database
+        const existingUser = await User.findOne({ email: user.email });
 
-        await newUser.save();
+        if (!existingUser) {
+          // If the user does not exist, create a new user
+          const newUser = new User({
+            username: user.name,
+            email: user.email as string, // Ensure email is a string
+            password: undefined, // No password for Google users
+            role: 'Visitor', // Default role
+          });
+
+          await newUser.save();
+        } else {
+          // If the user exists, update their information if necessary
+          existingUser.username = user.name;
+          await existingUser.save();
+        }
+
+        return true;
+      } catch (error) {
+        console.error('Error during sign-in:', error);
+        return false;
       }
-
-      return true;
     },
     async redirect({ url, baseUrl }) {
       // Redirect user to home page after sign-in
@@ -101,21 +116,3 @@ export default NextAuth({
   },
   secret: nextAuthSecret,
 });
-
-export interface IUser extends Document {
-  username: string;
-  email: string;
-  password?: string;
-  role: 'Visitor' | 'Rédacteur' | 'Admin';
-}
-
-const UserSchema: Schema = new Schema({
-  username: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String },
-  role: { type: String, enum: ['Visitor', 'Rédacteur', 'Admin'], default: 'Visitor' },
-});
-
-const UserModel: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
-
-export { UserModel }; // Change to named export

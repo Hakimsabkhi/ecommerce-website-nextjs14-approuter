@@ -17,10 +17,10 @@ const SignIn = () => {
   useEffect(() => {
     if (session) {
       if (session?.user?.role === 'Admin') {
-        router.push('/admin/dashboard');
-      } else {
-        router.push('/');
-      }
+          router.push('/admin/dashboard');
+        } else {
+          router.push('/');
+        }
     }
   }, [session]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
