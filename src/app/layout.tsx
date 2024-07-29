@@ -8,7 +8,7 @@ import AuthLayout from '../components/AuthLayout';
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname() ?? '';
-  const authPages = ['/auth/signin', '/auth/signup'];
+  const authPages = ['/signin', '/signup'];
 
   const isAuthPage = authPages.includes(pathname);
 
