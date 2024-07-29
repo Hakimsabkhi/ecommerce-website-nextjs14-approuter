@@ -1,31 +1,30 @@
 import React from 'react';
 import Image from 'next/image';
-import { heart, kitchen2,star,f1,f2,f3 } from "../../public/image";
-import {itemsFurniture} from "../../public/data";
-import { CiShoppingCart } from 'react-icons/ci';
-import { FaEye } from 'react-icons/fa';
-import { FaCartShopping } from 'react-icons/fa6';
+import { twibble1, twibble2, twibble3, twibble4,star } from '../../../../public/image';
+import {Product,products} from '../../../../public/data'; // Ensure the path is correct
+
+import {
+    
+    heart,
+} from "../../../../public/image";
+import { items } from "../../../../public/data";
+import { CiShop, CiShoppingCart,CiUser } from "react-icons/ci";
+import { FaRegEye } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
+import { FaCartShopping } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa6";
 
-const Furniture = () => {
+const FifthBlock: React.FC<{ product: Product }> = ({ product }) => {
+    const firstFourProducts = products.slice(0, 5);
     return (
-        <div className="desktop  max-md:w-[95%] flex flex-col justify-center items-center gap-10 py-8">
-            <div className="flex  w-full flex-col gap-2  items-center   ">
-                <h3 className="font-bold text-2xl text-gray-800">Furniture collection of the week</h3>
-                <div className="text-sm flex gap-2 text-gray-400">
-                    <p>The msot popular products from the collection</p>
-                </div>
-            </div>
-            <div className='flex max-2xl:flex-col w-full justify-between gap-8 items-center'>
-                <Image className='2xl:hidden md:w-full md:h-40' src={f3} alt="furniture" />
-                <Image className='max-2xl:hidden' src={f1} alt="furniture" />
-            <div className="grid grid-cols-3  w-full  max-xl:grid-cols-2 group    gap-8  max-md:gap-3">
-                {itemsFurniture.map((item, index) => (
+        <main className='max-lg:hidden desktop bg-white py-10 flex justify-center '>
+            <div className="grid grid-cols-5 w-full  max-md:grid-cols-2 group  max-xl:grid-cols-3  gap-8  max-md:gap-3">
+                {firstFourProducts.map((item, index) => (
                     <div
                         key={index}
-                        className="bg-white rounded-lg duration-500 border-2  lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[397px]  max-md:h-[290px]  relative">                        
+                        className="bg-white rounded-lg duration-500 border-2 cursor-pointer  lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[397px]  max-md:h-[290px]  relative">                        
                         <Image
-                            className=" absolute inset-0 max-md:w-[140px] mx-auto top-5  "
+                            className=" absolute inset-0 max-md:w-[140px] w-[250px] h-[200px] mx-auto top-5  "
                             src={item.src}
                             alt={item.name}
                         />
@@ -40,8 +39,8 @@ const Furniture = () => {
                                     </p>
                                     {item.oldPrice && (
                                         <div className="flex gap-1">
-                                            <p className="line-through opacity-50 max-sm:text-sm">{item.oldPrice}</p>
-                                            <p className='text-white rounded-lg bg-orange-400 px-2'>20%</p>
+                                            <p className="line-through max-sm:text-sm opacity-50">{item.oldPrice}</p>
+                                            <p className='text-white rounded-lg  bg-orange-400 px-2'>20%</p>
                                         </div>
                                     )}                                
                                 </div>
@@ -79,15 +78,8 @@ const Furniture = () => {
                     </div>
                 ))}
             </div>
-                <Image className='max-2xl:hidden' src={f2} alt="furniture" />
-                <Image className='2xl:hidden md:w-full md:h-40' src={f3} alt="furniture" />
-            </div>
-        </div>
+        </main>
     );
 }
 
-export default Furniture;
-
-
-
-
+export default FifthBlock;

@@ -34,7 +34,7 @@ const Sellers = () => {
                 {items.map((item, index) => (
                     <div
                         key={index}
-                        className="bg-white rounded-lg duration-500  lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[397px]  max-md:h-[290px]  relative">                        
+                        className="bg-white rounded-lg duration-500 border-2 cursor-pointer  lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[397px]  max-md:h-[290px]  relative">                        
                         <Image
                             className=" absolute inset-0 max-md:w-[140px] mx-auto top-5  "
                             src={item.src}

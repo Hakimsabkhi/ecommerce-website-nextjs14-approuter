@@ -52,7 +52,7 @@ const Header: React.FC = () => {
           </div>                  
           {!isAdmin &&<div className='flex items-center gap-2'>                        
             <Link href="/auth/signin">
-              <button className="flex items-center space-x-2 text-white bg-orange-400   font-bold rounded-md px-8  py-2"
+              <button className="flex items-center  text-white bg-orange-400   font-bold rounded-md px-8  py-2"
                       onClick={toggleLogin}
               >              
                 <span>Login</span>
