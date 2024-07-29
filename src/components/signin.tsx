@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { useEffect,useState } from 'react';
+import {useSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { pic4 } from "../../public/image";
 import Image from 'next/image';
@@ -13,25 +13,42 @@ const SignIn = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-
+  const { data: session, status } = useSession();//get for session
+  useEffect(() => {
+    if (session) {
+      if (session?.user?.role === 'Admin') {
+          router.push('/admin/dashboard');
+        } else {
+          router.push('/');
+        }
+    }
+  }, [session]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
-
+  
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null); // Clear any previous errors
+    try {
+      const result = await signIn('credentials', {
+        redirect: false,
+        email: credentials.email,
+        password: credentials.password,
+      });
 
-    const result = await signIn('credentials', {
-      redirect: false,
-      email: credentials.email,
-      password: credentials.password,
-    });
- 
-    if (result?.ok) {
-      router.push('/');
-    } else {
-      setError('Failed to sign in. Please check your credentials and try again.');
+      if (result?.ok) {
+        if (session?.user?.role === 'Admin') {
+          router.push('/admin/dashboard');
+        } else {
+          router.push('/');
+        }
+      } else {
+        setError('Failed to sign in. Please check your credentials and try again.');
+      }
+    } catch (error) {
+      setError('An unexpected error occurred. Please try again.');
     }
   };
 
@@ -102,6 +119,7 @@ const SignIn = () => {
             >
               Don't have an account
             </button>
+          
           </div>
         </form>
       </div>

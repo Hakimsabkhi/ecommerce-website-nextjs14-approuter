@@ -1,4 +1,6 @@
-import { useState } from 'react';
+
+import { useSession,signOut } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import { FaRegUserCircle } from "react-icons/fa";
 
 interface DropdownProps {
@@ -8,7 +10,18 @@ interface DropdownProps {
 
 const Dropdown: React.FC<DropdownProps> = ({ username, role }) => {
   const [isOpen, setIsOpen] = useState(false);
+  //is admin show in menu dashboard
+  const [isAdmin, setIsAdmin] = useState(false);
+  //get session
+  const { data: session } = useSession();
 
+  useEffect(()=>{
+    if (session?.user?.role==="Admin") {
+      // Assuming the session object has an isAdmin property
+      setIsAdmin(true);
+    }
+  }, [session]
+  )
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -31,12 +44,12 @@ const Dropdown: React.FC<DropdownProps> = ({ username, role }) => {
               <div className="text-gray-500">Role: {role}</div>
             </div>
             <div className="border-t border-gray-100"></div>
-            <a
+          {isAdmin && <a
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             >
               Dashboard
-            </a>
+            </a>}
             <a
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -52,6 +65,10 @@ const Dropdown: React.FC<DropdownProps> = ({ username, role }) => {
             <a
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              onClick={(e) => {
+                e.preventDefault();
+                signOut();
+              }}
             >
               Sign out
             </a>

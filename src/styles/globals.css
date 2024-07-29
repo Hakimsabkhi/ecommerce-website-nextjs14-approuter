@@ -19,7 +19,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color:#ffffff;
+  background-color:#EEEDE7;
   ;
   transition-property: opacity, background, transform, filter, z-index;
   transition-timing-function: ease-in-out;

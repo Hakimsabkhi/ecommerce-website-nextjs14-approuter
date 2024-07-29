@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { AiOutlineMenu } from 'react-icons/ai';
@@ -13,16 +14,16 @@ import { CiSearch } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa6";
 import Dropdown from '../components/Dropdown';
 
-
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('categories');
   const [isAdmin, setIsAdmin] = useState(false);
-
+  //get session
+  const { data: session } = useSession();
   const toggleLogin = () => {
     setIsAdmin(!isAdmin);
   };
-  
+  console.log("session",session);
 
   const handleNav = () => {
     setMenuOpen(!menuOpen);
@@ -31,6 +32,14 @@ const Header: React.FC = () => {
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
+  //session get for activation menu
+  useEffect(()=>{
+    if (session) {
+      // Assuming the session object has an isAdmin property
+      setIsAdmin(true);
+    }
+  }, [session]
+  )
 
   return (
     <div className='w-full max-lg:fixed max-lg:z-50 max-lg:bg-white max-lg:py-2 py-6 bg-[#15335E] justify-center flex'>
@@ -51,14 +60,14 @@ const Header: React.FC = () => {
             </button>
           </div>                  
           {!isAdmin &&<div className='flex items-center gap-2'>                        
-            <Link href="/auth/signin">
-              <button className="flex items-center  text-white bg-orange-400   font-bold rounded-md px-8  py-2"
+            <Link href="/signin">
+              <button className="flex items-center space-x-2 text-white bg-orange-400   font-bold rounded-md px-8  py-2"
                       onClick={toggleLogin}
               >              
                 <span>Login</span>
               </button>
             </Link>
-            <Link href="/auth/signup">
+            <Link href="/signup">
               <button className="flex items-center space-x-2 text-orange-400 bg-white   font-bold rounded-md  px-8  py-2">              
                 <span>Register</span>
               </button>
@@ -75,7 +84,7 @@ const Header: React.FC = () => {
             <span className='text-xl'>$0.00</span>
           </div>
           {isAdmin && 
-            <Dropdown username="Hakim Sabkhi" role="Admin" />            
+            <Dropdown username={String(session?.user?.name)} role={String(session?.user?.role)} />            
           }                                
       </div>
       <div className=' lg:hidden flex w-[85%] justify-between max-lg:justify-between  items-center  max-lg:bg-white '>

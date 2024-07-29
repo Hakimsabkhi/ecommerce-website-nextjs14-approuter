@@ -567,10 +567,9 @@ const Filter: React.FC = () => {
                 </div>
                 <div className=' grid   group  grid-cols-3 max-md:grid-cols-2 max-xl:grid-cols-2 max-md:gap-3 gap-8    '>                    
                     {currentItems.map((item) => (
-                    <Link href={`/chairs/${item.id}`}>
-                        <div
+                    <Link href={`/chairs/${item.id}`}><div
                         key={item.id}
-                        className="bg-white rounded-lg duration-500 border-2  lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[481px]   max-md:h-[320px]  relative">
+                        className="bg-white rounded-lg duration-500  lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[481px]   max-md:h-[320px]  relative">
                         <Image
                             
                             className=" z-10 absolute cursor-pointer right-2 top-2 w-6"

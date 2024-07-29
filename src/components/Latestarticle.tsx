@@ -14,7 +14,7 @@ const Latestarticle = () => {
                     Latest articles
                 </h3>
                 <TransitionLink href="/blog">
-                    <Link href='#' className='relative border-2 flex items-center justify-center p-4 px-12 py-4 overflow-hidden  transition duration-300 ease-out  rounded-full group'>
+                    <Link href='#' className='relative flex items-center justify-center p-4 px-12 py-4 overflow-hidden  transition duration-300 ease-out  rounded-full group'>
                         <span className="absolute flex items-center  justify-center w-full h-full text-white duration-300 -translate-x-full bg-black lg:group-hover:translate-x-0 ease">
                             <FaArrowRight  className='w-5 h-5 ' />
                         </span>
@@ -27,7 +27,7 @@ const Latestarticle = () => {
             </div>
             <div className='grid grid-cols-4 max-xl:grid-cols-2 max-md:grid-cols-1 w-full group gap-10     '>
                 {itemsarticle.map((item, index) => (
-                <div className='flex cursor-pointer duration-500 border-2 lg:group-hover:scale-[0.95] lg:hover:!scale-100 flex-col items-center relative'>
+                <div className='flex cursor-pointer duration-500 lg:group-hover:scale-[0.95] lg:hover:!scale-100 flex-col items-center relative'>
                     <div key={index} className=" w-full   ">                        
                         <Image className=' w-full' src={item.src} alt="steak" />
                     </div>
