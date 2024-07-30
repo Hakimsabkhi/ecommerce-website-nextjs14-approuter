@@ -1,7 +1,7 @@
 import React, { useState,  } from 'react';
 import Image from 'next/image';
-import { twibble1, twibble2, twibble3, twibble4,star } from '../../../../public/image';
-import {Product} from '../../../../public/data'; // Ensure the path is correct
+import { twibble1, twibble2, twibble3, twibble4,star } from '../../../public/image';
+import {Product} from '../../../public/data'; // Ensure the path is correct
 import { IoCheckboxOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
