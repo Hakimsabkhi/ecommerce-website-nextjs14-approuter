@@ -17,13 +17,13 @@ const Headerbottom: React.FC = () => {
                                 <span>Chairs</span>
                             </div> 
                         </TransitionLink>
-                        <TransitionLink href="/chairs" > 
+                        <TransitionLink href="/" > 
                             <div  className="flex items-center gap-3 duration-300 hover:text-orange-400">
                                 <Image className='w-10 h-10 max-xl:w-7 max-xl:h-7' src={table} alt="table" />
                                 <span>Tables</span>
                             </div> 
                         </TransitionLink>
-                        <Link href="#" className="flex items-center gap-3 duration-300 hover:text-orange-400">
+                        <Link href="/" className="flex items-center gap-3 duration-300 hover:text-orange-400">
                             <Image className='w-10 h-10 max-xl:w-7 max-xl:h-7' src={sofa} alt="sofa" />
                             <span>Sofas</span>
                         </Link>

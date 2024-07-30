@@ -84,7 +84,7 @@ const Header: React.FC = () => {
             <span className='text-xl'>$0.00</span>
           </div>
           {isAdmin && 
-            <Dropdown username={String(session?.user?.name)} role={String(session?.user?.role)} />            
+            <Dropdown  />            
           }                                
       </div>
       <div className=' lg:hidden flex w-[85%] justify-between max-lg:justify-between  items-center  max-lg:bg-white '>
@@ -130,72 +130,59 @@ const Header: React.FC = () => {
         <div className='flex-col gap-4'>
           {activeTab === 'menu' && (
             <ul className='text-sm'>
-              <TransitionLink href="/">
-                <Link href="#">
+              <TransitionLink href="/">                
                   <li
                     onClick={() => setMenuOpen(false)}
                     className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
                   >
                     Home
-                  </li>
-                </Link>
+                  </li>                                 
               </TransitionLink>
-              <TransitionLink href="/blog">
-                <Link href="#">
+              <TransitionLink href="/blog">                
                   <li
                     onClick={() => setMenuOpen(false)}
                     className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
                   >
                     Blog
-                  </li>
-                </Link>
+                  </li>                
               </TransitionLink>
-              <TransitionLink href="/about">
-                <Link href="#">
+              <TransitionLink href="/about">                
                   <li
                     onClick={() => setMenuOpen(false)}
                     className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
                   >
                     About Us
-                  </li>
-                </Link>
+                  </li>                
               </TransitionLink>
-              <TransitionLink href="/contactus">
-                <Link href="#">
+              <TransitionLink href="/contactus">                
                   <li
                     onClick={() => setMenuOpen(false)}
                     className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
                   >
                     Contact Us
-                  </li>
-                </Link>
+                  </li>                
               </TransitionLink>
-              <TransitionLink href="/showrooms">
-                <Link href="#">
+              <TransitionLink href="/showrooms">                
                   <li
                     onClick={() => setMenuOpen(false)}
                     className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
                   >
                     Showrooms
-                  </li>
-                </Link>
+                  </li>                
               </TransitionLink>
-              <TransitionLink href="/giftcards">
-                <Link href="#">
+              <TransitionLink href="/giftcards">                
                   <li
                     onClick={() => setMenuOpen(false)}
                     className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
                   >
                     Gift Cards
-                  </li>
-                </Link>
+                  </li>                
               </TransitionLink>
             </ul>
           )}
           {activeTab === 'categories' && (
-            <ul className="text-sm">
-              <TransitionLink href="/chairs">
-                <Link href="#" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
+            <ul className="text-sm">              
+                <Link href="/products/chairs" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
                   <Image src={chair} alt="table" />
                   <li
                     onClick={() => setMenuOpen(false)}
@@ -203,9 +190,8 @@ const Header: React.FC = () => {
                   >
                     Chairs
                   </li>
-                </Link>
-              </TransitionLink>
-              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
+                </Link>            
+              <Link href="/products/tables" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
                 <Image src={table} alt="table" />
                 <li
                   onClick={() => setMenuOpen(false)}
@@ -214,7 +200,7 @@ const Header: React.FC = () => {
                   Tables
                 </li>
               </Link>
-              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
+              <Link href="/products/sofas" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
                 <Image src={sofa} alt="sofa" />
                 <li
                   onClick={() => setMenuOpen(false)}

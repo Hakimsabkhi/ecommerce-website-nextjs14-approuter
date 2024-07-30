@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import { aboutbrand,facebook,linkedin,pinterest,aboutchair,abouttable,aboutarmchair,aboutstorage, } from '../../../../public/image';
-import {Product} from '../../../../public/data'; // Ensure the path is correct
+import { aboutbrand,facebook,linkedin,pinterest,aboutchair,abouttable,aboutarmchair,aboutstorage, } from '../../../public/image';
+import {Product} from '../../../public/data'; // Ensure the path is correct
 
 const ThirdBlock: React.FC<{ product: Product }> = ({ product }) => {
     return (

@@ -1,9 +1,8 @@
 import { useSession, signOut } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { FaRegUserCircle } from 'react-icons/fa';
 
 interface User {
-  _id: string;
   email: string;
   role: string;
 }
@@ -12,6 +11,7 @@ const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const { data: session } = useSession();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -28,18 +28,31 @@ const Dropdown = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   if (!session) {
     return <div>Loading...</div>;
   }
 
   const user = {
-    _id: (session.user as any).id,  // Assuming session.user.id is present and converting it to _id
+    
     email: (session.user as any).email,
     role: (session.user as any).role,
   };
 
   return (
-    <div className="relative inline-block text-left">
+    <div className="relative inline-block text-left" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
         className="flex items-center gap-4 justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 w-48 bg-white font-bold text-orange-400"

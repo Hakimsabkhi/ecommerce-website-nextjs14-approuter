@@ -19,6 +19,7 @@ interface Product {
     name: string;
     type: string;
     price: string;
+    oldPrice?: string;
     rating: number;
     color: string;
     brand: string;
@@ -55,6 +56,7 @@ const products = [
     {id:"11", src: chair17, name: "Fauteuil Direction", type: "chairs", price: "372.00 TND", rating: 5, color: "Jet", brand: "vitra", material: "Wood", status: "On sale"},
     /* { src: chair17, name: "Fauteuil Direction", type: "chairs", price: "372.00 TND", rating: 5, color: "Jet", brand: "vitra", material: "Wood", status: "On backorder"} */
 ];
+
 const itemsblog =[
     {src: steak1, date:"Decoration / 26 May 2023", title: "In the heart of Valencia", text: "As an alternative theory, (and because latin scholars do this sort of thing) someone tracked down a ..." },
     {src: bathroom, date:"Furniture / 09 May 2023", title: "Ethimo mountain style", text: "So how did the classical latin become so incohere,t? According to McClintock, a 15th century typeset.." },

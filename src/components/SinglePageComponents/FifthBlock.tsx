@@ -1,13 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
-import { twibble1, twibble2, twibble3, twibble4,star } from '../../../../public/image';
-import {Product,products} from '../../../../public/data'; // Ensure the path is correct
+import { twibble1, twibble2, twibble3, twibble4,star } from '../../../public/image';
+import {Product,products} from '../../../public/data'; // Ensure the path is correct
 
 import {
     
     heart,
-} from "../../../../public/image";
-import { items } from "../../../../public/data";
+} from "../../../public/image";
+import { items } from "../../../public/data";
 import { CiShop, CiShoppingCart,CiUser } from "react-icons/ci";
 import { FaRegEye } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
