@@ -84,7 +84,7 @@ const Header: React.FC = () => {
             <span className='text-xl'>$0.00</span>
           </div>
           {isAdmin && 
-            <Dropdown username={String(session?.user?.name)} role={String(session?.user?.role)} />            
+            <Dropdown />            
           }                                
       </div>
       <div className=' lg:hidden flex w-[85%] justify-between max-lg:justify-between  items-center  max-lg:bg-white '>
