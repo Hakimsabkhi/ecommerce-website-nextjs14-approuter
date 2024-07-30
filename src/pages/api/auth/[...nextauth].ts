@@ -62,6 +62,7 @@ export default NextAuth({
   callbacks: {
     async session({ session, token }) {
       if (token) {
+      
         session.user = {
           id: token.id as string,
           name: token.name as string,
@@ -70,15 +71,44 @@ export default NextAuth({
       
         };
       }
+     
       return session;
     },
     async jwt({ token, user, account, profile }) {
-      if (user) {
-        token.id = user.id;
-        token.role = user.role; // Add role to the token
+
+      try {
+        // Establish database connection
+        await connectToDatabase();
+        console.log("Database connection established.");
+    
+        // Verify the user object structure
+        console.log("Incoming user object:", user);
+    
+        if (user) {
+          // Find user by email
+          const existingUser = await User.findOne({ email: user.email });
+          console.log("Existing user query result:", existingUser);
+    
+          // Check if the user exists
+          if (existingUser) {
+            // Add user details to the token
+            token.id = existingUser.id;
+            token.role = existingUser.role;
+            console.log("Token updated with user details:", token);
+          } else {
+            console.log("User not found with email:", user.email);
+          }
+        } else {
+          console.log("No user object provided.");
+        }
+    
+        // Return the token with user details
+        return token;
+      } catch (error) {
+        console.error("Error during JWT callback:", error);
+        throw error; // Re-throw the error after logging it
       }
-      
-      return token;
+
     },
     async signIn({ user, account, profile }) {
       try {

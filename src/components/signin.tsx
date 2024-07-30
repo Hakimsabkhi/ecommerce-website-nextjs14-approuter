@@ -45,7 +45,7 @@ const SignIn = () => {
           router.push('/');
         }
       } else {
-        setError('Failed to sign in. Please check your credentials and try again.');
+        setError('Failed to sign in. Please check your email and password , try again.');
       }
     } catch (error) {
       setError('An unexpected error occurred. Please try again.');
@@ -59,7 +59,7 @@ const SignIn = () => {
       <div className="bg-white absolute p-8 rounded shadow-md w-full max-md:w-3/4 max-w-md">
         <h1 className="text-2xl max-md:text-xl text-center font-bold mb-6">Sign in ot your account</h1>
         {error && (
-          <div className="bg-red-500 text-white p-3 rounded mb-4">
+          <div className="bg-red-500 text-white p-3 rounded mb-4 text-center">
             {error}
           </div>
         )}
