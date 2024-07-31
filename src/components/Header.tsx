@@ -46,7 +46,14 @@ const Header: React.FC = () => {
         <div className='flex w-[90%] max-xl:w-[95%] max-lg:hidden justify-between  gap-14  items-center  max-lg:bg-white '>
           <TransitionLink href="/" >
             <div className="mb-1">
-              <Image className='xl:w-[300px] xl:h-[60px] max-xl:w-[800px] max-xl:h-[60px]  max-lg:hidden' src={luxehome} alt="luxehome" />
+              <Image
+                width={250}
+                height={250} 
+                className=' h-auto  lg:w-[400px] xl:w-[300px] rounded-[5px] max-lg:hidden' 
+                src={luxehome} 
+                alt="luxehome"
+                style={{ objectFit: 'contain' }} 
+              />
             </div>
           </TransitionLink>
           <div className="relative w-[800px]">
