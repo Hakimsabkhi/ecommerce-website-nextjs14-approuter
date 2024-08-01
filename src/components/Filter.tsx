@@ -534,7 +534,7 @@ const Filter: React.FC = () => {
             </div>
             <div className='flex-col flex w-full  gap-5'>
                 <div className='flex items-center max-lg:hidden justify-between max-md:flex-col'>
-                    <p className='text-gray-400'>Showing 1-12 of 16 results</p>
+                    <p className='text-gray-400'>Showing 1-{itemsPerPage} of 16 results</p>
                     <div className='flex items-center  gap-x-8 max-md:flex-col'>
                         <div className='flex gap-x-4'>
                             <div>
@@ -607,23 +607,23 @@ const Filter: React.FC = () => {
                                 <p className="flex gap-2 text-xl max-md:text-sm font-bold items-center">{item.rating} </p>
                             </div>                                                        
                             <div className="flex mb-1 text-lg max-md:text-sm justify-between">
-                            <button className="bg-orange-400 rounded-lg py-1 w-[50%] items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  ">
-                                        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease  ">add to cart</p>
-                                        <p className="  text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] lg:group-hover/box:translate-x-[-30%] ease  ">
-                                            <FaCartShopping   className="w-6 h-6" aria-hidden="true" fill="currentColor"/>                                                                                                                    
-                                        </p>
-                                    </button>
-                                    <button className="bg-white rounded-lg py-5 w-[30%] items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-orange-400 border border-orange-400  ">
-                                        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-y-[-100%] ease   ">View</p>
-                                        <p className="text-orange-400 absolute  w-full h-full flex items-center justify-center duration-300 -translate-y-[-100%] lg:group-hover/box:translate-y-0 ease  ">
-                                            <FaEye   className=" w-5 h-5   " aria-hidden="true" fill="currentColor"/>                                                                                                                    
-                                        </p>
-                                    </button>
-                                    <button className="bg-white rounded-lg py-5 w-[13%] items-center flex relative justify-center  text-orange-400 border border-orange-400  ">
-                                        <p className="absolute flex items-center justify-center w-full h-full    ">
-                                            <FaRegHeart   className=" w-5 h-5   " aria-hidden="true" fill="currentColor"/>
-                                        </p>                                        
-                                    </button>
+                                <button className="bg-orange-400 rounded-lg max-md:rounded-[3px] py-1 w-[50%] items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  ">
+                                    <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease  ">Add to cart</p>
+                                    <p className="  text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] lg:group-hover/box:translate-x-[-30%] ease  ">
+                                        <FaCartShopping   className="w-6 h-6" aria-hidden="true" fill="currentColor"/>                                                                                                                    
+                                    </p>
+                                </button>
+                                <button className="bg-white rounded-lg max-md:rounded-[3px] py-5 w-[30%] items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-orange-400 border border-orange-400  ">
+                                    <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-y-[-100%] ease   ">View</p>
+                                    <p className="text-orange-400 absolute  w-full h-full flex items-center justify-center duration-300 -translate-y-[-100%] lg:group-hover/box:translate-y-0 ease  ">
+                                        <FaEye   className=" w-5 h-5   " aria-hidden="true" fill="currentColor"/>                                                                                                                    
+                                    </p>
+                                </button>
+                                <button className="bg-white rounded-lg max-md:rounded-[3px] py-5 w-[13%] items-center flex relative justify-center  text-orange-400 border border-orange-400  ">
+                                    <p className="absolute flex items-center justify-center w-full h-full    ">
+                                        <FaRegHeart   className="max-md:w-3 max-md:h-3 w-5 h-5   " aria-hidden="true" fill="currentColor"/>
+                                    </p>                                        
+                                </button>
                             </div>
                         </div>
                     </div>

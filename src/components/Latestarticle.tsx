@@ -10,7 +10,7 @@ const Latestarticle = () => {
     return (
         <div className='py-8 h-fit w-[96%] mx-auto flex flex-col justify-center items-center gap-10 '>
             <div className='  max-md:text-center flex justify-between items-center max-md:4/5 w-full  max-md:gap-4  '>
-                <h3 className=' font-bold max-md:text-2xl text-2xl text-gray-800'>
+                <h3 className=' font-bold max-md:text-2xl text-4xl text-gray-800'>
                     Latest articles
                 </h3>
                 <TransitionLink href="/blog">
@@ -27,11 +27,11 @@ const Latestarticle = () => {
             </div>
             <div className='grid grid-cols-4 max-xl:grid-cols-2 max-md:grid-cols-1 w-full group gap-10     '>
                 {itemsarticle.map((item, index) => (
-                <div className='flex cursor-pointer duration-500 border-2 lg:group-hover:scale-[0.95] lg:hover:!scale-100 flex-col items-center relative'>
+                <div className='flex cursor-pointer duration-500  lg:group-hover:scale-[0.95] lg:hover:!scale-100 flex-col items-center relative'>
                     <div key={index} className=" w-full   ">                        
                         <Image className=' w-full' src={item.src} alt="steak" />
                     </div>
-                    <div className='flex flex-col  gap-2 items-center    bg-white w-full h-[235px]'>
+                    <div className='flex flex-col  gap-2 items-center  border-x-2 border-b-2     bg-white w-full h-[235px]'>
                         <div className="w-[302px]  max-sm:w-[90%] pt-2">
                             <p className="text-gray-400    ">{item.date}</p>
                             <div className="flex flex-col  gap-5 max-md:gap-2 ">
