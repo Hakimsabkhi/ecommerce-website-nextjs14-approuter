@@ -5,7 +5,7 @@ const Rules = () => {
     return (
         <div className=' py-8 h-fit desktop  max-md:w-[95%] flex flex-col gap-10 justify-center items-center'>
             <div className='max-md:text-center text-left max-md:w-full w-full  '>
-                <h3 className='font-bold max-md:text-2xl text-2xl text-gray-800'>
+                <h3 className='font-bold max-md:text-2xl text-4xl text-gray-800'>
                     Rules of choosing furniture
                 </h3>
             </div>

@@ -6,6 +6,8 @@ import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";
 import { AiOutlineDislike } from "react-icons/ai";
+import { IoStorefrontOutline } from "react-icons/io5";
+
 
 
 const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
@@ -168,7 +170,10 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
                         <div className="flex flex-col  border-2 bg-gray-200 border-gray-400 rounded-b-lg px-4 py-8">
                             <div className="flex flex-col gap-4 ">                                
                                 <div className="flex justify-between items-center">
-                                    <p className="text-lg font-bold">Mr. Mackay</p>
+                                    <div className='flex items-center gap-2'>
+                                        <IoStorefrontOutline size={30} className="text-orange-400"  />
+                                        <p className="text-lg font-bold">Mr. Mackay</p>
+                                    </div>
                                     <p className="text-gray-400">April 12,2023</p>
                                 </div>                                                                    
                                 <p className="text-gray-400">Rigid proponents of content strategy may shun the use of dummy copy but then designers might want to ask them to provide style sheets with the copy decks they supply that are in tune with the design direction they require.</p>
@@ -208,7 +213,10 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
                         <div className="flex flex-col  border-2 bg-gray-200 border-gray-400 rounded-b-lg px-4 py-8">
                             <div className="flex flex-col gap-4 ">                                
                                 <div className="flex justify-between items-center">
-                                    <p className="text-lg font-bold">Mr. Mackay</p>
+                                    <div className='flex items-center gap-2'>
+                                        <IoStorefrontOutline size={30} className="text-orange-400"  />
+                                        <p className="text-lg font-bold">Mr. Mackay</p>
+                                    </div>    
                                     <p className="text-gray-400">April 12,2023</p>
                                 </div>                                                                    
                                 <p className="text-gray-400">Rigid proponents of content strategy may shun the use of dummy copy but then designers might want to ask them to provide style sheets with the copy decks they supply that are in tune with the design direction they require.</p>
