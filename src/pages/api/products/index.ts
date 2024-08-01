@@ -8,7 +8,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     switch (req.method) {
       case 'GET':
         try {
-          const products = await Product.find({}).populate('user');
+          const products = await Product.find({}).populate('user').populate('category');
           res.status(200).json(products);
         } catch (error) {
           res.status(500).json({ message: 'Error fetching products' });
