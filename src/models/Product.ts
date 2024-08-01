@@ -5,10 +5,11 @@ export interface IProduct extends Document {
   name: string;
   description: string;
   price: number;
-  imageUrl?: string;
+  imageUrl?: string[];
   category: ICategory | string;
   stock: number;
   user: IUser | string; // Reference to a User document or User ID
+  discount?: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -16,10 +17,11 @@ export interface IProduct extends Document {
 const ProductSchema: Schema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
-  price: { type: Number, required: true },
-  imageUrl: { type: String },
+  imageUrl: { type: [String] },
   category: { type: Schema.Types.ObjectId, ref: 'Category', required: true }, // Updated to reference Category
   stock: { type: Number, required: true },
+  price: { type: Number, required: true },
+  discount:{type:Number},
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
