@@ -53,7 +53,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       break;
       case "PUT":
       try {
-        await uploadSingle(req, res);
+        await uploadSingle(req as any, res as any);
 
         const { name } = req.body;
         const file = (req as any).file;
