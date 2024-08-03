@@ -4,10 +4,10 @@ const AddedProducts = () => {
     return (
         <div className='mx-auto w-[70%] py-8 flex flex-col gap-8 '>
             <div className="flex items-center justify-between">
-                <p className='text-3xl font-bold'>ALL categories</p>
+                <p className='text-3xl font-bold'>ALL Products</p>
                 <button className='bg-orange-400 text-white rounded-lg w-[15%] h-10'>
                     <p className=''>
-                        Add the new category
+                        Add the new Product
                     </p>
                 </button>
             </div>

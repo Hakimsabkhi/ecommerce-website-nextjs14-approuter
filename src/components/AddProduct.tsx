@@ -47,7 +47,7 @@ const AddProduct = () => {
             <div className="w-full flex justify-end">
                 <button className='bg-orange-400 text-white rounded-md w-[20%] max-lg:w-[50%] h-10 '>
                     <p className="text-white">
-                        Add the new category
+                        Add the new product
                     </p>
                 </button>
             </div>
