@@ -1,98 +1,88 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import connectToDatabase from '@/lib/db'; // Adjust path as needed
-import Product from '@/models/Product'; // Adjust path as needed
-import multer from 'multer';
-import fs from 'fs';
-import path from 'path';
-import { promisify } from 'util';
-import cloudinary from '@/lib/cloudinary'; // Adjust path as needed
-
-// Configure multer for file uploads
-const upload = multer({ dest: 'uploads/' }); // Configure multer as needed
-
+import type { NextApiRequest, NextApiResponse } from "next";
+import connectToDatabase from "@/lib/db";
+import Products from "@/models/Product";
+import cloudinary from "@/lib/cloudinary";
+import upload from "@/lib/multer";
+import stream from "stream";
+import { promisify } from "util";
 export const config = {
   api: {
     bodyParser: false, // Disable body parsing, we will handle it manually
   },
 };
 
-// Helper function to process form-data
-const processFormData = async (req: NextApiRequest) => {
-  return new Promise((resolve, reject) => {
-    const fields: any = {};
-    const files: any[] = [];
-
-    const busboy = require('busboy');
-    const bb = busboy({ headers: req.headers });
-
-    bb.on('file', (name, file, info) => {
-      const { filename, encoding, mimeType } = info;
-      const saveTo = path.join('uploads', path.basename(filename));
-      file.pipe(fs.createWriteStream(saveTo));
-      file.on('end', () => {
-        files.push({ path: saveTo, filename, encoding, mimeType });
-      });
-    });
-
-    bb.on('field', (name, value) => {
-      fields[name] = value;
-    });
-
-    bb.on('finish', () => {
-      resolve({ fields, files });
-    });
-
-    bb.on('error', (error) => {
-      reject(error);
-    });
-
-    req.pipe(bb);
-  });
-};
+const uploadSingle = promisify(upload.single('image'));
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectToDatabase();
 
   try {
+    await uploadSingle(req as any, res as any);
     switch (req.method) {
       case 'GET':
         try {
-          const products = await Product.find({}).populate('category').populate('user');
+          const products = await  Products.find({}).populate('user').populate('category');
+          ;
           res.status(200).json(products);
         } catch (error) {
+          console.error('Error fetching products:', error);
           res.status(500).json({ message: 'Error fetching products', error });
         }
         break;
+      
 
-      case 'POST':
-        try {
-          const { fields, files } = await processFormData(req);
 
-          // Handle file uploads to Cloudinary or another service
-          const imageUrls = await Promise.all(files.map(async (file: any) => {
-            const result = await cloudinary.uploader.upload(file.path);
-            fs.unlinkSync(file.path); // Clean up the file after upload
-            return result.secure_url;
-          }));
-
-          // Prepare product data with image URLs
-          const productData = {
-            ...fields,
-            imageUrl: imageUrls,
-          };
-
-          // Create a new product instance and save it to the database
-          const product = new Product(productData);
-          await product.save();
-
-          // Respond with the created product
-          res.status(201).json(product);
-        } catch (error) {
-          console.error('Error creating product:', error);
-          res.status(500).json({ error: 'Failed to create product' });
-        }
-        break;
-
+     case 'POST':
+          try {
+            
+            const { name,description,ref,category,stock,price,discount,user} = req.body;
+            const file = (req as any).file;
+  
+            if (!name || !description || !ref || !category || !stock || !price || !user) {
+              return res.status(400).json({ message: 'All required fields must be filled' });
+            }
+            
+            const existingCategory = await Products.findOne({ ref });
+            if (existingCategory) {
+              return res.status(400).json({ message: 'Product with this name already exists' });
+            }
+  
+            let imageUrl = '';
+           if (file) {
+              
+                // Use a buffer stream to convert the file buffer into a readable stream
+                const bufferStream = new stream.PassThrough();
+                bufferStream.end(file.buffer);
+                //bufferStream.pipe(uploadStream);
+    
+                // Wait for the upload stream to finish and get the result
+                const result = await new Promise<any>((resolve, reject) => {
+                  const uploadStream = cloudinary.uploader.upload_stream(
+                    { folder: 'Products' },
+                    (error, result) => {
+                      if (error) {
+                        return reject(error);
+                      }
+                      resolve(result);
+                    }
+                  );
+    
+                  bufferStream.pipe(uploadStream);
+                });
+                
+                
+                imageUrl = (result as any).secure_url; // Extract the secure_url from the result
+            }
+          
+            const newProduct = new Products({ name, description,ref,category,stock,price,discount,user, imageUrl });
+            await newProduct.save();
+            res.status(201).json(newProduct);
+          } catch (error) {
+            res.status(500).json({ message: 'Error creating product' });
+          }
+          break;
+         
+       
       default:
         res.setHeader('Allow', ['GET', 'POST']);
         res.status(405).end(`Method ${req.method} Not Allowed`);
