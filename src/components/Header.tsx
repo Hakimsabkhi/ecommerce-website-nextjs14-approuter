@@ -60,7 +60,7 @@ const Header: React.FC = () => {
   }, []);
 
   return (
-    <div className='w-full max-lg:fixed max-lg:z-50 max-lg:bg-white max-lg:py-2 py-6 bg-[#15335E] justify-center flex'>
+    <div className='w-full max-lg:fixed max-lg:z-10 max-lg:bg-white max-lg:py-2 py-6 bg-[#15335E] justify-center flex'>
       <div className='flex w-[90%] max-xl:w-[95%] max-lg:hidden justify-between  gap-14  items-center  max-lg:bg-white '>
         <TransitionLink href="/" >
           <div className="mb-1">
@@ -124,7 +124,7 @@ const Header: React.FC = () => {
             <Image src={logo} alt="logo" />
           </div>
         </TransitionLink>
-        <div className="relative">
+        <div className="relative" ref={cartmodalRef}>
           <div className="relative cursor-pointer" onClick={toggleCartModal}>
             <SlBag size={25} />
             <span className=" w-4 flex justify-center h-4 items-center text-xs rounded-full absolute -top-1 -right-1 text-white bg-orange-400">

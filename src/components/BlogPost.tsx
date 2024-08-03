@@ -1,15 +1,16 @@
 import Image from 'next/image';
 import React from 'react';
-import { blogpost1 } from "../../public/image";
+import { blogpost1,blogpost2,blogpost3 } from "../../public/image";
 import { AiOutlineLike } from "react-icons/ai";
 import { FaRegSmileBeam } from "react-icons/fa";
+import { IoIosArrowDown } from "react-icons/io";
 
 const BlogPost = () => {
     return (
         /* whole page */
-        <div className="desktop flex py-8 gap-10 ">
+        <div className="desktop flex py-8 max-lg:py-20 gap-10 ">
             {/* First Half */}
-            <div className='w-[900px] flex flex-col gap-16'>
+            <div className='w-[900px] max-lg:w-full flex flex-col gap-16'>
                 {/* 1 */}
                 <div className="flex flex-col w-full gap-4">
                     {/* Title */}
@@ -38,7 +39,7 @@ const BlogPost = () => {
                             <div className='flex flex-col gap-4'>
                                 <p>For me, the most fascinating interface is Twitter. I have odd cosmic thoughts every day and I realized I could hold them to myself or share them with people who might be interested.</p>
                                 <p>Venus has a runaway greenhouse effect. I kind of want to know what happened there because we're twirling knobs here on Earth without knowing the consequences of it. Mars once had running water. It's bone dry today. Something bad happened there as well.</p>
-                                <Image src={blogpost1} alt="blogpost" />                                
+                                <Image src={blogpost2} alt="blogpost" />                                
                             </div>
                         </div>
                         <div className='flex flex-col gap-6'>
@@ -46,7 +47,7 @@ const BlogPost = () => {
                             <div className='flex flex-col gap-4'>
                                 <p>For me, the most fascinating interface is Twitter. I have odd cosmic thoughts every day and I realized I could hold them to myself or share them with people who might be interested.</p>
                                 <p>Venus has a runaway greenhouse effect. I kind of want to know what happened there because we're twirling knobs here on Earth without knowing the consequences of it. Mars once had running water. It's bone dry today. Something bad happened there as well.</p>
-                                <Image src={blogpost1} alt="blogpost" />                                
+                                <Image src={blogpost3} alt="blogpost" />                                
                             </div>
                         </div>                        
                     </div>                    
@@ -60,9 +61,9 @@ const BlogPost = () => {
                             <button className='text-xs px-4 py-2 rounded-md bg-gray-600 text-white absolute top-[60%] right-1/2 translate-x-1/2 translate-y-1/2'>Post Comment</button>
                         </div>
                     </div>                            
-                    <div>
+                    <div className='flex flex-col gap-4'>
                         <div className="flex justify-between items-center">
-                            <p className='text-4xl '>3 comments</p>
+                            <p className='text-4xl max-md:text-xl '>3 comments</p>
                             <select className="px-4 py-1 rounded-md ">
                                 <option>Recent</option>
                             </select>
@@ -76,43 +77,112 @@ const BlogPost = () => {
                                 These running shoes are the best I've ever owned. They're lightweight, supportive, and my feet feel great even after long runs. The cushioning is perfect for absorbing impact.                                
                             </p>
                             <div className="flex items-center gap-2">
-                                <div className='flex items-center border-2 border-gray-400 rounded-md'>
+                                <div className='flex items-center border-2 py-1 border-gray-400 rounded-md'>
                                     <p className="text-xs">10</p>
                                     <AiOutlineLike />
                                 </div>
-                                <FaRegSmileBeam />
-                                <p>relpy</p>
-
+                                <FaRegSmileBeam size={25} className='text-gray-400' />
+                                <div className='flex items-center border-l-2 border-gray-400 gap-2 pl-2'>
+                                    <div className='text-gray-400 flex items-center gap-2'>
+                                        <p className='text-gray-400'>2 replies</p>
+                                        <IoIosArrowDown />
+                                    </div>
+                                    <p>relpy</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <div>
-                            <div>
-                                <p>Kevin Patel</p>
-                                <p>5 days ago</p>
-                            </div>
-                            <div>
-                                <p>Totally! I ran a half marathon in them last weekend and had zero discomfort. Have you tried them on trails?</p>
-                                <p>Reply</p>
-                            </div>
+                    <div className='pl-8 pt-6 border-l-2 flex flex-col gap-4 border-gray-700'>
+                        <div className='flex flex-col gap-2'>
+                            <div className='flex flex-col gap-2'>
+                                <p className="font-bold text-3xl">Kevin Patel</p>
+                                <p className='text-gray-400 text-md'>5 days ago</p>
+                            </div>                            
+                            <p className='text-sm'>
+                                Totally! I ran a half marathon in them last weekend and had zero discomfort. Have you tried them on trails?
+                            </p>
+                            <div className="flex items-center gap-2">
+                                <div className='flex items-center gap-1 border-2 py-1 px-1 border-gray-400 rounded-[4px]'>
+                                    <p className="text-xs">5</p>
+                                    <AiOutlineLike />
+                                </div>
+                                <FaRegSmileBeam size={25} className='text-gray-400' />
+                                <div className='flex items-center border-l-2 border-gray-400 gap-2 pl-2'>                                    
+                                    <p>relpy</p>
+                                </div>
+                            </div>                                                            
                         </div>
-                        <div>
-                            <div>
-                                <p>Kevin Patel</p>
-                                <p>5 days ago</p>
-                            </div>
-                            <div>
-                                <p>Totally! I ran a half marathon in them last weekend and had zero discomfort. Have you tried them on trails?</p>
-                                <p>Reply</p>
-                            </div>
+                        <div className='flex flex-col gap-2'>
+                            <div className='flex flex-col gap-2'>
+                                <p className="font-bold text-3xl">James Anderson</p>
+                                <p className='text-gray-400 text-md'>2 days ago</p>
+                            </div>                            
+                            <p className='text-sm'>
+                                I've been considering getting these. How do they hold up for indoor workouts?
+                            </p>
+                            <div className="flex items-center gap-2">
+                                <div className='flex items-center border-2 py-1 px-1 gap-1 border-gray-400 rounded-[4px]'>
+                                    <p className="text-xs">5</p>
+                                    <AiOutlineLike />
+                                </div>
+                                <FaRegSmileBeam size={25} className='text-gray-400' />
+                                <div className='flex items-center border-l-2 border-gray-400 gap-2 pl-2'>
+                                    <div className='text-gray-400 flex items-center gap-2'>
+                                        <p className='text-gray-400'>1 replies</p>
+                                        <IoIosArrowDown />
+                                    </div>
+                                    <p>relpy</p>
+                                </div>
+                            </div>                                                            
                         </div>
                     </div>
                 </div>
             </div>
             {/* Second Half */}
-            <div >
+            <div className='w-[38%] flex flex-col items-center gap-4 max-lg:hidden '>
+                <div className='border-2 w-[90%] rounded-lg border-gray-300'>
+                    <div className='h-10 bg-[#EFEFEF] pl-4 rounded-t-lg flex items-center border-b-2'>
+                        <p>Search</p>
+                    </div>
+                    <div className='flex w-full items-center px-8 py-4 justify-center'>
+                        <div className="relative w-full">
+                            <input
+                                className="w-full  h-12 px-4 py-2 rounded-lg  border border-gray-300"
+                                type="text"
+                                placeholder='Enter search term ...'
+                            />
+                            <button className=" absolute h-full py-2 px-4 right-0 top-1/2 -translate-y-1/2 rounded-r-lg text-white bg-blue-400 hover:bg-blue-600 ">
+                                <p className=' ' > GO!</p>
+                            </button>
+                        </div>                    
+                    </div>    
+                </div>
+                <div className='border-2 w-[90%] rounded-lg border-gray-300'>
+                    <div className='h-10 bg-[#EFEFEF] pl-4 rounded-t-lg flex items-center border-b-2'>
+                        <p>Categories</p>
+                    </div>
+                    <div className='flex w-full gap-20  px-8 py-4 '>
+                        <div className='flex flex-col gap-2'>
+                            <p className='underline text-blue-500'>Web Design</p>
+                            <p className='underline text-blue-500'>HTML</p>
+                            <p className='underline text-blue-500'>Freebies</p>
+                        </div>
+                        <div className='flex flex-col gap-2'>
+                            <p className='underline text-blue-500'>JavaScript</p>
+                            <p className='underline text-blue-500'>CSS</p>
+                            <p className='underline text-blue-500'>Tutorials</p>
+                        </div>
 
+                    </div>    
+                </div>
+                <div className='border-2 w-[90%] rounded-lg border-gray-300'>
+                    <div className='h-10 bg-[#EFEFEF] pl-4 rounded-t-lg flex items-center border-b-2'>
+                        <p>Side Widget</p>
+                    </div>
+                    <div className='flex w-full items-center  px-8 py-4 '>
+                        <p >You can put anything you want inside of these side widgets. They are easy to use, and feature the Bootstrap 5 card component!</p>
+                    </div>    
+                </div>
             </div>
         </div>
     );

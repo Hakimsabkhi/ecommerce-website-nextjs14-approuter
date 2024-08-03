@@ -569,13 +569,7 @@ const Filter: React.FC = () => {
                     {currentItems.map((item) => (
                     <Link href={`/chairs/${item.id}`}><div
                         key={item.id}
-                        className="bg-white rounded-lg duration-500  lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[481px]   max-md:h-[320px]  relative">
-                        <Image
-                            
-                            className=" z-10 absolute cursor-pointer right-2 top-2 w-6"
-                            src={heart}
-                            alt="heart"
-                        />
+                        className="bg-white rounded-lg duration-500  lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[481px]   max-md:h-[320px]  relative">                        
                         <Image
                             className="absolute inset-0 mx-auto top-5 "
                             src={item.src}

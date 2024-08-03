@@ -30,6 +30,7 @@
     "react-icons": "^5.2.1",
     "react-range": "^1.9.2",
     "react-slider": "^2.0.6",
+    "sharp": "^0.33.4",
     "tw-elements": "^2.0.0"
   },
   "devDependencies": {
