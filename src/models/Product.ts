@@ -15,7 +15,6 @@ export interface IProduct extends Document {
   updatedAt?: Date;
 }
 
-  category: { type: Schema.Types.ObjectId, ref: 'Category', required: true }, // Updated to reference Category
 const ProductSchema = new mongoose.Schema({
   name: String,
   description: String,
