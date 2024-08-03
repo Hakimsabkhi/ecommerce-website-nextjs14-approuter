@@ -2,8 +2,8 @@
 /* pages/api/posts/[postId].ts */
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import dbConnect from '../../../lib/db';
-import Post from '../../../models/Post';
+import dbConnect from '@/lib/db';
+import Post from '@/models/Post';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await dbConnect();
