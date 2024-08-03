@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose ,{Model}from 'mongoose';
 import { IUser } from './User'; // Import the IUser interface
 import { ICategory } from './Category';  
 export interface IProduct extends Document {
@@ -28,4 +28,5 @@ const ProductSchema = new mongoose.Schema({
 });
 
 
-export default mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
+const Product: Model<IProduct> = mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
+  export default Product
