@@ -13,6 +13,16 @@ const items = [
     { src: sofa4, name: "Navana", type: "Sofas", price: "1,669.00 TND", oldPrice: "1,850.00 TND" , rating: 4.5},
     { src: table3, name: "Aruda", type: "Tables", price: "699.00 TND", rating: 4.5 }
 ];
+const addedcategories = [
+    {name: "chairs", imageurl: "/images/chairs.png", createdby:"Hakim"},
+    {name: "chairs", imageurl: "/images/chairs.png", createdby:"Hakim"},   
+];
+const addedproducts = [
+    {id: "Chairs", ref: "Chairs", name: "chairs", imageurl: "/images/chairs.png", createdby:"Hakim"},
+    {id: "Chairs", ref: "Chairs", name: "chairs", imageurl: "/images/chairs.png", createdby:"Hakim"},
+    {id: "Chairs", ref: "Chairs", name: "chairs", imageurl: "/images/chairs.png", createdby:"Hakim"},
+    {id: "Chairs", ref: "Chairs", name: "chairs", imageurl: "/images/chairs.png", createdby:"Hakim"},   
+];
 interface Product {
     id: string;
     src: StaticImageData ;
@@ -124,4 +134,4 @@ const members = [
     {src:kristin, name:"Kristin Watsony", title:"CEO,co-founde", facebook:facebook, X:X,linkedin:linkedin, },
 ]
 const noHeaderFooterUrls = ['/signin'];
-export { items, itemsblog, collection, itemsarticle, noHeaderFooterUrls, products, brands, categories, productCollection, cards, itemsFurniture, members };export type { Product };
+export { items, itemsblog, collection,addedcategories, itemsarticle, noHeaderFooterUrls, products, brands, categories, productCollection, cards, itemsFurniture, members,addedproducts };export type { Product };

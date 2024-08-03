@@ -67,8 +67,8 @@ const Sellers = () => {
                                     <p className="flex  text-lg max-md:text-xs font-bold ">{item.rating} </p>
                                 </div>                                                        
                                 <div className="flex mb-1 text-lg max-md:text-sm justify-between">
-                                    <button className="bg-orange-400 rounded-lg max-md:rounded-[3px] py-5 w-[50%] items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  ">
-                                        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease  ">Add to cart</p>
+                                    <button className="AddtoCart group/box">
+                                        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease   ">Add to cart</p>
                                         <p className="  text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] lg:group-hover/box:translate-x-[-35%] ease  ">                                        
                                             <FaCartShopping   className="w-6  h-6" aria-hidden="true" fill="currentColor"/>                                                                                                                    
                                         </p>

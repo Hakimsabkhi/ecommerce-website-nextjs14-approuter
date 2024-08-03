@@ -1,15 +1,15 @@
 import React from 'react';
 import Image from "next/image";
-import {tshirt} from "../../public/image";
+import {tshirt,carttable1,carttable2,cartlighting} from "../../public/image";
 import { FaRegTrashAlt } from "react-icons/fa";
 const CartModal = () => {
     return (
-        <div className="absolute p-4 rounded-md bg-white top-12 right-[-300%] w-[500px]  flex gap-2 flex-col z-20 ">
+        <div className="absolute p-4  bg-white top-12 shadow-xl rounded-lg right-[-300%] max-lg:right-[-200%] w-[500px] max-md:w-[360px] max-md:right-[-100%]  flex gap-2 flex-col z-30 ">
             <div className="flex items-center justify-between">
-                <Image src={tshirt} alt="T" />
+                <Image className="max-md:w-[69px] max-md:h-[51px]" src={carttable1} alt="T" />
                 <div className="text-black flex-col flex gap-2">
-                    <p className="text-xl font-bold">Basic tee 6-pack</p>
-                    <div className="text-gray-400 text-xs flex flex-col gap-1">
+                    <p className="text-xl max-md:text-sm font-bold">Basic tee 6-pack</p>
+                    <div className="text-gray-400 text-xs flex flex-col max-md:hidden gap-1">
                         <p>Size:XXS</p>
                         <p>Basic Tee 6pack</p>
                     </div>
@@ -20,10 +20,10 @@ const CartModal = () => {
                 </div>
             </div>            
             <div className="flex items-center justify-between">
-                <Image src={tshirt} alt="T" />
+                <Image className="max-md:w-[69px] max-md:h-[51px]" src={carttable2} alt="T" />
                 <div className="text-black flex-col flex gap-2">
-                    <p className="text-xl font-bold">Basic tee 6-pack</p>
-                    <div className="text-gray-400 text-xs flex flex-col gap-1">
+                    <p className="text-xl max-md:text-sm font-bold">Basic tee 6-pack</p>
+                    <div className="text-gray-400 text-xs max-md:hidden flex flex-col gap-1">
                         <p>Size:XXS</p>
                         <p>Basic Tee 6pack</p>
                     </div>
@@ -34,10 +34,10 @@ const CartModal = () => {
                 </div>
             </div>
             <div className="flex items-center justify-between">
-                <Image src={tshirt} alt="T" />
+                <Image className="max-md:w-[69px] max-md:h-[51px]" src={cartlighting} alt="T" />
                 <div className="text-black flex-col flex gap-2">
-                    <p className="text-xl font-bold">Basic tee 6-pack</p>
-                    <div className="text-gray-400 text-xs flex flex-col gap-1">
+                    <p className="text-xl max-md:text-sm font-bold">Basic tee 6-pack</p>
+                    <div className="text-gray-400 text-xs max-md:hidden flex flex-col gap-1">
                         <p>Size:XXS</p>
                         <p>Basic Tee 6pack</p>
                     </div>

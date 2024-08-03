@@ -1,10 +1,10 @@
 "use client";
 import React from 'react';
-import FirstBlock from '@/components/SinglePageComponents/FirstBlock';
-import SecondBlock from '@/components/SinglePageComponents/SecondBlock';
-import ThirdBlock from '@/components/SinglePageComponents/ThirdBlock';
-import ForthBlock from '@/components/SinglePageComponents/ForthBlock';
-import FifthBlock from '@/components/SinglePageComponents/FifthBlock';
+import FirstBlock from '@/components/SingleProduct/FirstBlock';
+import SecondBlock from '@/components/SingleProduct/SecondBlock';
+import ThirdBlock from '@/components/SingleProduct/ThirdBlock';
+import ForthBlock from '@/components/SingleProduct/ForthBlock';
+import FifthBlock from '@/components/SingleProduct/FifthBlock';
 import { useParams } from 'next/navigation';
 import { products } from 'public/data'; // Adjust path as needed
 import { Product } from '../../../../public/data'; // Adjust the path as needed

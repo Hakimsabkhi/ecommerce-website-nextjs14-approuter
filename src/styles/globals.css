@@ -105,4 +105,24 @@ body {
   background-color: #F6A75D;
   height: 100%;
 }
+/* bg-orange-400 rounded-lg max-md:rounded-[3px] py-5 w-[50%] items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white */
+.AddtoCart {
+  background-color: #fb923c;
+  border-radius: 0.5rem ;
+  padding-top: 1.25rem; 
+  padding-bottom: 1.25rem;
+  align-items: center;
+  width:50%;
+  display:flex;
+  position: relative;
+  justify-content: center;
+  overflow: hidden;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;  
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  color: rgb(255 255 255);
 
+
+}
