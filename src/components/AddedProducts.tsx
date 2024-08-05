@@ -15,18 +15,22 @@ type Product = {
     discount: number;
     createdAt: Date;
     updatedAt: Date;
-  
+   
 };
+
 
 const AddedProducts = () => {
     const [addedProducts, setAddedProducts] = useState<Product[]>([]);
+    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
     const getProducts = async () => {
         try {
             const response = await axios.get('/api/products');
             setAddedProducts(response.data);
+            setFilteredProducts(response.data);
         } catch (err: any) {
             setError(`[products_GET] ${err.message}`);
         } finally {
@@ -37,6 +41,12 @@ const AddedProducts = () => {
     useEffect(() => {
         getProducts();
     }, []);
+    useEffect(() => {
+        const filtered = addedProducts.filter(products =>
+            products.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredProducts(filtered);
+    }, [searchTerm, addedProducts]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -45,7 +55,7 @@ const AddedProducts = () => {
     if (error) {
         return <div>Error: {error}</div>;
     }
-
+    
     return (
         <div className='mx-auto w-[70%] py-8 flex flex-col gap-8'>
             <div className="flex items-center justify-between">
@@ -64,7 +74,7 @@ const AddedProducts = () => {
                 </div>
                 <div className="flex flex-col gap-0.5">
                     {addedProducts.map((item) => (
-                        <div key={item.id} className='flex gap-0.5'>
+                        <div key={item._id} className='flex gap-0.5'>
                             <div className='bg-[#15335D] h-16 w-[20%] flex text-left items-center'>
                                 <p className='px-4 py-2 text-white'>{item._id}</p>
                             </div>
