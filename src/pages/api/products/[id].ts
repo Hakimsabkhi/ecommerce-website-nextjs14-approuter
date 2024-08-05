@@ -5,6 +5,8 @@ import cloudinary from "@/lib/cloudinary";
 import upload from "@/lib/multer";
 import stream from "stream";
 import { promisify } from "util";
+import User from "@/models/User";
+import Category from "@/models/Category";
 
 export const config = {
   api: {
@@ -40,6 +42,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case "GET":
       try {
+        await User.find();
+        await Category.find();
         const product = await Product.findById(id).populate("user").populate("category");
         if (product) {
           res.status(200).json(product);
