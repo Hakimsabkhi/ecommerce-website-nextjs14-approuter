@@ -6,6 +6,7 @@ import cloudinary from "@/lib/cloudinary";
 import upload from "@/lib/multer"; // Adjust the path according to your project structure
 import stream from "stream";
 import { promisify } from "util";
+import User from "@/models/User";
 
 export const config = {
   api: {
@@ -39,6 +40,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case "GET":
       try {
+
+        await User.find();
         // Fetch a single category by ID
         const category = await Category.findById(id);
 

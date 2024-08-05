@@ -6,6 +6,7 @@ import cloudinary from '@/lib/cloudinary';
 import upload from '@/lib/multer'; // Adjust the path according to your project structure
 import stream from 'stream';
 import { promisify } from 'util';
+import User from '@/models/User';
 
 export const config = {
   api: {
@@ -25,7 +26,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     switch (req.method) {
       case 'GET':
         try {
-          const categories = await Category.find({});
+          await User.find();
+          const categories = await Category.find({}).populate("user");
           res.status(200).json(categories);
         } catch (error) {
           res.status(500).json({ message: 'Error fetching categories' });
@@ -34,10 +36,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       case 'POST':
         try {
-          const { name } = req.body;
+          const { name,user } = req.body;
           const file = (req as any).file;
 
-          if (!name) {
+          if (!name || !user) {
             return res.status(400).json({ message: 'Name is required' });
           }
 
@@ -73,7 +75,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               imageUrl = (result as any).secure_url; // Extract the secure_url from the result
           }
         
-          const newCategory = new Category({ name, imageUrl });
+          const newCategory = new Category({ name, imageUrl,user });
           await newCategory.save();
           res.status(201).json(newCategory);
         } catch (error) {

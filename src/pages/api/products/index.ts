@@ -7,6 +7,7 @@ import stream from "stream";
 import { promisify } from "util";
 import User from "@/models/User";
 import Category from "@/models/Category";
+import Brand from "@/models/Brand";
 export const config = {
   api: {
     bodyParser: false, // Disable body parsing, we will handle it manually
@@ -25,7 +26,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         try {
           await User.find();
           await Category.find();
-          const products = await  Products.find({}).populate("user").populate("category");
+          await Brand.find();
+          const products = await  Products.find({}).populate("user").populate("category").populate("brand");
           ;
           res.status(200).json(products);
         } catch (error) {
@@ -39,10 +41,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
      case 'POST':
           try {
             
-            const { name,description,ref,category,stock,price,discount,user} = req.body;
+            const { name,description,ref,category,brand,stock,price,discount,user} = req.body;
             const file = (req as any).file;
   
-            if (!name || !description || !ref || !category || !stock || !price || !user) {
+            if (!name || !description || !ref || !category || !brand || !stock || !price || !user) {
               return res.status(400).json({ message: 'All required fields must be filled' });
             }
             
@@ -78,7 +80,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 imageUrl = (result as any).secure_url; // Extract the secure_url from the result
             }
           
-            const newProduct = new Products({ name, description,ref,category,stock,price,discount,user, imageUrl });
+            const newProduct = new Products({ name, description,ref,category,brand,stock,price,discount,user, imageUrl });
             await newProduct.save();
             res.status(201).json(newProduct);
           } catch (error) {
