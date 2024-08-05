@@ -100,7 +100,7 @@ const AddProduct = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            router.push('/product'); // Redirect to products page after successful submission
+            router.push('/ProductList'); // Redirect to products page after successful submission
         } catch (err: any) {
             setError(`Error: ${err.response?.data?.message || err.message}`);
         }
