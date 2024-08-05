@@ -5,6 +5,8 @@ import cloudinary from "@/lib/cloudinary";
 import upload from "@/lib/multer";
 import stream from "stream";
 import { promisify } from "util";
+import User from "@/models/User";
+import Category from "@/models/Category";
 export const config = {
   api: {
     bodyParser: false, // Disable body parsing, we will handle it manually
@@ -21,7 +23,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     switch (req.method) {
       case 'GET':
         try {
-          const products = await  Products.find({}).populate('user').populate('category');
+          await User.find();
+          await Category.find();
+          const products = await  Products.find({}).populate("user").populate("category");
           ;
           res.status(200).json(products);
         } catch (error) {
