@@ -7,6 +7,7 @@ import stream from "stream";
 import { promisify } from "util";
 import User from "@/models/User";
 import Category from "@/models/Category";
+import Brand from "@/models/Brand";
 
 export const config = {
   api: {
@@ -44,7 +45,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       try {
         await User.find();
         await Category.find();
-        const product = await Product.findById(id).populate("user").populate("category");
+        await Brand.find();
+        const product = await Product.findById(id).populate("user").populate("category").populate("brand");
         if (product) {
           res.status(200).json(product);
         } else {
@@ -71,7 +73,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         await uploadSingle(req as any, res as any);
         const file = (req as any).file;
         const { id } = req.query as { id: string };
-        const { name, description, ref, category, stock, price, discount, user } = req.body;
+        const { name, description, ref, category,brand, stock, price, discount, user } = req.body;
   
         if (!id) {
           return res.status(400).json({ message: 'Product ID is required' });
@@ -121,6 +123,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         if (description) updatedData.description = description;
         if (ref) updatedData.ref = ref;
         if (category) updatedData.category = category;
+        if (brand) updatedData.brand = brand;
         if (stock) updatedData.stock = stock;
         if (price) updatedData.price = price;
         if (discount) updatedData.discount = discount;
