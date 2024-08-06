@@ -11,7 +11,11 @@ module.exports = {
     "./node_modules/tw-elements/js/**/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+      },
+    },
   },
   darkMode: "class",
   plugins: [require("tw-elements/plugin.cjs")]

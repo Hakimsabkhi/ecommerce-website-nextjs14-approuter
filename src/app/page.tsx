@@ -9,7 +9,7 @@ import Collection from '@/components/Collection';
 import Furniture from '@/components/Furniture';
 import Rules from '@/components/Rules';
 import Latestarticle from '@/components/Latestarticle';
-
+import '../styles/globals.css';
 
 
 export default function HomePage() {

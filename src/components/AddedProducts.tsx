@@ -118,9 +118,11 @@ const AddedProducts: React.FC = () => {
                             <td className="border px-4 py-2 flex justify-between items-center ">
                                 <p>{item.user.username}</p>
                                 <div className="flex items-center gap-2">
-                                    <button className="bg-orange-400 w-28 h-10 rounded-md">
-                                        Modify
-                                    </button>
+                                    <Link href={`/ProductList/${item._id}`}>
+                                        <button className="bg-orange-400 w-28 h-10 rounded-md">
+                                            Modify
+                                        </button>
+                                    </Link>
                                     <button className="bg-orange-400 w-28 h-10 rounded-md">
                                         Delete
                                     </button>
