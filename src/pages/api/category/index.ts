@@ -14,14 +14,14 @@ export const config = {
   },
 };
 
-const uploadSingle = promisify(upload.single('image'));
+const uploadFiles = promisify(upload.fields([{ name: 'image', maxCount: 1 }, { name: 'logo', maxCount: 1 }]));
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectToDatabase();
 
   // Handle file upload using multer
   try {
-    await uploadSingle(req as any, res as any);
+    await uploadFiles(req as any, res as any);
 
     switch (req.method) {
       case 'GET':
@@ -37,7 +37,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       case 'POST':
         try {
           const { name,user } = req.body;
-          const file = (req as any).file;
+          const imageFile = (req as any).files?.image?.[0];
+          const logoFile = (req as any).files?.logo?.[0];
+
 
           if (!name || !user) {
             return res.status(400).json({ message: 'Name is required' });
@@ -48,12 +50,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             return res.status(400).json({ message: 'Category with this name already exists' });
           }
 
+          
           let imageUrl = '';
-         if (file) {
+          let logoUrl = '';
+         if (imageFile) {
             
               // Use a buffer stream to convert the file buffer into a readable stream
               const bufferStream = new stream.PassThrough();
-              bufferStream.end(file.buffer);
+              bufferStream.end(imageFile.buffer);
               //bufferStream.pipe(uploadStream);
   
               // Wait for the upload stream to finish and get the result
@@ -74,8 +78,27 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               
               imageUrl = (result as any).secure_url; // Extract the secure_url from the result
           }
-        
-          const newCategory = new Category({ name, imageUrl,user });
+          if (logoFile) {
+            const logoBufferStream = new stream.PassThrough();
+            logoBufferStream.end(logoFile.buffer);
+
+            const logoResult = await new Promise<any>((resolve, reject) => {
+              const uploadStream = cloudinary.uploader.upload_stream(
+                { folder: 'categories/logos' },
+                (error, result) => {
+                  if (error) {
+                    return reject(error);
+                  }
+                  resolve(result);
+                }
+              );
+
+              logoBufferStream.pipe(uploadStream);
+            });
+
+            logoUrl = (logoResult as any).secure_url;
+          }
+          const newCategory = new Category({ name,logoUrl, imageUrl,user });
           await newCategory.save();
           res.status(201).json(newCategory);
         } catch (error) {

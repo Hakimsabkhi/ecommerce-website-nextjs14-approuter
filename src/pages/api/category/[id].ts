@@ -14,7 +14,7 @@ export const config = {
   },
 };
 
-const uploadSingle = promisify(upload.single('image'));
+const uploadFiles = promisify(upload.fields([{ name: 'image', maxCount: 1 }, { name: 'logo', maxCount: 1 }]));
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectToDatabase();
   const extractPublicId = (url: string): string => {
@@ -56,10 +56,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       break;
       case "PUT":
       try {
-        await uploadSingle(req as any, res as any);
-
+       // Handle multiple files with multer
+       await uploadFiles(req as any, res as any);
         const { name } = req.body;
-        const file = (req as any).file;
+        const imageFile = (req as any).files?.image?.[0];
+        const logoFile = (req as any).files?.logo?.[0];
 
         const category = await Category.findById(id);
         if (!category) {
@@ -67,8 +68,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         let imageUrl = category.imageUrl;
-
-        if (file) {
+        let logoUrl = category.logoUrl;
+        if (imageFile) {
           if (category.imageUrl) {
             const publicId = extractPublicId(category.imageUrl);
             if (publicId) {
@@ -77,7 +78,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           }
 
           const bufferStream = new stream.PassThrough();
-          bufferStream.end(file.buffer);
+          bufferStream.end(imageFile.buffer);
 
           const result = await new Promise<any>((resolve, reject) => {
             const uploadStream = cloudinary.uploader.upload_stream(
@@ -95,10 +96,37 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
           imageUrl = result.secure_url;
         }
+        if (logoFile) {
+          if (category.logoUrl) {
+            const publicId = extractPublicId(category.logoUrl);
+            if (publicId) {
+              await cloudinary.uploader.destroy(`categories/${publicId}`);
+            }
+          }
 
+          const bufferStream = new stream.PassThrough();
+          bufferStream.end(logoFile.buffer);
+
+          const result = await new Promise<any>((resolve, reject) => {
+            const uploadStream = cloudinary.uploader.upload_stream(
+              { folder: "categories/logos", public_id: `logo_${id}` },
+              (error, result) => {
+                if (error) {
+                  console.error("Cloudinary Upload Error:", error);
+                  return reject(error);
+                }
+                resolve(result);
+              }
+            );
+            bufferStream.pipe(uploadStream);
+          });
+
+          logoUrl = result?.secure_url || "";
+        }
         const updatedData: any = {};
         if (name) updatedData.name = name;
         if (imageUrl) updatedData.imageUrl = imageUrl;
+        if (logoUrl) updatedData.logoUrl = logoUrl;
 
         const updatedCategory = await Category.findByIdAndUpdate(id, updatedData, { new: true });
         if (!updatedCategory) {
@@ -144,6 +172,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               .shift();
             if (publicId) {
               await cloudinary.uploader.destroy(`categories/${publicId}`);
+            }
+          }
+        }
+        if (category.logoUrl) {
+          const publicId = extractPublicId(category.logoUrl);
+
+          if (category.logoUrl) {
+            const publicId = category.logoUrl
+              .split("/")
+              .pop()
+              ?.split(".")
+              .shift();
+            if (publicId) {
+              await cloudinary.uploader.destroy(`categories/logos/${publicId}`);
             }
           }
         }

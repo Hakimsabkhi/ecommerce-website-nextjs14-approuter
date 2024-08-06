@@ -2,6 +2,7 @@ import mongoose, { Schema, Document,Model} from 'mongoose';
 import { IUser } from './User'; // Import the IUser interface
 export interface ICategory extends Document {
   name: string;
+  logoUrl?:string;
   imageUrl?: string;
   user: IUser | string; // Reference to a User document or User ID
   createdAt?: Date;
@@ -10,6 +11,7 @@ export interface ICategory extends Document {
 
 const CategorySchema: Schema = new Schema({
   name: { type: String, required: true },
+  logoUrl: { type: String },
   imageUrl: { type: String },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 });

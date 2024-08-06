@@ -19,6 +19,18 @@ const AddedCategories: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const categoriesPerPage = 5; // Number of categories to display per page
+    const DeleteCategory = async (categoryId: string) => {
+        setLoading(true);
+        try {
+            await axios.delete(`/api/category/${categoryId}`);
+            // Refresh categories after deletion
+            getCategory();
+        } catch (err: any) {
+            setError(`[Category_DELETE] ${err.message}`);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const getCategory = async () => {
         try {
@@ -104,7 +116,7 @@ const AddedCategories: React.FC = () => {
                                             Modify
                                         </button>
                                     </Link>
-                                    <button className="bg-orange-400 w-28 h-10 rounded-md">
+                                    <button onClick={() => DeleteCategory(item._id)} className="bg-orange-400 w-28 h-10 rounded-md">
                                         Delete
                                     </button>
                                 </div>
