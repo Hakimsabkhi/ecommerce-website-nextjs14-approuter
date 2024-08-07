@@ -59,9 +59,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
        // Handle multiple files with multer
        await uploadFiles(req as any, res as any);
         const { name } = req.body;
-        const imageFile = (req as any).files?.image?.[0];
+        const imageFile = (req as any).files?.image?.[0] ;
         const logoFile = (req as any).files?.logo?.[0];
-
+        console.log(logoFile)
         const category = await Category.findById(id);
         if (!category) {
           return res.status(404).json({ message: "Category not found" });
@@ -96,33 +96,35 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
           imageUrl = result.secure_url;
         }
-        if (logoFile) {
-          if (category.logoUrl) {
-            const publicId = extractPublicId(category.logoUrl);
-            if (publicId) {
-              await cloudinary.uploader.destroy(`categories/${publicId}`);
-            }
-          }
-
-          const bufferStream = new stream.PassThrough();
-          bufferStream.end(logoFile.buffer);
-
-          const result = await new Promise<any>((resolve, reject) => {
-            const uploadStream = cloudinary.uploader.upload_stream(
-              { folder: "categories/logos", public_id: `logo_${id}` },
-              (error, result) => {
-                if (error) {
-                  console.error("Cloudinary Upload Error:", error);
-                  return reject(error);
-                }
-                resolve(result);
-              }
-            );
-            bufferStream.pipe(uploadStream);
-          });
-
-          logoUrl = result?.secure_url || "";
+           // Handle logo upload
+    if (logoFile) {
+      // Delete the old logo if it exists
+      if (logoUrl) {
+        const publicId = extractPublicId(logoUrl);
+        if (publicId) {
+          await cloudinary.uploader.destroy(`categories/logos/${publicId}`);
         }
+      }
+
+      const bufferStream = new stream.PassThrough();
+      bufferStream.end(logoFile.buffer);
+
+      const result = await new Promise<any>((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: 'categories/logos', public_id: `logo_${id}` },
+          (error, result) => {
+            if (error) {
+              console.error('Cloudinary Upload Error:', error);
+              return reject(error);
+            }
+            resolve(result);
+          }
+        );
+        bufferStream.pipe(uploadStream);
+      });
+
+      logoUrl = result.secure_url;
+    }
         const updatedData: any = {};
         if (name) updatedData.name = name;
         if (imageUrl) updatedData.imageUrl = imageUrl;
