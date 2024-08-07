@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type Category = {
     _id: string;
     name: string;
     imageUrl: string;
+    logoUrl: string;
     createdAt: Date;
     updatedAt: Date;
 };
@@ -19,6 +21,18 @@ const AddedCategories: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const categoriesPerPage = 5; // Number of categories to display per page
+    const DeleteCategory = async (categoryId: string) => {
+        setLoading(true);
+        try {
+            await axios.delete(`/api/category/${categoryId}`);
+            // Refresh categories after deletion
+            getCategory();
+        } catch (err: any) {
+            setError(`[Category_DELETE] ${err.message}`);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const getCategory = async () => {
         try {
@@ -79,6 +93,7 @@ const AddedCategories: React.FC = () => {
             <table className="table-auto w-full mt-4">
                 <thead>
                     <tr>
+                        <th className="py-2 text-start">Icon</th>
                         <th className=" py-2 text-start">ImageURL</th>
                         <th className=" py-2 text-start">Name</th>
                         <th className=" py-2 text-start flex items-center gap-4">
@@ -94,6 +109,7 @@ const AddedCategories: React.FC = () => {
                 <tbody>
                     {currentCategories.map((item, index) => (
                         <tr key={index} className='bg-[#15335D] text-white'>
+                             <td className="border px-4 py-2"><Image src={item.logoUrl} width={30} height={30} alt="icon"/></td>
                             <td className="border px-4 py-2">{item.imageUrl}</td>
                             <td className="border px-4 py-2">{item.name}</td>
                             <td className="border px-4 py-2 flex justify-between items-center ">
@@ -104,7 +120,7 @@ const AddedCategories: React.FC = () => {
                                             Modify
                                         </button>
                                     </Link>
-                                    <button className="bg-orange-400 w-28 h-10 rounded-md">
+                                    <button onClick={() => DeleteCategory(item._id)} className="bg-orange-400 w-28 h-10 rounded-md">
                                         Delete
                                     </button>
                                 </div>
