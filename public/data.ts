@@ -1,5 +1,5 @@
 import { StaticImageData } from "next/image";
-import {tableamanger,cuisine,salon,chambreparent,chambreenfant, chair2,marvin,dianne,kristin,facebook,X,instagram,linkedin, chair3,giftcard1,giftcard2, star, heart, chair4, chair5, table2, table3, table1, sofa2, sofa3, sofa4, steak1, bathroom, office, resto, resto1, office1, livingroom5, livingroom4, HAYpic, kettalpic, HAYlogo, kettallogo, elitislogo, lladrologo, poliformpic, elitispic, lladropic, poliformlogo, armchairpic, bedpic, chairpic, decorpic, lightingpic, sofapic, storagepic, tablepic, textilepic, toyspic, bedroom1, bedroom2, coffe, food1, food2, kitchen, livingroom1, livingroom2, mags, skygarden,frames, chair10, chair11, chair12, chair13, chair14, chair15, chair16, chair6, chair7, chair8, chair9, chair17,  } from "../public/image";
+import {chair20,chair21,chair22,chair23,table4,sofa5,tableamanger,cuisine,salon,chambreparent,chambreenfant, chair2,marvin,dianne,kristin,facebook,X,instagram,linkedin, chair3,giftcard1,giftcard2, star, heart, chair4, chair5, table2, table3, table1, sofa2, sofa3, sofa4, steak1, bathroom, office, resto, resto1, office1, livingroom5, livingroom4, HAYpic, kettalpic, HAYlogo, kettallogo, elitislogo, lladrologo, poliformpic, elitispic, lladropic, poliformlogo, armchairpic, bedpic, chairpic, decorpic, lightingpic, sofapic, storagepic, tablepic, textilepic, toyspic, bedroom1, bedroom2, coffe, food1, food2, kitchen, livingroom1, livingroom2, mags, skygarden,frames, chair10, chair11, chair12, chair13, chair14, chair15, chair16, chair6, chair7, chair8, chair9, chair17,  } from "../public/image";
 
 const items = [
     { src: chair2, name: "curve", type: "chairs", price: "320.00 TND", rating: 4.5 },
@@ -133,5 +133,15 @@ const members = [
     {src:dianne, name:"Dianne Russel", title:"CEO,co-founde", facebook:facebook, X:X,linkedin:linkedin, instagram:instagram},
     {src:kristin, name:"Kristin Watsony", title:"CEO,co-founde", facebook:facebook, X:X,linkedin:linkedin, },
 ]
+const historyproducts1 = [
+    {src:chair20, name:"Machined Pen and Pencil Set", price:"$70.00", status:"Delivered Jan 25,2021"},
+    {src:table4, name:"Eqrthen Mug", price:"$28.00", status:"Delivered Jan 25,2021"},
+    {src:sofa5, name:"Leatherbound Daily Journal Set", price:"$140.00", status:"Delivered Jan 25,2021"},
+]
+const shoppingcart = [
+    {src:chair21, name:"Basic Tee", color:"Sienna", size:"Large", price:"$32.00", status:"En Stock"},
+    {src:chair22, name:"Basic Tee", color:"black", size:"Large", price:"$32.00", status:"En Stock"},
+    {src:chair23, name:"Basic Tee", color:"white", size:"Large", price:"$32.00", status:"En Stock"},
+]
 const noHeaderFooterUrls = ['/signin'];
-export { items, itemsblog, collection,addedcategories, itemsarticle, noHeaderFooterUrls, products, brands, categories, productCollection, cards, itemsFurniture, members,addedproducts };export type { Product };
+export { items,shoppingcart, itemsblog,historyproducts1, collection,addedcategories, itemsarticle, noHeaderFooterUrls, products, brands, categories, productCollection, cards, itemsFurniture, members,addedproducts };export type { Product };
