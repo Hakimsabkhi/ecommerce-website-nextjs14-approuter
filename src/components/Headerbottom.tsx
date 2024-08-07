@@ -15,7 +15,7 @@ interface Category {
 const Headerbottom: React.FC = () => {
     
         const [categories, setCategories] = useState<Category[]>([]);
-        const [loading, setLoading] = useState(true);
+        
         const [error, setError] = useState<string | null>(null);
       
         const getCategory = async () => {
@@ -24,19 +24,14 @@ const Headerbottom: React.FC = () => {
             setCategories(response.data);
           } catch (err: any) {
             setError(`[Category_GET] ${err.message}`);
-          } finally {
-            setLoading(false);
-          }
+          } 
         };
       
         useEffect(() => {
           getCategory();
         }, []);
       
-        if (loading) {
-          return <div>Loading...</div>;
-        }
-      
+        
         if (error) {
           return <div>Error: {error}</div>;
         }

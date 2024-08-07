@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -10,7 +10,9 @@ const AddCategory = () => {
     const router = useRouter();
     const [name, setName] = useState('');
     const [image, setImage] = useState<File | null>(null);
+    const [icon, setIcon] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [iconPreview, setIconPreview] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -30,6 +32,16 @@ const AddCategory = () => {
         }
     }, [image]);
 
+    useEffect(() => {
+        if (icon) {
+            const objectUrl = URL.createObjectURL(icon);
+            setIconPreview(objectUrl);
+
+            // Clean up object URL
+            return () => URL.revokeObjectURL(objectUrl);
+        }
+    }, [icon]);
+
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
     };
@@ -40,17 +52,24 @@ const AddCategory = () => {
         }
     };
 
+    const handleIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setIcon(e.target.files[0]);
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!name || !image) {
-            setError('Name and image are required');
+        if (!name || !image || !icon) {
+            setError('Name, image, and icon are required');
             return;
         }
 
         const formData = new FormData();
         formData.append('name', name);
-        formData.append('image', image); // Correctly naming the field
+        formData.append('image', image);
+        formData.append('logo', icon); // Correctly naming the field
         formData.append('user', session?.user?.id.toString() || ''); // Ensure user ID is a string
 
         try {
@@ -95,14 +114,34 @@ const AddCategory = () => {
                         Select an Image
                     </label>
                     {imagePreview && (
-                    <div className="w-[15%] max-lg:w-full">
-                        <Image src={imagePreview} alt="Image preview" className="w-full h-auto mt-4 " width={10} height={10}/>
-                    </div>
-                )}
+                        <div className="w-[15%] max-lg:w-full">
+                            <Image src={imagePreview} alt="Image preview" className="w-full h-auto mt-4" width={10} height={10} />
+                        </div>
+                    )}
                 </div>
-               
+                <div className='flex items-center w-[30%] max-lg:w-full justify-between'>
+                    <p className="max-lg:text-base font-bold">Upload Icon*</p>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleIconChange}
+                        className="hidden"
+                        id="upload-icon"
+                    />
+                    <label
+                        htmlFor="upload-icon"
+                        className='bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-[50%] h-10 border-2 flex items-center justify-center cursor-pointer'
+                    >
+                        Select an Icon
+                    </label>
+                    {iconPreview && (
+                        <div className="w-[15%] max-lg:w-full">
+                            <Image src={iconPreview} alt="Icon preview" className="w-full h-auto mt-4" width={10} height={10} />
+                        </div>
+                    )}
+                </div>
                 <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
-                    <button type="submit" className='bg-orange-400 text-white rounded-md w-full h-10' >
+                    <button type="submit" className='bg-orange-400 text-white rounded-md w-full h-10'>
                         <p className="text-white">Add the new category</p>
                     </button>
                 </div>
@@ -110,6 +149,6 @@ const AddCategory = () => {
             {error && <p className="text-red-500">{error}</p>}
         </div>
     );
-}
+};
 
 export default AddCategory;
