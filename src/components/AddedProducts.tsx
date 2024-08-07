@@ -44,7 +44,18 @@ const AddedProducts: React.FC = () => {
             setLoading(false);
         }
     };
-
+    const DeleteCategory = async (productId: string) => {
+        setLoading(true);
+        try {
+            await axios.delete(`/api/products/${productId}`);
+            // Refresh categories after deletion
+            getProducts();
+        } catch (err: any) {
+            setError(`[Product_DELETE] ${err.message}`);
+        } finally {
+            setLoading(false);
+        }
+    };
     useEffect(() => {
         getProducts();
     }, []);
@@ -123,7 +134,7 @@ const AddedProducts: React.FC = () => {
                                             Modify
                                         </button>
                                     </Link>
-                                    <button className="bg-orange-400 w-28 h-10 rounded-md">
+                                    <button onClick={() => DeleteCategory(item._id)}  className="bg-orange-400 w-28 h-10 rounded-md">
                                         Delete
                                     </button>
                                 </div>
