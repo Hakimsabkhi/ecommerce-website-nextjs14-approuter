@@ -4,9 +4,11 @@ import axios from 'axios';
 import Link from 'next/link';
 
 type User = {
-    username: string;
+    _id:string;
+    
     // other user fields
 };
+
 type Product = {
     _id: string;
     name: string;
@@ -20,12 +22,14 @@ type Product = {
     discount: number;
     createdAt: Date;
     updatedAt: Date;
-   
 };
 
+type AddedProductsProps = {
+    products: Product[];
+};
 
-const AddedProducts: React.FC = () => {
-    const [addedProducts, setAddedProducts] = useState<Product[]>([]);
+const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
+    console.log(products)
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -34,9 +38,9 @@ const AddedProducts: React.FC = () => {
     const productsPerPage = 5;
 
     const getProducts = async () => {
+        setLoading(true);
         try {
             const response = await axios.get('/api/products');
-            setAddedProducts(response.data);
             setFilteredProducts(response.data);
         } catch (err: any) {
             setError(`[products_GET] ${err.message}`);
@@ -44,11 +48,12 @@ const AddedProducts: React.FC = () => {
             setLoading(false);
         }
     };
-    const DeleteCategory = async (productId: string) => {
+
+    const deleteProduct = async (productId: string) => {
         setLoading(true);
         try {
             await axios.delete(`/api/products/${productId}`);
-            // Refresh categories after deletion
+            // Refresh products after deletion
             getProducts();
         } catch (err: any) {
             setError(`[Product_DELETE] ${err.message}`);
@@ -56,19 +61,21 @@ const AddedProducts: React.FC = () => {
             setLoading(false);
         }
     };
-    useEffect(() => {
-        getProducts();
-    }, []);
-    useEffect(() => {
-        const filtered = addedProducts.filter(products =>
-            products.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            products.ref.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            products.user.username.toLowerCase().includes(searchTerm.toLowerCase())
 
+    useEffect(() => {
+        setFilteredProducts(products);
+        setCurrentPage(1);
+    }, [products]);
+
+    useEffect(() => {
+        const filtered = products.filter(product =>
+            product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            product.ref.toLowerCase().includes(searchTerm.toLowerCase()) 
+           // product.user.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredProducts(filtered);
         setCurrentPage(1);
-    }, [searchTerm, addedProducts]);
+    }, [searchTerm, products]);
 
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -77,23 +84,17 @@ const AddedProducts: React.FC = () => {
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+    
     
     return (
         <div className='mx-auto w-[90%] py-8 flex flex-col gap-8'>
             <div className="flex items-center justify-between">
                 <p className='text-3xl font-bold'>ALL Products</p>                
-                <a href="/ProductList/AddProduct" className="w-[15%]">
-                    <button className='bg-orange-400 text-white rounded-lg w-full  h-10'>
+                <Link href="/ProductList/AddProduct">
+                    <button className='bg-orange-400 text-white rounded-lg px-4 w-full h-10'>
                         <p>Add the new Product</p>
                     </button>
-                </a>
+                </Link>
             </div>
             <input
                 type="text"
@@ -110,31 +111,27 @@ const AddedProducts: React.FC = () => {
                         <th className="text-start py-2">Name</th>
                         <th className="text-start py-2">ImageURL</th>                
                         <th className="flex items-center gap-20 py-2">
-                            <p>
-                                Created By
-                            </p>
-                            <p>
-                                Action
-                            </p>
+                            <p>Created By</p>
+                            <p>Action</p>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {currentProducts.map((item, index) => (
-                        <tr key={index} className='bg-[#15335D] text-white'>
+                    {currentProducts.map((item) => (
+                        <tr key={item._id} className='bg-[#15335D] text-white'>
                             <td className="border px-4 py-2">{item._id}</td>
                             <td className="border px-4 py-2">{item.ref}</td>
                             <td className="border px-4 py-2">{item.name}</td>
                             <td className="border px-4 py-2">{item.imageUrl}</td>
-                            <td className="border px-4 py-2 flex justify-between items-center ">
-                                <p>{item.user.username}</p>
+                            <td className="border px-4 py-2 flex justify-between items-center">
+                                
                                 <div className="flex items-center gap-2">
                                     <Link href={`/ProductList/${item._id}`}>
                                         <button className="bg-orange-400 w-28 h-10 rounded-md">
                                             Modify
                                         </button>
                                     </Link>
-                                    <button onClick={() => DeleteCategory(item._id)}  className="bg-orange-400 w-28 h-10 rounded-md">
+                                    <button onClick={() => deleteProduct(item._id)} className="bg-orange-400 w-28 h-10 rounded-md">
                                         Delete
                                     </button>
                                 </div>

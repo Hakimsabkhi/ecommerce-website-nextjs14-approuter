@@ -1,9 +1,11 @@
 "use client";
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image'; // Import Image component from Next.js
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface ProductData {
   _id: string;
@@ -42,14 +44,13 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  // Initialize productData state with props
   const [formData, setFormData] = useState<ProductData>({
     _id: productData?._id || '',
     name: productData?.name || '',
     description: productData?.description || '',
     ref: productData?.ref || '',
-    category: productData?.category?._id || '', // Use category._id here
-    brand: productData?.brand?._id || '',
+    category: productData?.category || { _id: '' },
+    brand: productData?.brand || { _id: '' },
     stock: productData?.stock || 0,
     price: productData?.price || 0,
     discount: productData?.discount || '',
@@ -65,7 +66,6 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
   }, [session, status, router]);
 
   useEffect(() => {
-    // Fetch categories and brands
     axios.get('/api/category')
       .then(response => setCategories(response.data))
       .catch(error => console.error('Error fetching categories:', error));
@@ -86,9 +86,11 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: value,
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: name === 'category' || name === 'brand' 
+        ? { _id: value } 
+        : value
     }));
   };
 
@@ -98,16 +100,15 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     }
   };
 
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log();
+    
     const updateFormData = new FormData();
     updateFormData.append('name', formData.name);
     updateFormData.append('description', formData.description);
     updateFormData.append('ref', formData.ref);
-    updateFormData.append('category', formData.category);
-    updateFormData.append('brand', formData.brand);
+    updateFormData.append('category', formData.category._id);
+    updateFormData.append('brand', formData.brand._id);
     updateFormData.append('stock', formData.stock.toString());
     updateFormData.append('price', formData.price.toString());
     updateFormData.append('discount', formData.discount || '');
@@ -123,7 +124,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
       setError(`Error: ${err.response?.data?.message || err.message}`);
     }
   };
- 
+
   return (
     <form onSubmit={handleSubmit} className='mx-auto w-[90%] max-lg:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8'>
       <p className='text-3xl font-bold'>Modify Product</p>
@@ -164,43 +165,42 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
           </div>
         )}
       </div>
+      <div className='flex max-lg:flex-col items-center gap-2 max-lg:gap-8'>
       <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
-                  <p className="text-xl font-bold">Category *</p>
-                  <select 
-                      name="category"
-                      value={(formData.category).toString()}
-                      onChange={handleChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
-                      required
-                  >
-                      <option value="">Select a category</option>
-                      {categories.map(category => (
-                          <option key={category._id} value={category._id}>
-                              {category.name}
-                          </option>
-                      ))}
-                  </select>
-              </div>
-              <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
-                  <p className="text-xl font-bold">Brand *</p>
-                  <select 
-                      name="brand"
-                      value={(formData.brand).toString()}
-                      onChange={handleChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
-                      required
-                  >
-                      <option value="">Select a brand</option>
-                      {brands.map(brand => (
-                          <option key={brand._id} value={brand._id}>
-                              {brand.name}
-                          </option>
-                      ))}
-                  </select>
-              </div>
-        
-      <div className='flex max-lg:flex-col items-center max-lg:gap-8 justify-between'>
-        <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
+        <p className="text-xl font-bold">Category *</p>
+        <select 
+          name="category"
+          value={formData.category._id}
+          onChange={handleChange}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
+          required
+        >
+          <option value="">Select a category</option>
+          {categories.map(category => (
+            <option key={category._id} value={category._id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
+        <p className="text-xl font-bold">Brand *</p>
+        <select 
+          name="brand"
+          value={formData.brand._id}
+          onChange={handleChange}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
+          required
+        >
+          <option value="">Select a brand</option>
+          {brands.map(brand => (
+            <option key={brand._id} value={brand._id}>
+              {brand.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
           <p className="text-xl font-bold">Quantity *</p>
           <input 
             type="number" 
@@ -211,6 +211,9 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
             required 
           />
         </div>
+      </div>
+      <div className='flex max-lg:flex-col items-center max-lg:gap-8 justify-between'>
+        
         <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
           <p className="text-xl font-bold">Ref *</p>
           <input 
@@ -254,10 +257,15 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
           required 
         />
       </div>
-      <div className="w-full flex justify-end">
+      <div className="w-full flex justify-end gap-4">
         <button type="submit" className='bg-orange-400 text-white rounded-md w-[20%] max-lg:w-[50%] h-10'>
           <p className="text-white">Modify Product</p>
         </button>
+        <Link href="/ProductList" className='border border-gray-400 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10'>
+        
+          <p className="text-black">Cancel</p>
+       
+        </Link>
       </div>
     </form>
   );
