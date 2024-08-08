@@ -1,140 +1,274 @@
 "use client";
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import Link from 'next/link';
 
-// Define the Category and Brand types
+interface ProductData {
+  _id: string;
+  name: string;
+  description: string;
+  ref: string;
+  category: { _id: string };
+  brand: { _id: string };
+  stock: number;
+  price: number;
+  discount?: string;
+  imageUrl?: string;
+  user: string;
+}
+
+interface ModifyProductProps {
+  productData: ProductData | null;
+}
+
 interface Category {
-    _id: string;
-    name: string;
+  _id: string;
+  name: string;
 }
 
 interface Brand {
-    _id: string;
-    name: string;
+  _id: string;
+  name: string;
 }
 
-const AddProduct = () => {
-    const params = useParams();
-    
+const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-    return (
-        <form  className='mx-auto w-[90%] max-lg:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8'>
-            <p className='text-3xl font-bold'>Modify</p>
-            
-            <div className='flex max-lg:flex-col items-center gap-2 max-lg:gap-8'>
-                <div className='flex items-center w-[40%] max-lg:w-full max-lg:justify-between gap-2'>
-                    <p className="text-xl font-bold">Name *</p>
-                    <input 
-                        type="text" 
-                        name="name"
-                        
-                        
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[80%] block p-2.5" 
-                        required 
-                    />
-                </div>
-                <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-2'>
-                    <p className="text-xl font-bold">Upload Image *</p>
-                    <input 
-                        type="file" 
-                        
-                        className='hidden'
-                        id='file-upload'
-                         
-                    />
-                    <label htmlFor='file-upload' className='bg-[#EFEFEF] text-white rounded-md w-[50%] h-10 border-2 flex justify-center items-center cursor-pointer'>
-                        <p className="text-black">
-                            Select an Image
-                        </p>
-                    </label>
-                </div>
-                
-                <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
-                    <p className="text-xl font-bold">Category *</p>
-                    <select 
-                        name="category"
-                        
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
-                        required
-                    >
-                        <option value="">Select a category</option>
-                        
-                    </select>
-                </div>
-                <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
-                    <p className="text-xl font-bold">Brand *</p>
-                    <select 
-                        name="brand"
-                        
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
-                        required
-                    >
-                        <option value="">Select a brand</option>
-                        
-                    </select>
-                </div>
-            </div>
-            <div className='flex max-lg:flex-col items-center max-lg:gap-8 justify-between'>
-                <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
-                    <p className="text-xl font-bold">Quantity *</p>
-                    <input 
-                        type="text" 
-                        name="stock"
-                        
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
-                        required 
-                    />
-                </div>
-                <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
-                    <p className="text-xl font-bold">Ref *</p>
-                    <input 
-                        type="text" 
-                        name="ref"
-                        
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
-                        required 
-                    />
-                </div>
-                <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
-                    <p className="text-xl font-bold">Price *</p>
-                    <input 
-                        type="text" 
-                        name="price"
-                        
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
-                        required 
-                    />
-                </div>
-                <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
-                    <p className="text-xl font-bold">Discount</p>
-                    <input 
-                        type="text" 
-                        name="discount"
-                        
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
-                    />
-                </div>
-            </div>
-            <div className='flex items-center w-full gap-4'>
-                <p className="text-xl font-bold">Description</p>
-                <textarea 
-                    name="description"
-                    
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full block p-2.5" 
-                    required 
-                />
-            </div>
-            <div className="w-full flex justify-end">
-                <button type="submit" className='bg-orange-400 text-white rounded-md w-[20%] max-lg:w-[50%] h-10'>
-                    <p className="text-white">
-                        Modify
-                    </p>
-                </button>
-            </div>
-        </form>
-    );
+  const [formData, setFormData] = useState<ProductData>({
+    _id: productData?._id || '',
+    name: productData?.name || '',
+    description: productData?.description || '',
+    ref: productData?.ref || '',
+    category: productData?.category || { _id: '' },
+    brand: productData?.brand || { _id: '' },
+    stock: productData?.stock || 0,
+    price: productData?.price || 0,
+    discount: productData?.discount || '',
+    imageUrl: productData?.imageUrl || '',
+    user: productData?.user || '',
+  });
+
+  useEffect(() => {
+    if (status === 'loading') return;
+    if (!session || !session.user || session.user.role !== 'Admin') {
+      router.push('/signin');
+    }
+  }, [session, status, router]);
+
+  useEffect(() => {
+    axios.get('/api/category')
+      .then(response => setCategories(response.data))
+      .catch(error => console.error('Error fetching categories:', error));
+
+    axios.get('/api/brand')
+      .then(response => setBrands(response.data))
+      .catch(error => console.error('Error fetching brands:', error));
+  }, []);
+
+  useEffect(() => {
+    if (image) {
+      const objectUrl = URL.createObjectURL(image);
+      setImagePreview(objectUrl);
+
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [image]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: name === 'category' || name === 'brand' 
+        ? { _id: value } 
+        : value
+    }));
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImage(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    const updateFormData = new FormData();
+    updateFormData.append('name', formData.name);
+    updateFormData.append('description', formData.description);
+    updateFormData.append('ref', formData.ref);
+    updateFormData.append('category', formData.category._id);
+    updateFormData.append('brand', formData.brand._id);
+    updateFormData.append('stock', formData.stock.toString());
+    updateFormData.append('price', formData.price.toString());
+    updateFormData.append('discount', formData.discount || '');
+    updateFormData.append('user', session?.user?.id || '');
+    if (image) updateFormData.append('image', image);
+
+    try {
+      await axios.put(`/api/products/${formData._id}`, updateFormData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      router.push('/ProductList');
+    } catch (err: any) {
+      setError(`Error: ${err.response?.data?.message || err.message}`);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className='mx-auto w-[90%] max-lg:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8'>
+      <p className='text-3xl font-bold'>Modify Product</p>
+      {error && <p className='text-red-500'>{error}</p>}
+      <div className='flex max-lg:flex-col items-center gap-2 max-lg:gap-8'>
+        <div className='flex items-center w-[40%] max-lg:w-full max-lg:justify-between gap-2'>
+          <p className="text-xl font-bold">Name *</p>
+          <input 
+            type="text" 
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[80%] block p-2.5" 
+            required 
+          />
+        </div>
+        <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-2'>
+          <p className="text-xl font-bold">Upload Image *</p>
+          <input 
+            type="file" 
+            onChange={handleImageChange}
+            className='hidden'
+            id='file-upload'
+          />
+          <label htmlFor='file-upload' className='bg-[#EFEFEF] text-white rounded-md w-[50%] h-10 border-2 flex justify-center items-center cursor-pointer'>
+            <p className="text-black">Select an Image</p>
+          </label>
+        </div>
+        {(formData.imageUrl || imagePreview) && (
+          <div className="flex items-center w-[30%] max-lg:w-full justify-between">
+            <Image
+              src={imagePreview || formData.imageUrl || ''}
+              alt="Selected Image"
+              width={50}
+              height={50}
+              className="rounded-md"
+            />
+          </div>
+        )}
+      </div>
+      <div className='flex max-lg:flex-col items-center gap-2 max-lg:gap-8'>
+      <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
+        <p className="text-xl font-bold">Category *</p>
+        <select 
+          name="category"
+          value={formData.category._id}
+          onChange={handleChange}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
+          required
+        >
+          <option value="">Select a category</option>
+          {categories.map(category => (
+            <option key={category._id} value={category._id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
+        <p className="text-xl font-bold">Brand *</p>
+        <select 
+          name="brand"
+          value={formData.brand._id}
+          onChange={handleChange}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
+          required
+        >
+          <option value="">Select a brand</option>
+          {brands.map(brand => (
+            <option key={brand._id} value={brand._id}>
+              {brand.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
+          <p className="text-xl font-bold">Quantity *</p>
+          <input 
+            type="number" 
+            name="stock"
+            value={formData.stock}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
+            required 
+          />
+        </div>
+      </div>
+      <div className='flex max-lg:flex-col items-center max-lg:gap-8 justify-between'>
+        
+        <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
+          <p className="text-xl font-bold">Ref *</p>
+          <input 
+            type="text" 
+            name="ref"
+            value={formData.ref}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
+            required 
+          />
+        </div>
+        <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
+          <p className="text-xl font-bold">Price *</p>
+          <input 
+            type="text" 
+            name="price"
+            value={formData.price}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
+            required 
+          />
+        </div>
+        <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
+          <p className="text-xl font-bold">Discount</p>
+          <input 
+            type="text" 
+            name="discount"
+            value={formData.discount || ''}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
+          />
+        </div>
+      </div>
+      <div className='flex items-center w-full gap-4'>
+        <p className="text-xl font-bold">Description</p>
+        <textarea 
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full block p-2.5" 
+          required 
+        />
+      </div>
+      <div className="w-full flex justify-end gap-4">
+        <button type="submit" className='bg-orange-400 text-white rounded-md w-[20%] max-lg:w-[50%] h-10'>
+          <p className="text-white">Modify Product</p>
+        </button>
+        <Link href="/ProductList" className='border border-gray-400 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10'>
+        
+          <p className="text-black">Cancel</p>
+       
+        </Link>
+      </div>
+    </form>
+  );
 };
 
-export default AddProduct;
+export default ModifyProduct;
