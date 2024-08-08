@@ -141,7 +141,7 @@ const AddCategory = () => {
                     )}
                 </div>
                 <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
-                    <button type="submit" className='bg-orange-400 text-white rounded-md w-full h-10'>
+                    <button type="submit" className='bg-orange-400 text-white rounded-md w-full hover:bg-[#15335D] h-10'>
                         <p className="text-white">Add the new category</p>
                     </button>
                 </div>

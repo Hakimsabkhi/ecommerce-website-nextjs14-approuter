@@ -19,7 +19,7 @@ const Giftcard = () => {
                         <div className='flex-col flex items-center justify-center gap-1'>
                             <p className='text-gray-400 max-lg:text-center'>{card.text1}</p>
                             <p className='text-xl max-lg:text-center'>{card.text2}</p>                            
-                            <button className="bg-orange-500 rounded-full   w-28 h-10  items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  ">
+                            <button className="bg-orange-400 hover:bg-[#15335D] rounded-md font-bold  w-28 h-10  items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  ">
                                 <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-y-[-100%] ease  ">Buy now</p>
                                 <CiShoppingCart  size={25} className="  text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-y-[-100%] lg:group-hover/box:translate-y-0 ease  " aria-hidden="true" fill="currentColor"/>                                                                                                                    
                             </button>

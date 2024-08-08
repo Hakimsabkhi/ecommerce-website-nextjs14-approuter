@@ -20,7 +20,7 @@ const Order = () => {
                             <span className='text-gray-400'>18th march 2021</span>
                         </p>
                     </div>
-                    <button className='bg-orange-400 text-white h-10 w-[15%] max-xl:w-[50%] rounded-lg font-bold'>Track Your order</button>
+                    <button className='bg-orange-400 text-white hover:bg-[#15335D] h-10 w-[15%] max-xl:w-[50%] rounded-lg font-bold'>Track Your order</button>
                 </div>
                 <div className='flex flex-col  w-[80%] max-lg:w-[95%] divide-y-2  mx-auto'>
                     <div className='flex max-xl:flex-col items-center justify-between py-4 max-xl:gap-10 '>
@@ -79,7 +79,7 @@ const Order = () => {
                     </div>
                 </div>
                 <div className="flex max-md:flex-col border-t-2">
-                    <div className="flex items-center justify-center gap-4 p-8 w-[20%] max-md:w-full lg:border-r-2">
+                    <div className="flex items-center cursor-pointer justify-center gap-4 p-8 w-[20%] max-md:w-full lg:border-r-2">
                         <RxCross1 size={35}/>
                         <p className='text-xl font-bold'>Cancel Order</p>
                     </div>

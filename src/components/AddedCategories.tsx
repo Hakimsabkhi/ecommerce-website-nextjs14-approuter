@@ -78,7 +78,7 @@ const AddedCategories: React.FC = () => {
             <div className="flex items-center justify-between">
                 <p className='text-3xl font-bold'>ALL categories</p>
                 <a href="/CategoryList/AddCategory" className="w-[15%]">
-                    <button className='bg-orange-400 text-white rounded-lg w-full h-10'>
+                    <button className='bg-orange-400 font-bold hover:bg-[#15335D] text-white rounded-lg w-full h-10'>
                         Add a new category
                     </button>
                 </a>
@@ -109,7 +109,7 @@ const AddedCategories: React.FC = () => {
                 <tbody>
                     {currentCategories.map((item, index) => (
                         <tr key={index} className='bg-[#15335D] text-white'>
-                             <td className="border px-4 py-2"><Image src={item.logoUrl} width={30} height={30} alt="icon"/></td>
+                            <td className="border px-4 py-2 "><Image src={item.logoUrl} width={30} height={30} alt="icon"/></td>
                             <td className="border px-4 py-2">{item.imageUrl}</td>
                             <td className="border px-4 py-2">{item.name}</td>
                             <td className="border px-4 py-2 flex justify-between items-center ">

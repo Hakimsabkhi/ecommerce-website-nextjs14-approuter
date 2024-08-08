@@ -52,8 +52,12 @@ const FirstBlock: React.FC<{ product: Product }> = ({ product }) => {
                                 <IoIosArrowDown className="cursor-pointer" onClick={decrement} />
                             </div>                        
                         </div>
-                        <p className="text-white bg-orange-400 px-10 py-2 rounded-md">Add to cart</p>
-                        <p className="text-white bg-black px-10 py-2 rounded-md">Buy now</p>
+                        <button className="text-white bg-orange-400 hover:bg-[#15335D] h-10 w-[20%] font-bold  rounded-md">
+                            <p>Add to cart</p>
+                        </button>
+                        <button className="text-white bg-black  h-10 w-[20%] font-bold  rounded-md">
+                            <p>Buy now</p>
+                        </button>                        
                     </div>
                 </div>
             </div>

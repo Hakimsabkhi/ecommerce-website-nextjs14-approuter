@@ -25,7 +25,7 @@ const ShoppingCart = () => {
                         {shoppingcart.map((item,index) => (
                             <div key={index} className="py-4 flex justify-between ">
                                 <div className='flex gap-4'>
-                                    <Image src={item.src} alt="chair"/>
+                                    <Image className=" rounded-lg"src={item.src} alt="chair"/>
                                     <div className="flex flex-col justify-between"> 
                                         <div className="flex flex-col gap-4">
                                             <p className='text-xl'>{item.name}</p>
@@ -73,7 +73,7 @@ const ShoppingCart = () => {
                         <p className='text-3xl'>Order Total:</p>
                         <p>70.44</p>
                     </div>
-                    <button className='text-white bg-orange-400 h-10 w-[50%] text-xl font-bold rounded-md'>Checkout</button>
+                    <button className='text-white bg-orange-400 hover:bg-[#15335D] h-10 w-[50%] text-xl font-bold rounded-md'>Checkout</button>
                 </div>
             </div>
             {/* mobile */}            
@@ -83,10 +83,12 @@ const ShoppingCart = () => {
                     <div className='flex flex-col divide-y-2'>
                         {shoppingcart.map((item,index) => (
                             <div key={index} className="py-4 flex flex-col gap-4 justify-between ">
-                                <RxCross1 size={35}/>                            
-                                <div className='flex gap-4'>
-                                    <Image src={item.src} alt="chair"/>
-                                    <div className="flex gap-8">
+                                <div className='w-full  flex justify-end'>
+                                    <RxCross1 size={35}/>                            
+                                </div>
+                                <div className='flex gap-4 max-md:flex-col '>
+                                    <Image className="max-md:w-full h-[300px]" src={item.src} alt="chair"/>
+                                    <div className="flex gap-8 max-md:justify-between">
                                         <div className="flex flex-col justify-between"> 
                                             <div className="flex flex-col gap-4">
                                                 <p className='text-xl'>{item.name}</p>
@@ -134,7 +136,7 @@ const ShoppingCart = () => {
                         <p className='text-3xl'>Order Total:</p>
                         <p>70.44</p>
                     </div>
-                    <button className='text-white bg-orange-400 h-10 w-[50%] text-xl font-bold rounded-md'>Checkout</button>
+                    <button className='text-white bg-orange-400 hover:bg-[#15335D] h-10 w-[50%] text-xl font-bold rounded-md'>Checkout</button>
                 </div>
             </div>            
         </div>

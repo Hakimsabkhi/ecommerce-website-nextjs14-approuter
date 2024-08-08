@@ -22,7 +22,7 @@ const Brands = () => {
                             <p className='text-xl max-xl:text-base  max-lg:text-3xl font-bold   '>{brand.name}</p>
                             <p className='  max-xl:text-xs max-lg:text-2xl text-sm'>{brand.place}</p>
                         </div> */}
-                        <div className='absolute pl-4 top-0 bg-white w-full h-20 flex items-center gap-4  border-x-2 border-t-2 rounded-t-lg border-gray-400'>
+                        <div className='absolute pl-4 top-0 bg-white w-full h-20 max-lg:h-[100px] flex items-center gap-4  border-x-2 border-t-2 rounded-t-lg border-gray-400'>
                             <Image className='max-xl:w-10 max-xl:h-10 max-lg:w-20 max-lg:h-20 ' src={brand.logo} alt="elitisbrand" />
                             <div className="flex flex-col gap-2">
                                 <p className='text-xl max-xl:text-base  max-lg:text-3xl font-bold   '>{brand.name}</p>

@@ -30,9 +30,9 @@ const Milanoshowroom = () => {
                         <p>xtemos@gmail.com</p>
                         <p>(686) 492-1044</p>
                     </div>
-                    <div className='w-24 cursor-pointer bg-orange-400 items-center justify-center rounded-full text-white text-sm px-1  py-1 '>
+                    <button className='w-[40%] bg-orange-400 hover:bg-[#15335D] h-10 font-bold items-center justify-center rounded-md text-white   '>
                         <p >make a route</p>
-                    </div>
+                    </button>
                 </div>
             </div>
             <div className=' flex max-xl:flex-col gap-5  justify-center '>

@@ -22,7 +22,9 @@ const ThirdBlock: React.FC<{ product: Product }> = ({ product }) => {
                         <Image src={facebook} alt="facebook"  />    
                         <Image src={linkedin} alt="linkedin"  />    
                         <Image src={pinterest} alt="pinterest"  />
-                        <p className="text-white bg-orange-400 px-6 py-2 rounded-md font-bold max-md:text-xs">contact us</p>    
+                        <button className="text-white bg-orange-400 hover:bg-[#15335D] h-10 w-[40%] px-4 font-bold  rounded-md">
+                            <p>contact us</p>
+                        </button>
                     </div>                    
                 </div>
                 <p>Valencia/Spain</p>
