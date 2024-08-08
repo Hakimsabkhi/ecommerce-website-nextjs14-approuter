@@ -11,10 +11,7 @@ module.exports = {
     "./node_modules/tw-elements/js/**/*.js"
   ],
   theme: {
-    extend: {
-      fontFamily: {
-        poppins: ['Poppins', 'sans-serif'],
-      },
+    extend: {      
     },
   },
   darkMode: "class",

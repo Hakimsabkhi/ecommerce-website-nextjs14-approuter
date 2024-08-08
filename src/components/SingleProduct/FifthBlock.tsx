@@ -79,6 +79,7 @@ const FifthBlock: React.FC<{ product: Product }> = ({ product }) => {
                                     <button
                                         className="relative bg-white hover:bg-orange-400 max-md:rounded-[3px] AddtoCart w-[13%] group/box text-orange-400 hover:text-white border border-orange-400"
                                         onClick={() => handleClick(index)}
+                                        aria-label="wishlist"
                                     >
                                         <p className="absolute flex items-center justify-center w-full h-full">
                                             <FaRegHeart className="w-5 h-5 max-2xl:w-3 max-2xl:h-3" aria-hidden="true" fill="currentColor" />

@@ -103,7 +103,8 @@ export default function Bb() {
                                 placeholder="Email address"
                             />
                             <div className=" absolute right-2 top-1/2 group overflow-hidden  -translate-y-1/2">
-                                <button className="relative  py-2 w-[40px] h-[40px] max-md:w-[50px] max-md:h-[50px] hover:bg-[#15335D]     px-2   rounded-full text-white bg-orange-500  ">                                        
+                                <button className="relative  py-2 w-[40px] h-[40px] max-md:w-[50px] max-md:h-[50px] hover:bg-[#15335D]     px-2   rounded-full text-white bg-orange-500  "
+                                        aria-label="send">                                        
                                 </button>
                                 <FaArrowRight className="absolute cursor-pointer top-1/2 right-1/2 -translate-y-1/2 translate-x-1/2 duration-500 lg:group-hover:translate-x-[250%]" />
                                 <FaArrowRight className="absolute cursor-pointer  top-1/2 right-[150%] -translate-y-1/2 translate-x-1/2 duration-500 lg:group-hover:translate-x-[300%]" />

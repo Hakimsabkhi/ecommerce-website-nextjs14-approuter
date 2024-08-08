@@ -618,7 +618,8 @@ console.log(para)
                                                 <FaEye   className=" w-5 h-5   " aria-hidden="true" fill="currentColor"/>                                                                                                                    
                                             </p>
                                         </button>
-                                        <button className="bg-white  max-md:rounded-[3px] AddtoCart  w-[13%]   text-orange-400 border border-orange-400  ">
+                                        <button className="bg-white  max-md:rounded-[3px] AddtoCart  w-[13%]   text-orange-400 border border-orange-400  "
+                                                aria-label="wishlist">
                                             <p className="absolute flex items-center justify-center w-full h-full    ">
                                                 <FaRegHeart   className="max-md:w-3 max-md:h-3 w-5 h-5   " aria-hidden="true" fill="currentColor"/>
                                             </p>                                        
