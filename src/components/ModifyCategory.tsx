@@ -80,7 +80,7 @@ const ModifyCategory = () => {
   };
 
   return (
-    <div className="mx-auto w-[70%] max-xl:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8">
+    <div className="mx-auto w-[90%] max-xl:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8">
       <p className="text-3xl font-bold">Modify</p>
       <form onSubmit={handleSubmit} className="flex max-lg:flex-col max-lg:gap-4 lg:items-center gap-4">
         <div className="flex items-center w-[40%] max-lg:w-full gap-6 justify-between">
@@ -110,7 +110,7 @@ const ModifyCategory = () => {
           </label>
         </div>
         {categoryData.imageUrl && !selectedImage && (
-          <div className="flex items-center w-[30%] max-lg:w-full justify-between">
+          <div className="flex items-center w-[10%] max-lg:w-full justify-between">
             <Image
               src={categoryData.imageUrl}
               alt="Current Image"
@@ -121,7 +121,7 @@ const ModifyCategory = () => {
           </div>
         )}
         {selectedImage && (
-          <div className="flex items-center w-[30%] max-lg:w-full justify-between">
+          <div className="flex items-center w-[10%] max-lg:w-full justify-between">
             <Image
               src={URL.createObjectURL(selectedImage)}
               alt="Selected Image"
@@ -148,7 +148,7 @@ const ModifyCategory = () => {
           </label>
         </div>
         {categoryData.logoUrl && !selectedIcon && (
-          <div className="flex items-center w-[30%] max-lg:w-full justify-between">
+          <div className="flex items-center w-[10%] max-lg:w-full justify-between">
             <Image
               src={categoryData.logoUrl}
               alt="Current Icon"
@@ -172,16 +172,16 @@ const ModifyCategory = () => {
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
           <button
             type="submit"
-            className="bg-orange-400 text-white rounded-md w-full h-10"
+            className="bg-orange-400 hover:bg-[#15335D] text-white rounded-md w-full h-10"
           >
-            <p className="text-white">Modify</p>
+            <p className="text-white font-bold">Modify</p>
           </button>
         </div>
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
           <Link href="/CategoryList">
-            <div className="bg-orange-400 text-white rounded-md w-full h-10 flex items-center justify-center">
-              <p className="text-white">Cancel</p>
-            </div>
+            <button className="bg-white border-2 border-gray-400 text-white rounded-md w-full h-10 flex items-center justify-center">
+              <p className="text-black font-bold">Cancel</p>
+            </button>
           </Link>
         </div>
       </form>

@@ -15,7 +15,7 @@ const Payment = () => {
                 {/* 1 */}
                 <div className="flex flex-col gap-4">
                     <p className="text-3xl font-bold">Shipping Address</p>
-                    <div className='p-4 border-2 flex flex-col gap-4 border-blue-500'>
+                    <div className='p-4 border-2 flex flex-col gap-4   border-blue-500'>
                         <div className='flex items-center gap-2'>
                             <input
                                 type="radio"
@@ -51,11 +51,11 @@ const Payment = () => {
                                 <input id="zip" type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full block p-2.5" required />
                             </div>
                         </div>
-                        <div className='flex items-center gap-2 w-full'>
-                            <button type="button" className='w-[30%] border-2 h-9 rounded-[3px]'>
+                        <div className='flex items-center gap-2 mx-auto w-[50%]'>
+                            <button type="button" className='w-[30%] border-2 border-gray-400 font-bold h-9 rounded-[3px]'>
                                 Cancel
                             </button>
-                            <button type="submit" className='w-[70%] bg-orange-400 h-10 rounded-[3px] text-white'>
+                            <button type="submit" className='w-[70%] bg-orange-400 hover:bg-[#15335D]  font-bold h-10 rounded-[3px] text-white'>
                                 Save this address
                             </button>
                         </div>
@@ -119,11 +119,11 @@ const Payment = () => {
                                 <input id="billingZip" type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full block p-2.5" required />
                             </div>
                         </div>
-                        <div className='flex items-center gap-2 w-full'>
-                            <button type="button" className='w-[30%] border-2 h-9 rounded-[3px]'>
+                        <div className='flex items-center gap-2 mx-auto w-[50%]'>
+                            <button type="button" className='w-[30%] border-2 border-gray-400 font-bold h-9 rounded-[3px]'>
                                 Cancel
                             </button>
-                            <button type="submit" className='w-[70%] bg-orange-400 h-10 rounded-[3px] text-white'>
+                            <button type="submit" className='w-[70%] bg-orange-400 hover:bg-[#15335D]  font-bold h-10 rounded-[3px] text-white'>
                                 Save this address
                             </button>
                         </div>
@@ -133,7 +133,7 @@ const Payment = () => {
             {/* second half */}
             <div className='w-[30%] max-lg:w-full'>
                 <div className='w-full bg-[#EFEFEF] rounded-lg flex flex-col items-center justify-center py-10 px-4 gap-4'>
-                    <button type="submit" className="bg-orange-400 text-white w-full h-10 rounded-md text-xl">Place Order</button>
+                    <button type="submit" className="bg-orange-400 text-white w-[50%] h-10 rounded-md text-xl">Place Order</button>
                     <p className="text-gray-400 flex flex-wrap gap-1">By placing your order, you agree to our company Privacy policy and Conditions of use</p>
                     <div className="flex flex-col gap-4 border-y-2 border-gray-500 py-4 w-full">
                         <p className="text-2xl">Shipping Address</p>

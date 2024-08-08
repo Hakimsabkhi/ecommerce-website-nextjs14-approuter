@@ -86,15 +86,15 @@ const Header: React.FC = () => {
         </div>
         {!isAdmin && <div className='flex items-center gap-2'>
           <Link href="/signin">
-            <button className="flex items-center space-x-2 text-white bg-orange-400   font-bold rounded-md px-8  py-2"
+            <button className="flex items-center space-x-2 text-white bg-orange-400 hover:bg-white hover:text-orange-400   font-bold rounded-md px-8  py-2"
               onClick={toggleLogin}
             >
-              <span>Login</span>
+              <span>LOGIN</span>
             </button>
           </Link>
           <Link href="/signup">
-            <button className="flex items-center space-x-2 text-orange-400 bg-white   font-bold rounded-md  px-8  py-2">
-              <span>Register</span>
+            <button className="flex items-center space-x-2 text-orange-400 bg-white hover:text-white hover:bg-orange-400   font-bold rounded-md  px-8  py-2">
+              <span>REGISTER</span>
             </button>
           </Link>
         </div>}

@@ -52,7 +52,7 @@ const CartModal = () => {
                     View my cart (3)
                 </p>
             </button>
-            <button className='w-full h-10 rounded-lg  flex items-center justify-center bg-orange-400'>
+            <button className='w-full h-10 rounded-lg  flex items-center justify-center bg-orange-400 hover:bg-[#15335D]'>
                 <p className='p-4 text-xl '>
                     Checkout
                 </p>

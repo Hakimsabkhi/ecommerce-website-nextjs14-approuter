@@ -57,9 +57,9 @@ const Milanotorino = () => {
                         <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" required />
                         <textarea  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your message..." required />                        
                     </div>
-                    <div className='w-fit'>
-                        <p className='bg-orange-400 rounded-full px-8 py-3 text-white'>Send Message</p>
-                    </div>
+                    <button className='w-fit bg-orange-400 hover:bg-[#15335D] rounded-md px-8 py-3 font-bold text-white'>
+                        <p className=''>Send Message</p>
+                    </button>
                 </div>
                 <div  className='flex flex-col w-2/4 gap-8 max-lg:w-full'>
                     <p className='text-3xl l  max-lg:text-center text-gray-800'>Frequently asked questions</p>

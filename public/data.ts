@@ -48,7 +48,7 @@ const products = [
     {id:"6", src: chair11, name: "16 side", type: "chairs", price: "295.00 TND", rating: 5, color: "Bone", brand: "Poliform", material: "Wood", status: "On sale"},
     /* { src: chair11, name: "16 side", type: "chairs", price: "295.00 TND", rating: 5, color: "Bone", brand: "Hay", material: "Fabric", status: "On backorder"},
     { src: chair11, name: "16 side", type: "chairs", price: "295.00 TND", rating: 5, color: "Bone", brand: "Poliform", material: "Metal", status: "In stock"}, */
-    {id:"7", src: chair12, name: "12 side", type: "chairs", price: "339.00 TND", oldPrice: "375.00 TND", rating: 5, color: "Jet", brand: "vitra", material: "Wood", status: "On sale"},
+    {id:"7", src: chair12, name: "12 side", type: "tables", price: "339.00 TND", oldPrice: "375.00 TND", rating: 5, color: "Jet", brand: "vitra", material: "Wood", status: "On sale"},
     /* { src: chair12, name: "12 side", type: "chairs", price: "339.00 TND", oldPrice: "375.00 TND", rating: 5, color: "Jet", brand: "vitra", material: "Fabric", status: "In stock"},
     { src: chair12, name: "12 side", type: "chairs", price: "339.00 TND", oldPrice: "375.00 TND", rating: 5, color: "Jet", brand: "vitra", material: "Wood", status: "On backorder"},
     { src: chair13, name: "Soft Edge", type: "chairs", price: "440.00 TND" , rating: 5, color: "Jet", brand: "Poliform", material: "Leather", status: "On sale"},

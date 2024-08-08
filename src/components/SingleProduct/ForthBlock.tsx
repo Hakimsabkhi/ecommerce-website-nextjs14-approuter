@@ -123,7 +123,9 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
                             <input id="remember" type="checkbox"  className="w-5 h-5   rounded bg-gray-400  "required  />
                             <p className="font-bold ">Save my name, email, and website in this browser for the next time I comment.</p>
                         </div>
-                        <p className="px-8 py-2 w-fit text-white bg-orange-400 rounded-md">Submit</p>
+                        <button className="text-white bg-orange-400 hover:bg-[#15335D] h-10 w-[20%] font-bold  rounded-md">
+                            <p>Submit</p>
+                        </button>
                     </div>                
                 </div>
             </div>
