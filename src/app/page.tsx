@@ -16,14 +16,14 @@ export default function HomePage() {
   return (
     <div>
 
-      {/*<Banner />
+      <Banner />
       <Categories />
       <Sellers />
       <Brands />
       <Collection />
       <Furniture />
       <Rules />
-      <Latestarticle />*/}
+      <Latestarticle />
       
     </div>
 
