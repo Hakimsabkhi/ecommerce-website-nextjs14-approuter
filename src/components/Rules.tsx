@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { decor1 } from "../../public/image";
+import { decor1 } from "@/assets/image";
 const Rules = () => {
     return (
         <div className=' py-8 h-fit desktop  max-md:w-[95%] flex flex-col gap-10 justify-center items-center'>

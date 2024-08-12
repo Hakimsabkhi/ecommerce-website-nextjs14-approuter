@@ -6,29 +6,42 @@ if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
-// Global cache to avoid multiple connections
-let cached = (global as any).mongoose;
-
-if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
+interface MongooseCache {
+  conn: mongoose.Connection | null;
+  promise: Promise<mongoose.Connection> | null;
 }
 
-async function connectToDatabase() {
-  if (cached.conn) {
-    return cached.conn;
+// Global cache to avoid multiple connections
+declare global {
+  var mongoose: MongooseCache;
+}
+
+// Ensure the cache is defined globally
+global.mongoose = global.mongoose || { conn: null, promise: null };
+
+async function connectToDatabase(): Promise<mongoose.Connection> {
+  if (global.mongoose.conn) {
+    return global.mongoose.conn;
   }
 
-  if (!cached.promise) {
+  if (!global.mongoose.promise) {
     const opts = {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
+    global.mongoose.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      return mongoose.connection;
     });
   }
-  cached.conn = await cached.promise;
-  return cached.conn;
+
+  try {
+    global.mongoose.conn = await global.mongoose.promise;
+  } catch (error) {
+    global.mongoose.promise = null; // Reset the promise in case of failure
+    throw error;
+  }
+
+  return global.mongoose.conn;
 }
 
 export default connectToDatabase;

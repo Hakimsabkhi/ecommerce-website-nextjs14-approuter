@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { aboutbanner } from "../../public/image";
+import { aboutbanner } from "@/assets/image";
 const Contactusbanner = () => {
     return (
         <div className="max-lg:pt-16">

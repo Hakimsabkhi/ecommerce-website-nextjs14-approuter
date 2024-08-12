@@ -4,8 +4,8 @@ import Image from "next/image";
 import {
     star,
     heart,
-} from "../../public/image";
-import { items } from "../../public/data";
+} from "@/assets/image";
+import { items } from "@/assets/data";
 import { CiShop, CiShoppingCart, CiUser } from "react-icons/ci";
 import { FaRegEye } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";

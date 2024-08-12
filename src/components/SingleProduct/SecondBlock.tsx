@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import { description } from '../../../public/image';
-import {Product} from '../../../public/data'; // Ensure the path is correct
+import { description } from '@/assets/image';
+import {Product} from '@/assets//data'; // Ensure the path is correct
 
 const SecondBlock: React.FC<{ product: Product }> = ({ product }) => {
     return (

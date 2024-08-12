@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import classNames from 'classnames';
-import { left, right } from "../../public/image";
+import { left, right } from "@/assets/image";
 
 const slideData = [
     {

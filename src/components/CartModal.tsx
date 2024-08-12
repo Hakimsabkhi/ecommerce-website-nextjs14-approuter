@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from "next/image";
-import {tshirt,carttable1,carttable2,cartlighting} from "../../public/image";
+import {tshirt,carttable1,carttable2,cartlighting} from "@/assets/image";
 import { FaRegTrashAlt } from "react-icons/fa";
 const CartModal = () => {
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { brands, } from 'public/data';
+import { brands, } from '@/assets/data';
 const Brands = () => {
     return (
         <div className='desktop  max-md:w-[95%] flex flex-col  gap-10 max-md:gap-4 py-8'>

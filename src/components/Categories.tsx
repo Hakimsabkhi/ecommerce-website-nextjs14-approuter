@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { categories } from 'public/data';
+import { categories } from '@/assets/data';
 const Categories = () => {
     return (
         <div className='desktop  max-md:w-[95%]  flex flex-col   gap-10 py-8  '>

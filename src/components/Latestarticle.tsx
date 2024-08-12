@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import { mackay, steak1, bathroom, office, resto, share, comment, } from "../../public/image";
-import {itemsarticle} from "../../public/data"
+import { mackay, steak1, bathroom, office, resto, share, comment, } from "@/assets/image";
+import {itemsarticle} from "@/assets/data"
 import Link from 'next/link';
 import { TransitionLink } from './utils/TransitionLink';
 import { FaArrowRight } from "react-icons/fa6";

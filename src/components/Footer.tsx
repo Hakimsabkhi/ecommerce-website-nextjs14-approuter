@@ -9,7 +9,7 @@ import {
     googleplay,
     appstore,
     luxehome
-} from '../../public/image';
+} from '@/assets/image';
 
 export default function Footer() {
     return (

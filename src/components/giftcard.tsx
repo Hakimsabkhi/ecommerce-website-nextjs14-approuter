@@ -1,7 +1,7 @@
 import React from 'react';
-import { giftcard1, giftcard2 } from "../../public/image";
+import { giftcard1, giftcard2 } from "@/assets/image";
 import Image from 'next/image';
-import {cards} from "../../public/data";
+import {cards} from "@/assets/data";
 import { CiShop, CiShoppingCart,CiUser } from "react-icons/ci";
 const Giftcard = () => {
     return (

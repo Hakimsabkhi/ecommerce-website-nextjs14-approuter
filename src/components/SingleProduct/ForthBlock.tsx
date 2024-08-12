@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import { aboutbrand, facebook, linkedin, pinterest, aboutchair, abouttable, aboutarmchair, aboutstorage, } from '../../../public/image';
-import { Product } from '../../../public/data'; // Ensure the path is correct
+import { aboutbrand, facebook, linkedin, pinterest, aboutchair, abouttable, aboutarmchair, aboutstorage, } from '@/assets/image';
+import { Product } from '@/assets/data'; // Ensure the path is correct
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";

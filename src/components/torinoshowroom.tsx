@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { lladrologo, poliformlogo, minottilogo, kettallogo, tacchinilogo, milanoroom1, milanoroom2, milanoroom3, torinoroom1, torinoroom2 } from "../../public/image";
+import { lladrologo, poliformlogo, minottilogo, kettallogo, tacchinilogo, milanoroom1, milanoroom2, milanoroom3, torinoroom1, torinoroom2 } from "@/assets/image";
 const Torinoshowroom = () => {
     return (
         <div className='flex flex-col py-8  gap-4 items-center justify-center'>

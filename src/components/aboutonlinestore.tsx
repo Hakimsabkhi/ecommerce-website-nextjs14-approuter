@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { decor3, decor4 } from "../../public/image";
+import { decor3, decor4 } from "@/assets/image";
 const Aboutonlinestore = () => {
     return (
         <div className='flex desktop  max-xl:w-[95%] justify-center items-center  py-8 '>

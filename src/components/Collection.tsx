@@ -2,8 +2,8 @@
 import React from 'react';
 import Image from 'next/image';
 import { StaticImageData } from 'next/image';
-import { food1, food2, collectionlogo,bedroom1, bedroom2, livingroom1, livingroom2, kitchen, coffe } from "../../public/image";
-import { productCollection,collection } from 'public/data';
+import { food1, food2, collectionlogo,bedroom1, bedroom2, livingroom1, livingroom2, kitchen, coffe } from "@/assets/image";
+import { productCollection,collection } from '@/assets/data';
 type productCollection={
     src:StaticImageData;
     titre:string;

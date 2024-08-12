@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { flag, phone, expert } from "../../public/image";
+import { flag, phone, expert } from "@/assets/image";
 import { TransitionLink } from './utils/TransitionLink';
 import Link from 'next/link';
 import { CiPhone } from "react-icons/ci";

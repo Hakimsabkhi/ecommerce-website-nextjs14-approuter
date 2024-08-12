@@ -19,7 +19,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     if (status === 'loading') return; // Do nothing while loading
     if (!session || !session.user || session.user.role !== 'Admin') {
-      router.push('/signin');
+      router.push('/');
     } else {
       fetchUsers();
     }
@@ -28,7 +28,8 @@ const AdminDashboard = () => {
   const fetchUsers = async () => {
     const res = await fetch('/api/users');
     const data = await res.json();
-    setUsers(data.users);
+    setUsers(data);
+    
   };
 
   const handleDeleteUser = async (userId: string) => {

@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { AiOutlineMenu } from 'react-icons/ai';
-import { table, sofa, armchair, bed, luxehome, storage, textile, lighting, toy, decor, logo, chair } from "../../public/image";
+import { table, sofa, armchair, bed, luxehome, storage, textile, lighting, toy, decor, logo, chair } from "@/assets/image";
 import { TransitionLink } from './utils/TransitionLink';
 import { FiHeart } from "react-icons/fi";
 import { SlBag } from "react-icons/sl";
@@ -14,19 +14,32 @@ import { CiSearch } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa6";
 import Dropdown from '../components/Dropdown';
 import CartModal from './CartModal';
+interface Category {
+  id: string;
+  name: string;
+  logoUrl: string;
+}
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  categories?: Category[]; // Make categories optional
+}
+
+const Header: React.FC <HeaderProps> = ({ categories = [] }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('categories');
   const [isAdmin, setIsAdmin] = useState(false);
   const [isCartOpen,setIsCartOpen] = useState(false);
   const cartmodalRef = useRef<HTMLDivElement>(null);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const handleClick = (index: number) => {
+    setSelectedCategory(index);
+  };
   //get session
   const { data: session } = useSession();
   const toggleLogin = () => {
     setIsAdmin(!isAdmin);
   };
-  console.log("session", session);
+  
 
   const handleNav = () => {
     setMenuOpen(!menuOpen);
@@ -219,100 +232,22 @@ const Header: React.FC = () => {
               </TransitionLink>
             </ul>
           )}
-          {activeTab === 'categories' && (
+          {activeTab === 'categories' && categories.map((category, index) => (
             <ul className="text-sm">
-              <Link href="/chairs" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
-                <Image src={chair} alt="table" />
+              <Link key={category.id}
+              href={`/${category.name}`} className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
+                <Image src={category.logoUrl}
+                  alt={category.name} width={30} height={30}/>
                 <li
                   onClick={() => setMenuOpen(false)}
                   className=''
                 >
-                  Chairs
+                  {category.name}
                 </li>
               </Link>
-              <Link href="/products/tables" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
-                <Image src={table} alt="table" />
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className=''
-                >
-                  Tables
-                </li>
-              </Link>
-              <Link href="/products/sofas" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
-                <Image src={sofa} alt="sofa" />
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className=''
-                >
-                  Sofas
-                </li>
-              </Link>
-              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
-                <Image src={armchair} alt="armchair" />
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className=''
-                >
-                  Armchairs
-                </li>
-              </Link>
-              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
-                <Image src={bed} alt="bed" />
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className=''
-                >
-                  Beds
-                </li>
-              </Link>
-              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
-                <Image src={storage} alt="storage" />
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className=''
-                >
-                  Storage
-                </li>
-              </Link>
-              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
-                <Image src={textile} alt="textile" />
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className=''
-                >
-                  Textiles
-                </li>
-              </Link>
-              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
-                <Image src={lighting} alt="lighting" />
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className=''
-                >
-                  Lighting
-                </li>
-              </Link>
-              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
-                <Image src={toy} alt="toy" />
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className=''
-                >
-                  Toys
-                </li>
-              </Link>
-              <Link href="/" className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
-                <Image src={decor} alt="decor" />
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className=''
-                >
-                  Decor
-                </li>
-              </Link>
+              
             </ul>
-          )}
+          ))}
         </div>
       </div>
     </div>

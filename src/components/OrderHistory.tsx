@@ -1,5 +1,5 @@
 import React from 'react';
-import { historyproducts1 } from 'public/data';
+import { historyproducts1 } from '@/assets/data';
 import Image from 'next/image';
 const OrderHistory = () => {
     return (

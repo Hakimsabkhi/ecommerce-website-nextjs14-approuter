@@ -10,7 +10,7 @@ import {
     googleplay,
     appstore,
     luxehome
-} from '../../public/image';
+} from '@/assets/image';
 import { CiShop, CiShoppingCart,CiUser } from "react-icons/ci";
 import { CiFilter } from "react-icons/ci";
 import { GoHeart } from "react-icons/go";

@@ -1,8 +1,8 @@
 "use client"
 import React, { useState }  from 'react';
 import Image from 'next/image';
-import { heart, kitchen2,star,f1,f2,f3 } from "../../public/image";
-import {itemsFurniture} from "../../public/data";
+import { heart, kitchen2,star,f1,f2,f3 } from "@/assets/image";
+import {itemsFurniture} from "@/assets/data";
 import { CiShoppingCart } from 'react-icons/ci';
 import { FaEye } from 'react-icons/fa';
 import { FaCartShopping } from 'react-icons/fa6';

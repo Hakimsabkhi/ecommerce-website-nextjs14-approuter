@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
-import { blogpost1,blogpost2,blogpost3 } from "../../public/image";
+import { blogpost1,blogpost2,blogpost3 } from "@/assets/image";
 import { AiOutlineLike } from "react-icons/ai";
 import { FaRegSmileBeam } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";

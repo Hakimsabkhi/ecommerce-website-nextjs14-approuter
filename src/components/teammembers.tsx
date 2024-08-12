@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import {  livingroom3,  } from "../../public/image";
-import {members} from "../../public/data";
+import {  livingroom3,  } from "@/assets/image";
+import {members} from "@/assets/data";
 const Teammembers = () => {
     return (
         <div className='flex flex-col desktop  max-md:w-[95%] justify-center items-center py-8 gap-20 max-md:flex-col'>

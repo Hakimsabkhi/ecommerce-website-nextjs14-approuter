@@ -1,7 +1,7 @@
 "use client";
 import React, { useState,  } from 'react';
-import { chair21 } from 'public/image';
-import { shoppingcart } from 'public/data';
+import { chair21 } from '@/assets/image';
+import { shoppingcart } from '@/assets/data';
 import Image from 'next/image';
 import { IoCheckboxOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";

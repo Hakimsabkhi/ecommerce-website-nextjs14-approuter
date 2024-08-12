@@ -1,10 +1,10 @@
 "use client";
 
-import '../styles/globals.css'; // Ensure global styles are imported
+import './globals.css'; // Ensure global styles are imported
 import { SessionProvider } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
-import MainLayout from '../components/MainLayout';
-import AuthLayout from '../components/AuthLayout';
+import MainLayout from '@/components/MainLayout';
+import AuthLayout from '@/components/AuthLayout';
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname() ?? '';

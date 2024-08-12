@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { milanopic, torinopic } from "../../public/image";
+import { milanopic, torinopic } from "@/assets/image";
 
 const Milanotorino = () => {
     return (

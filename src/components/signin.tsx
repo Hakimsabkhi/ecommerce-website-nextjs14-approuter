@@ -3,7 +3,7 @@
 import { useEffect,useState } from 'react';
 import {useSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { pic4 } from "../../public/image";
+import { pic4 } from "@/assets/image";
 import Image from 'next/image';
 import React from 'react';
 

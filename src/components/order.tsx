@@ -1,5 +1,5 @@
 import React from 'react';
-import {chair19,chair18} from "../../public/image";
+import {chair19,chair18} from "@/assets/image";
 import Image from "next/image";
 import { RxCross1 } from "react-icons/rx";
 
