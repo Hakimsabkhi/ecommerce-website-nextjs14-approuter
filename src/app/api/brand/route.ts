@@ -6,11 +6,6 @@ import upload from '@/lib/multer'; // Adjust the path according to your project 
 import stream from 'stream';
 import { promisify } from 'util';
 
-export const config = {
-  api: {
-    bodyParser: false, // Disable body parsing, we will handle it manually
-  },
-};
 
 const uploadFiles = promisify(upload.fields([{ name: 'image', maxCount: 1 }, { name: 'logo', maxCount: 1 }]));
 
