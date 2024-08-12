@@ -1,4 +1,4 @@
-import { aboutbanner,  } from 'public/image';
+import { aboutbanner,  } from '../assets/image';
 import React from 'react';
 import Image from 'next/image';
 

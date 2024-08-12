@@ -8,11 +8,7 @@ import User from "@/models/User";
 import Category from "@/models/Category";
 import Brand from "@/models/Brand";
 
-export const config = {
-  api: {
-    bodyParser: false, // Disable body parsing, we will handle it manually
-  },
-};
+
 
 const extractPublicId = (url: string): string => {
   // Match the public ID from the URL

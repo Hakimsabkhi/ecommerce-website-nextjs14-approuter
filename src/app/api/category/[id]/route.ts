@@ -8,11 +8,7 @@ import stream from 'stream';
 import { promisify } from 'util';
 import User from '@/models/User';
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+
 
 const uploadFiles = promisify(upload.fields([{ name: 'image', maxCount: 1 }, { name: 'logo', maxCount: 1 }]));
 
