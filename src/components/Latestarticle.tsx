@@ -27,7 +27,7 @@ const Latestarticle = () => {
             </div>
             <div className='grid grid-cols-4 max-xl:grid-cols-2 max-md:grid-cols-1 w-full group gap-10     '>
                 {itemsarticle.map((item, index) => (
-                <div className='flex cursor-pointer duration-500  lg:group-hover:scale-[0.95] lg:hover:!scale-100 flex-col items-center relative'>
+                <div key={index} className='flex cursor-pointer duration-500  lg:group-hover:scale-[0.95] lg:hover:!scale-100 flex-col items-center relative'>
                     <div key={index} className=" w-full   ">                        
                         <Image className=' w-full' src={item.src} alt="steak" />
                     </div>

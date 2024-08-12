@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import { chairsbanner } from 'public/image';
+
 
 interface CategoryData {
   name: string;

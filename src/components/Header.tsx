@@ -233,7 +233,7 @@ const Header: React.FC <HeaderProps> = ({ categories = [] }) => {
             </ul>
           )}
           {activeTab === 'categories' && categories.map((category, index) => (
-            <ul className="text-sm">
+            <ul key={index} className="text-sm">
               <Link key={category.id}
               href={`/${category.name}`} className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
                 <Image src={category.logoUrl}

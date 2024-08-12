@@ -454,8 +454,8 @@ const Filter: React.FC = () => {
             <p className="font-bold">Product status</p>
           </div>
           <div className="flex flex-col gap-2">
-            {["On sale", "In stock", "On backorder"].map((status) => (
-              <div className="flex items-center gap-2 ">
+            {["On sale", "In stock", "On backorder"].map((status,index) => (
+              <div key={index} className="flex items-center gap-2 ">
                 <input
                   id="default-checkbox"
                   type="checkbox"
@@ -618,8 +618,8 @@ const Filter: React.FC = () => {
               <p className="font-bold">Product status</p>
             </div>
             <div className="flex flex-col gap-2">
-              {["On sale", "In stock", "On backorder"].map((status) => (
-                <div className="flex items-center gap-2 ">
+              {["On sale", "In stock", "On backorder"].map((status,index) => (
+                <div key={index} className="flex items-center gap-2 ">
                   <input
                     id="default-checkbox"
                     type="checkbox"
@@ -694,8 +694,8 @@ const Filter: React.FC = () => {
           <Image src={sortby} alt="sortby" />
         </div>
         <div className=" grid   group  grid-cols-3 max-md:grid-cols-2 max-xl:grid-cols-2 max-md:gap-3 gap-8    ">
-          {currentItems.map((item) => (
-            <Link href={`/chairs/${item._id}`}>
+          {currentItems.map((item,index) => (
+            <Link key={index} href={`/chairs/${item._id}`}>
               <div
                 key={item._id}
                 className="bg-white rounded-lg duration-500  lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[481px]   max-md:h-[320px]  relative"

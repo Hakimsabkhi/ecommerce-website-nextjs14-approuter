@@ -1,4 +1,4 @@
-import { NextAuthOptions, Session, User, DefaultSession } from 'next-auth';
+import { NextAuthOptions, Session, User as NextAuthUser, DefaultSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { JWT } from 'next-auth/jwt';
@@ -7,16 +7,18 @@ import bcrypt from 'bcryptjs';
 import UserModel from '@/models/User';
 
 declare module 'next-auth' {
+  // Extend the DefaultSession interface
   interface Session {
-    user: {
+    UserModel: DefaultSession['user'] & {
       id: string;
-      role: 'Visitor' | 'Rédacteur' | 'Admin'; // Ensure role is correctly typed
-    } & DefaultSession['user'];
+      role: 'Visitor' | 'Rédacteur' | 'Admin';
+    };
   }
 
+  // Extend the User interface
   interface User {
     id: string;
-    role?: 'Visitor' | 'Rédacteur' | 'Admin'; // Ensure role is correctly typed
+    role: 'Visitor' | 'Rédacteur' | 'Admin';
   }
 }
 
@@ -25,11 +27,10 @@ type UserType = {
   username: string;
   email: string;
   password?: string;
-  role?: 'Visitor' | 'Rédacteur' | 'Admin'; // Ensure role is correctly typed
+  role: 'Visitor' | 'Rédacteur' | 'Admin';
   save: () => Promise<UserType>;
 };
 
-// Type guard to ensure environment variables are defined
 function getEnvVar(name: string): string {
   const value = process.env[name];
   if (!value) {
@@ -38,7 +39,6 @@ function getEnvVar(name: string): string {
   return value;
 }
 
-// Ensure environment variables are defined
 const googleClientId: string = getEnvVar('GOOGLE_CLIENT_ID');
 const googleClientSecret: string = getEnvVar('GOOGLE_CLIENT_SECRET');
 const nextAuthSecret: string = getEnvVar('NEXTAUTH_SECRET');
@@ -91,20 +91,18 @@ export const authOptions: NextAuthOptions = {
           name: token.name as string,
           email: token.email as string,
           role: token.role as 'Visitor' | 'Rédacteur' | 'Admin',
-          
-         };
+        };
       }
-      console.log(token.role);
       return session;
     },
-    async jwt({ token, user }: { token: JWT; user?: User }) {
+    async jwt({ token, user }: { token: JWT; user?: NextAuthUser }) {
       if (user) {
         token.id = user.id;
-        token.role = user.role; // Ensure role is correctly set
+        token.role = user.role;
       }
       return token;
     },
-    async signIn({ user }: { user: User }) {
+    async signIn({ user }: { user: NextAuthUser }) {
       try {
         await connectToDatabase();
         const existingUser = await UserModel.findOne({ email: user.email as string }) as UserType | null;
@@ -118,7 +116,7 @@ export const authOptions: NextAuthOptions = {
           await newUser.save();
         } else {
           existingUser.username = user.name!;
-          existingUser.role = user.role; // Update role if necessary
+          existingUser.role = user.role;
           await existingUser.save();
         }
         return true;

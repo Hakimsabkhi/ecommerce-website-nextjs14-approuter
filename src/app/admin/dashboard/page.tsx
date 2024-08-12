@@ -23,7 +23,7 @@ const AdminDashboard = () => {
     } else {
       fetchUsers();
     }
-  }, [session, status]);
+  }, [router,session, status]);
 
   const fetchUsers = async () => {
     const res = await fetch('/api/users');

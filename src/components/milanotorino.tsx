@@ -64,7 +64,7 @@ const Milanotorino = () => {
                 <div  className='flex flex-col w-2/4 gap-8 max-lg:w-full'>
                     <p className='text-3xl l  max-lg:text-center text-gray-800'>Frequently asked questions</p>
                     <div className=' flex text-xl flex-col gap-2 max-lg:text-sm '>
-                        <p className='border-b border-gray-800 h-10'>My order hasn't arrived yet. Where is it ?</p>
+                        <p className='border-b border-gray-800 h-10'>My order hasn&apos;t arrived yet. Where is it ?</p>
                         <p className='border-b border-gray-800 h-10'>Do you deliver on public holidays ?</p>
                         <p className='border-b border-gray-800 h-10'>Do you deliver to my postcode ?</p>
                         <p className='border-b border-gray-800 h-10'>Do you deliver to my postcode ?</p>

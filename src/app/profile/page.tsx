@@ -13,9 +13,13 @@ const Profile = () => {
     if (!session) {
       router.push('/auth/signin');
     } else {
-      setFormData({ ...formData, name: session.user?.name || '', email: session.user?.email || '' });
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        name: session.user?.name || '',
+        email: session.user?.email || '',
+      }));
     }
-  }, [session]);
+  }, [router, session]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
