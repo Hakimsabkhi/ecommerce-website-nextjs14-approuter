@@ -20,7 +20,7 @@ const AddCategory = () => {
         if (!session || !session.user || session.user.role !== 'Admin') {
             router.push('/signin');
         }
-    }, [session, status]);
+    }, [router,session, status]);
 
     useEffect(() => {
         if (image) {

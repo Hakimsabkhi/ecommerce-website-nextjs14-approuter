@@ -43,7 +43,7 @@ const ThirdBlock: React.FC<{ product: Product }> = ({ product }) => {
                         <Image  src={aboutstorage} alt="pinterest"  />
                     </div>
                 </div>
-                <p className="text-gray-400">Nordic design inspires HAY's taste for clean lines, simple geometric shapes, and quality materials like wood, metal, and textiles. Anyway, you still use Lorem Ipsum and rightly so, as it will always have a place in the web workers toolbox.</p>
+                <p className="text-gray-400">Nordic design inspires HAY&apos;s taste for clean lines, simple geometric shapes, and quality materials like wood, metal, and textiles. Anyway, you still use Lorem Ipsum and rightly so, as it will always have a place in the web workers toolbox.</p>
             </div>
             
         </main>

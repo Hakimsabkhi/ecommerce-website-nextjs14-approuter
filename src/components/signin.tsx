@@ -22,7 +22,7 @@ const SignIn = () => {
           router.push('/');
         }
     }
-  }, [session]);
+  }, [session,router]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
@@ -117,7 +117,7 @@ const SignIn = () => {
               type="button"              
               className="  text-blue-600 hover:text-blue-400 font-bold py-2 px-4 w-full   focus:shadow-outline"
             >
-              Don't have an account
+              Don&apos;t have an account
             </button>
           
           </div>

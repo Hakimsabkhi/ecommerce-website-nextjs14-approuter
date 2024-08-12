@@ -8,7 +8,7 @@ const Giftcard = () => {
         <div className='py-8 desktop  max-lg:w-[95%] gap-16 justify-center items-center flex flex-col     '>
             <div className='flex gap-6  w-full justify-between max-lg:flex-col'>
                 {cards.map((card,index) => (
-                    <div className='gap-8 flex flex-col items-center'>
+                    <div key={index} className='gap-8 flex flex-col items-center'>
                         <div className='relative w-fit '>
                             <div className='absolute flex-col items-center flex top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white '>
                                 <p className='text-xl max-lg:text-sm opacity-50'>LUXEHOME</p>
@@ -28,9 +28,9 @@ const Giftcard = () => {
                 ))}                              
             </div>
             <div className='flex-col justify-center w-full items-center  gap-2 flex '>
-                <p className='text-xl max-lg:text-center'>If you can't decide on the perfect gift, let them choose with the LUXEHOME gift card</p>
+                <p className='text-xl max-lg:text-center'>If you can&apos;t decide on the perfect gift, let them choose with the LUXEHOME gift card</p>
                 <div className='text-gray-400 flex-col   '>
-                    <p className='max-lg:text-center'>The luxehome Gift Card is easy! just pick the value of the card and your friends or family are free to get exactly what they want it's perfect for.</p>
+                    <p className='max-lg:text-center'>The luxehome Gift Card is easy! just pick the value of the card and your friends or family are free to get exactly what they want it&apos;s perfect for.</p>
                     <p className='justify-center flex max-lg:text-center'>graduations,holidays,back to college shopping, baby showers, weddings and house warming gifts. available in increments of €5-€1000.</p>
                 </div>
             </div>

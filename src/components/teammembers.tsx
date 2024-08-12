@@ -11,7 +11,7 @@ const Teammembers = () => {
             </div>
             <div className='flex w-full justify-between max-md:flex-col max-md:gap-10'>
                 {members.map((member,index) => (
-                    <div className='flex-col flex justify-center items-center gap-2'>
+                    <div key={index} className='flex-col flex justify-center items-center gap-2'>
                         <Image src={member.src} alt='person' />
                         <p className='text-xl font-semibold'>{member.name}</p>
                         <p className='text-gray-400'>{member.title}</p>
