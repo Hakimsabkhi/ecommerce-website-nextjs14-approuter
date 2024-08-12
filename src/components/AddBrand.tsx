@@ -21,7 +21,7 @@ const AddBrand = () => {
         if (!session || !session.user || session.user.role !== 'Admin') {
             router.push('/signin');
         }
-    }, [router,session, status]);
+    }, [router, session, status]);
 
     useEffect(() => {
         if (image) {
@@ -45,6 +45,10 @@ const AddBrand = () => {
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
+    };
+
+    const handlePlaceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPlace(e.target.value);
     };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,15 +75,15 @@ const AddBrand = () => {
         formData.append('name', name);
         formData.append('image', image);
         formData.append('logo', icon); // Correctly naming the field
-        formData.append('place', place); // Ensure user ID is a string
+        formData.append('place', place);
 
         try {
-            await axios.post('/api/brand', formData, { 
+            await axios.post('/api/brand', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            router.push('/BrandList'); // Redirect to categories page after successful submission
+            router.push('/BrandList'); // Redirect to BrandList page after successful submission
         } catch (err: any) {
             setError(`Error: ${err.response?.data?.message || err.message}`);
         }
@@ -87,7 +91,7 @@ const AddBrand = () => {
 
     return (
         <div className='mx-auto w-[70%] max-xl:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8'>
-            <p className='text-3xl font-bold'>ADD categories</p>
+            <p className='text-3xl font-bold'>Add Brand</p>
             <form onSubmit={handleSubmit} className='flex max-lg:flex-col max-lg:gap-4 lg:items-center gap-4'>
                 <div className='flex items-center w-[40%] max-lg:w-full gap-6 justify-between'>
                     <p className="text-xl max-lg:text-base font-bold">Name*</p>
@@ -104,7 +108,7 @@ const AddBrand = () => {
                     <input
                         type="text"
                         value={place}
-                        onChange={handleNameChange}
+                        onChange={handlePlaceChange}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[80%] block p-2.5"
                         required
                     />
@@ -126,7 +130,7 @@ const AddBrand = () => {
                     </label>
                     {imagePreview && (
                         <div className="w-[15%] max-lg:w-full">
-                            <Image src={imagePreview} alt="Image preview" className="w-full h-auto mt-4" width={10} height={10} />
+                            <Image src={imagePreview} alt="Image preview" className="w-full h-auto mt-4" width={50} height={50} />
                         </div>
                     )}
                 </div>
@@ -147,13 +151,13 @@ const AddBrand = () => {
                     </label>
                     {iconPreview && (
                         <div className="w-[15%] max-lg:w-full">
-                            <Image src={iconPreview} alt="Icon preview" className="w-full h-auto mt-4" width={10} height={10} />
+                            <Image src={iconPreview} alt="Icon preview" className="w-full h-auto mt-4" width={50} height={50} />
                         </div>
                     )}
                 </div>
                 <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
                     <button type="submit" className='bg-orange-400 text-white rounded-md w-full hover:bg-[#15335D] h-10'>
-                        <p className="text-white">Add the new Place</p>
+                        <p className="text-white">Add Brand</p>
                     </button>
                 </div>
             </form>

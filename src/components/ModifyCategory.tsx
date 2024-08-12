@@ -4,23 +4,35 @@ import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 interface CategoryData {
   name: string;
   imageUrl: string;
   logoUrl: string;
+  bannerUrl: string;
 }
 
 const ModifyCategory = () => {
+  const { data: session, status } = useSession();
   const params = useParams() as { id: string }; // Explicitly type the params object
   const router = useRouter();
   const [categoryData, setCategoryData] = useState<CategoryData>({
     name: "",
     imageUrl: "",
-    logoUrl: ""
+    logoUrl: "",
+    bannerUrl: ""
   });
+  useEffect(() => {
+    if (status === 'loading') return; // Do nothing while loading
+    if (!session || !session.user || session.user.role !== 'Admin') {
+        router.push('/signin');
+    }
+}, [router, session, status]);
+
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [selectedIcon, setSelectedIcon] = useState<File | null>(null);
+  const [selectedBanner, setSelectedBanner] = useState<File | null>(null);
 
   useEffect(() => {
     // Fetch category data by ID
@@ -28,6 +40,8 @@ const ModifyCategory = () => {
       try {
         const response = await axios.get(`/api/category/${params.id}`);
         setCategoryData(response.data);
+        console.log(response.data);
+        
       } catch (error) {
         console.error("Error fetching category data:", error);
       }
@@ -56,6 +70,12 @@ const ModifyCategory = () => {
     }
   };
 
+  const handleBannerChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedBanner(e.target.files[0]);
+    }
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
@@ -66,7 +86,10 @@ const ModifyCategory = () => {
     if (selectedIcon) {
       formData.append("logo", selectedIcon);
     }
-
+    if (selectedBanner) {
+      formData.append("banner", selectedBanner);
+    }
+    formData.append('user', session?.user?.id.toString() || '');
     try {
       await axios.put(`/api/category/${params.id}`, formData, {
         headers: {
@@ -81,7 +104,7 @@ const ModifyCategory = () => {
 
   return (
     <div className="mx-auto w-[90%] max-xl:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8">
-      <p className="text-3xl font-bold">Modify</p>
+      <p className="text-3xl font-bold">Modify Category</p>
       <form onSubmit={handleSubmit} className="flex max-lg:flex-col max-lg:gap-4 lg:items-center gap-4">
         <div className="flex items-center w-[40%] max-lg:w-full gap-6 justify-between">
           <p className="text-xl max-lg:text-base font-bold">Name*</p>
@@ -110,23 +133,23 @@ const ModifyCategory = () => {
           </label>
         </div>
         {categoryData.imageUrl && !selectedImage && (
-          <div className="flex items-center w-[10%] max-lg:w-full justify-between">
+          <div className="flex items-center w-[30%] max-lg:w-full justify-between">
             <Image
               src={categoryData.imageUrl}
               alt="Current Image"
-              width={50}
-              height={50}
+              width={100}
+              height={100}
               className="rounded-md"
             />
           </div>
         )}
         {selectedImage && (
-          <div className="flex items-center w-[10%] max-lg:w-full justify-between">
+          <div className="flex items-center w-[30%] max-lg:w-full justify-between">
             <Image
               src={URL.createObjectURL(selectedImage)}
               alt="Selected Image"
-              width={50}
-              height={50}
+              width={100}
+              height={100}
               className="rounded-md"
             />
           </div>
@@ -148,12 +171,12 @@ const ModifyCategory = () => {
           </label>
         </div>
         {categoryData.logoUrl && !selectedIcon && (
-          <div className="flex items-center w-[10%] max-lg:w-full justify-between">
+          <div className="flex items-center w-[30%] max-lg:w-full justify-between">
             <Image
               src={categoryData.logoUrl}
               alt="Current Icon"
-              width={50}
-              height={50}
+              width={100}
+              height={100}
               className="rounded-md"
             />
           </div>
@@ -163,13 +186,51 @@ const ModifyCategory = () => {
             <Image
               src={URL.createObjectURL(selectedIcon)}
               alt="Selected Icon"
-              width={50}
-              height={50}
+              width={100}
+              height={100}
               className="rounded-md"
             />
           </div>
         )}
-        <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
+        <div className="flex items-center w-[30%] max-lg:w-full justify-between">
+          <p className="max-lg:text-base font-bold">Upload Banner</p>
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            id="upload-banner"
+            onChange={handleBannerChange}
+          />
+          <label
+            htmlFor="upload-banner"
+            className="bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-[50%] h-10 border-2 flex items-center justify-center cursor-pointer"
+          >
+            Select a Banner
+          </label>
+        </div>
+        {categoryData.bannerUrl && !selectedBanner && (
+          <div className="flex items-center w-[30%] max-lg:w-full justify-between">
+            <Image
+              src={categoryData.bannerUrl}
+              alt="Current Banner"
+              width={100}
+              height={100}
+              className="rounded-md"
+            />
+          </div>
+        )}
+        {selectedBanner && (
+          <div className="flex items-center w-[30%] max-lg:w-full justify-between">
+            <Image
+              src={URL.createObjectURL(selectedBanner)}
+              alt="Selected Banner"
+              width={100}
+              height={100}
+              className="rounded-md"
+            />
+          </div>
+        )}
+       <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
           <button
             type="submit"
             className="bg-orange-400 hover:bg-[#15335D] text-white rounded-md w-full h-10"
@@ -179,11 +240,11 @@ const ModifyCategory = () => {
         </div>
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
           <Link href="/CategoryList">
-            <button className="bg-white border-2 border-gray-400 text-white rounded-md w-full h-10 flex items-center justify-center">
-              <p className="text-black font-bold">Cancel</p>
+            <button className="bg-white border-2 border-gray-400 text-black rounded-md w-full h-10 flex items-center justify-center">
+              <p className="font-bold">Cancel</p>
             </button>
           </Link>
-        </div>
+        </div> 
       </form>
     </div>
   );

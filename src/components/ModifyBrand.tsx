@@ -7,7 +7,7 @@ import Link from "next/link";
 
 interface BrandData {
   name: string;
-  place:string;
+  place: string;
   imageUrl: string;
   logoUrl: string;
 }
@@ -17,15 +17,15 @@ const ModifyBrand = () => {
   const router = useRouter();
   const [brandData, setBrandData] = useState<BrandData>({
     name: "",
-    place:"",
+    place: "",
     imageUrl: "",
-    logoUrl: ""
+    logoUrl: "",
   });
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [selectedIcon, setSelectedIcon] = useState<File | null>(null);
 
   useEffect(() => {
-    // Fetch category data by ID
+    // Fetch brand data by ID
     const fetchBrandData = async () => {
       try {
         const response = await axios.get(`/api/brand/${params.id}`);
@@ -45,7 +45,6 @@ const ModifyBrand = () => {
       [name]: value,
     }));
   };
-  
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -74,8 +73,8 @@ const ModifyBrand = () => {
     try {
       await axios.put(`/api/brand/${params.id}`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data"
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
       router.push("/BrandList");
     } catch (error) {
@@ -85,7 +84,7 @@ const ModifyBrand = () => {
 
   return (
     <div className="mx-auto w-[90%] max-xl:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8">
-      <p className="text-3xl font-bold">Modify</p>
+      <p className="text-3xl font-bold">Modify Brand</p>
       <form onSubmit={handleSubmit} className="flex max-lg:flex-col max-lg:gap-4 lg:items-center gap-4">
         <div className="flex items-center w-[40%] max-lg:w-full gap-6 justify-between">
           <p className="text-xl max-lg:text-base font-bold">Name*</p>
@@ -95,16 +94,18 @@ const ModifyBrand = () => {
             value={brandData.name}
             onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[80%] block p-2.5"
+            required
           />
         </div>
         <div className="flex items-center w-[40%] max-lg:w-full gap-6 justify-between">
           <p className="text-xl max-lg:text-base font-bold">Place*</p>
           <input
             type="text"
-            name="brand"
+            name="place"
             value={brandData.place}
             onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[80%] block p-2.5"
+            required
           />
         </div>
         <div className="flex items-center w-[30%] max-lg:w-full justify-between">
@@ -192,7 +193,7 @@ const ModifyBrand = () => {
           </button>
         </div>
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
-          <Link href="/CategoryList">
+          <Link href="/BrandList">
             <button className="bg-white border-2 border-gray-400 text-white rounded-md w-full h-10 flex items-center justify-center">
               <p className="text-black font-bold">Cancel</p>
             </button>

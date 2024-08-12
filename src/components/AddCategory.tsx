@@ -1,4 +1,5 @@
 "use client";
+
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -11,8 +12,10 @@ const AddCategory = () => {
     const [name, setName] = useState('');
     const [image, setImage] = useState<File | null>(null);
     const [icon, setIcon] = useState<File | null>(null);
+    const [banner, setBanner] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [iconPreview, setIconPreview] = useState<string | null>(null);
+    const [bannerPreview, setBannerPreview] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -20,7 +23,7 @@ const AddCategory = () => {
         if (!session || !session.user || session.user.role !== 'Admin') {
             router.push('/signin');
         }
-    }, [router,session, status]);
+    }, [router, session, status]);
 
     useEffect(() => {
         if (image) {
@@ -42,6 +45,16 @@ const AddCategory = () => {
         }
     }, [icon]);
 
+    useEffect(() => {
+        if (banner) {
+            const objectUrl = URL.createObjectURL(banner);
+            setBannerPreview(objectUrl);
+
+            // Clean up object URL
+            return () => URL.revokeObjectURL(objectUrl);
+        }
+    }, [banner]);
+
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
     };
@@ -58,11 +71,17 @@ const AddCategory = () => {
         }
     };
 
+    const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setBanner(e.target.files[0]);
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!name || !image || !icon) {
-            setError('Name, image, and icon are required');
+        if (!name || !image || !icon || !banner) {
+            setError('Name, image, icon, and banner are required');
             return;
         }
 
@@ -70,6 +89,7 @@ const AddCategory = () => {
         formData.append('name', name);
         formData.append('image', image);
         formData.append('logo', icon); // Correctly naming the field
+        formData.append('banner', banner); // Added banner field
         formData.append('user', session?.user?.id.toString() || ''); // Ensure user ID is a string
 
         try {
@@ -114,8 +134,8 @@ const AddCategory = () => {
                         Select an Image
                     </label>
                     {imagePreview && (
-                        <div className="w-[15%] max-lg:w-full">
-                            <Image src={imagePreview} alt="Image preview" className="w-full h-auto mt-4" width={10} height={10} />
+                        <div className="w-[50%] max-lg:w-full">
+                            <Image src={imagePreview} alt="Image preview" className="w-full h-auto mt-4" width={500} height={500} />
                         </div>
                     )}
                 </div>
@@ -135,12 +155,33 @@ const AddCategory = () => {
                         Select an Icon
                     </label>
                     {iconPreview && (
-                        <div className="w-[15%] max-lg:w-full">
-                            <Image src={iconPreview} alt="Icon preview" className="w-full h-auto mt-4" width={10} height={10} />
+                        <div className="w-[50%] max-lg:w-full">
+                            <Image src={iconPreview} alt="Icon preview" className="w-full h-auto mt-4" width={500} height={500} />
                         </div>
                     )}
                 </div>
-                <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
+                <div className='flex items-center w-[30%] max-lg:w-full justify-between'>
+                    <p className="max-lg:text-base font-bold">Upload Banner*</p>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleBannerChange}
+                        className="hidden"
+                        id="upload-banner"
+                    />
+                    <label
+                        htmlFor="upload-banner"
+                        className='bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-[50%] h-10 border-2 flex items-center justify-center cursor-pointer'
+                    >
+                        Select a Banner
+                    </label>
+                    {bannerPreview && (
+                        <div className="w-[50%] max-lg:w-full">
+                            <Image src={bannerPreview} alt="Banner preview" className="w-full h-auto mt-4" width={500} height={500} />
+                        </div>
+                    )}
+                </div>
+                <div className="w-[30%] max-xl:w-[30%] max-md:w-[50%] items-start">
                     <button type="submit" className='bg-orange-400 text-white rounded-md w-full hover:bg-[#15335D] h-10'>
                         <p className="text-white">Add the new category</p>
                     </button>

@@ -7,6 +7,7 @@ interface CategoryData {
   name: string;
   logoUrl?:string;
   imageUrl?: string;
+  bannerUrl?:string;
 }
 
 const Chairsbanner: React.FC = () => {
@@ -47,7 +48,7 @@ const Chairsbanner: React.FC = () => {
           {category?.imageUrl ? (
             <Image 
               className='object-cover w-full h-[400px]' 
-              src={category.imageUrl} 
+              src={category.bannerUrl|| 'default-image-url' } 
               alt='category logo' 
               height={300} 
               width={300} 
