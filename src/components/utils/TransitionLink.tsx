@@ -35,12 +35,7 @@ export const TransitionLink = ({ children, href, ...props }: TransitionLinkProps
     };
 
     return (
-        <>
-            {isLoading && (
-                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-80 text-white p-4 rounded z-50 text-lg pointer-events-none">
-                    Loading...
-                </div>
-            )}
+        <>            
             <Link onClick={handleTransition} href={href} {...props}>{children}</Link>
         </>
     );

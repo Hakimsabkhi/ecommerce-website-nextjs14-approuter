@@ -11,7 +11,7 @@ import { CiLocationOn } from "react-icons/ci";
 const Headertop: React.FC = () => {
     return (
         <header>
-            <nav className='w-full py-3 justify-center flex bg-[#6A6A6A] max-lg:hidden'>
+            <nav className='w-full h-[57px] justify-center flex bg-[#6A6A6A] max-lg:hidden'>
                 <div className="flex text-white w-[90%] justify-between items-center max-2xl:text-base   text-2xl">                                            
                     <p className='flex gap-2 items-center'><CiLocationOn /> RUSTIKA HOUSE, 5080 Teboulba , Monastir, Tunisie</p>                    
                     <div className="flex gap-16 items-center ">                                                    
