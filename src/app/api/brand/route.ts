@@ -52,7 +52,9 @@ export async function POST(req: NextRequest) {
   
         const result = await new Promise<any>((resolve, reject) => {
           const uploadStream = cloudinary.uploader.upload_stream(
-            { folder: 'brands/images' },
+            { folder: 'brands/images',
+              format: 'webp' 
+             },
             (error, result) => {
               if (error) {
                 return reject(error);
@@ -74,7 +76,9 @@ export async function POST(req: NextRequest) {
   
         const logoResult = await new Promise<any>((resolve, reject) => {
           const uploadStream = cloudinary.uploader.upload_stream(
-            { folder: 'brands/logos' },
+            { folder: 'brands/logos',
+              format: 'webp' 
+             },
             (error, result) => {
               if (error) {
                 return reject(error);
