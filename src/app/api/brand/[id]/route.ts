@@ -125,7 +125,9 @@ export async function PUT(
       const { secure_url: newImageUrl } = await new Promise<any>(
         (resolve, reject) => {
           const uploadStream = cloudinary.uploader.upload_stream(
-            { folder: "brands/images" },
+            { folder: "brands/images",
+              format: 'webp' 
+             },
             (error, result) => {
               if (error) return reject(new Error(`Image upload failed: ${error.message}`));
               resolve(result);
@@ -156,7 +158,9 @@ export async function PUT(
       const { secure_url: newLogoUrl } = await new Promise<any>(
         (resolve, reject) => {
           const uploadStream = cloudinary.uploader.upload_stream(
-            { folder: "brands/logos" },
+            { folder: "brands/logos",
+              format: 'webp' 
+             },
             (error, result) => {
               if (error) return reject(new Error(`Logo upload failed: ${error.message}`));
               resolve(result);

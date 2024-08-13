@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     }
     const existingProducts = await Products.findOne({ ref });
             if (existingProducts) {
-              return NextResponse.json({ message: 'Product with this name already exists' }, { status: 400 });
+              return NextResponse.json({ message: 'Product with this ref already exists' }, { status: 400 });
             }
 
   
@@ -58,7 +58,9 @@ export async function POST(req: NextRequest) {
 
       const result = await new Promise<any>((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
-          { folder: 'Products' },
+          { folder: 'Products',
+            format: 'webp' 
+           },
           (error, result) => {
             if (error) {
               return reject(error);

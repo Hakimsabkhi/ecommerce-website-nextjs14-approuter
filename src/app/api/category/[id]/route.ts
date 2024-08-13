@@ -115,7 +115,9 @@ export async function PUT(
       const { secure_url: newImageUrl } = await new Promise<any>(
         (resolve, reject) => {
           const uploadStream = cloudinary.uploader.upload_stream(
-            { folder: "categories" },
+            { folder: "categories" ,
+              format: 'webp' 
+            },
             (error, result) => {
               if (error)
                 return reject(
@@ -149,7 +151,9 @@ export async function PUT(
       const { secure_url: newLogoUrl } = await new Promise<any>(
         (resolve, reject) => {
           const uploadStream = cloudinary.uploader.upload_stream(
-            { folder: "categories/logos" },
+            { folder: "categories/logos",
+              format: 'svg' 
+             },
             (error, result) => {
               if (error)
                 return reject(
@@ -183,7 +187,9 @@ export async function PUT(
       const { secure_url: newBannerUrl } = await new Promise<any>(
         (resolve, reject) => {
           const uploadStream = cloudinary.uploader.upload_stream(
-            { folder: "categories/banner" },
+            { folder: "categories/banner",
+              format: 'webp' 
+             },
             (error, result) => {
               if (error)
                 return reject(

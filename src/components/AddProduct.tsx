@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 
 // Define the Category and Brand types
 interface Category {
@@ -141,7 +142,7 @@ const AddProduct = () => {
                 {imagePreview && (
                     <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-2'>
                         <p className="text-xl font-bold">Image Preview</p>
-                        <Image src={imagePreview} alt="Image preview" className='w-24 h-24 object-cover' />
+                        <Image src={imagePreview} alt="Image preview" className='w-24 h-24 object-cover' width={60} height={60}/>
                     </div>
                 )}
                 <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
@@ -240,7 +241,16 @@ const AddProduct = () => {
                         Add the New Product
                     </p>
                 </button>
+
             </div>
+            <Link href="/ProductList" className="w-full flex justify-end">
+                <button className='bg-orange-400 text-white rounded-md w-[20%] max-lg:w-[50%] h-10'>
+                    <p className="text-white">
+                        Cancel
+                    </p>
+                </button>
+                
+            </Link>
         </form>
     );
 };
