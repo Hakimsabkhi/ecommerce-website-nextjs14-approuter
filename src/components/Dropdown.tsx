@@ -55,7 +55,7 @@ const Dropdown = () => {
     <div className="relative inline-block text-left" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
-        className="flex items-center gap-4 justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 w-48 bg-white font-bold text-orange-400"
+        className="flex items-center gap-4 justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 w-[269px] bg-white font-bold text-primary"
       >
         <FaRegUserCircle size={25} />
         <p>MON COMPTE</p>

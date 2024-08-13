@@ -14,13 +14,13 @@ const Rules = () => {
                     <Image className='w-[600px]  rounded-md shadow-lg' src={decor1} alt="decor" />
                 </div>
                 <div className='gap-8 w-fit flex-col justify-center flex'>
-                    <p className=' text-gray-800 max-md:text-center text-2xl font-bold'>Whether living on your own or with a family , your livingroom is an important</p>
-                    <p className='text-xl text-gray-400'>this room is where your family spends time together, and it is the room most of your guests will spend the majority of their time in. Choosing furniture that creates a pleasant, welcoming appearance while holding up against the wear and tear of everyday life is the key in getting this space to work for your needs </p>
-                    <div>
-                        <li className='text-xl text-gray-400'>Choose items in a single color scheme and style</li>
-                        <li className='text-xl text-gray-400'>Consider the area of the room</li>
-                        <li className='text-xl text-gray-400'>Do not buy unnecessary pieces of furniture</li>
-                    </div>
+                    <p className=' text-black max-md:text-center text-2xl font-bold'>Whether living on your own or with a family , your livingroom is an important</p>
+                    <p className='text-xl text-[#525566]'>this room is where your family spends time together, and it is the room most of your guests will spend the majority of their time in. Choosing furniture that creates a pleasant, welcoming appearance while holding up against the wear and tear of everyday life is the key in getting this space to work for your needs </p>
+                    <ul className="text-[#525566]">
+                        <li className='text-xl '>Choose items in a single color scheme and style</li>
+                        <li className='text-xl '>Consider the area of the room</li>
+                        <li className='text-xl '>Do not buy unnecessary pieces of furniture</li>
+                    </ul>
                 </div>
             </div>
 

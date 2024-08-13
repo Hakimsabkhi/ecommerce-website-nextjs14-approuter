@@ -11,8 +11,11 @@ module.exports = {
     "./node_modules/tw-elements/js/**/*.js"
   ],
   theme: {
-    extend: {      
-    },
+    extend: {  
+      colors: {
+        primary: 'var(--color-primary)',      
+      },    
+    },  
   },
   darkMode: "class",
   plugins: [require("tw-elements/plugin.cjs")]

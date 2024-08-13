@@ -23,7 +23,7 @@ const Furniture = () => {
         <div className="desktop  max-md:w-[95%] flex flex-col justify-center items-center gap-10 py-8">
             <div className="flex  w-full flex-col gap-2  items-center   ">
                 <h3 className="font-bold text-4xl text-gray-800">Furniture collection of the week</h3>
-                <div className="text-base flex gap-2 text-gray-400">
+                <div className="text-base flex gap-2 text-[#525566]">
                     <p>The msot popular products from the collection</p>
                 </div>
             </div>
@@ -46,13 +46,13 @@ const Furniture = () => {
                                     {item.name}
                                 </p>
                                 <div className="flex-col gap-1">
-                                    <p className="text-orange-400 text-2xl max-md:text-lg font-bold">
+                                    <p className="text-primary text-2xl max-md:text-lg font-bold">
                                         {item.price}
                                     </p>
                                     {item.oldPrice && (
                                         <div className="flex gap-1">
-                                            <p className="line-through opacity-50 max-sm:text-sm">{item.oldPrice}</p>
-                                            <p className='text-white rounded-lg bg-orange-400 px-2'>20%</p>
+                                            <p className="line-through text-[#525566] max-sm:text-sm">{item.oldPrice}</p>
+                                            <p className='text-white rounded-lg bg-primary px-2'>20%</p>
                                         </div>
                                     )}                                
                                 </div>
@@ -67,20 +67,20 @@ const Furniture = () => {
                                     <p className="flex  text-lg max-md:text-xs font-bold ">{item.rating} </p>
                                 </div>                                                        
                                 <div className="flex mb-1 text-lg max-md:text-sm justify-between">
-                                    <button className="AddtoCart bg-orange-400 hover:bg-[#15335D] text-white w-[50%] max-md:rounded-[3px] max-2xl:text-sm group/box">
+                                    <button className="AddtoCart bg-primary hover:bg-[#15335D] text-white w-[50%] max-md:rounded-[3px] max-2xl:text-sm group/box">
                                         <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease  ">Add to cart</p>
                                         <p className="  text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] lg:group-hover/box:translate-x-[-35%] ease  ">                                        
                                             <FaCartShopping   className="w-6  h-6" aria-hidden="true" fill="currentColor"/>                                                                                                                    
                                         </p>
                                     </button>                                                                        
-                                    <button className="AddtoCart bg-white  max-md:rounded-[3px]  w-[30%]  group/box text-orange-400 border border-orange-400  ">
+                                    <button className="AddtoCart bg-white  max-md:rounded-[3px]  w-[30%]  group/box text-primary border border-[#8D4407]  ">
                                         <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-y-[-100%] ease   ">View</p>
-                                        <p className="text-orange-400 absolute  w-full h-full flex items-center justify-center duration-300 -translate-y-[-100%] lg:group-hover/box:translate-y-0 ease  ">
+                                        <p className="text-primary absolute  w-full h-full flex items-center justify-center duration-300 -translate-y-[-100%] lg:group-hover/box:translate-y-0 ease  ">
                                             <FaEye   className=" w-5 h-5   " aria-hidden="true" fill="currentColor"/>                                                                                                                    
                                         </p>
                                     </button>
                                     <button
-                                        className="relative bg-white hover:bg-orange-400 max-md:rounded-[3px] AddtoCart w-[13%] group/box text-orange-400 hover:text-white border border-orange-400"
+                                        className="relative bg-white hover:bg-primary max-md:rounded-[3px] AddtoCart w-[13%] group/box text-primary hover:text-white border border-[#8D4407]"
                                         onClick={() => handleClick(index)}
                                         aria-label="wishlist"
                                     >
@@ -105,6 +105,7 @@ const Furniture = () => {
 }
 
 export default Furniture;
+
 
 
 

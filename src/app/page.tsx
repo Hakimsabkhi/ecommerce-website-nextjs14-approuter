@@ -14,8 +14,7 @@ import './globals.css';
 
 export default function HomePage() {
   return (
-    <div>
-
+    <>
       <Banner />
       <Categories />
       <Sellers />
@@ -24,8 +23,7 @@ export default function HomePage() {
       <Furniture />
       <Rules />
       <Latestarticle />
-      
-    </div>
+    </>
 
   );
 }
