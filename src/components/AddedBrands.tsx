@@ -4,7 +4,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
 
-type Category = {
+type Brand = {
     _id: string;
     name: string;
     imageUrl: string;
@@ -13,55 +13,55 @@ type Category = {
     updatedAt: Date;
 };
 
-const AddedCategories: React.FC = () => {
-    const [addedCategory, setAddedCategory] = useState<Category[]>([]);
-    const [filteredCategory, setFilteredCategory] = useState<Category[]>([]);
+const AddedBrands: React.FC = () => {
+    const [addedBrand, setAddedBrand] = useState<Brand[]>([]);
+    const [filteredBrand, setFilteredBrand] = useState<Brand[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const categoriesPerPage = 5; // Number of categories to display per page
-    const DeleteCategory = async (categoryId: string) => {
+    const BrandesPerPage = 5; // Number of categories to display per page
+    const Deletebrand = async (brandId: string) => {
         setLoading(true);
         try {
-            await axios.delete(`/api/category/${categoryId}`);
+            await axios.delete(`/api/brand/${brandId}`);
             // Refresh categories after deletion
-            getCategory();
+            getBrand();
         } catch (err: any) {
-            setError(`[Category_DELETE] ${err.message}`);
+            setError(`[Brand_DELETE] ${err.message}`);
         } finally {
             setLoading(false);
         }
     };
 
-    const getCategory = async () => {
+    const getBrand = async () => {
         try {
-            const response = await axios.get('/api/category');
-            setAddedCategory(response.data);
-            setFilteredCategory(response.data);
+            const response = await axios.get('/api/brand');
+            setAddedBrand(response.data);
+            setFilteredBrand(response.data);
         } catch (err: any) {
-            setError(`[Category_GET] ${err.message}`);
+            setError(`[Brand_GET] ${err.message}`);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        getCategory();
+        getBrand();
     }, []);
 
     useEffect(() => {
-        const filtered = addedCategory.filter(category =>
-            category.name.toLowerCase().includes(searchTerm.toLowerCase())             
+        const filtered = addedBrand.filter(brand =>
+            brand.name.toLowerCase().includes(searchTerm.toLowerCase())             
         );
-        setFilteredCategory(filtered);
+        setFilteredBrand(filtered);
         setCurrentPage(1); // Reset to the first page when search term changes
-    }, [searchTerm, addedCategory]);
+    }, [searchTerm, addedBrand]);
 
-    const indexOfLastCategory = currentPage * categoriesPerPage;
-    const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
-    const currentCategories = filteredCategory.slice(indexOfFirstCategory, indexOfLastCategory);
-    const totalPages = Math.ceil(filteredCategory.length / categoriesPerPage);
+    const indexOfLastBrand = currentPage * BrandesPerPage;
+    const indexOfFirstBrand = indexOfLastBrand - BrandesPerPage;
+    const currentBrands = filteredBrand.slice(indexOfFirstBrand, indexOfLastBrand);
+    const totalPages = Math.ceil(filteredBrand.length / BrandesPerPage);
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
@@ -80,10 +80,10 @@ const AddedCategories: React.FC = () => {
     return (
         <div className='mx-auto w-[70%] py-8 flex flex-col gap-8'>
             <div className="flex items-center justify-between">
-                <p className='text-3xl font-bold'>ALL categories</p>
-                <a href="/CategoryList/AddCategory" className="w-[15%]">
+                <p className='text-3xl font-bold'>ALL Brand</p>
+                <a href="/BrandList/AddBrand" className="w-[15%]">
                     <button className='bg-orange-400 font-bold hover:bg-[#15335D] text-white rounded-lg w-full h-10'>
-                        Add a new category
+                        Add a new Brand
                     </button>
                 </a>
             </div>
@@ -102,7 +102,7 @@ const AddedCategories: React.FC = () => {
                         <th className=" py-2 text-start">Name</th>
                         <th className=" py-2 text-start flex items-center gap-4">
                             <p>
-                                Created By
+                                Place
                             </p>
                             <p>
                                 Action
@@ -111,7 +111,7 @@ const AddedCategories: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentCategories.map((item, index) => (
+                    {currentBrands.map((item, index) => (
                         <tr key={index} className='bg-[#15335D] text-white'>
                             <td className="border px-4 py-2 "><Image src={item.logoUrl} width={30} height={30} alt="icon"/></td>
                             <td className="border px-4 py-2">{item.imageUrl}</td>
@@ -119,12 +119,12 @@ const AddedCategories: React.FC = () => {
                             <td className="border px-4 py-2 flex justify-between items-center ">
                                 <p>Hakim</p>
                                 <div className="flex items-center gap-2">
-                                    <Link href={`/CategoryList/${item._id}`}>
+                                    <Link href={`/BrandList/${item._id}`}>
                                         <button className="bg-orange-400 w-28 h-10 rounded-md">
                                             Modify
                                         </button>
                                     </Link>
-                                    <button onClick={() => DeleteCategory(item._id)} className="bg-orange-400 w-28 h-10 rounded-md">
+                                    <button onClick={() => Deletebrand(item._id)} className="bg-orange-400 w-28 h-10 rounded-md">
                                         Delete
                                     </button>
                                 </div>
@@ -150,4 +150,4 @@ const AddedCategories: React.FC = () => {
     );
 };
 
-export default AddedCategories;
+export default AddedBrands;

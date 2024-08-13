@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     const user = formData.get('user') as string;
     const imageFile = formData.get('image') as File | null;
     const logoFile = formData.get('logo') as File | null;
-
+    const bannerFile = formData.get('banner') as File | null;
     if (!name || !user) {
       return NextResponse.json({ message: 'Name is required' }, { status: 400 });
     }
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
 
     let imageUrl = '';
     let logoUrl = '';
-
+    let bannerUrl ='';
     if (imageFile) {
       const imageBuffer = await imageFile.arrayBuffer();
       const bufferStream = new stream.PassThrough();
@@ -84,8 +84,30 @@ export async function POST(req: NextRequest) {
 
       logoUrl = logoResult.secure_url;
     }
+    if (bannerFile) {
+      const bannerBuffer = await bannerFile.arrayBuffer();
+      const bannerBufferStream = new stream.PassThrough();
+      bannerBufferStream.end(Buffer.from(bannerBuffer));
 
-    const newCategory = new Category({ name, logoUrl, imageUrl, user });
+      const bannerResult = await new Promise<any>((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: 'categories/banner' },
+          (error, result) => {
+            if (error) {
+              return reject(error);
+            }
+            resolve(result);
+          }
+        );
+
+        bannerBufferStream.pipe(uploadStream);
+      });
+
+      bannerUrl = bannerResult.secure_url;
+    }
+    
+    
+    const newCategory = new Category({ name, logoUrl, imageUrl, bannerUrl, user });
     await newCategory.save();
     return NextResponse.json(newCategory, { status: 201 });
   } catch (error) {

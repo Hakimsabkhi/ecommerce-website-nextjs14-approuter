@@ -79,11 +79,11 @@ export async function PUT(
     const imageFile = formData.get("image") as File | null;
     const logoFile = formData.get("logo") as File | null;
 
-    const id = params.id; // Get ID from params
-    console.log("barnd id:", id);
+    const { id } = params; // Get ID from params
+
     if (!id) {
       return NextResponse.json(
-        { message: "ID  are required" },
+        { message: "ID is required" },
         { status: 400 }
       );
     }
@@ -93,9 +93,10 @@ export async function PUT(
       return NextResponse.json({ message: "Brand not found" }, { status: 404 });
     }
 
+    // Check for duplicate brand name
     if (existingBrand.name !== name) {
-      const duplicatebrand = await Brand.findOne({ name });
-      if (duplicatebrand) {
+      const duplicateBrand = await Brand.findOne({ name });
+      if (duplicateBrand) {
         return NextResponse.json(
           { message: "Brand with this name already exists" },
           { status: 400 }
@@ -107,8 +108,16 @@ export async function PUT(
     let imageUrl = existingBrand.imageUrl;
     let logoUrl = existingBrand.logoUrl;
 
-    // Handle image file upload
+    // Handle image file upload and deletion of the old image
     if (imageFile) {
+      if (existingBrand.imageUrl) {
+        const publicId = extractPublicId(existingBrand.imageUrl);
+        if (publicId) {
+          await cloudinary.uploader.destroy('brands/images/' + publicId);
+          
+        }
+      }
+
       const imageBuffer = Buffer.from(await imageFile.arrayBuffer());
       const imageStream = new stream.PassThrough();
       imageStream.end(imageBuffer);
@@ -118,10 +127,7 @@ export async function PUT(
           const uploadStream = cloudinary.uploader.upload_stream(
             { folder: "brands/images" },
             (error, result) => {
-              if (error)
-                return reject(
-                  new Error(`Image upload failed: ${error.message}`)
-                );
+              if (error) return reject(new Error(`Image upload failed: ${error.message}`));
               resolve(result);
             }
           );
@@ -132,8 +138,17 @@ export async function PUT(
       imageUrl = newImageUrl; // Update imageUrl with the uploaded URL
     }
 
-    // Handle logo file upload
+    // Handle logo file upload and deletion of the old logo
     if (logoFile) {
+      if (existingBrand.logoUrl) {
+        const publicId = extractPublicId(existingBrand.logoUrl);
+        if (publicId) {
+          
+          
+          await cloudinary.uploader.destroy('brands/logos/' + publicId);
+        }
+      }
+
       const logoBuffer = Buffer.from(await logoFile.arrayBuffer());
       const logoStream = new stream.PassThrough();
       logoStream.end(logoBuffer);
@@ -143,10 +158,7 @@ export async function PUT(
           const uploadStream = cloudinary.uploader.upload_stream(
             { folder: "brands/logos" },
             (error, result) => {
-              if (error)
-                return reject(
-                  new Error(`Logo upload failed: ${error.message}`)
-                );
+              if (error) return reject(new Error(`Logo upload failed: ${error.message}`));
               resolve(result);
             }
           );
@@ -157,13 +169,13 @@ export async function PUT(
       logoUrl = newLogoUrl; // Update logoUrl with the uploaded URL
     }
 
-    // Update category with new values
+    // Update brand with new values
     existingBrand.name = name;
     existingBrand.logoUrl = logoUrl;
     existingBrand.imageUrl = imageUrl;
     existingBrand.place = place;
-    await existingBrand.save();
-
+    
+    await existingBrand.save(); // Save the updated brand
     return NextResponse.json(existingBrand, { status: 200 });
   } catch (error) {
     console.error(error); // Log error for debugging
@@ -173,7 +185,6 @@ export async function PUT(
     );
   }
 }
-
 // DELETE function to handle DELETE requests
 export async function DELETE(
   req: NextRequest,
@@ -199,14 +210,14 @@ export async function DELETE(
     if (brand.imageUrl) {
       const publicId = extractPublicId(brand.imageUrl);
       if (publicId) {
-        await cloudinary.uploader.destroy(`brands/${publicId}`);
+        await cloudinary.uploader.destroy(`brands/images/${publicId}`);
       }
     }
 
     if (brand.logoUrl) {
       const publicId = extractPublicId(brand.logoUrl);
       if (publicId) {
-        await cloudinary.uploader.destroy(`brands/${publicId}`);
+        await cloudinary.uploader.destroy(`brands/logos/${publicId}`);
       }
     }
 

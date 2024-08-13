@@ -19,7 +19,7 @@ export async function middleware(req: NextRequest) {
   }
 
   if (!token && !isAuthPath) {
-    const signInUrl = new URL('/auth/signin', req.url);
+    const signInUrl = new URL('/signin', req.url);
     return NextResponse.redirect(signInUrl);
   }
 
@@ -35,6 +35,7 @@ export const config = {
     '/admin/:path*',
     '/CategoryList/:path*',
     '/ProductList/:path*',
+    '/BrandList/:path*',
   ],
 
 };

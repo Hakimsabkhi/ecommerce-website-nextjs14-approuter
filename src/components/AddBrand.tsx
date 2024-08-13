@@ -1,21 +1,19 @@
 "use client";
-
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 
-const AddCategory = () => {
+const AddBrand = () => {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [name, setName] = useState('');
+    const [place, setPlace] = useState('');
     const [image, setImage] = useState<File | null>(null);
     const [icon, setIcon] = useState<File | null>(null);
-    const [banner, setBanner] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [iconPreview, setIconPreview] = useState<string | null>(null);
-    const [bannerPreview, setBannerPreview] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -45,18 +43,12 @@ const AddCategory = () => {
         }
     }, [icon]);
 
-    useEffect(() => {
-        if (banner) {
-            const objectUrl = URL.createObjectURL(banner);
-            setBannerPreview(objectUrl);
-
-            // Clean up object URL
-            return () => URL.revokeObjectURL(objectUrl);
-        }
-    }, [banner]);
-
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
+    };
+
+    const handlePlaceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPlace(e.target.value);
     };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,17 +63,11 @@ const AddCategory = () => {
         }
     };
 
-    const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setBanner(e.target.files[0]);
-        }
-    };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!name || !image || !icon || !banner) {
-            setError('Name, image, icon, and banner are required');
+        if (!name || !image || !icon) {
+            setError('Name, image, and icon are required');
             return;
         }
 
@@ -89,16 +75,15 @@ const AddCategory = () => {
         formData.append('name', name);
         formData.append('image', image);
         formData.append('logo', icon); // Correctly naming the field
-        formData.append('banner', banner); // Added banner field
-        formData.append('user', session?.user?.id.toString() || ''); // Ensure user ID is a string
+        formData.append('place', place);
 
         try {
-            await axios.post('/api/category', formData, { 
+            await axios.post('/api/brand', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            router.push('/CategoryList'); // Redirect to categories page after successful submission
+            router.push('/BrandList'); // Redirect to BrandList page after successful submission
         } catch (err: any) {
             setError(`Error: ${err.response?.data?.message || err.message}`);
         }
@@ -106,7 +91,7 @@ const AddCategory = () => {
 
     return (
         <div className='mx-auto w-[70%] max-xl:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8'>
-            <p className='text-3xl font-bold'>ADD categories</p>
+            <p className='text-3xl font-bold'>Add Brand</p>
             <form onSubmit={handleSubmit} className='flex max-lg:flex-col max-lg:gap-4 lg:items-center gap-4'>
                 <div className='flex items-center w-[40%] max-lg:w-full gap-6 justify-between'>
                     <p className="text-xl max-lg:text-base font-bold">Name*</p>
@@ -114,6 +99,16 @@ const AddCategory = () => {
                         type="text"
                         value={name}
                         onChange={handleNameChange}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[80%] block p-2.5"
+                        required
+                    />
+                </div>
+                <div className='flex items-center w-[40%] max-lg:w-full gap-6 justify-between'>
+                    <p className="text-xl max-lg:text-base font-bold">Place*</p>
+                    <input
+                        type="text"
+                        value={place}
+                        onChange={handlePlaceChange}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[80%] block p-2.5"
                         required
                     />
@@ -134,8 +129,8 @@ const AddCategory = () => {
                         Select an Image
                     </label>
                     {imagePreview && (
-                        <div className="w-[50%] max-lg:w-full">
-                            <Image src={imagePreview} alt="Image preview" className="w-full h-auto mt-4" width={500} height={500} />
+                        <div className="w-[15%] max-lg:w-full">
+                            <Image src={imagePreview} alt="Image preview" className="w-full h-auto mt-4" width={50} height={50} />
                         </div>
                     )}
                 </div>
@@ -155,35 +150,14 @@ const AddCategory = () => {
                         Select an Icon
                     </label>
                     {iconPreview && (
-                        <div className="w-[50%] max-lg:w-full">
-                            <Image src={iconPreview} alt="Icon preview" className="w-full h-auto mt-4" width={500} height={500} />
+                        <div className="w-[15%] max-lg:w-full">
+                            <Image src={iconPreview} alt="Icon preview" className="w-full h-auto mt-4" width={50} height={50} />
                         </div>
                     )}
                 </div>
-                <div className='flex items-center w-[30%] max-lg:w-full justify-between'>
-                    <p className="max-lg:text-base font-bold">Upload Banner*</p>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleBannerChange}
-                        className="hidden"
-                        id="upload-banner"
-                    />
-                    <label
-                        htmlFor="upload-banner"
-                        className='bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-[50%] h-10 border-2 flex items-center justify-center cursor-pointer'
-                    >
-                        Select a Banner
-                    </label>
-                    {bannerPreview && (
-                        <div className="w-[50%] max-lg:w-full">
-                            <Image src={bannerPreview} alt="Banner preview" className="w-full h-auto mt-4" width={500} height={500} />
-                        </div>
-                    )}
-                </div>
-                <div className="w-[30%] max-xl:w-[30%] max-md:w-[50%] items-start">
+                <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
                     <button type="submit" className='bg-orange-400 text-white rounded-md w-full hover:bg-[#15335D] h-10'>
-                        <p className="text-white">Add the new category</p>
+                        <p className="text-white">Add Brand</p>
                     </button>
                 </div>
             </form>
@@ -192,4 +166,4 @@ const AddCategory = () => {
     );
 };
 
-export default AddCategory;
+export default AddBrand;

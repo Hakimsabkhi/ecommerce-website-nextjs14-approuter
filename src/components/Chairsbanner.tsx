@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-
+import defaultImage from '../../assets/defaultimage.jpg';
 
 interface CategoryData {
   name: string;
   logoUrl?:string;
-  imageUrl?: string;
+  bannerUrl?:string;
 }
 
 const Chairsbanner: React.FC = () => {
@@ -24,7 +24,7 @@ const Chairsbanner: React.FC = () => {
           // Assuming the API returns an object with 'name' and 'logourl'
           setCategory({
             name: data.name || product,
-            imageUrl: data.imageUrl || '',
+            bannerUrl: data.bannerUrl || '',
           });
         } catch (error) {
           console.error('Error fetching category:', error);
@@ -44,16 +44,20 @@ const Chairsbanner: React.FC = () => {
           {category ? category.name : 'Loading...'}
         </a>
         <div className='w-full h-full flex items-center justify-center'>
-          {category?.imageUrl ? (
+          {category?.bannerUrl ? (
             <Image 
               className='object-cover w-full h-[400px]' 
-              src={category.imageUrl} 
+              src={category.bannerUrl|| 'default' } 
               alt='category logo' 
               height={300} 
               width={300} 
             />
           ) : (
-            <p>Loading image...</p>
+            /* loading start */
+            <div className="flex justify-center items-center h-[400px]">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>   
+          </div>
+          /*  loading end  */
           )}
         </div>
       </div>

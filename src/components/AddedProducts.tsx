@@ -65,6 +65,7 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
     useEffect(() => {
         setFilteredProducts(products);
         setCurrentPage(1);
+        setLoading(false);
     }, [products]);
 
     useEffect(() => {
@@ -84,7 +85,17 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-    
+    if (loading) {
+        return (/* loading start */
+        <div className="flex justify-center items-center h-[400px]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>   
+      </div>
+      /*  loading end  */)
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
     
     return (
         <div className='mx-auto w-[90%] py-8 flex flex-col gap-8'>
