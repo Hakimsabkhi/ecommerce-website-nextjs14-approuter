@@ -73,7 +73,7 @@ const Header: React.FC <HeaderProps> = ({ categories = [] }) => {
   }, []);
 
   return (
-    <div className='w-full max-lg:fixed max-lg:z-10 max-lg:bg-white max-lg:py-2 py-6 bg-[#15335E] justify-center flex'>
+    <div className='w-full max-lg:fixed max-lg:z-10 max-lg:bg-white h-[109px] bg-[#15335E] justify-center flex'>
       <div className='flex w-[90%] max-xl:w-[95%] max-lg:hidden justify-between  gap-14  items-center  max-lg:bg-white '>
         <TransitionLink href="/" aria-label="home">
           <div className="mb-1">

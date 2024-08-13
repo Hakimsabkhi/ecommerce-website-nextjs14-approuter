@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import Filter from '@/components/Filter';
+import Products from '@/components/Products';
 import Chairsbanner from '@/components/Chairsbanner';
 
 export default function HomePage() {
@@ -9,7 +9,7 @@ export default function HomePage() {
   return (
     <div>
       <Chairsbanner />
-      <Filter  /> 
+      <Products  /> 
     </div>  
 
   );

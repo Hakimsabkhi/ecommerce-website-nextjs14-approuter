@@ -7,7 +7,7 @@ import { left, right, person1, person2, person3, pic1, pic2, pic3 } from '@/asse
 type SlideData = {
     title: string;
     author: string;
-    personImg: StaticImageData; // Update type to StaticImageData
+    personImg: StaticImageData;
 };
 
 const slideData: SlideData[] = [
@@ -45,17 +45,17 @@ export default function Banner() {
 
     const currentSlide = slideData[page - 1];
     return (
-
-        <Image
-            className='w-full h-fit'
-            layout="responsive"
-            width={1200}
-            height={800}
-            alt=""
-            src={pic3}
-            priority
-        />
-
-
+        <div className="relative md:h-64 bg-white rounded shadow-lg mb-6"> {/* Maintain aspect ratio */}
+            <Image
+                className="w-full md:h-full rounded shadow-lg bg-white"
+                layout="fill"
+                objectFit="cover"
+                alt={currentSlide.title}
+                src={pic3}                
+                sizes="(max-width: 900px) 400px, 900px"
+                loading="eager"
+                decoding="async"
+            />
+        </div>
     );
 }
