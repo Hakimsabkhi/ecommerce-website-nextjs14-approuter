@@ -9,8 +9,8 @@ const NavAdmin= () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link href="/">
-              <a className="text-white font-bold text-xl">Brand</a>
+            <Link href="/admin/dashboard">
+              <p className="text-white font-bold text-xl">dashboard</p>
             </Link>
           </div>
           <div className="-mr-2 flex md:hidden">
@@ -39,18 +39,16 @@ const NavAdmin= () => {
           </div>
           <div className="hidden md:flex md:items-center">
             <div className="ml-10 flex items-baseline space-x-4">
-              <Link href="/">
-                <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+              <Link href="/BrandList">
+                <p className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Brands</p>
               </Link>
-              <Link href="/about">
-                <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
+              <Link href="/CategoryList">
+                <p className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Categorys</p>
               </Link>
-              <Link href="/services">
-                <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Services</a>
+              <Link href="/ProductList">
+                <p className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Products</p>
               </Link>
-              <Link href="/contact">
-                <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</a>
-              </Link>
+              
             </div>
           </div>
         </div>
@@ -58,18 +56,16 @@ const NavAdmin= () => {
 
       <div className={`md:hidden ${isOpen ? 'block' : 'hidden'}`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <Link href="/">
-            <a className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+          <Link href="/BrandList">
+            <p className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Brands</p>
           </Link>
-          <Link href="/about">
-            <a className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
+          <Link href="/CategoryList">
+            <p className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Categorys</p>
           </Link>
-          <Link href="/services">
-            <a className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Services</a>
+          <Link href="/ProductList">
+            <p className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Products</p>
           </Link>
-          <Link href="/contact">
-            <a className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contact</a>
-          </Link>
+     
         </div>
       </div>
     </nav>

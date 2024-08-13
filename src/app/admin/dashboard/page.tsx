@@ -59,6 +59,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
+      <NavAdmin/>
       <h1 className="text-4xl font-bold mb-8 text-center text-gray-900">Admin Dashboard</h1>
       <div className="relative  shadow-lg rounded-lg bg-white">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -140,7 +141,6 @@ const AdminDashboard = () => {
           </tbody>
         </table>
       </div>
-      <NavAdmin/>
     </div>
   );
 };
