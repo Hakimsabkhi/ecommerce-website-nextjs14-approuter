@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import NavAdmin from '@/components/NavAdmin';
 
 interface User {
   _id: string;
@@ -139,6 +140,7 @@ const AdminDashboard = () => {
           </tbody>
         </table>
       </div>
+      <NavAdmin/>
     </div>
   );
 };
