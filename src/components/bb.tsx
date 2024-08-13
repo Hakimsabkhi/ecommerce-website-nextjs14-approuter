@@ -36,63 +36,61 @@ export default function Bb() {
                         </div>
                     </div>
                     <div className=" flex w-1/3 max-md:w-full justify-between max-md:justify-center items-center max-md:gap-20  ">
-                        <ul className='flex-col flex gap-4'>
+                        <div className='flex-col flex gap-4'>
                             <p className="text-white  text-xl max-md:text-2xl  ">Quick links</p>
                             <div className='flex-col gap-2 text-xs max-md:text-base flex'>
                                 <TransitionLink href="/">
-                                    <li className="   hover:text-white cursor-pointer">
+                                    <p className="   hover:text-white cursor-pointer">
                                         Home
-                                    </li>
+                                    </p>
                                 </TransitionLink>
                                 <TransitionLink href="/about">
-                                    <li className="   hover:text-white cursor-pointer">
+                                    <p className="   hover:text-white cursor-pointer">
                                         About
-                                    </li>
+                                    </p>
                                 </TransitionLink>
                                 <TransitionLink href="#">
-                                    <li className="   hover:text-white cursor-pointer">
+                                    <p className="   hover:text-white cursor-pointer">
                                         Annonce
-                                    </li>
+                                    </p>
                                 </TransitionLink>
                                 <TransitionLink href="#">
-                                    <li className="   hover:text-white cursor-pointer">
+                                    <p className="   hover:text-white cursor-pointer">
                                         Services
-                                    </li>
+                                    </p>
                                 </TransitionLink>
                                 <TransitionLink href="/blog">
-                                    <li className="   hover:text-white cursor-pointer">
+                                    <p className="   hover:text-white cursor-pointer">
                                         Blogs
-                                    </li>
+                                    </p>
                                 </TransitionLink>
                                 <TransitionLink href="/">
-                                    <li className="   hover:text-white cursor-pointer">
+                                    <p className="   hover:text-white cursor-pointer">
                                         devenez vendeur
-                                    </li>
+                                    </p>
                                 </TransitionLink>                                
                             </div>
-                        </ul>
-                        <ul className='flex flex-col mb-6 max-md:mb-9 gap-4'>
-                            <p className="text-white  text-xl max-md:text-2xl ">Découverte</p>
-                            <div className='flex max-sm:flex max-sm:gap-8 justify-between'>
-                                <div className='flex flex-col text-xs max-md:text-base gap-2'>
-                                    <li className="   hover:text-white cursor-pointer">
-                                        Monastir
-                                    </li>
-                                    <li className="   hover:text-white cursor-pointer">
-                                        Sousse
-                                    </li>
-                                    <li className="  hover:text-white cursor-pointer">
-                                        Mahdia
-                                    </li>
-                                    <li className="   hover:text-white cursor-pointer">
-                                        Nabeul
-                                    </li>
-                                    <li className="   hover:text-white cursor-pointer">
-                                        Sfax
-                                    </li>
-                                </div>                            
-                            </div>
-                        </ul>                    
+                        </div>
+                        <div className='flex flex-col mb-6 max-md:mb-9 gap-4'>
+                            <p className="text-white  text-xl max-md:text-2xl ">Découverte</p>                            
+                            <ul className='flex flex-col text-xs max-md:text-base gap-2'>
+                                <li className="   hover:text-white cursor-pointer">
+                                    Monastir
+                                </li>
+                                <li className="   hover:text-white cursor-pointer">
+                                    Sousse
+                                </li>
+                                <li className="  hover:text-white cursor-pointer">
+                                    Mahdia
+                                </li>
+                                <li className="   hover:text-white cursor-pointer">
+                                    Nabeul
+                                </li>
+                                <li className="   hover:text-white cursor-pointer">
+                                    Sfax
+                                </li>
+                            </ul>                                                        
+                        </div>                    
                     </div>
                     <div className='flex flex-col gap-4  items-center'>
                         <p className='max-md:text-2xl max-sm:text-xl'>Abonnez-vous a notre newsletter!</p>
@@ -103,7 +101,7 @@ export default function Bb() {
                                 placeholder="Email address"
                             />
                             <div className=" absolute right-2 top-1/2 group overflow-hidden  -translate-y-1/2">
-                                <button className="relative  py-2 w-[40px] h-[40px] max-md:w-[50px] max-md:h-[50px] hover:bg-[#15335D]     px-2   rounded-full text-white bg-orange-500  "
+                                <button className="relative  py-2 w-[40px] h-[40px] max-md:w-[50px] max-md:h-[50px] hover:bg-[#15335D]     px-2   rounded-full text-white bg-primary  "
                                         aria-label="send">                                        
                                 </button>
                                 <FaArrowRight className="absolute cursor-pointer top-1/2 right-1/2 -translate-y-1/2 translate-x-1/2 duration-500 lg:group-hover:translate-x-[250%]" />
@@ -111,18 +109,16 @@ export default function Bb() {
                             </div>
                         </div>
                         <p className="max-md:text-xl">Suivez-nous sur</p>
-                        <div className='flex  items-center gap-2'>
-                            <Link href="https://www.youtube.com/">
-                                <FaLinkedinIn className="hover:text-blue-500"  size={25} />
-                            </Link>
-                            <FaFacebookF className="hover:text-blue-500" size={25} />
+                        <div className='flex  items-center gap-2'>                            
+                            <FaLinkedinIn className="hover:text-secondary"  size={25} />                            
+                            <FaFacebookF className="hover:text-secondary" size={25} />
                             <FaInstagram className='hover:bg-gradient-to-r from-orange-500 overflow-hidden rounded-lg via-pink-500 to-indigo-500 ' fill="currentcolor" size={25} />                            
                         </div>
                     </div>
                 </div>
             </div>
             <div className="bg-white flex items-center justify-center w-full py-3 max-lg:pb-20">
-                <div className="w-[60%] flex items-center justify-between text-cyan-500 font-bold max-lg:w-[95%] max-md:text-[10px]">
+                <div className="w-[60%] flex items-center justify-between text-[#525566] font-bold max-lg:w-[95%] max-md:text-[10px]">
                     <p>© Nproject - All rights reserved</p>
                     <div className=" flex items-center gap-8 max-md:gap-1">
                         <p>Terms and conditions</p>
@@ -136,23 +132,23 @@ export default function Bb() {
                 <div className="flex justify-between px-2 h-full max-w-lg grid-cols-4 mx-auto font-medium">
                     <button className="inline-flex flex-col items-center justify-center   dark:hover:bg-gray-800 group">
                         <CiShop size={25} className="   dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-orange-500" aria-hidden="true" fill="currentColor" />
-                        <span className="text-sm  dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-blue-500">shop</span>
+                        <span className="text-sm  dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-secondary">shop</span>
                     </button>
                     <button type="button" className="inline-flex flex-col items-center justify-center   dark:hover:bg-gray-800 group">
-                        <CiFilter size={25} className="   dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-blue-500" aria-hidden="true" fill="currentColor" />
-                        <span className="text-sm  dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-blue-500">Filters</span>
+                        <CiFilter size={25} className="   dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-secondary" aria-hidden="true" fill="currentColor" />
+                        <span className="text-sm  dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-secondary">Filters</span>
                     </button>
                     <button type="button" className="inline-flex flex-col items-center justify-center   dark:hover:bg-gray-800 group">
-                        <GoHeart size={25} className="   dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-blue-500" aria-hidden="true" fill="currentColor" />
-                        <span className="text-sm  dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-blue-500">Whishlist</span>
+                        <GoHeart size={25} className="   dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-secondary" aria-hidden="true" fill="currentColor" />
+                        <span className="text-sm  dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-secondary">Whishlist</span>
                     </button>
                     <button type="button" className="inline-flex flex-col items-center justify-center   dark:hover:bg-gray-800 group">
-                        <CiShoppingCart size={25} className="   dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-blue-500" aria-hidden="true" fill="currentColor" />
-                        <span className="text-sm  dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-blue-500">Cart</span>
+                        <CiShoppingCart size={25} className="   dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-secondary" aria-hidden="true" fill="currentColor" />
+                        <span className="text-sm  dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-secondary">Cart</span>
                     </button>
                     <button type="button" className="inline-flex flex-col items-center justify-center   dark:hover:bg-gray-800 group">
-                        <CiUser size={25} className="   dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-blue-500" aria-hidden="true" fill="currentColor" />
-                        <span className="text-sm  dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-blue-500  ">Account</span>
+                        <CiUser size={25} className="   dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-secondary" aria-hidden="true" fill="currentColor" />
+                        <span className="text-sm  dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-secondary  ">Account</span>
                     </button>
                 </div>
             </div>

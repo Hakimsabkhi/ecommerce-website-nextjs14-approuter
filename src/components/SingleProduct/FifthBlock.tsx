@@ -99,3 +99,4 @@ const FifthBlock: React.FC<{ product: Product }> = ({ product }) => {
 }
 
 export default FifthBlock;
+

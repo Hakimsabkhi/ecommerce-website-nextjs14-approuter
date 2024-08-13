@@ -33,13 +33,13 @@ const Latestarticle = () => {
                     </div>
                     <div className='flex flex-col  gap-2 items-center  border-x-2 border-b-2     bg-white w-full h-[235px]'>
                         <div className="w-[302px]  max-sm:w-[90%] pt-2">
-                            <p className="text-gray-400    ">{item.date}</p>
+                            <p className="text-[#525566]    ">{item.date}</p>
                             <div className="flex flex-col  gap-5 max-md:gap-2 ">
                                 <div className="flex flex-col  gap-2">
-                                    <p className="text-gray-700 text-2xl max-sm:text-xl font-bold">{item.title}</p>
-                                    <p className="text-gray-400">{item.text} </p>
+                                    <p className="text-gray-800 text-2xl max-sm:text-xl font-bold">{item.title}</p>
+                                    <p className="text-[#525566]">{item.text} </p>
                                 </div>
-                                <button className="bg-orange-400 hover:bg-[#15335D] rounded-lg w-full h-14 items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  ">
+                                <button className="bg-primary hover:bg-[#15335D] rounded-lg w-full h-14 items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  ">
                                     <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform  ease text-xl  ">continue reading</p>
                                     <p className="  text-white absolute flex items-center justify-center w-full h-full duration-500 translate-x-[-35%] translate-y-[3%] opacity-0 lg:group-hover/box:opacity-100 ease  ">                                        
                                         <FaReadme    className="w-8  h-8" aria-hidden="true" fill="currentColor"/>                                                                                                                    

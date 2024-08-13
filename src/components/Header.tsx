@@ -75,14 +75,14 @@ const Header: React.FC <HeaderProps> = ({ categories = [] }) => {
   return (
     <div className='w-full max-lg:fixed max-lg:z-10 max-lg:bg-white max-lg:py-2 py-6 bg-[#15335E] justify-center flex'>
       <div className='flex w-[90%] max-xl:w-[95%] max-lg:hidden justify-between  gap-14  items-center  max-lg:bg-white '>
-        <TransitionLink href="/" >
+        <TransitionLink href="/" aria-label="home">
           <div className="mb-1">
             <Image
               width={250}
               height={250}
               className=' h-auto  lg:w-[400px] xl:w-[300px] rounded-[5px] max-lg:hidden'
               src={luxehome}
-              alt="luxehome"
+              alt=""
               style={{ objectFit: 'contain' }}
             />
           </div>
@@ -100,26 +100,26 @@ const Header: React.FC <HeaderProps> = ({ categories = [] }) => {
             <CiSearch className='w-8 h-8 ' />
           </button>
         </div>
-        {!isAdmin && <div className='flex items-center gap-2'>
-          <Link href="/signin">
-            <button className="flex items-center space-x-2 text-white bg-orange-400 hover:bg-white hover:text-orange-400   font-bold rounded-md px-8  py-2"
+        {!isAdmin && <div className='flex items-center gap-2 w-[269px]'>
+          <Link href="/signin" aria-label="signin page">
+            <button aria-label="signin" className="flex items-center space-x-2 text-white bg-primary hover:bg-white hover:text-primary   font-bold rounded-md px-8  py-2"
               onClick={toggleLogin}
             >
               <span>LOGIN</span>
             </button>
           </Link>
-          <Link href="/signup">
-            <button className="flex items-center space-x-2 text-orange-400 bg-white hover:text-white hover:bg-orange-400   font-bold rounded-md  px-8  py-2">
+          <Link href="/signup" arai-label="signup page">
+            <button aria-label="register" className="flex items-center space-x-2 text-primary bg-white hover:text-white hover:bg-primary   font-bold rounded-md  px-8  py-2">
               <span>REGISTER</span>
             </button>
           </Link>
         </div>}
-        <div className='flex items-center gap-4 text-white'>
+        <div className='flex items-center gap-4 w-[133px] text-white'>
           <FiHeart size={25} />
           <div className='relative' ref={cartmodalRef}>
             <div className="relative cursor-pointer" onClick={toggleCartModal}>
               <SlBag size={25} />
-              <span className=" w-4 flex justify-center h-4 items-center text-xs rounded-full absolute -top-1 -right-1 text-white bg-orange-400">
+              <span className=" w-4 flex justify-center h-4 items-center text-xs rounded-full absolute -top-1 -right-1 text-white bg-primary">
                 <p>0</p>
               </span>
             </div>
@@ -233,20 +233,20 @@ const Header: React.FC <HeaderProps> = ({ categories = [] }) => {
             </ul>
           )}
           {activeTab === 'categories' && categories.map((category, index) => (
-            <ul key={index} className="text-sm">
+            <div key={index} className="text-sm">
               <Link key={category.id}
               href={`/${category.name}`} className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
                 <Image src={category.logoUrl}
-                  alt={category.name} width={30} height={30}/>
-                <li
+                  alt="" width={30} height={30}/>
+                <p
                   onClick={() => setMenuOpen(false)}
                   className=''
                 >
                   {category.name}
-                </li>
+                </p>
               </Link>
               
-            </ul>
+            </div>
           ))}
         </div>
       </div>

@@ -47,17 +47,17 @@ const CartModal = () => {
                     <FaRegTrashAlt size={25} className="text-black" />                        
                 </div>
             </div>
-            <button className='w-full h-10 rounded-lg border-2 border-black flex items-center justify-center'>
+            <button aria-label="view" className='w-full h-10 rounded-lg border-2 border-black flex items-center justify-center'>
                 <p className='p-4 text-xl text-black'>
                     View my cart (3)
                 </p>
             </button>
-            <button className='w-full h-10 rounded-lg  flex items-center justify-center bg-orange-400 hover:bg-[#15335D]'>
+            <button aria-label="check" className='w-full h-10 rounded-lg  flex items-center justify-center bg-orange-400 hover:bg-[#15335D]'>
                 <p className='p-4 text-xl '>
                     Checkout
                 </p>
             </button>
-            <p className='w-full text-center text-black underline '>Continue shopping</p>
+            <p  className='w-full text-center text-black underline '>Continue shopping</p>
 
         </div>
         
@@ -65,3 +65,4 @@ const CartModal = () => {
 }
 
 export default CartModal;
+
