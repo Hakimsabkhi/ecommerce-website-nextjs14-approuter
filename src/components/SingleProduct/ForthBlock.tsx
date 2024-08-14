@@ -1,14 +1,33 @@
 import React from 'react';
 import Image from 'next/image';
 import { aboutbrand, facebook, linkedin, pinterest, aboutchair, abouttable, aboutarmchair, aboutstorage, } from '@/assets/image';
-import { Product } from '@/assets/data'; // Ensure the path is correct
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";
 import { AiOutlineDislike } from "react-icons/ai";
 import { IoStorefrontOutline } from "react-icons/io5";
 
-
+interface Product {
+    _id: string;
+    name: string;
+    description: string;
+    ref: string;
+    price: number;
+    imageUrl?: string;
+    brand?: Brand; // Make brand optional
+    stock: number;
+    discount?: number;
+    color?: string;
+    material?: string;
+    status?: string;
+  }
+  
+  interface Brand {
+    _id: string;
+    place:string;
+    name: string;
+    imageUrl:string;
+  }
 
 const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
     return (
@@ -20,7 +39,7 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
                         <p className="text-xl ">Customer Review</p>
                     </div>
                     <div className="flex flex-col items-center justify-center gap-2">
-                        <p className="text-4xl font-bold">{product.rating}</p>
+                        <p className="text-4xl font-bold">{/* {product.rating} */}5</p>
                         <div className="text-orange-400 flex items-center gap-1">
                             <FaStar />
                             <FaStar />

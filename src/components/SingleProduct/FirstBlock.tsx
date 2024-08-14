@@ -1,11 +1,36 @@
 import React, { useState,  } from 'react';
 import Image from 'next/image';
 import { twibble1, twibble2, twibble3, twibble4,star } from '@/assets/image';
-import {Product} from '@/assets/data'; // Ensure the path is correct
+// Ensure the path is correct
 import { IoCheckboxOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
-const FirstBlock: React.FC<{ product: Product }> = ({ product }) => {
+const noimage ='https://res.cloudinary.com/dx499gc6x/image/upload/v1723623372/na_mma1mw.webp';
+interface Product {
+    _id: string;
+    name: string;
+    description: string;
+    ref: string;
+    price: number;
+    imageUrl?: string;
+    brand?: Brand; // Make brand optional
+    stock: number;
+    discount?: number;
+    color?: string;
+    material?: string;
+    status?: string;
+  }
+  
+  interface Brand {
+    _id: string;
+    place:string;
+    name: string;
+    imageUrl:string;
+  }
+ interface FirstBlockProps{
+    product: Product
+ }
+const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
     const [count, setCount] = useState<number>(0);
 
     const increment = () => setCount(count + 1);
@@ -18,7 +43,7 @@ const FirstBlock: React.FC<{ product: Product }> = ({ product }) => {
         <main className=' w-full bg-white pb-10 pt-20 flex justify-center '>
             <div className="flex gap-10 max-2xl:flex-col w-[80%] max-lg:w-[95%] items-center">
                 <div className="flex gap-2 items-center  max-2xl:flex-col ">
-                    <Image src={twibble1} alt='twibble' />
+                    <Image src={product.imageUrl|| noimage} height={500} width={500} alt='twibble' />
                     <div className="flex 2xl:flex-col gap-8 max-sm:justify-around ">
                         <Image className="max-md:w-[30%] max-sm:w-[20%]" src={twibble2} alt='twibble' property='true' />
                         <Image className="max-md:w-[30%] max-sm:w-[20%]" src={twibble3} alt='twibble' property='true' />

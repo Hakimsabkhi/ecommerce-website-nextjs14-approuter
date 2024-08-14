@@ -26,27 +26,51 @@ const AdminDashboard = () => {
     }
   }, [router, session, status]);
 
+
   const fetchUsers = async () => {
-    const res = await fetch("/api/users");
+    const res = await fetch(`/api/users?email=${session?.user?.email}`);
     const data = await res.json();
     setUsers(data);
   };
 
   const handleDeleteUser = async (userId: string) => {
-    await fetch(`/api/users/${userId}`, { method: "DELETE" });
+    await fetch(`/api/users/${userId}/${session?.user?.id}`, { method: "DELETE" });
     fetchUsers();
   };
 
   const handleChangeRole = async (userId: string, newRole: string) => {
-    await fetch(`/api/users/${userId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ role: newRole }),
-    });
-    fetchUsers();
+    try {
+      // Ensure the session and user ID are available
+      if (!session?.user?.id) {
+        throw new Error('User not authenticated');
+      }
+  console.log(session);
+  
+      // Perform the API request
+      const response = await fetch(`/api/users/${userId}/${session.user.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ role: newRole }),
+      });
+  
+      // Check for HTTP errors
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update role');
+      }
+  
+      // Refresh the user list or update the UI
+      fetchUsers();
+    } catch (error) {
+      // Handle errors, e.g., show a notification or log the error
+      console.error('Error changing role:', error);
+      // Optionally, show a user-friendly error message
+    }
   };
+  
+  
 
   const toggleDropdown = (userId: string) => {
     setDropdownOpen(dropdownOpen === userId ? null : userId);
@@ -166,6 +190,7 @@ const AdminDashboard = () => {
                         </ul>
                       </div>
                     )}
+                    
                   </div>
                 </td>
               </tr>

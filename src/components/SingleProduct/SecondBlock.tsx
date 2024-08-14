@@ -1,7 +1,26 @@
 import React from 'react';
 import Image from 'next/image';
-import { description } from '@/assets/image';
-import {Product} from '@/assets//data'; // Ensure the path is correct
+interface Product {
+    _id: string;
+    name: string;
+    description: string;
+    ref: string;
+    price: number;
+    imageUrl?: string;
+    brand?: Brand; // Make brand optional
+    stock: number;
+    discount?: number;
+    color?: string;
+    material?: string;
+    status?: string;
+  }
+  
+  interface Brand {
+    _id: string;
+    place:string;
+    name: string;
+    imageUrl:string;
+  }
 
 const SecondBlock: React.FC<{ product: Product }> = ({ product }) => {
     return (
@@ -14,7 +33,7 @@ const SecondBlock: React.FC<{ product: Product }> = ({ product }) => {
                 <div>
                     <div className="flex items-center justify-between border-b-2 pb-3 ">
                         <p>Brand</p>
-                        <p className="text-gray-400">{product.brand}</p>
+                        <p className="text-gray-400">{product.brand?.name}</p>
                     </div>
                     <div className="flex items-center justify-between border-b-2 py-3 ">
                         <p>Collection</p>
@@ -52,7 +71,7 @@ const SecondBlock: React.FC<{ product: Product }> = ({ product }) => {
             </div>
             <div className='w-[50%] max-lg:w-full flex flex-col gap-10 p-4'>
                 <p className="text-xl">Description</p>
-                <Image src={description} alt="description" />
+             {/*    <Image src={product.description} width={500} height={500} alt="description" /> */}
                 <p className="text-gray-400">The company reinterprets tradition by calling upon international designers to work with them and developing new technologies and materials to guarantee innovative and surprising results. Passion is the engine that drives the brand – together with its renowned creatives and high-profile collaborators – to search for original solutions using advanced materials, methods, tools, and technologies.</p>
                 <div>
                     <li className=' text-gray-400'>Choose items in a single color scheme and style</li>
