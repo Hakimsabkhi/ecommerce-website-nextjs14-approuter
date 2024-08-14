@@ -44,7 +44,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       {error ? <div>{error}</div> :  <Header categories={categories} />}
       {error ? <div>{error}</div> : <Headerbottom categories={categories} />}
       {children}     
-      {/* <Bb /> */}
+      <Bb />
     </div>
   );
 };

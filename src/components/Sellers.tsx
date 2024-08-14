@@ -1,18 +1,48 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { star } from "@/assets/image";
-import { items } from "@/assets/data";
+
 import { FaEye, FaCartShopping, FaRegHeart, FaHeart } from "react-icons/fa6";
 
 const Sellers = () => {
-    const [clickedStates, setClickedStates] = useState(items.map(() => false));
-
-    const handleClick = (index: number) => {
+   /*  const [clickedStates, setClickedStates] = useState<boolean[]>(items.map(() => false)); */
+    const [products, setProducts] =  useState<ProductsData[]>([])
+    interface Brand {
+        _id: string;
+        name: string;
+      }
+    
+    interface ProductsData {
+        _id: string;
+        name: string;
+        description: string;
+        ref: string;
+        price: number;
+        imageUrl?: string;
+        brand?: Brand; // Make brand optional
+        stock: number;
+        discount?: number;
+        color?: string;
+        material?: string;
+        status?: string;
+      }
+  /*   const handleClick = (index: number) => {
         const newClickedStates = [...clickedStates];
         newClickedStates[index] = !newClickedStates[index];
         setClickedStates(newClickedStates);
-    };
+    }; */
+    useEffect(() => {
+        const fetchProduct = async () => {          
+            try {
+              const response = await fetch(`/api/products`);
+              const data = await response.json();
+              setProducts(data);
+            } catch (error) {
+              console.error("Error fetching products:", error);
+            } };
+        fetchProduct();
+      },[]);
 
     return (
         <div className="desktop max-md:w-[95%] flex flex-col justify-center items-center gap-10 py-8">
@@ -27,11 +57,11 @@ const Sellers = () => {
                 </div>
             </div>
             <div className="grid grid-cols-5 w-full max-md:grid-cols-2 group max-xl:grid-cols-3 gap-8 max-md:gap-3">
-                {items.map((item, index) => (
+                {products.map((item, index) => (
                     <div key={index} className="bg-white rounded-lg duration-500 lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[397px] max-md:h-[290px] relative">
                         <Image
                             className="absolute inset-0 max-md:w-[140px] mx-auto top-5"
-                            src={item.src}
+                            src={item.imageUrl||'path/p.png'}
                             alt={item.name}
                             width={200}  // Set appropriate width
                             height={200} // Set appropriate height
@@ -42,12 +72,12 @@ const Sellers = () => {
                                 <p className="text-gray-700 cursor-pointer text-3xl max-md:text-xl font-bold font-poppins">{item.name}</p>
                                 <div className="flex-col gap-1">
                                     <p className="text-primary text-2xl max-md:text-lg font-bold font-poppins">{item.price}</p>
-                                    {item.oldPrice && (
+                                   {/*  {item.oldPrice && (
                                         <div className="flex gap-1">
                                             <p className="line-through max-sm:text-sm text-[#525566] font-poppins">{item.oldPrice}</p>
                                             <p className="text-white rounded-lg bg-primary px-2 font-poppins">20%</p>
                                         </div>
-                                    )}
+                                    )} */}
                                 </div>
                             </div>
                             <div className="flex flex-col gap-3">
@@ -55,7 +85,7 @@ const Sellers = () => {
                                     {[...Array(5)].map((_, starIndex) => (
                                         <Image key={starIndex} className="size-4 max-md:size-4" src={star} alt="star" width={20} height={20} />
                                     ))}
-                                    <p className="flex text-lg max-md:text-xs font-bold font-poppins">{item.rating}</p>
+                                    <p className="flex text-lg max-md:text-xs font-bold font-poppins">5{/* {item.rating} */}</p>
                                 </div>
                                 <div className="flex mb-1 text-lg max-md:text-sm justify-between">
                                     <button className="AddtoCart bg-primary hover:bg-[#15335D] text-white w-[50%] max-md:rounded-[3px] max-2xl:text-sm group/box">
@@ -70,7 +100,7 @@ const Sellers = () => {
                                             <FaEye className="w-5 h-5" aria-hidden="true" fill="currentColor" />
                                         </p>
                                     </button>
-                                    <button
+                                    {/* <button
                                         className="relative bg-white hover:bg-primary max-md:rounded-[3px] AddtoCart w-[13%] group/box text-primary hover:text-white border border-[#8D4407]"
                                         onClick={() => handleClick(index)}
                                         aria-label="wishlist"
@@ -81,7 +111,7 @@ const Sellers = () => {
                                         <p className={`absolute flex items-center justify-center w-full h-full ${clickedStates[index] ? 'opacity-100' : 'opacity-0'} group-hover/box:opacity-100`}>
                                             <FaHeart className="w-5 h-5 max-2xl:w-3 max-2xl:h-3" aria-hidden="true" fill="currentColor" />
                                         </p>
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
                         </div>

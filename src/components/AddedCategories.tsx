@@ -78,11 +78,11 @@ const AddedCategories: React.FC = () => {
     }
 
     return (
-        <div className='mx-auto w-[70%] py-8 flex flex-col gap-8'>
+        <div className='mx-auto w-[90%] py-8 flex flex-col gap-8'>
             <div className="flex items-center justify-between">
                 <p className='text-3xl font-bold'>ALL categories</p>
                 <a href="/CategoryList/AddCategory" className="w-[15%]">
-                    <button className='bg-orange-400 font-bold hover:bg-[#15335D] text-white rounded-lg w-full h-10'>
+                    <button className='bg-primary font-bold hover:bg-[#15335D] text-white rounded-lg w-full h-10'>
                         Add a new category
                     </button>
                 </a>
@@ -120,11 +120,11 @@ const AddedCategories: React.FC = () => {
                                 <p>Hakim</p>
                                 <div className="flex items-center gap-2">
                                     <Link href={`/CategoryList/${item._id}`}>
-                                        <button className="bg-orange-400 w-28 h-10 rounded-md">
+                                        <button className="bg-primary w-28 h-10 rounded-md">
                                             Modify
                                         </button>
                                     </Link>
-                                    <button onClick={() => DeleteCategory(item._id)} className="bg-orange-400 w-28 h-10 rounded-md">
+                                    <button onClick={() => DeleteCategory(item._id)} className="bg-primary w-28 h-10 rounded-md">
                                         Delete
                                     </button>
                                 </div>
@@ -139,7 +139,7 @@ const AddedCategories: React.FC = () => {
                         key={index}
                         onClick={() => paginate(index + 1)}
                         className={`mx-1 px-3 py-1 rounded ${
-                            currentPage === index + 1 ? 'bg-orange-400 text-white' : 'bg-gray-300 text-black'
+                            currentPage === index + 1 ? 'bg-primary text-white' : 'bg-gray-300 text-black'
                         }`}
                     >
                         {index + 1}

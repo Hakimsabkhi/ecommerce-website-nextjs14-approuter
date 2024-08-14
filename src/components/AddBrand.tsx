@@ -90,7 +90,7 @@ const AddBrand = () => {
     };
 
     return (
-        <div className='mx-auto w-[70%] max-xl:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8'>
+        <div className='mx-auto w-[90%] max-xl:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8'>
             <p className='text-3xl font-bold'>Add Brand</p>
             <form onSubmit={handleSubmit} className='flex max-lg:flex-col max-lg:gap-4 lg:items-center gap-4'>
                 <div className='flex items-center w-[40%] max-lg:w-full gap-6 justify-between'>
@@ -156,7 +156,7 @@ const AddBrand = () => {
                     )}
                 </div>
                 <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
-                    <button type="submit" className='bg-orange-400 text-white rounded-md w-full hover:bg-[#15335D] h-10'>
+                    <button type="submit" className='bg-primary text-white rounded-md w-full hover:bg-[#15335D] h-10'>
                         <p className="text-white">Add Brand</p>
                     </button>
                 </div>

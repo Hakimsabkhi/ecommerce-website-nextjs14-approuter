@@ -187,7 +187,7 @@ const ModifyBrand = () => {
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
           <button
             type="submit"
-            className="bg-orange-400 hover:bg-[#15335D] text-white rounded-md w-full h-10"
+            className="bg-primary hover:bg-[#15335D] text-white rounded-md w-full h-10"
           >
             <p className="text-white font-bold">Modify</p>
           </button>
