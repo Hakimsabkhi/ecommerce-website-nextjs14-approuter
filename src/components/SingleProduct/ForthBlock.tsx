@@ -42,7 +42,7 @@ interface Brand {
   imageUrl: string;
 }
 interface reviewData {
-  id: string;
+  _id: string;
   name: string;
   createdAt: string;
   rating: number;
@@ -278,7 +278,7 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
         <div className="flex max-lg:flex-col justify-between">
           {/* first half */}
           {reviews.map((review) => (
-            <div className="w-[50%] max-lg:w-full flex flex-col   p-4">
+            <div key={review._id} className="w-[50%] max-lg:w-full flex flex-col   p-4">
               <div className="flex flex-col gap-20 border-2 border-gray-400 rounded-t-lg px-4 py-8 ">
                 <div className="flex flex-col gap-8 ">
                   <div>
