@@ -5,6 +5,8 @@ import cloudinary from '@/lib/cloudinary';
 import upload from '@/lib/multer'; // Adjust the path according to your project structure
 import stream from 'stream';
 import { promisify } from 'util';
+import { getToken } from 'next-auth/jwt';
+import User from '@/models/User';
 
 
 const uploadFiles = promisify(upload.fields([{ name: 'image', maxCount: 1 }, { name: 'logo', maxCount: 1 }]));
@@ -23,7 +25,19 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
     await connectToDatabase();
+    const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+  //fatcg the user
   
+      // Find the user by email
+      const user = await User.findOne({ email:token.email});
+  
+      
+      if (!user || user.role !== 'Admin' && user.role !== 'Rédacteur') {
+        return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
+      }
     try {
       // Handle form data
       const formData = await req.formData();

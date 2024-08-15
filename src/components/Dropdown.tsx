@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { FaRegUserCircle } from 'react-icons/fa';
 
 interface User {
+  name:string
   email: string;
   role: string;
 }
@@ -46,7 +47,7 @@ const Dropdown = () => {
   }
 
   const user = {
-    
+    name: (session.user as any).name,
     email: (session.user as any).email,
     role: (session.user as any).role,
   };
@@ -65,7 +66,7 @@ const Dropdown = () => {
         <div className="origin-top-right absolute right-0 z-50 mt-2 w-[269px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div className="py-1">
             <div className="px-4 py-2 text-sm text-gray-900">
-              <div className="font-bold">{user.email}</div>
+              <div className="font-bold">{user.name}</div>
               <div className="text-gray-500">Role: {user.role}</div>
             </div>
             <div className="border-t border-gray-100"></div>

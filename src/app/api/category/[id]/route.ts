@@ -7,6 +7,7 @@ import upload from "@/lib/multer";
 import stream from "stream";
 import { promisify } from "util";
 import User from "@/models/User";
+import { getToken } from "next-auth/jwt";
 
 const uploadFiles = promisify(
   upload.fields([
@@ -56,7 +57,19 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   await connectToDatabase();
+  const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+//fatcg the user
 
+    // Find the user by email
+    const user = await User.findOne({ email:token.email});
+
+    
+    if (!user || user.role !== 'Admin' && user.role !== 'Rédacteur') {
+      return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
+    }
   try {
     // Handle form data
     const formData = await req.formData();
@@ -227,7 +240,19 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   await connectToDatabase();
+  const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+//fatcg the user
 
+    // Find the user by email
+    const user = await User.findOne({ email:token.email});
+
+    
+    if (!user || user.role !== 'Admin' && user.role !== 'Rédacteur') {
+      return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
+    }
   const { id } = params;
 
   if (!id) {

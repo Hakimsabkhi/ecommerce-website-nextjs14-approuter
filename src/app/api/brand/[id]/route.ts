@@ -5,6 +5,8 @@ import cloudinary from "@/lib/cloudinary";
 import upload from "@/lib/multer"; // Adjust the path according to your project structure
 import stream, { Readable } from "stream";
 import { promisify } from "util";
+import { getToken } from "next-auth/jwt";
+import User from "@/models/User";
 
 // Middleware function for uploading files
 const uploadFiles = promisify(
@@ -70,7 +72,19 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   await connectToDatabase();
+  const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+//fatcg the user
 
+    // Find the user by email
+    const user = await User.findOne({ email:token.email});
+
+    
+    if (!user || user.role !== 'Admin' && user.role !== 'Rédacteur') {
+      return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
+    }
   try {
     // Handle form data
     const formData = await req.formData();
@@ -197,7 +211,19 @@ export async function DELETE(
   await connectToDatabase();
 
   const { id } = params;
+  const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+//fatcg the user
 
+    // Find the user by email
+    const user = await User.findOne({ email:token.email});
+
+    
+    if (!user || user.role !== 'Admin' && user.role !== 'Rédacteur') {
+      return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
+    }
   if (!id) {
     return NextResponse.json(
       { message: "Invalid or missing brand ID" },
