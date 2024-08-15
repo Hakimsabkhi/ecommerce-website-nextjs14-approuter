@@ -1,8 +1,29 @@
-import React from 'react';
+"use client"
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { brands } from '@/assets/data';
-
+interface BrandData {
+    id: string;
+    name: string;
+    imageUrl: string;
+    logoUrl: string;
+    place: string;
+  }
 const Brands = () => {
+    const [brands, setBrands] = useState<BrandData[]>([]);
+
+    useEffect(() => {
+      const fetchCategories = async () => {
+        try {
+          const response = await fetch('/api/brand');
+          const data: BrandData[] = await response.json(); // Ensure data is an array
+          setBrands(data);
+        } catch (error) {
+          console.error('Failed to fetch categories', error);
+        }
+      };
+  
+      fetchCategories();
+    }, []);
     return (
         <div className='desktop max-md:w-[95%] flex flex-col gap-10 max-md:gap-4 py-8'>
             <div className='flex-col flex gap-2 max-md:gap-1 text-center w-full'>
@@ -17,7 +38,7 @@ const Brands = () => {
                         <div className='w-full h-full bg-black/60 absolute rounded-lg'></div>
                         <Image 
                             className='w-[300px] max-lg:w-[500px]' 
-                            src={brand.src} 
+                            src={brand.imageUrl} 
                             alt={brand.name} 
                             width={300} // Set appropriate width
                             height={200} // Set appropriate height
@@ -26,7 +47,7 @@ const Brands = () => {
                         <div className='absolute pl-4 top-0 bg-white w-full h-20 max-lg:h-[100px] flex items-center gap-4 border-x-2 border-t-2 rounded-t-lg border-gray-400'>
                             <Image 
                                 className='max-xl:w-10 max-xl:h-10 max-lg:w-20 max-lg:h-20' 
-                                src={brand.logo} 
+                                src={brand.logoUrl} 
                                 alt={brand.name} 
                                 width={40} // Set appropriate width
                                 height={40} // Set appropriate height

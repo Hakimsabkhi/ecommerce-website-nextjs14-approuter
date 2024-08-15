@@ -236,7 +236,7 @@ const AddProduct = () => {
                 />
             </div>
             <div className="w-full flex justify-end">
-                <button type="submit" className='bg-orange-400 text-white rounded-md w-[20%] max-lg:w-[50%] h-10'>
+                <button type="submit" className='bg-primary text-white rounded-md w-[20%] max-lg:w-[50%] h-10'>
                     <p className="text-white">
                         Add the New Product
                     </p>
@@ -244,7 +244,7 @@ const AddProduct = () => {
 
             </div>
             <Link href="/ProductList" className="w-full flex justify-end">
-                <button className='bg-orange-400 text-white rounded-md w-[20%] max-lg:w-[50%] h-10'>
+                <button className='bg-primary text-white rounded-md w-[20%] max-lg:w-[50%] h-10'>
                     <p className="text-white">
                         Cancel
                     </p>

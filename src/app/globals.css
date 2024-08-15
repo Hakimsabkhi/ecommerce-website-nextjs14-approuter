@@ -90,13 +90,13 @@ body {
   width: 20px;
   height: 20px;
   cursor: pointer;
-  background: #F6A75D;
+  background: #863F04;
   border-radius: 50%;
-  border: 2px solid #F6A75D;
+  border: 2px solid #863F04;
   top: -9px;
 }
 .track-1 {
-  background-color: #F6A75D;
+  background-color: #863F04;
   height: 100%;
 }
 /* bg-orange-400 rounded-lg max-md:rounded-[3px] py-5 w-[50%] items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white */

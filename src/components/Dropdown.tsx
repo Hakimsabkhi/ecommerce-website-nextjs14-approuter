@@ -62,7 +62,7 @@ const Dropdown = () => {
       </button>
 
       {isOpen && (
-        <div className="origin-top-right absolute right-0 z-50 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+        <div className="origin-top-right absolute right-0 z-50 mt-2 w-[269px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div className="py-1">
             <div className="px-4 py-2 text-sm text-gray-900">
               <div className="font-bold">{user.email}</div>

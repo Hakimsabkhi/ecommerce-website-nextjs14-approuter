@@ -7,10 +7,12 @@ import Image from 'next/image';
 type Brand = {
     _id: string;
     name: string;
+    place: string;
     imageUrl: string;
     logoUrl: string;
     createdAt: Date;
     updatedAt: Date;
+
 };
 
 const AddedBrands: React.FC = () => {
@@ -100,14 +102,13 @@ const AddedBrands: React.FC = () => {
                         <th className="py-2 text-start">Icon</th>
                         <th className=" py-2 text-start">ImageURL</th>
                         <th className=" py-2 text-start">Name</th>
-                        <th className=" py-2 text-start flex items-center gap-4">
-                            <p>
-                                Place
-                            </p>
-                            <p>
-                                Action
-                            </p>
+                        <th className=" py-2 text-start">                        
+                            Place                                                                                                                   
                         </th>
+                        <th className=" py-2 text-center">                        
+                            Action                                                                                                                  
+                        </th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -116,9 +117,8 @@ const AddedBrands: React.FC = () => {
                             <td className="border px-4 py-2 "><Image src={item.logoUrl} width={30} height={30} alt="icon"/></td>
                             <td className="border px-4 py-2">{item.imageUrl}</td>
                             <td className="border px-4 py-2">{item.name}</td>
-                            <td className="border px-4 py-2 flex justify-between items-center ">
-                                <p>Hakim</p>
-                                <div className="flex items-center gap-2">
+                            <td className="border-b px-4 py-2  ">{item.place}</td>
+                            <td className="border-b flex items-center justify-center gap-2 py-2  ">                                
                                     <Link href={`/BrandList/${item._id}`}>
                                         <button className="bg-primary w-28 h-10 rounded-md">
                                             Modify
@@ -126,8 +126,7 @@ const AddedBrands: React.FC = () => {
                                     </Link>
                                     <button onClick={() => Deletebrand(item._id)} className="bg-primary w-28 h-10 rounded-md">
                                         Delete
-                                    </button>
-                                </div>
+                                    </button>                                
                             </td>
                         </tr>
                     ))}
@@ -139,7 +138,7 @@ const AddedBrands: React.FC = () => {
                         key={index}
                         onClick={() => paginate(index + 1)}
                         className={`mx-1 px-3 py-1 rounded ${
-                            currentPage === index + 1 ? 'bg-orange-400 text-white' : 'bg-gray-300 text-black'
+                            currentPage === index + 1 ? 'bg-primary text-white' : 'bg-gray-300 text-black'
                         }`}
                     >
                         {index + 1}

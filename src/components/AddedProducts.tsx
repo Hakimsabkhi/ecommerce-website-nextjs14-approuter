@@ -102,7 +102,7 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
             <div className="flex items-center justify-between">
                 <p className='text-3xl font-bold'>ALL Products</p>                
                 <Link href="/ProductList/AddProduct">
-                    <button className='bg-orange-400 text-white rounded-lg px-4 w-full h-10'>
+                    <button className='bg-primary text-white rounded-lg px-4 w-full h-10'>
                         <p>Add the new Product</p>
                     </button>
                 </Link>
@@ -135,14 +135,14 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
                             <td className="border px-4 py-2">{item.name}</td>
                             <td className="border px-4 py-2">{item.imageUrl}</td>
                             <td className="border px-4 py-2 flex justify-between items-center">
-                                
+                                <p>Hakim</p>
                                 <div className="flex items-center gap-2">
                                     <Link href={`/ProductList/${item._id}`}>
-                                        <button className="bg-orange-400 w-28 h-10 rounded-md">
+                                        <button className="bg-primary w-28 h-10 rounded-md">
                                             Modify
                                         </button>
                                     </Link>
-                                    <button onClick={() => deleteProduct(item._id)} className="bg-orange-400 w-28 h-10 rounded-md">
+                                    <button onClick={() => deleteProduct(item._id)} className="bg-primary w-28 h-10 rounded-md">
                                         Delete
                                     </button>
                                 </div>
@@ -157,7 +157,7 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
                         key={index}
                         onClick={() => paginate(index + 1)}
                         className={`mx-1 px-3 py-1 rounded ${
-                            currentPage === index + 1 ? 'bg-orange-400 text-white' : 'bg-gray-300 text-black'
+                            currentPage === index + 1 ? 'bg-primary text-white' : 'bg-gray-300 text-black'
                         }`}
                     >
                         {index + 1}

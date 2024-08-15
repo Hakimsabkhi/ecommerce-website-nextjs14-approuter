@@ -143,7 +143,7 @@ const Header: React.FC <HeaderProps> = ({ categories = [] }) => {
         <div className="relative" ref={cartmodalRef}>
           <div className="relative cursor-pointer" onClick={toggleCartModal}>
             <SlBag size={25} />
-            <span className=" w-4 flex justify-center h-4 items-center text-xs rounded-full absolute -top-1 -right-1 text-white bg-orange-400">
+            <span className=" w-4 flex justify-center h-4 items-center text-xs rounded-full absolute -top-1 -right-1 text-white bg-primary">
               <p>0</p>
             </span>
           </div>
@@ -167,13 +167,13 @@ const Header: React.FC <HeaderProps> = ({ categories = [] }) => {
         />
         <div className='flex'>
           <button
-            className={`flex-1 text-center text-sm py-3 ${activeTab === 'categories' ? 'bg-gray-300 border-b-2 border-orange-400' : 'bg-gray-200 opacity-50'}`}
+            className={`flex-1 text-center text-sm py-3 ${activeTab === 'categories' ? 'bg-gray-300 border-b-2 border-primary' : 'bg-gray-200 opacity-50'}`}
             onClick={() => handleTabClick('categories')}
           >
             Categories
           </button>
           <button
-            className={`flex-1 text-center text-sm py-3 ${activeTab === 'menu' ? 'bg-gray-300 border-b-2 border-orange-400' : 'bg-gray-200 opacity-50'}`}
+            className={`flex-1 text-center text-sm py-3 ${activeTab === 'menu' ? 'bg-gray-300 border-b-2 border-primary' : 'bg-gray-200 opacity-50'}`}
             onClick={() => handleTabClick('menu')}
           >
             Menu
