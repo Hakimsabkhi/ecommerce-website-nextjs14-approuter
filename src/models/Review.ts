@@ -3,7 +3,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface IReview extends Document {
 product:string;
-  rating: string;
+  rating: number;
   text?: string;
   email: string;
   name: string;
@@ -14,7 +14,7 @@ product:string;
 const ReviewSchema: Schema = new Schema(
   {
     product:{type:String,require:true},
-    rating: { type: String, required: true },
+    rating: { type: Number, required: true },
     text: { type: String, required: true },
     email: { type: String, require: true },
     name: { type: String, require: true },

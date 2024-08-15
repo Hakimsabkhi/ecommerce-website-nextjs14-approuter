@@ -7,12 +7,20 @@ import Review from '@/models/Review';
 
 export async function GET(req: NextRequest) {
   await connectToDatabase();
+  const { searchParams } = new URL(req.url);
+  const productId = searchParams.get('id');
 
+  if (!productId || typeof productId !== 'string') {
+    return NextResponse.json(
+      { message: 'product is required and should be a string' },
+      { status: 400 }
+    );
+  }
   try {
-    const review = await Review.find({});
+    const review = await Review.find({ product: productId });
     return NextResponse.json(review);
   } catch (error) {
-    return NextResponse.json({ message: 'Error fetching brands' }, { status: 500 });
+    return NextResponse.json({ message: 'Error fetching Review' }, { status: 500 });
   }
 }
 
@@ -22,11 +30,12 @@ export async function POST(req: NextRequest) {
     try {
       // Handle form data
       const formData = await req.formData();
-      const product = formData.get('productId') as string | null;
-      const rating = formData.get('rating') as string | null;
+      const product = formData.get('product') as string | null;
+      const rating = formData.get('rating') as number | null;
       const text = formData.get('text') as string | null;
+      const name = formData.get('name') as string | null;
       const email = formData.get('email') as string | null;
-     
+ 
 
          // Validate fields and prepare error message
     let errorMessage = '';
@@ -37,6 +46,9 @@ export async function POST(req: NextRequest) {
       errorMessage = 'Text is required';
     } else if (!email) {
       errorMessage = 'Email is required';
+    } 
+    else if (!name) {
+      errorMessage = 'name is required';
     } 
     else if (!/^\S+@\S+\.\S+$/.test(email)) {
       errorMessage = 'Invalid email format';
@@ -53,8 +65,9 @@ export async function POST(req: NextRequest) {
         product,
         rating,
         text,
+        name,
         email,
-        
+       
       });
   
       // Save the new review to the database

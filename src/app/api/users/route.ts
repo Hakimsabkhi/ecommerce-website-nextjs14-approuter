@@ -1,21 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt';
 import connectToDatabase from '@/lib/db';
 import User from '@/models/User';
 
 export const GET = async (req: NextRequest) => {
   await connectToDatabase();
-  const { searchParams } = new URL(req.url);
-  const em = searchParams.get('email');
-
-  if (!em) {
-    return NextResponse.json({ error: 'Email is required' }, { status: 400 });
+ 
+  //check token
+const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+//fatcg the user
 
     // Find the user by email
-    const user = await User.findOne({ email:em});
+    const user = await User.findOne({ email:token.email});
 
     if (!user || user.role !== 'Admin') {
-      return NextResponse.json({ error: 'User not found or is an Admin' }, { status: 404 });
+      return NextResponse.json({ error: 'Foridden:Access is denied' }, { status: 404 });
     }
   try {
     // Fetch all users excluding those with 'Admin' role

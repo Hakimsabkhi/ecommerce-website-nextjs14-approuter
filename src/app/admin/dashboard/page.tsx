@@ -28,13 +28,13 @@ const AdminDashboard = () => {
 
 
   const fetchUsers = async () => {
-    const res = await fetch(`/api/users?email=${session?.user?.email}`);
+    const res = await fetch(`/api/users`);
     const data = await res.json();
     setUsers(data);
   };
 
   const handleDeleteUser = async (userId: string) => {
-    await fetch(`/api/users/${userId}/${session?.user?.id}`, { method: "DELETE" });
+    await fetch(`/api/users/${userId}`, { method: "DELETE" });
     fetchUsers();
   };
 
@@ -47,7 +47,7 @@ const AdminDashboard = () => {
   console.log(session);
   
       // Perform the API request
-      const response = await fetch(`/api/users/${userId}/${session.user.id}`, {
+      const response = await fetch(`/api/users/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

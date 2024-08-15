@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import User from '@/models/User';
+import { getToken } from 'next-auth/jwt';
 
 export async function GET(req: NextRequest, { params }: { params: { userId: string } })  {
   await connectToDatabase();
@@ -12,14 +13,22 @@ export async function GET(req: NextRequest, { params }: { params: { userId: stri
   return NextResponse.json({ user });
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { userId: string , adminId: string } })  {
+export async function DELETE(req: NextRequest, { params }: { params: { userId: string } })  {
   await connectToDatabase();
-  const { userId, adminId } = params;
+  const { userId } = params;
 
-  // Find the admin user performing the deletion
-  const adminUser = await User.findById(adminId); // Adjust according to your auth setup
-  if (!adminUser || adminUser.role !== 'Admin') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 }); // Return 403 Forbidden if not an Admin
+    //check token
+const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
+if (!token) {
+  return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+}
+//fatcg the user
+
+  // Find the user by email
+  const user = await User.findOne({ email:token.email});
+
+  if (!user || user.role !== 'Admin') {
+    return NextResponse.json({ error: 'Foridden:Access is denied' }, { status: 404 });
   }
 
   await User.findByIdAndDelete(userId);
