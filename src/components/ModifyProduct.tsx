@@ -258,7 +258,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
         />
       </div>
       <div className="w-full flex justify-end gap-4">
-        <button type="submit" className='bg-orange-400 text-white rounded-md w-[20%] max-lg:w-[50%] h-10'>
+        <button type="submit" className='bg-primary text-white rounded-md w-[20%] max-lg:w-[50%] h-10'>
           <p className="text-white">Modify Product</p>
         </button>
         <Link href="/ProductList" className='border border-gray-400 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10'>

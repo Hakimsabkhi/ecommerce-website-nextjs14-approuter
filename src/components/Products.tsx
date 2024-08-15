@@ -30,6 +30,7 @@ const Products: React.FC = () => {
   const params = useParams<{ product?: string }>();
   const product = params?.product; // Safe access
   const [products, setProducts] = useState<ProductData[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
   const [values, setValues] = useState<[number, number]>([1, 500]);
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
@@ -57,24 +58,46 @@ const Products: React.FC = () => {
     fetchCategory();
   }, [product]);
 
+  useEffect(() => {
+    const fetchBrand = async () => {
+      
+        try {
+          const response = await fetch(`/api/brand`);
+          const data = await response.json();
+          setBrands(data);
+        } catch (error) {
+          console.error("Error fetching brands:", error);
+        } finally {
+          setLoading(false);
+        }      
+    };
+    fetchBrand();
+  }, []);
+
   const handlePriceChange = (newValues: [number, number]) => {
     setValues(newValues);
   };
+
   const handleBrandChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSelectedBrand(e.target.value);
   };
+
   const handleColorChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSelectedColor(e.target.value);
   };
+
   const handleBrandClick = (brand: string) => {
     setSelectedBrand(brand);
   };
+
   const handleColorClick = (color: string) => {
     setSelectedColor(color);
   };
+
   const handleStatusClick = (status: string) => {
     setSelectedStatus((prevStatus) => (prevStatus === status ? "" : status));
   };
+
   const handleMaterialClick = (material: string) => {
     setSelectedMaterials((prevMaterials) =>
       prevMaterials.includes(material)
@@ -82,6 +105,7 @@ const Products: React.FC = () => {
         : [...prevMaterials, material]
     );
   };
+
   const filteredItems = products.filter((item) => {
     const itemPrice = item.price;
     const matchesPrice = itemPrice >= values[0] && itemPrice <= values[1];
@@ -117,19 +141,11 @@ const Products: React.FC = () => {
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
     window.scrollTo({ top: 800, behavior: "smooth" });
-  };
-
+  };  
   const handleNav = () => {
     setMenuOpen(!menuOpen);
   };
-
-  if (loading) {
-    return (
-      /* loading start */
-      <div></div>
-      /* loading end */
-    );
-  }
+  
 
   return (
     <div className="flex py-8 desktop max-md:w-[95%] justify-center gap-8 max-md:items-center max-md:flex-col">
@@ -147,15 +163,18 @@ const Products: React.FC = () => {
         onColorClick={handleColorClick}
         onStatusClick={handleStatusClick}
         onMaterialClick={handleMaterialClick}
-        brands={["Hay", "vitra", "Poliform"]}
+        brands={brands.map(brand => brand.name)} // Pass the brands array directly
         colors={["Bone", "Dark Gray", "Gray", "Jet", "White"]}
         statuses={["On sale", "In stock", "On backorder"]}
         materials={[]} // Add materials if needed
         products={products}
+        menuOpen={menuOpen}
+        handleNav={handleNav}
       />
-      <div className="flex-col flex w-full gap-5">
+      <div className="flex-col flex w-full gap-20">
         {/* products */}
-        <ProductList products={currentItems} />
+        <ProductList products={currentItems} menuOpen={menuOpen}
+        handleNav={handleNav} />
         {/* pagination */}
         <Pagination
           currentPage={currentPage}
