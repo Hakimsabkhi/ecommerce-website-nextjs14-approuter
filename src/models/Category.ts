@@ -16,7 +16,7 @@ const CategorySchema: Schema = new Schema({
   imageUrl: { type: String },
   bannerUrl:{type:String},
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-});
+},{ timestamps: true });
 
 
 

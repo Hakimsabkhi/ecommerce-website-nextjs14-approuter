@@ -5,6 +5,8 @@ export interface IBrand extends Document {
   place:string;
   logoUrl?:string;
   imageUrl?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const BrandSchema: Schema = new Schema({
@@ -12,7 +14,7 @@ const BrandSchema: Schema = new Schema({
   place:{type: String, required: true },
   logoUrl: { type: String },
   imageUrl: { type: String },
-});
+},{ timestamps: true });
 
 
 

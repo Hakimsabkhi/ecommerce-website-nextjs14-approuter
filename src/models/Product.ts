@@ -25,10 +25,10 @@ const ProductSchema = new mongoose.Schema({
   brand: { type: mongoose.Schema.Types.ObjectId, ref: 'Brand' },
   stock: Number,
   price: Number,
-  discount: { type: Number, default: 0 },
+  discount: { type: Number},
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   imageUrl: String,
-});
+},{ timestamps: true });
 
 
 const Product: Model<IProduct> = mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);

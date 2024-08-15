@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent, useState } from 'react';
 import Image from 'next/image';
 import { aboutbrand, facebook, linkedin, pinterest, aboutchair, abouttable, aboutarmchair, aboutstorage, } from '@/assets/image';
 import { FaStar } from "react-icons/fa";
@@ -6,6 +6,7 @@ import { FaRegStar } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";
 import { AiOutlineDislike } from "react-icons/ai";
 import { IoStorefrontOutline } from "react-icons/io5";
+import { useParams } from 'next/navigation';
 
 interface Product {
     _id: string;
@@ -28,8 +29,56 @@ interface Product {
     name: string;
     imageUrl:string;
   }
+  interface ReviewFormData {
+    rating: number;
+    review: string;
+    name: string;
+    email: string;
+    saveInfo: boolean;
+    productId: string; // Added productId to the interface
+}
 
 const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
+    const [rating, setRating] = useState<number>(0);
+    const [review, setReview] = useState<string>('');
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [saveInfo, setSaveInfo] = useState<boolean>(false);
+    const params = useParams<{ id?: string }>(); // Adjust params based on your route setup
+    const productId = params.id ?? '';
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+
+        const reviewData: ReviewFormData = {
+            rating,
+            review,
+            name,
+            email,
+            saveInfo,
+            productId, // Included productId in reviewData
+        };
+
+        try {
+            const response = await fetch('/api/review', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(reviewData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            // Handle successful response here
+            alert('Review submitted successfully!');
+        } catch (error) {
+            // Handle error here
+            console.error('Error submitting review:', error);
+            alert('Failed to submit review.');
+        }
+    };
     return (
         <main className=' desktop max-lg:w-[95%] my-10 bg-white rounded-lg flex flex-col gap-20  '>
             {/* top */}
@@ -116,35 +165,73 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
                     <div className="flex flex-col  gap-5">
                         <p className="text-xl">ADD A REVIEW</p>
                         <p className="text-gray-400">Your email adress will not be published. Required fields are marked *</p>
-                        <div className="flex items-center gap-3">
-                            <p className="">your rating:</p>
-                            <div className="text-orange-400 flex items-center gap-1">
-                                <FaStar />
-                                <FaStar />
-                                <FaStar />
-                                <FaStar />
-                                <FaStar />
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-4">
-                            <p>your review :</p>
-                            <textarea  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-40 px-2.5 py-3   " placeholder="" required />                        
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            <p>Name :</p>
-                            <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            <p>Email :</p>
-                            <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <input id="remember" type="checkbox"  className="w-5 h-5   rounded bg-gray-400  "required  />
-                            <p className="font-bold ">Save my name, email, and website in this browser for the next time I comment.</p>
-                        </div>
-                        <button className="text-white bg-orange-400 hover:bg-[#15335D] h-10 w-[20%] font-bold  rounded-md">
-                            <p>Submit</p>
-                        </button>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="flex items-center gap-3">
+                <p>Your rating:</p>
+                <div className="text-orange-400 flex items-center gap-1">
+                    {[...Array(5)].map((_, index) => (
+                        <FaStar
+                            key={index}
+                            onClick={() => setRating(index + 1)}
+                            className={`cursor-pointer ${index < rating ? 'text-orange-400' : 'text-gray-300'}`}
+                        />
+                    ))}
+                </div>
+            </div>
+
+            <div className="flex flex-col gap-4">
+                <p>Your review:</p>
+                <textarea
+                    value={review}
+                    onChange={(e) => setReview(e.target.value)}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-40 px-2.5 py-3"
+                    placeholder=""
+                    required
+                />
+            </div>
+
+            <div className="flex flex-col gap-2">
+                <p>Name:</p>
+                <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    placeholder=""
+                    required
+                />
+            </div>
+
+            <div className="flex flex-col gap-2">
+                <p>Email:</p>
+                <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    placeholder=""
+                    required
+                />
+            </div>
+
+            <div className="flex items-center gap-1">
+                <input
+                    id="remember"
+                    type="checkbox"
+                    checked={saveInfo}
+                    onChange={() => setSaveInfo(!saveInfo)}
+                    className="w-5 h-5 rounded bg-gray-400"
+                />
+                <p className="font-bold">Save my name, email, and website in this browser for the next time I comment.</p>
+            </div>
+
+            <button
+                type="submit"
+                className="text-white bg-orange-400 hover:bg-[#15335D] h-10 w-[20%] font-bold rounded-md"
+            >
+                Submit
+            </button>
+        </form>
                     </div>                
                 </div>
             </div>

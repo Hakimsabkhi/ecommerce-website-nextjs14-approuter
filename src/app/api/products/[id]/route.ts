@@ -172,16 +172,10 @@ export async function PUT(
     if (price !== undefined && price !== null && !isNaN(Number(price))) {
       existingProduct.price = parseFloat(price as string);
     }
-    if (discount !== null && discount !== undefined) {
-      const discountNumber = Number(discount);
-      if (!isNaN(discountNumber)) {
-        existingProduct.discount = discountNumber;
-      } else {
-        existingProduct.discount = 0; // or another default value if discount is not a valid number
-      }
-    } else {
-      existingProduct.discount = 0; // or another default value if discount is null or undefined
+    if (discount !== undefined && discount !== null && !isNaN(Number(discount))) {
+      existingProduct.discount =  Number(discount);
     }
+   
     if (imageUrl !== undefined && imageUrl !== null) {
       existingProduct.imageUrl = imageUrl;
     }
