@@ -26,15 +26,6 @@ const extractPublicId = (url: string): string => {
   return lastSegment ? lastSegment.split(".")[0] : "";
 };
 
-const uploadSingle = (req: any, res: any) => {
-  return new Promise((resolve, reject) => {
-    upload.single('image')(req, res, (err: any) => {
-      if (err) return reject(err);
-      resolve(req.file);
-    });
-  });
-};
-
 // Handler for GET requests
 export async function GET(
   req: NextRequest,

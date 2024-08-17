@@ -36,14 +36,19 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
     const getProducts = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('/api/products');
-            setFilteredProducts(response.data);
+            const response = await fetch('/api/products');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            setFilteredProducts(data);
         } catch (err: any) {
             setError(`[products_GET] ${err.message}`);
         } finally {
             setLoading(false);
         }
     };
+    
 
     
 
