@@ -2,7 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AddedProducts from '@/components/AddedProducts';
-
+interface User {
+    _id: string;
+    username: string;
+}
 type Product = {
     _id: string;
     name: string;
@@ -12,7 +15,7 @@ type Product = {
     imageUrl: string;
     category: string;
     stock: number;
-    user: {_id:string}; // Reference to a User document or User ID
+    user: User; // Reference to a User document or User ID
     discount: number;
     createdAt: Date;
     updatedAt: Date;

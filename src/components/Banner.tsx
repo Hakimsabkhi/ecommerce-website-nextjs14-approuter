@@ -45,7 +45,7 @@ export default function Banner() {
 
     const currentSlide = slideData[page - 1];
     return (
-        <div className="relative md:h-64 bg-white rounded shadow-lg mb-6"> {/* Maintain aspect ratio */}
+        <div className="relative md:h-[600px] bg-white rounded shadow-lg mb-6"> {/* Maintain aspect ratio */}
             <Image
                 className="w-full md:h-full rounded shadow-lg bg-white"
                 layout="fill"

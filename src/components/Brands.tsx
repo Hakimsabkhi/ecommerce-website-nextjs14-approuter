@@ -35,7 +35,7 @@ const Brands = () => {
             <div className='flex items-center max-lg:flex-col w-full justify-between gap-6'>
                 {brands.map((brand, index) => (
                     <div key={index} className='relative group cursor-pointer'>
-                        <div className='w-full h-full bg-black/60 absolute rounded-lg'></div>
+                        
                         <Image 
                             className='w-[300px] max-lg:w-[500px]' 
                             src={brand.imageUrl} 

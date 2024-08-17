@@ -11,14 +11,6 @@ import { FaHeart } from "react-icons/fa";
 import ProductCard from './ProductPage/ProductCard';
 
 const Furniture = () => {
-/*     const [clickedStates, setClickedStates] = useState(itemsFurniture.map(() => false));
-
-    const handleClick = (index: number) => {
-        // Create a new array with the updated state for the clicked item
-        const newClickedStates = [...clickedStates];
-        newClickedStates[index] = !newClickedStates[index];
-        setClickedStates(newClickedStates);
-    }; */
     const [products, setProducts] =  useState<ProductsData[]>([])
     interface Brand {
         _id: string;
@@ -58,18 +50,12 @@ const Furniture = () => {
                 <div className="text-base flex gap-2 text-[#525566]">
                     <p>The msot popular products from the collection</p>
                 </div>
-            </div>
-            <div className='flex max-2xl:flex-col w-full justify-between gap-8 items-center'>
-                <Image className='2xl:hidden md:w-full md:h-40' src={f3} alt="furniture" />
-                <Image className='max-2xl:hidden' src={f1} alt="furniture" />
-            <div className="grid grid-cols-3  w-full  max-xl:grid-cols-2 group    gap-8  max-md:gap-3">
+            </div>                            
+            <div className="grid grid-cols-4  w-full  max-xl:grid-cols-2 group    gap-8  max-md:gap-3">
                 {products.map((item, _id) => (
                     <ProductCard key={item._id} item={item} />
                 ))}
-            </div>
-                <Image className='max-2xl:hidden' src={f2} alt="furniture" />
-                <Image className='2xl:hidden md:w-full md:h-40' src={f3} alt="furniture" />
-            </div>
+            </div>                            
         </div>
     );
 }

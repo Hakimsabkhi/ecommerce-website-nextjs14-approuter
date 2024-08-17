@@ -171,10 +171,12 @@ const Products: React.FC = () => {
         menuOpen={menuOpen}
         handleNav={handleNav}
       />
-      <div className="flex-col flex w-full gap-20">
+      <div className="flex-col flex w-full justify-between">
         {/* products */}
-        <ProductList products={currentItems} menuOpen={menuOpen}
-        handleNav={handleNav} />
+        <ProductList 
+          products={currentItems}  
+          menuOpen={menuOpen}
+          handleNav={handleNav} />
         {/* pagination */}
         <Pagination
           currentPage={currentPage}

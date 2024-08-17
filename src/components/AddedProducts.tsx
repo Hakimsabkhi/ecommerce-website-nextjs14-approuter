@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 type User = {
     _id:string;
-    
+    username: string;
     // other user fields
 };
 
@@ -22,6 +22,7 @@ type Product = {
     discount: number;
     createdAt: Date;
     updatedAt: Date;
+    
 };
 
 type AddedProductsProps = {
@@ -135,7 +136,7 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
                             <td className="border px-4 py-2">{item.name}</td>
                             <td className="border px-4 py-2">{item.imageUrl}</td>
                             <td className="border px-4 py-2 flex justify-between items-center">
-                                <p>Hakim</p>
+                                <p>{item.user.username}</p>
                                 <div className="flex items-center gap-2">
                                     <Link href={`/ProductList/${item._id}`}>
                                         <button className="bg-primary w-28 h-10 rounded-md">
