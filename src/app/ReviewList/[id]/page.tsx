@@ -1,10 +1,9 @@
-import ModifyReview from '@/components/ModifyReview';
-import React from 'react';
+import ListReviw from '@/components/ListReview';
 
-const Page = () => {
+const Page: React.FC = () => {
     return (
         <div>
-            <ModifyReview/>
+            <ListReviw />
         </div>
     );
 }
