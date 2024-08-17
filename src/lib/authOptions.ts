@@ -97,8 +97,10 @@ export const authOptions: NextAuthOptions = {
     },
     async jwt({ token, user }: { token: JWT; user?: NextAuthUser }) {
       if (user) {
+        const users=await UserModel.findOne({ email: user.email as string })
+        
         token.id = user.id;
-        token.role = user.role;
+        token.role = users?.role;
       }
       return token;
     },
