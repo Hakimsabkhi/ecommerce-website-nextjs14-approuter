@@ -7,23 +7,28 @@ interface BrandData {
     imageUrl: string;
     logoUrl: string;
     place: string;
-  }
-const Brands = () => {
-    const [brands, setBrands] = useState<BrandData[]>([]);
 
-    useEffect(() => {
-      const fetchCategories = async () => {
-        try {
-          const response = await fetch('/api/brand');
-          const data: BrandData[] = await response.json(); // Ensure data is an array
-          setBrands(data);
-        } catch (error) {
-          console.error('Failed to fetch categories', error);
-        }
-      };
+  }
+
   
-      fetchCategories();
-    }, []);
+  
+  // Function to fetch categories data
+  const fetchBrand= async (): Promise<BrandData[]> => {
+    try {
+      const res = await fetch('http://localhost:3000/api/brand'); // Adjust the API endpoint
+      if (!res.ok) {
+        throw new Error('Failed to fetch categories');
+      }
+      const data: BrandData[] = await res.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
+const Brands = async () => {
+    const brands = await fetchBrand();
+   
     return (
         <div className='desktop max-md:w-[95%] flex flex-col gap-10 max-md:gap-4 py-8'>
             <div className='flex-col flex gap-2 max-md:gap-1 text-center w-full'>

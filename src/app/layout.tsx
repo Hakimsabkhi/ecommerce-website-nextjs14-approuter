@@ -1,7 +1,11 @@
 // app/layout.tsx
-import RootLayoutClient from '@/components/RootLayoutCliet';
+import SessionProviderWrapper from '@/components/SessionProviderWrapper';
+
+import ClientLayout from '@/components/ClientLayout';
+import { Poppins } from 'next/font/google';
 import './/globals.css'; // Ensure global styles are imported
 import { Metadata } from 'next';
+const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] });
 
 
 export const metadata: Metadata = {
@@ -12,8 +16,10 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
-      <body>
-        <RootLayoutClient>{children}</RootLayoutClient>
+      <body className={poppins.className}>
+      <SessionProviderWrapper>
+        <ClientLayout>{children}</ClientLayout>
+      </SessionProviderWrapper>
       </body>
     </html>
   );

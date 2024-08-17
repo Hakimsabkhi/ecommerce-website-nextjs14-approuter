@@ -10,11 +10,13 @@ import Furniture from '@/components/Furniture';
 import Rules from '@/components/Rules';
 import Latestarticle from '@/components/Latestarticle';
 import './globals.css';
+import Headerbottom from '@/components/Headerbottom';
 
 
 export default function HomePage() {
   return (
     <>
+  
       <Banner />
       <Categories />
       <Sellers />

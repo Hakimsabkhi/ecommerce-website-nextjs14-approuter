@@ -1,33 +1,33 @@
-"use client"
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-interface CategoryData {
+
+interface Category {
     id: string;
     name: string;
     imageUrl: string;
   }
-  interface Props {
-    categories?: CategoryData[]; // Make categories optional
-  }
-
-
-const Categories: React.FC= () => {
-    const [categories, setCategories] = useState<CategoryData[]>([]);
-
-    useEffect(() => {
-      const fetchCategories = async () => {
-        try {
-          const response = await fetch('/api/category');
-          const data: CategoryData[] = await response.json(); // Ensure data is an array
-          setCategories(data);
-        } catch (error) {
-          console.error('Failed to fetch categories', error);
-        }
-      };
   
-      fetchCategories();
-    }, []);
+  // Function to fetch categories data
+  const fetchCategories = async (): Promise<Category[]> => {
+    try {
+      const res = await fetch('http://localhost:3000/api/category'); // Adjust the API endpoint
+      if (!res.ok) {
+        throw new Error('Failed to fetch categories');
+      }
+      const data: Category[] = await res.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
+  
+
+
+const Categories: React.FC=  async () => {
+    const categories = await fetchCategories();
+ 
 
     return (
         <div className='desktop max-md:w-[95%] flex flex-col gap-10 py-8'>

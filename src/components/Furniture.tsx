@@ -9,39 +9,43 @@ import { FaCartShopping } from 'react-icons/fa6';
 import { FaRegHeart } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa";
 import ProductCard from './ProductPage/ProductCard';
+interface Brand {
+  _id: string;
+  name: string;
+}
 
-const Furniture = () => {
-    const [products, setProducts] =  useState<ProductsData[]>([])
-    interface Brand {
-        _id: string;
-        name: string;
-      }
-    
-    interface ProductsData {
-        _id: string;
-        name: string;
-        description: string;
-        ref: string;
-        price: number;
-        imageUrl?: string;
-        brand?: Brand; // Make brand optional
-        stock: number;
-        discount?: number;
-        color?: string;
-        material?: string;
-        status?: string;
-      }
-      useEffect(() => {
-        const fetchProduct = async () => {          
-            try {
-              const response = await fetch(`/api/products`);
-              const data = await response.json();
-              setProducts(data);
-            } catch (error) {
-              console.error("Error fetching products:", error);
-            } };
-        fetchProduct();
-      },[]);
+interface Products {
+  _id: string;
+  name: string;
+  description: string;
+  ref: string;
+  price: number;
+  imageUrl?: string;
+  brand?: Brand; // Make brand optional
+  stock: number;
+  discount?: number;
+  color?: string;
+  material?: string;
+  status?: string;
+}
+
+// Function to fetch categories data
+const fetchProduct = async (): Promise<Products[]> => {
+  try {
+    const res = await fetch('http://localhost:3000/api/products'); // Adjust the API endpoint
+    if (!res.ok) {
+      throw new Error('Failed to fetch categories');
+    }
+    const data: Products[] = await res.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+const Furniture = async () => {
+    const products=await fetchProduct();
 
     return (
         <div className="desktop  max-md:w-[95%] flex flex-col justify-center items-center gap-10 py-8">

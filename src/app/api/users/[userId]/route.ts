@@ -38,14 +38,20 @@ if (!token) {
 export async function PUT(req: NextRequest, { params }: { params: { userId: string ,adminId:string} })  {
   await connectToDatabase();
   const userId=params.userId;
-  const  adminId= params.adminId;
-  const { role } = await req.json();
-  console.log(role);
+
   
-  // Find the admin user performing the deletion
-  const adminUser = await User.findById(adminId); // Adjust according to your auth setup
-  if (!adminUser || adminUser.role !== 'Admin') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 }); // Return 403 Forbidden if not an Admin
+  const { role } = await req.json();
+  const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
+if (!token) {
+  return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+}
+//fatcg the user
+
+  // Find the user by email
+  const users = await User.findOne({ email:token.email});
+
+  if (!users || users.role !== 'Admin') {
+    return NextResponse.json({ error: 'Foridden:Access is denied' }, { status: 404 });
   }
   
 

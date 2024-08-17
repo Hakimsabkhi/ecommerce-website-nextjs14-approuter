@@ -1,4 +1,4 @@
-"use client";
+
 import React from 'react';
 import Image, { StaticImageData } from 'next/image';
 import { collectionlogo } from "@/assets/image";
