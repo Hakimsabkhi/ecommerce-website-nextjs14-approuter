@@ -20,6 +20,7 @@ import { useParams } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
+import { useSession } from "next-auth/react";
 interface Product {
   _id: string;
   name: string;
@@ -33,6 +34,7 @@ interface Product {
   color?: string;
   material?: string;
   status?: string;
+  user: user;
 }
 
 interface Brand {
@@ -48,8 +50,11 @@ interface reviewData {
   rating: number;
   text: string;
 }
+interface user {
+  username: string;
+}
 
-const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
+const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
   const [rating, setRating] = useState<number>(0);
   const [review, setReview] = useState<string>("");
   const [reviews, setReviews] = useState<reviewData[]>([]);
@@ -58,6 +63,7 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
   const [saveInfo, setSaveInfo] = useState<boolean>(false);
   const params = useParams<{ id?: string }>(); // Adjust params based on your route setup
   const productId = params.id ?? "";
+  const { data: session } = useSession();
   useEffect(() => {
     const fetchReviews = async () => {
       if (productId) {
@@ -76,13 +82,17 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
 
     fetchReviews();
   }, [productId]);
+  const numberOfReviews = reviews.length;
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    const finalName = name || session?.user?.name || '';
+    const finalEmail = email || session?.user?.email || '';
+    
     const reviewData = new FormData();
     reviewData.append("rating", rating.toString());
     reviewData.append("text", review);
-    reviewData.append("email", email); // Correctly naming the field
-    reviewData.append("name", name); // Correctly naming the field
+    reviewData.append("email", finalEmail); // Correctly naming the field
+    reviewData.append("name", finalName); // Correctly naming the field
     reviewData.append("product", productId);
 
     try {
@@ -115,29 +125,29 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
           </div>
           <div className="flex flex-col items-center justify-center gap-2">
             <p className="text-4xl font-bold">{/* {product.rating} */}5</p>
-            <div className="text-orange-400 flex items-center gap-1">
+            <div className="text-primary flex items-center gap-1">
               <FaStar />
               <FaStar />
               <FaStar />
               <FaStar />
               <FaStar />
             </div>
-            <p className="text-gray-400 text-sm">2 reviews</p>
+            <p className="text-[#525566] text-sm">2 reviews</p>
           </div>
           <div className="flex flex-col gap-3">
             <div className=" flex items-center gap-2">
-              <div className="flex gap-1 items-center text-orange-400">
+              <div className="flex gap-1 items-center text-primary">
                 <FaStar />
                 <FaStar />
                 <FaStar />
                 <FaStar />
                 <FaStar />
               </div>
-              <div className="w-full bg-orange-400 rounded-full h-2.5 dark:bg-gray-700"></div>
-              <p className="text-gray-400">2</p>
+              <div className="w-full bg-primary rounded-full h-2.5 dark:bg-gray-700"></div>
+              <p className="text-[#525566]">2</p>
             </div>
             <div className=" flex items-center gap-2">
-              <div className="flex gap-1 items-center text-orange-400">
+              <div className="flex gap-1 items-center text-primary">
                 <FaStar />
                 <FaStar />
                 <FaStar />
@@ -145,10 +155,10 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
                 <FaRegStar />
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700"></div>
-              <p className="text-gray-400">0</p>
+              <p className="text-[#525566]">0</p>
             </div>
             <div className=" flex items-center gap-2">
-              <div className="flex gap-1 items-center text-orange-400">
+              <div className="flex gap-1 items-center text-primary">
                 <FaStar />
                 <FaStar />
                 <FaStar />
@@ -156,10 +166,10 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
                 <FaRegStar />
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700"></div>
-              <p className="text-gray-400">0</p>
+              <p className="text-[#525566]">0</p>
             </div>
             <div className=" flex items-center gap-2">
-              <div className="flex gap-1 items-center text-orange-400">
+              <div className="flex gap-1 items-center text-primary">
                 <FaStar />
                 <FaStar />
                 <FaRegStar />
@@ -167,10 +177,10 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
                 <FaRegStar />
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700"></div>
-              <p className="text-gray-400">0</p>
+              <p className="text-[#525566]">0</p>
             </div>
             <div className=" flex items-center gap-2">
-              <div className="flex gap-1 items-center text-orange-400">
+              <div className="flex gap-1 items-center text-primary">
                 <FaStar />
                 <FaRegStar />
                 <FaRegStar />
@@ -178,35 +188,35 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
                 <FaRegStar />
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700"></div>
-              <p className="text-gray-400">0</p>
+              <p className="text-[#525566]">0</p>
             </div>
           </div>
         </div>
         <div className="w-[50%] max-lg:w-full p-4 ">
           <div className="flex flex-col  gap-5">
             <p className="text-xl">ADD A REVIEW</p>
-            <p className="text-gray-400">
+            <p className="text-[#525566]">
               Your email adress will not be published. Required fields are
               marked *
             </p>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 h-[516px]">
               <div className="flex items-center gap-3">
                 <p>Your rating:</p>
-                <div className="text-orange-400 flex items-center gap-1">
+                <div className="text-primary flex items-center gap-1">
                   {[...Array(5)].map((_, index) => (
                     <FaStar
                       key={index}
                       onClick={() => setRating(index + 1)}
                       className={`cursor-pointer ${
-                        index < rating ? "text-orange-400" : "text-gray-300"
+                        index < rating ? "text-primary" : "text-gray-300"
                       }`}
                     />
                   ))}
                 </div>
               </div>
 
-              <div className="flex flex-col gap-4">
-                <p>Your review:</p>
+              <label className="flex flex-col gap-4">
+                <label>Your review:</label>
                 <textarea
                   value={review}
                   onChange={(e) => setReview(e.target.value)}
@@ -214,10 +224,12 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
                   placeholder=""
                   required
                 />
-              </div>
+              </label>
 
-              <div className="flex flex-col gap-2">
-                <p>Name:</p>
+           {!session &&   (
+            <div>
+              <label className="flex flex-col gap-2">
+                <label>Name:</label>
                 <input
                   type="text"
                   value={name}
@@ -226,10 +238,10 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
                   placeholder=""
                   required
                 />
-              </div>
+              </label>
 
-              <div className="flex flex-col gap-2">
-                <p>Email:</p>
+              <label className="flex flex-col gap-2">
+                <label>Email:</label>
                 <input
                   type="email"
                   value={email}
@@ -238,25 +250,27 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
                   placeholder=""
                   required
                 />
+              </label>
               </div>
+            )}
 
-              <div className="flex items-center gap-1">
+              <label className="flex items-center gap-1">                
                 <input
-                  id="remember"
+                  
                   type="checkbox"
                   checked={saveInfo}
                   onChange={() => setSaveInfo(!saveInfo)}
-                  className="w-5 h-5 rounded bg-gray-400"
+                  className="w-5 h-5 rounded bg-[#525566]"
                 />
                 <p className="font-bold">
                   Save my name, email, and website in this browser for the next
                   time I comment.
                 </p>
-              </div>
+              </label>
 
               <button
                 type="submit"
-                className="text-white bg-orange-400 hover:bg-[#15335D] h-10 w-[20%] font-bold rounded-md"
+                className="text-white bg-primary hover:bg-[#15335D] h-10 w-[20%] font-bold rounded-md"
               >
                 Submit
               </button>
@@ -268,34 +282,34 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
       {/* mid */}
       <div className="flex flex-col gap-4">
         <div className="px-4 flex items-center justify-between">
-          <p className="text-lg">2 reviews for twibble</p>
-          <select className="bg-gray-200 border border-gray-300 text-gray-400  rounded-full  block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <label htmlFor="review" className="text-lg uppercase">{numberOfReviews} reviews for {product?.name}</label>
+          <select id="review" className="bg-gray-200 border border-gray-300 text-[#525566]  rounded-full  block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-[#525566] dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option>default</option>
           </select>
         </div>
         {/* bottom */}
-
-        <div className="flex max-lg:flex-col justify-between">
+        {product ?(
+        <div className="grid grid-cols-2 max-md:grid-cols-1 ">
           {/* first half */}
-          {reviews.map((review) => (
-            <div key={review._id} className="w-[50%] max-lg:w-full flex flex-col   p-4">
-              <div className="flex flex-col gap-20 border-2 border-gray-400 rounded-t-lg px-4 py-8 ">
+            {reviews.map((review) => (
+            <div key={review._id} className="w-full max-lg:w-full flex flex-col   p-4">
+              <div className="flex flex-col gap-20 border-2 border-[#525566] rounded-t-lg px-4 py-8 ">
                 <div className="flex flex-col gap-8 ">
                   <div>
                     <div className="flex justify-between items-center">
-                      <p className="text-lg font-bold">{review.name}</p>
-                      <p className="text-gray-400">
+                      <p className="text-lg font-bold uppercase">{review.name}</p>
+                      <p className="text-[#525566]">
                         {new Date(review.createdAt).toLocaleDateString(
                           "en-US",
                           {
                             day: "2-digit",
                             month: "long",
-                            year: "numeric",
+                            year: "numeric",                            
                           }
                         )}
                       </p>
                     </div>
-                    <div className="text-orange-400 flex items-center gap-1">
+                    <div className="text-primary flex items-center gap-1">
                     {[...Array(review.rating)].map((_, index) => (
                   <FaStar key={index} />
                 ))}
@@ -305,7 +319,7 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
               
                     </div>
                   </div>
-                  <p className="text-gray-400">
+                  <p className="text-[#525566]">
                     {review.text}
                   </p>
                 </div>
@@ -321,19 +335,19 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
                 </div>
               </div>
 
-              <div className="flex flex-col  border-2 bg-gray-200 border-gray-400 rounded-b-lg px-4 py-8">
+              <div className="flex flex-col  border-2 bg-gray-200 border-[#525566] rounded-b-lg px-4 py-8">
                 <div className="flex flex-col gap-4 ">
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-2">
                       <IoStorefrontOutline
                         size={30}
-                        className="text-orange-400"
+                        className="text-primary"
                       />
-                      <p className="text-lg font-bold">Mr. Mackay</p>
+                      <p className="text-lg font-bold">{product.user.username}</p>
                     </div>
-                    <p className="text-gray-400">April 12,2023</p>
+                    <p className="text-[#525566]">April 12,2023</p>
                   </div>
-                  <p className="text-gray-400">
+                  <p className="text-[#525566]">
                     Rigid proponents of content strategy may shun the use of
                     dummy copy but then designers might want to ask them to
                     provide style sheets with the copy decks they supply that
@@ -343,7 +357,7 @@ const ForthBlock: React.FC<{ product: Product }> = ({ product }) => {
               </div>
             </div>
           ))}
-        </div>
+        </div>):(<div className="h-[495px]"></div>)}
       </div>
     </main>
   );

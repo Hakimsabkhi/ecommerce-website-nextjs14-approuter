@@ -9,7 +9,7 @@ const Blogbanner = () => {
                     <h1 className='text-8xl font-bold max-lg:text-6xl max-md:text-xl'>Blog</h1>
                     <p className='max-md:text-xs'>HOME / BLOG</p>
                 </div>
-                <Image className="w-full" src={aboutbanner} alt="banner" />
+                <Image className="w-full" src={aboutbanner} alt="banner" loading="eager" />
             </div>
         </div>
     );

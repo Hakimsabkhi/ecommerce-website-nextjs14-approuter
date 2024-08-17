@@ -35,7 +35,7 @@ const Collection = () => {
                                 width={80} // Set appropriate width
                                 height={80} // Set appropriate height
                             />
-                            <p className="text-2xl max-lg:text-xs max-md:text-xl font-bold text-white">{item.name}</p>
+                            <p className="text-xl max-lg:text-xs max-md:text-xl font-bold text-white">{item.name}</p>
                         </div>
                     </div>
                 ))}

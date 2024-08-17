@@ -96,7 +96,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
         </div>
         <div className="flex mb-1 text-lg max-md:text-sm justify-between">
           <button className="AddtoCart bg-primary hover:bg-[#15335D] text-white w-[50%] max-md:rounded-[3px] max-2xl:text-sm group/box">
-            <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease">
+            <p className="absolute  flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease">
               Add to cart
             </p>
             <p className="text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] lg:group-hover/box:translate-x-[-30%] ease">

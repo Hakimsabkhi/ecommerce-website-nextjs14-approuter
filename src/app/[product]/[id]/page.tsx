@@ -21,6 +21,7 @@ interface ProductData {
   color?: string;
   material?: string;
   status?: string;
+  user: user;
 }
 
 interface Brand {
@@ -28,6 +29,9 @@ interface Brand {
   name: string;
   place:string;
   imageUrl:string;
+}
+interface user {
+  username: string;
 }
 const Page: React.FC = () => {
   const params = useParams();
@@ -56,18 +60,16 @@ const Page: React.FC = () => {
     return <div>Product not found</div>;
   }
 
-  if (!product) {
-    return <div>Loading...</div>;
-  }
+
 
   return (
     <div>
       <FirstBlock product={product} />
       {/* Uncomment the following lines to include additional blocks */}
       <SecondBlock product={product} />
-       <ThirdBlock product={product} /> 
+      <ThirdBlock product={product} /> 
       <ForthBlock product={product} /> 
- <FifthBlock /> 
+      <FifthBlock /> 
     </div>
   );
 };
