@@ -42,7 +42,7 @@ const Page: React.FC = () => {
     const fetchProduct = async () => {
       if (id) {
         try {
-          const response = await fetch(`/api/products/${id}`);
+          const response = await fetch(`${process.env.NEXTAUTH_URL}/api/products/${id}`);
           if (!response.ok) {
             throw new Error('Failed to fetch product data');
           }

@@ -1,40 +1,19 @@
-'use client'
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { useParams } from 'next/navigation';
-import defaultImage from '../../assets/defaultimage.jpg';
 
-interface CategoryData {
-  name: string;
-  logoUrl?:string;
-  bannerUrl?:string;
+import React from 'react';
+import Image from 'next/image';
+
+
+interface ChairsbannerProps {
+  category?: {
+    name: string;
+    bannerUrl?: string;
+  };
 }
 
-const Chairsbanner: React.FC = () => {
-  const [category, setCategory] = useState<CategoryData | null>(null);
-  const params = useParams() as { [key: string]: string | string[] | undefined };
-  const product = params.product as string | undefined;
+const Chairsbanner: React.FC <ChairsbannerProps>= ({ category }) => {
+console.log('helo',category);
 
-  useEffect(() => {
-    const fetchCategory = async () => {
-      if (product) {
-        try {
-          const response = await fetch(`/api/searchcategory?category=${product}`);
-          const data = await response.json();
-          console.log(data);
-          // Assuming the API returns an object with 'name' and 'logourl'
-          setCategory({
-            name: data.name || product,
-            bannerUrl: data.bannerUrl || '',
-          });
-        } catch (error) {
-          console.error('Error fetching category:', error);
-        }
-      }
-    };
 
-    fetchCategory();
-  }, [product]);
 
   return (
     <div className='max-lg:pt-16'>
@@ -45,10 +24,10 @@ const Chairsbanner: React.FC = () => {
           {category ? category.name : 'Loading...'}
         </a>
         <div className='w-full h-full flex items-center justify-center'>
-          {category?.bannerUrl ? (
+        
               <Image
               className='object-cover w-full h-[400px]'
-              src={category.bannerUrl || 'default'}
+              src={category?.bannerUrl || 'default'}
               alt='category logo'
               height={400}
               width={1920}
@@ -58,13 +37,7 @@ const Chairsbanner: React.FC = () => {
               placeholder="blur" // Optional: add a placeholder while the image loads
               blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA" // Optional: base64-encoded low-res image for the placeholder
               />
-          ) : (
-            /* loading start */
-            <div className="flex justify-center items-center h-[400px]">
-              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>   
-            </div>
-          /*  loading end  */
-          )}
+         
         </div>
       </div>
     </div>
