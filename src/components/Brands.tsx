@@ -1,5 +1,5 @@
-"use client"
-import React, { useEffect, useState } from 'react';
+
+import React from 'react';
 import Image from 'next/image';
 interface BrandData {
     id: string;
@@ -15,7 +15,7 @@ interface BrandData {
   // Function to fetch categories data
   const fetchBrand= async (): Promise<BrandData[]> => {
     try {
-      const res = await fetch(`${process.env.NEXTAUTH_URL}/api/brand`); // Adjust the API endpoint
+      const res = await fetch('http://localhost:3000/api/brand/getAllBrand'); // Adjust the API endpoint
       if (!res.ok) {
         throw new Error('Failed to fetch categories');
       }

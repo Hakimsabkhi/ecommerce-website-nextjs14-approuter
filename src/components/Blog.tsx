@@ -55,7 +55,7 @@ const Blog: React.FC = () => {
             <div className='grid grid-cols-4 max-xl:grid-cols-2 max-md:grid-cols-1 w-full group gap-10     '>
                 {currentItems.map((item, index) => (
                     <div key={index} className='flex cursor-pointer duration-500  lg:group-hover:scale-[0.95] lg:hover:!scale-100 flex-col items-center relative'>
-                        <div key={index} className=" w-full   ">
+                        <div className=" w-full   ">
                             <Image className=' w-full' src={item.src} alt="" />
                         </div>
                         <div className='flex flex-col border-x-2 border-b-2 gap-2 items-center bg-white w-full h-[235px]'>

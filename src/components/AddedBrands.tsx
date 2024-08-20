@@ -26,7 +26,7 @@ const AddedBrands: React.FC = () => {
     const Deletebrand = async (brandId: string) => {
         setLoading(true);
         try {
-            await axios.delete(`/api/brand/${brandId}`);
+            await axios.delete(`/api/brand/deleteBrand/${brandId}`);
             // Refresh categories after deletion
             getBrand();
         } catch (err: any) {
@@ -38,7 +38,7 @@ const AddedBrands: React.FC = () => {
 
     const getBrand = async () => {
         try {
-            const response = await axios.get('/api/brand');
+            const response = await axios.get('http://localhost:3000/api/brand/getAllBrand');
             setAddedBrand(response.data);
             setFilteredBrand(response.data);
         } catch (err: any) {

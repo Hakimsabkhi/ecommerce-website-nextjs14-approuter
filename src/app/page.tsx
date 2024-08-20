@@ -1,6 +1,4 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import { Vector, cart, icon, pic1, logo, flag, phone, expert, person, chair, bed, textile, sofa, toy, armchair, table, storage, lighting, decor } from "@/assets/image";
+
 import Banner from '@/components/Banner';
 import Categories from '@/components/Categories';
 import Sellers from '@/components/Sellers';

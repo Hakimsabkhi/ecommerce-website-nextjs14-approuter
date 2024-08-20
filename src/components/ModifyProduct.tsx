@@ -70,7 +70,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
       .then(response => setCategories(response.data))
       .catch(error => console.error('Error fetching categories:', error));
 
-    axios.get('/api/brand')
+    axios.get('http://localhost:3000/api/brand/getAllBrand')
       .then(response => setBrands(response.data))
       .catch(error => console.error('Error fetching brands:', error));
   }, []);

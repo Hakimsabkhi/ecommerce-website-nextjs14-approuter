@@ -3,15 +3,14 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { AiOutlineMenu } from 'react-icons/ai';
-import { table, sofa, armchair, bed, luxehome, storage, textile, lighting, toy, decor, logo, chair } from "@/assets/image";
-import { TransitionLink } from './utils/TransitionLink';
-import { FiHeart } from "react-icons/fi";
-import { SlBag } from "react-icons/sl";
-import { FaCartShopping } from "react-icons/fa6";
-import { CiSearch } from "react-icons/ci";
-import { FaArrowRight } from "react-icons/fa6";
+import { FiHeart } from 'react-icons/fi';
+import { SlBag } from 'react-icons/sl';
+import { CiSearch } from 'react-icons/ci';
 import Dropdown from '../components/Dropdown';
 import CartModal from './CartModal';
+import axios from 'axios';
+import { TransitionLink } from './utils/TransitionLink';
+import { logo, luxehome } from '@/assets/image';
 
 interface Category {
   id: string;
@@ -25,14 +24,15 @@ interface HeaderProps {
 
 const fetchCategories = async (): Promise<Category[]> => {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/category`); // Adjust the API endpoint
-    if (!res.ok) {
-      throw new Error('Failed to fetch categories');
+    const response = await axios.get('http://localhost:3000/api/category/getAllCategory');
+
+    if (response.status !== 200) {
+      throw new Error(`Failed to fetch categories: ${response.statusText} (Status: ${response.status})`);
     }
-    const data: Category[] = await res.json();
-    return data;
+
+    return response.data;
   } catch (error) {
-    console.error(error);
+    console.error('Error:', error);
     return [];
   }
 };
@@ -44,92 +44,59 @@ const Header: React.FC<HeaderProps> = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const cartmodalRef = useRef<HTMLDivElement>(null);
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const { data: session } = useSession();
-
-  const handleClick = (index: number) => {
-    setSelectedCategory(index);
-  };
-
-  const toggleLogin = () => {
-    setIsAdmin(!isAdmin);
-  };
-
-  const handleNav = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const handleTabClick = (tab: string) => {
-    setActiveTab(tab);
-  };
-
-  const toggleCartModal = () => {
-    setIsCartOpen(!isCartOpen);
-  };
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (cartmodalRef.current && !cartmodalRef.current.contains(event.target as Node)) {
-      setIsCartOpen(false);
-    }
-  };
 
   useEffect(() => {
     // Fetch categories on component mount
-    const loadCategories = async () => {
-      const data = await fetchCategories();
-      setCategories(data);
+    const getCategories = async () => {
+      const categories = await fetchCategories();
+      setCategories(categories);
     };
-
-    loadCategories();
+    getCategories();
   }, []);
 
   useEffect(() => {
     // Update admin state based on session
-    if (session) {
-      // Assuming the session object has an isAdmin property
+    if (session?.user?.role=='Admin') {
       setIsAdmin(true);
     }
   }, [session]);
 
   useEffect(() => {
     // Handle clicks outside of cart modal
+    const handleClickOutside = (event: MouseEvent) => {
+      if (cartmodalRef.current && !cartmodalRef.current.contains(event.target as Node)) {
+        setIsCartOpen(false);
+      }
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
+  const handleNav = () => setMenuOpen(prev => !prev);
+  const toggleCartModal = () => setIsCartOpen(prev => !prev);
+
   return (
     <div className='w-full max-lg:fixed max-lg:z-10 max-lg:bg-white h-[109px] bg-[#15335E] justify-center flex'>
       <div className='flex w-[90%] max-xl:w-[95%] max-lg:hidden justify-between gap-14 items-center max-lg:bg-white'>
         <TransitionLink href="/" aria-label="home">
           <div className="mb-1">
-            <Image
-              width={250}
-              height={250}
-              className='h-auto lg:w-[400px] xl:w-[300px] rounded-[5px] max-lg:hidden'
-              src={luxehome}
-              alt=""
-              style={{ objectFit: 'contain' }}
-            />
+            <Image width={250} height={250} className='h-auto lg:w-[400px] xl:w-[300px] rounded-[5px] max-lg:hidden' src={luxehome} alt="" style={{ objectFit: 'contain' }} />
           </div>
         </TransitionLink>
         <div className="relative w-[800px]">
-          <input
-            className="w-full h-12 px-4 py-2 rounded-full max-lg:hidden border border-gray-300"
-            type="text"
-            placeholder='Search for products'
-          />
-          <button className="absolute h-full px-4 group right-0 top-1/2 -translate-y-1/2 rounded-r-full text-[#15335D]"
-                  aria-label="Search">
+          <input className="w-full h-12 px-4 py-2 rounded-full max-lg:hidden border border-gray-300" type="text" placeholder='Search for products' />
+          <button className="absolute h-full px-4 group right-0 top-1/2 -translate-y-1/2 rounded-r-full text-[#15335D]" aria-label="Search">
             <CiSearch className='w-8 h-8 transform duration-500 group-hover:w-10 group-hover:h-10' />
           </button>
         </div>
         {!isAdmin && (
           <div className='flex items-center gap-2 w-[269px]'>
             <Link href="/signin" aria-label="signin page">
-              <button aria-label="signin" className="flex items-center space-x-2 text-white bg-primary hover:bg-white hover:text-primary font-bold rounded-md px-8 py-2"
-                      onClick={toggleLogin}>
+              <button aria-label="signin" className="flex items-center space-x-2 text-white bg-primary hover:bg-white hover:text-primary font-bold rounded-md px-8 py-2">
                 <span>LOGIN</span>
               </button>
             </Link>
@@ -179,27 +146,13 @@ const Header: React.FC<HeaderProps> = () => {
           <AiOutlineMenu size={25} />
         </div>
       )}
-      <div className={
-        menuOpen
-          ? "fixed z-50 left-0 top-0 w-[80%] lg:hidden h-screen bg-[#ecf0f3] ease-in duration-300"
-          : "fixed z-50 left-[-100%] top-0 h-screen ease-in duration-300"
-      }>
-        <input
-          className="w-full h-12 px-4 py-2 border border-gray-300"
-          type="text"
-          placeholder='Search for products'
-        />
+      <div className={menuOpen ? "fixed z-50 left-0 top-0 w-[80%] lg:hidden h-screen bg-[#ecf0f3] ease-in duration-300" : "fixed z-50 left-[-100%] top-0 h-screen ease-in duration-300"}>
+        <input className="w-full h-12 px-4 py-2 border border-gray-300" type="text" placeholder='Search for products' />
         <div className='flex'>
-          <button
-            className={`flex-1 text-center text-sm py-3 ${activeTab === 'categories' ? 'bg-gray-300 border-b-2 border-primary' : 'bg-gray-200 opacity-50'}`}
-            onClick={() => handleTabClick('categories')}
-          >
+          <button className={`flex-1 text-center text-sm py-3 ${activeTab === 'categories' ? 'bg-gray-300 border-b-2 border-primary' : 'bg-gray-200 opacity-50'}`} onClick={() => setActiveTab('categories')}>
             Categories
           </button>
-          <button
-            className={`flex-1 text-center text-sm py-3 ${activeTab === 'menu' ? 'bg-gray-300 border-b-2 border-primary' : 'bg-gray-200 opacity-50'}`}
-            onClick={() => handleTabClick('menu')}
-          >
+          <button className={`flex-1 text-center text-sm py-3 ${activeTab === 'menu' ? 'bg-gray-300 border-b-2 border-primary' : 'bg-gray-200 opacity-50'}`} onClick={() => setActiveTab('menu')}>
             Menu
           </button>
         </div>
@@ -207,65 +160,33 @@ const Header: React.FC<HeaderProps> = () => {
           {activeTab === 'menu' && (
             <ul className='text-sm'>
               <TransitionLink href="/">
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
-                >
+                <li onClick={() => setMenuOpen(false)} className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'>
                   Home
                 </li>
               </TransitionLink>
               <TransitionLink href="/blog">
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
-                >
+                <li onClick={() => setMenuOpen(false)} className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'>
                   Blog
                 </li>
               </TransitionLink>
               <TransitionLink href="/about">
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
-                >
-                  About Us
-                </li>
-              </TransitionLink>
-              <TransitionLink href="/contactus">
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
-                >
-                  Contact Us
-                </li>
-              </TransitionLink>
-              <TransitionLink href="/showrooms">
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
-                >
-                  Showrooms
-                </li>
-              </TransitionLink>
-              <TransitionLink href="/giftcards">
-                <li
-                  onClick={() => setMenuOpen(false)}
-                  className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'
-                >
-                  Gift Cards
+                <li onClick={() => setMenuOpen(false)} className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'>
+                  About
                 </li>
               </TransitionLink>
             </ul>
           )}
-          {activeTab === 'categories' && categories.map((category) => (
-            <div key={category.id} className="text-sm">
-              <Link href={`/${category.name}`} className='cursor-pointer h-10 items-center gap-2 flex pl-5 hover:bg-gray-200 border'>
-                <Image src={category.logoUrl} alt="" width={30} height={30}/>
-                <p onClick={() => setMenuOpen(false)}>
-                  {category.name}
-                </p>
-              </Link>
-            </div>
-          ))}
+          {activeTab === 'categories' && (
+            <ul className='text-sm'>
+              {categories.map((category) => (
+                <TransitionLink key={category.id} href={`/category/${category.id}`}>
+                  <li onClick={() => setMenuOpen(false)} className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'>
+                    {category.name}
+                  </li>
+                </TransitionLink>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>

@@ -1,13 +1,10 @@
 
 import React from 'react';
-import Image, { StaticImageData } from 'next/image';
+import Image  from 'next/image';
 import { collectionlogo } from "@/assets/image";
 import { collection } from '@/assets/data';
 
-type ProductCollection = {
-    src: StaticImageData;
-    name: string;
-}
+
 
 const Collection = () => {
     return (

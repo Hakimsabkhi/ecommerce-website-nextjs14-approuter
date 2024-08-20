@@ -11,7 +11,7 @@ interface ChairsbannerProps {
 }
 
 const Chairsbanner: React.FC <ChairsbannerProps>= ({ category }) => {
-console.log('helo',category);
+
 
 
 

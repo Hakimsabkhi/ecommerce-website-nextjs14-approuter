@@ -1,4 +1,4 @@
-import React, { useState,  } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { twibble1, twibble2, twibble3, twibble4,star } from '@/assets/image';
 // Ensure the path is correct
@@ -32,14 +32,9 @@ interface Product {
     product: Product | null;
  }
 const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
-    const [count, setCount] = useState<number>(0);
+   
 
-    const increment = () => setCount(count + 1);
-    const decrement = () => {
-        if (count > 0) {
-          setCount(count - 1);
-        }
-      };
+   
     return (
         <>
             <Head>
@@ -77,11 +72,8 @@ const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
                             <div className=" flex items-center max-lg:flex-col gap-3 max-lg:justify-center">
                                 <p>Quantity</p>
                                 <div className="flex items-center">
-                                    <p className="p-3 border-2 text-xl">{count}</p>
-                                    <div className="border-t-2 border-r-2 border-b-2 py-2.5 px-1">
-                                        <IoIosArrowUp className="cursor-pointer" onClick={increment} />
-                                        <IoIosArrowDown className="cursor-pointer" onClick={decrement} />
-                                    </div>                        
+                                    <p className="p-3 border-2 text-xl"></p>
+                                                 
                                 </div>
                                 <button className="text-white bg-primary hover:bg-[#15335D] h-10 w-[20%] font-bold  rounded-md">
                                     <p>Add to cart</p>

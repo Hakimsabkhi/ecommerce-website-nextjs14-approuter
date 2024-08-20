@@ -52,7 +52,7 @@ const AddProduct = () => {
             .catch(error => console.error('Error fetching categories:', error));
 
         // Fetch brands from the API
-        axios.get('/api/brand')
+        axios.get('http://localhost:3000/api/brand/getAllBrand')
             .then(response => setBrands(response.data))
             .catch(error => console.error('Error fetching brands:', error));
     }, []);

@@ -11,16 +11,6 @@ import User from '@/models/User';
 
 const uploadFiles = promisify(upload.fields([{ name: 'image', maxCount: 1 }, { name: 'logo', maxCount: 1 }]));
 
-export async function GET(req: NextRequest) {
-  await connectToDatabase();
-
-  try {
-    const brands = await Brand.find({});
-    return NextResponse.json(brands);
-  } catch (error) {
-    return NextResponse.json({ message: 'Error fetching brands' }, { status: 500 });
-  }
-}
 
 
 export async function POST(req: NextRequest) {

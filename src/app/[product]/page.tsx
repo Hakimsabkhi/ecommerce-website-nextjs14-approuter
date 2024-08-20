@@ -1,14 +1,33 @@
 import React from 'react';
 import Products from '@/components/Products';
 import Chairsbanner from '@/components/Chairsbanner';
-import { IBrand } from '@/models/Brand';
-import { IProduct } from '@/models/Product';
+
 import { ICategory } from '@/models/Category';
 
 interface HomePageProps {
   params: {
     product?: string;
   };
+}
+
+interface ProductData {
+  _id: string;
+  name: string;
+  description: string;
+  ref: string;
+  price: number;
+  imageUrl?: string;
+  brand: brand;
+  stock: number;
+  discount?: number;
+  color?: string;
+  material?: string;
+  status
+  ?: string;
+}
+interface brand{
+_id:string;
+name:string;
 }
 
 // Function to fetch category data by ID
@@ -27,13 +46,13 @@ const fetchCategoryData = async (id: string): Promise<ICategory | null> => {
 };
 
 // Function to fetch products data by category ID
-const fetchProductsData = async (id: string): Promise<IProduct[]> => {
+const fetchProductsData = async (id: string): Promise<ProductData[]> => {
   try {
     const res = await fetch(`${process.env.NEXTAUTH_URL}/api/search?category=${id}`); // Adjust the API endpoint
     if (!res.ok) {
       throw new Error('Products not found');
     }
-    const data: IProduct[] = await res.json();
+    const data: ProductData[] = await res.json();
     return data;
   } catch (error) {
     console.error('Error fetching products data:', error);
@@ -42,13 +61,13 @@ const fetchProductsData = async (id: string): Promise<IProduct[]> => {
 };
 
 // Function to fetch brand data
-const fetchBrandData = async (): Promise<IBrand[]> => {
+const fetchBrandData = async (): Promise<brand[]> => {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/brand`); // Adjust the API endpoint
+    const res = await fetch('http://localhost:3000/api/brand/getAllBrand'); // Adjust the API endpoint
     if (!res.ok) {
       throw new Error('Brand not found');
     }
-    const data: IBrand[] = await res.json();
+    const data: brand[] = await res.json();
     return data;
   } catch (error) {
     console.error('Error fetching brand data:', error);
@@ -66,7 +85,7 @@ export default async function HomePage({ params }: HomePageProps) {
     <div>
       <Chairsbanner category={category || undefined} />
       {/* Uncomment the following line to render products */}
-      {/* <Products products={products} brand={brand} /> */}
+      <Products products={products} brands={brand} /> 
     </div>
   );
 }

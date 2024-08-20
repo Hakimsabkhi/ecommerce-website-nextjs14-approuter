@@ -36,7 +36,7 @@ const AddedCategories: React.FC = () => {
 
     const getCategory = async () => {
         try {
-            const response = await axios.get('/api/category');
+            const response = await axios.get('http://localhost:3000/api/category/getAllCategory');
             setAddedCategory(response.data);
             setFilteredCategory(response.data);
         } catch (err: any) {

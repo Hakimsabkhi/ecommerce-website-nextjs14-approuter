@@ -25,15 +25,14 @@ interface Brand {
 
 interface ProductListProps {
   products: ProductData[];
-  menuOpen: boolean;
-  handleNav: () => void;
+ 
+
 }
 
-const ProductList: React.FC<ProductListProps> = ({ products, menuOpen,
-  handleNav }) => {
+const ProductList: React.FC<ProductListProps> = ({ products   }) => {
   return (
     <div>
-      <div onClick={handleNav} className="flex items-center gap-2 cursor-pointer lg:hidden">
+      <div className="flex items-center gap-2 cursor-pointer lg:hidden">
           <AiOutlineMenu size={25} />
           <p>Showsidebar</p>
       </div>

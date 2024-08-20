@@ -1,12 +1,11 @@
 // components/ProductCard.tsx
-"use client";
-import React, { useState } from "react";
+
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaEye, FaRegHeart } from "react-icons/fa";
 import { FaCartShopping, FaHeart } from "react-icons/fa6";
 import { star } from "@/assets/image";
-import { useParams } from "next/navigation";
 
 interface Brand {
   _id: string;
@@ -38,14 +37,11 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
-  const params = useParams() as { product?: string };
-  const product = params.product;
 
-  const [clicked, setClicked] = useState(false);
 
-  const handleClick = () => {
-    setClicked(!clicked);
-  };
+
+
+
   const noimage ='https://res.cloudinary.com/dx499gc6x/image/upload/v1723623372/na_mma1mw.webp';
 
   return (
@@ -123,13 +119,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
           </a>
           <button
             className="relative bg-white hover:bg-primary max-md:rounded-[3px] AddtoCart w-[13%] group/box text-primary hover:text-white border border-[#8D4407]"
-            onClick={handleClick}
+            
             aria-label="wishlist"
             >
             <p className="absolute flex items-center justify-center w-full h-full">
               <FaRegHeart className="w-5 h-5 max-2xl:w-3 max-2xl:h-3" aria-hidden="true" fill="currentColor" />
             </p>
-            <p className={`absolute flex items-center justify-center w-full h-full ${clicked ? 'opacity-100' : 'opacity-0'} group-hover/box:opacity-100`}>
+            <p className={`absolute flex items-center justify-center w-full h-full  group-hover/box:opacity-100`}>
               <FaHeart className="w-5 h-5 max-2xl:w-3 max-2xl:h-3" aria-hidden="true" fill="currentColor" />
             </p>
           </button>

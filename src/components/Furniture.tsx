@@ -1,13 +1,6 @@
-"use client"
-import React, { useEffect, useState }  from 'react';
-import Image from 'next/image';
-import { heart, kitchen2,star,f1,f2,f3 } from "@/assets/image";
-import {itemsFurniture} from "@/assets/data";
-import { CiShoppingCart } from 'react-icons/ci';
-import { FaEye } from 'react-icons/fa';
-import { FaCartShopping } from 'react-icons/fa6';
-import { FaRegHeart } from "react-icons/fa6";
-import { FaHeart } from "react-icons/fa";
+
+import React from 'react';
+
 import ProductCard from './ProductPage/ProductCard';
 interface Brand {
   _id: string;
@@ -32,7 +25,7 @@ interface Products {
 // Function to fetch categories data
 const fetchProduct = async (): Promise<Products[]> => {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/products`); // Adjust the API endpoint
+    const res = await fetch('http://localhost:3000/api/products'); // Adjust the API endpoint
     if (!res.ok) {
       throw new Error('Failed to fetch categories');
     }

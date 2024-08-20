@@ -65,29 +65,37 @@ const AddBrand = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+    
         if (!name || !image || !icon) {
             setError('Name, image, and icon are required');
             return;
         }
-
+    
         const formData = new FormData();
         formData.append('name', name);
         formData.append('image', image);
         formData.append('logo', icon); // Correctly naming the field
         formData.append('place', place);
-
+    
         try {
-            await axios.post('/api/brand', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+            const response = await fetch('/api/brand/postBrand', {
+                method: 'POST',
+                body: formData,
+                
             });
+    
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+    
+            await response.json(); // or await response.text() if you expect text response
+    
             router.push('/BrandList'); // Redirect to BrandList page after successful submission
         } catch (err: any) {
-            setError(`Error: ${err.response?.data?.message || err.message}`);
+            setError(`Error: ${err.message}`);
         }
     };
+    
 
     return (
         <div className='mx-auto w-[90%] max-xl:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8'>

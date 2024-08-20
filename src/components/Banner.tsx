@@ -1,6 +1,6 @@
 
 import React from 'react';
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 
 
 export default function Banner() {
@@ -11,8 +11,8 @@ export default function Banner() {
         <div className="relative md:h-[600px] bg-white rounded shadow-lg mb-6">
             <Image
                 className="w-full md:h-full rounded shadow-lg bg-white"
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{ objectFit: 'cover' }} 
                 alt="banner"
                 src='https://res.cloudinary.com/dx499gc6x/image/upload/v1723913588/pic3_pssxyx.png' // This assumes `pic3` is the image you want to display
                 sizes="(max-width: 900px) 400px, 900px"

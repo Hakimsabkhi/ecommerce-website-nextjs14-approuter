@@ -1,13 +1,18 @@
-"use client";
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import FirstBlock from '@/components/SingleProduct/FirstBlock';
 import SecondBlock from '@/components/SingleProduct/SecondBlock';
 import ThirdBlock from '@/components/SingleProduct/ThirdBlock';
 import ForthBlock from '@/components/SingleProduct/ForthBlock';
 import FifthBlock from '@/components/SingleProduct/FifthBlock';
-import { useParams } from 'next/navigation';
 
+
+
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
 interface ProductData {
   _id: string;
   name: string;
@@ -33,43 +38,33 @@ interface Brand {
 interface user {
   username: string;
 }
-const Page: React.FC = () => {
-  const params = useParams();
-  const { id } = params as { id: string }; // Type assertion to ensure id is a string
-  const [product, setProduct] = useState<ProductData | null>(null);
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      if (id) {
-        try {
-          const response = await fetch(`${process.env.NEXTAUTH_URL}/api/products/${id}`);
-          if (!response.ok) {
-            throw new Error('Failed to fetch product data');
-          }
-          const data: ProductData = await response.json();
-          setProduct(data);
-        } catch (error) {
-          console.error('Error fetching product:', error);
-        }
-      }
-    };
-    fetchProduct();
-  }, [id]);
 
-  if (!id) {
-    return <div>Product not found</div>;
+const fetchProduct = async (id: string): Promise<ProductData | null> => {
+  try {
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/products/${id}`);
+    if (!res.ok) {
+      throw new Error('Product not found');
+    }
+    const data: ProductData = await res.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching product data:', error);
+    return null;
   }
+};
 
-
+const Page: React.FC<PageProps> = async ({ params }) => {
+  const { id } = params;
+  const product = id ? await fetchProduct(id) : null;
 
   return (
     <div>
       <FirstBlock product={product} />
-      {/* Uncomment the following lines to include additional blocks */}
       <SecondBlock product={product} />
-      <ThirdBlock product={product} /> 
-      <ForthBlock product={product} /> 
-      <FifthBlock /> 
+      <ThirdBlock product={product} />
+      <ForthBlock product={product} />
+     {/* <FifthBlock /> */}
     </div>
   );
 };
