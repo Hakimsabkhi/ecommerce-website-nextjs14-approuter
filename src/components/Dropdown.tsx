@@ -17,7 +17,7 @@ const Dropdown = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       if (session) {
-        const res = await fetch('/api/users');
+        const res = await fetch(`http://localhost:3000/api/users`);
         const data = await res.json();
         setUsers(data.users);
       }

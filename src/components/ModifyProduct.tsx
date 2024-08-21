@@ -66,23 +66,50 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
   }, [session, status, router]);
 
   useEffect(() => {
-    axios.get('/api/category')
-      .then(response => setCategories(response.data))
-      .catch(error => console.error('Error fetching categories:', error));
-
-    axios.get('http://localhost:3000/api/brand/getAllBrand')
-      .then(response => setBrands(response.data))
-      .catch(error => console.error('Error fetching brands:', error));
+    // Fetch categories from the API
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('http://loaclhost:3000/api/category/getAllCategory');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch categories: ${response.statusText} (Status: ${response.status})`);
+        }
+        const data = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+  
+    // Fetch brands from the API
+    const fetchBrands = async () => {
+      try {
+        const response = await fetch(`/api/brand/getAllBrand`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch brands: ${response.statusText} (Status: ${response.status})`);
+        }
+        const data = await response.json();
+        setBrands(data);
+      } catch (error) {
+        console.error('Error fetching brands:', error);
+      }
+    };
+  
+    // Call the fetch functions
+    fetchCategories();
+    fetchBrands();
   }, []);
-
+  
   useEffect(() => {
     if (image) {
       const objectUrl = URL.createObjectURL(image);
       setImagePreview(objectUrl);
-
-      return () => URL.revokeObjectURL(objectUrl);
+  
+      return () => {
+        URL.revokeObjectURL(objectUrl);
+      };
     }
-  }, [image]);
+  }, [image]); // Ensure to add 'image' as a dependency
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

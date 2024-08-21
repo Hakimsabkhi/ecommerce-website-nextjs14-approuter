@@ -1,9 +1,7 @@
-//import { v2 as cloudinary } from 'cloudinary';
-import cloudinary from '@/lib/cloudinary';
-import stream from 'stream';
+
 import User from '@/models/User';
-import { getToken } from 'next-auth/jwt';
-import { NextRequest, NextResponse } from 'next/server';
+
+import { NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import Category from '@/models/Category';
 export async function GET(){

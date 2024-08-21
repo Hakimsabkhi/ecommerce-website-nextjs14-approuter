@@ -38,17 +38,24 @@ const ModifyCategory = () => {
     // Fetch category data by ID
     const fetchCategoryData = async () => {
       try {
-        const response = await axios.get(`/api/category/${params.id}`);
-        setCategoryData(response.data);
-        console.log(response.data);
-        
+        const response = await fetch(`/api/category/getCategoryById/${params.id}`);
+  
+        if (!response.ok) {
+          throw new Error('Failed to fetch category data');
+        }
+  
+        const data = await response.json();
+        setCategoryData(data);
+        console.log(data);
+  
       } catch (error) {
         console.error("Error fetching category data:", error);
       }
     };
-
+  
     fetchCategoryData();
   }, [params.id]);
+  
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -76,8 +83,9 @@ const ModifyCategory = () => {
     }
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
     const formData = new FormData();
     formData.append("name", categoryData.name);
     if (selectedImage) {
@@ -90,17 +98,24 @@ const ModifyCategory = () => {
       formData.append("banner", selectedBanner);
     }
     formData.append('user', session?.user?.id.toString() || '');
+  
     try {
-      await axios.put(`/api/category/${params.id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
+      const response = await fetch(`/api/category/updateCategory/${params.id}`, {
+        method: 'PUT',
+        body: formData,
+        // Content-Type header is automatically set by the browser when using FormData
       });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update category');
+      }
+  
       router.push("/CategoryList");
     } catch (error) {
       console.error("Error updating category:", error);
     }
   };
+  
 
   return (
     <div className="mx-auto w-[90%] max-xl:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8">

@@ -36,7 +36,7 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
     const getProducts = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`${process.env.NEXTAUTH_URL}/api/products`);
+            const response = await fetch(`/api/products`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }

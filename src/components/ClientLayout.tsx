@@ -3,9 +3,10 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import Bb from "./bb";
-import Headerbottom from "./Headerbottom";
+
 import Header from "./Header";
 import Headertop from "./Headertop";
+import CategoryHeader from "./Category/CategoryHeader";
 
 const ClientLayout: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -19,15 +20,13 @@ const ClientLayout: React.FC<{ children: React.ReactNode }> = ({
   }
 
   return (
- 
-      <div className=" flex flex-col  h-full">
-        <Headertop />
-        <Header />
-        <Headerbottom />
-        {children}
-        <Bb />
-      </div>
-    
+    <div className=" flex flex-col  h-full">
+      <Headertop />
+      <Header />
+      <CategoryHeader />
+      {children}
+      <Bb />
+    </div>
   );
 };
 

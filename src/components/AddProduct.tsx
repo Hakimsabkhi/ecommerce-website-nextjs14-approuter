@@ -47,16 +47,38 @@ const AddProduct = () => {
 
     useEffect(() => {
         // Fetch categories from the API
-        axios.get('/api/category')
-            .then(response => setCategories(response.data))
-            .catch(error => console.error('Error fetching categories:', error));
-
+        const fetchCategories = async () => {
+          try {
+            const response = await fetch('http://loaclhost:3000/api/category/getAllCategory');
+            if (!response.ok) {
+              throw new Error('Failed to fetch categories');
+            }
+            const data = await response.json();
+            setCategories(data);
+          } catch (error) {
+            console.error('Error fetching categories:', error);
+          }
+        };
+      
         // Fetch brands from the API
-        axios.get('http://localhost:3000/api/brand/getAllBrand')
-            .then(response => setBrands(response.data))
-            .catch(error => console.error('Error fetching brands:', error));
-    }, []);
-
+        const fetchBrands = async () => {
+          try {
+            const response = await fetch(`/api/brand/getAllBrand`);
+            if (!response.ok) {
+              throw new Error('Failed to fetch brands');
+            }
+            const data = await response.json();
+            setBrands(data);
+          } catch (error) {
+            console.error('Error fetching brands:', error);
+          }
+        };
+      
+        // Call the fetch functions
+        fetchCategories();
+        fetchBrands();
+      }, []);
+      
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setProductData(prevData => ({

@@ -1,18 +1,11 @@
+import React from "react";
+import { notFound } from "next/navigation";
+import FirstBlock from "@/components/SingleProduct/FirstBlock";
+import SecondBlock from "@/components/SingleProduct/SecondBlock";
+import ThirdBlock from "@/components/SingleProduct/ThirdBlock";
+import ForthBlock from "@/components/SingleProduct/ForthBlock";
+import FifthBlock from "@/components/SingleProduct/FifthBlock";
 
-import React from 'react';
-import FirstBlock from '@/components/SingleProduct/FirstBlock';
-import SecondBlock from '@/components/SingleProduct/SecondBlock';
-import ThirdBlock from '@/components/SingleProduct/ThirdBlock';
-import ForthBlock from '@/components/SingleProduct/ForthBlock';
-import FifthBlock from '@/components/SingleProduct/FifthBlock';
-
-
-
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
 interface ProductData {
   _id: string;
   name: string;
@@ -20,43 +13,52 @@ interface ProductData {
   ref: string;
   price: number;
   imageUrl?: string;
-  brand?: Brand; // Make brand optional
+  brand?: Brand;
   stock: number;
   discount?: number;
   color?: string;
   material?: string;
   status?: string;
-  user: user;
+  user: User;
 }
 
 interface Brand {
   _id: string;
   name: string;
-  place:string;
-  imageUrl:string;
+  place: string;
+  imageUrl: string;
 }
-interface user {
+
+interface User {
   username: string;
 }
 
+interface PageProps {
+  product: ProductData | null;
+}
 
-const fetchProduct = async (id: string): Promise<ProductData | null> => {
+// Fetch product data on the server
+export async function getProduct(id: string): Promise<ProductData | null> {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/products/${id}`);
+    const res = await fetch(`${process.env.NEXTAUTH_URL}api/products/${id}`);
     if (!res.ok) {
-      throw new Error('Product not found');
+      throw new Error("Product not found");
     }
     const data: ProductData = await res.json();
     return data;
   } catch (error) {
-    console.error('Error fetching product data:', error);
+    console.error("Error fetching product data:", error);
     return null;
   }
-};
+}
 
-const Page: React.FC<PageProps> = async ({ params }) => {
-  const { id } = params;
-  const product = id ? await fetchProduct(id) : null;
+// Fetch the product data during server-side rendering
+const Page = async ({ params }: { params: { id: string } }) => {
+  const product = await getProduct(params.id);
+
+  if (!product) {
+    notFound(); // Redirects to a 404 page if the product is not found
+  }
 
   return (
     <div>
@@ -64,7 +66,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       <SecondBlock product={product} />
       <ThirdBlock product={product} />
       <ForthBlock product={product} />
-     {/* <FifthBlock /> */}
+     {/*   <FifthBlock />  */}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
-import axios from "axios";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -28,15 +28,20 @@ const ModifyBrand = () => {
     // Fetch brand data by ID
     const fetchBrandData = async () => {
       try {
-        const response = await axios.get(`/api/brand/${params.id}`);
-        setBrandData(response.data);
+        const response = await fetch(`/api/brand/getBrandById/${params.id}`);
+        if (!response.ok) {
+          throw new Error("Error fetching brand data");
+        }
+        const data = await response.json();
+        setBrandData(data);
       } catch (error) {
         console.error("Error fetching brand data:", error);
       }
     };
-
+  
     fetchBrandData();
   }, [params.id]);
+  
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -58,7 +63,7 @@ const ModifyBrand = () => {
     }
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("name", brandData.name);
@@ -69,18 +74,24 @@ const ModifyBrand = () => {
     if (selectedIcon) {
       formData.append("logo", selectedIcon);
     }
-
+  
     try {
-      await axios.put(`/api/brand/${params.id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const response = await fetch(`/api/brand/updateBrand/${params.id}`, {
+        method: "PUT",
+        body: formData,
+       
       });
+  
+      if (!response.ok) {
+        throw new Error("Error updating brand");
+      }
+  
       router.push("/BrandList");
     } catch (error) {
       console.error("Error updating brand:", error);
     }
   };
+  
 
   return (
     <div className="mx-auto w-[90%] max-xl:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8">

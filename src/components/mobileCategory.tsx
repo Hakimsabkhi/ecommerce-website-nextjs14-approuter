@@ -15,7 +15,7 @@ interface CategoriesPageProps {
 
 const fetchCategories = async (): Promise<Category[]> => {
   try {
-    const response = await fetch('http://localhost:3000/api/category/getAllCategory'); // Update URL as needed
+    const response = await fetch(`http://loaclhost:3000/api/category/getAllCategory`); // Update URL as needed
     if (!response.ok) {
       throw new Error(`Failed to fetch categories: ${response.statusText} (Status: ${response.status})`);
     }

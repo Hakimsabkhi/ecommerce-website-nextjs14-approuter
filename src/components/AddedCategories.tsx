@@ -24,27 +24,42 @@ const AddedCategories: React.FC = () => {
     const DeleteCategory = async (categoryId: string) => {
         setLoading(true);
         try {
-            await axios.delete(`/api/category/${categoryId}`);
-            // Refresh categories after deletion
-            getCategory();
+          const response = await fetch(`/api/category/deleteCategory/${categoryId}`, {
+            method: 'DELETE',
+          });
+      
+          if (!response.ok) {
+            throw new Error('Failed to delete category');
+          }
+      
+          // Refresh categories after deletion
+          getCategory();
         } catch (err: any) {
-            setError(`[Category_DELETE] ${err.message}`);
+          setError(`[Category_DELETE] ${err.message}`);
         } finally {
-            setLoading(false);
+          setLoading(false);
         }
-    };
+      };
+      
 
     const getCategory = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/category/getAllCategory');
-            setAddedCategory(response.data);
-            setFilteredCategory(response.data);
+          const response = await fetch('http://loaclhost:3000/api/category/getAllCategory');
+      
+          if (!response.ok) {
+            throw new Error('Failed to fetch categories');
+          }
+      
+          const data = await response.json();
+          setAddedCategory(data);
+          setFilteredCategory(data);
         } catch (err: any) {
-            setError(`[Category_GET] ${err.message}`);
+          setError(`[Category_GET] ${err.message}`);
         } finally {
-            setLoading(false);
+          setLoading(false);
         }
-    };
+      };
+      
 
     useEffect(() => {
         getCategory();

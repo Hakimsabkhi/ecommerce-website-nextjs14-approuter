@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -26,21 +26,33 @@ const AddedBrands: React.FC = () => {
     const Deletebrand = async (brandId: string) => {
         setLoading(true);
         try {
-            await axios.delete(`/api/brand/deleteBrand/${brandId}`);
+            const response = await fetch(`/api/brand/deleteBrand/${brandId}`, {
+                method: 'DELETE',
+                
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
             // Refresh categories after deletion
-            getBrand();
+            await getBrand();
         } catch (err: any) {
             setError(`[Brand_DELETE] ${err.message}`);
         } finally {
             setLoading(false);
         }
     };
-
     const getBrand = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/brand/getAllBrand');
-            setAddedBrand(response.data);
-            setFilteredBrand(response.data);
+            const response = await fetch(`/api/brand/getAllBrand`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setAddedBrand(data);
+            setFilteredBrand(data);
         } catch (err: any) {
             setError(`[Brand_GET] ${err.message}`);
         } finally {

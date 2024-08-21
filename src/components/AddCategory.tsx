@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+
 import Image from 'next/image';
 
 const AddCategory = () => {
@@ -79,30 +79,36 @@ const AddCategory = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+      
         if (!name || !image || !icon || !banner) {
-            setError('Name, image, icon, and banner are required');
-            return;
+          setError('Name, image, icon, and banner are required');
+          return;
         }
-
+      
         const formData = new FormData();
         formData.append('name', name);
         formData.append('image', image);
         formData.append('logo', icon); // Correctly naming the field
         formData.append('banner', banner); // Added banner field
         formData.append('user', session?.user?.id.toString() || ''); // Ensure user ID is a string
-
+      
         try {
-            await axios.post('/api/category', formData, { 
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            router.push('/CategoryList'); // Redirect to categories page after successful submission
+          const response = await fetch('/api/category/postCategory', {
+            method: 'POST',
+            body: formData,
+          });
+      
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Error posting category');
+          }
+      
+          router.push('/CategoryList'); // Redirect to categories page after successful submission
         } catch (err: any) {
-            setError(`Error: ${err.response?.data?.message || err.message}`);
+          setError(`Error: ${err.message}`);
         }
-    };
+      };
+      
 
     return (
         <div className='mx-auto w-[90%] max-xl:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8'>

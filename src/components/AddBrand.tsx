@@ -2,7 +2,7 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+
 import Image from 'next/image';
 
 const AddBrand = () => {
@@ -90,7 +90,8 @@ const AddBrand = () => {
     
             await response.json(); // or await response.text() if you expect text response
     
-            router.push('/BrandList'); // Redirect to BrandList page after successful submission
+            router.push('/BrandList');
+            
         } catch (err: any) {
             setError(`Error: ${err.message}`);
         }

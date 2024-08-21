@@ -24,18 +24,20 @@ interface HeaderProps {
 
 const fetchCategories = async (): Promise<Category[]> => {
   try {
-    const response = await axios.get('http://localhost:3000/api/category/getAllCategory');
+    const response = await fetch(`http://loaclhost:3000/api/category/getAllCategory`);
 
-    if (response.status !== 200) {
+    if (!response.ok) {
       throw new Error(`Failed to fetch categories: ${response.statusText} (Status: ${response.status})`);
     }
 
-    return response.data;
+    const data: Category[] = await response.json();
+    return data;
   } catch (error) {
     console.error('Error:', error);
     return [];
   }
 };
+
 
 const Header: React.FC<HeaderProps> = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -57,7 +59,7 @@ const Header: React.FC<HeaderProps> = () => {
 
   useEffect(() => {
     // Update admin state based on session
-    if (session?.user?.role=='Admin') {
+    if (session?.user) {
       setIsAdmin(true);
     }
   }, [session]);

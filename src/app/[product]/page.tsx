@@ -63,7 +63,7 @@ const fetchProductsData = async (id: string): Promise<ProductData[]> => {
 // Function to fetch brand data
 const fetchBrandData = async (): Promise<brand[]> => {
   try {
-    const res = await fetch('http://localhost:3000/api/brand/getAllBrand'); // Adjust the API endpoint
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/brand/getAllBrand`); // Adjust the API endpoint
     if (!res.ok) {
       throw new Error('Brand not found');
     }

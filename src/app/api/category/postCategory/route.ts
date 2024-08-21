@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
           (error, result) => {
             if (error) {
               return reject(error);
+              
             }
             resolve(result);
           }
@@ -68,6 +69,10 @@ export async function POST(req: NextRequest) {
     }
 
     if (logoFile) {
+      if (logoFile.type !== 'image/svg+xml') {
+        return NextResponse.json({ message: 'Please upload a valid SVG file' }, { status: 432 });
+     
+      }
       const logoBuffer = await logoFile.arrayBuffer();
       const logoBufferStream = new stream.PassThrough();
       logoBufferStream.end(Buffer.from(logoBuffer));

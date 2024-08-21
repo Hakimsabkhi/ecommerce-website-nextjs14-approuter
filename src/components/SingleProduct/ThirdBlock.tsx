@@ -35,7 +35,7 @@ const ThirdBlock: React.FC<{ product: Product | null }> = ({ product }) => {
                             className="absolute inset-0 w-full h-full object-cover"
                             src={product.brand.imageUrl}
                             alt={product.brand.name || "Brand Image"}
-                            layout="fill"
+                            fill
                         />
                         ) : (
                         <p className="absolute  inset-0 flex items-center justify-center">No brand image available</p>

@@ -16,7 +16,7 @@ const UserPage = ({ params }: Params) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await fetch(`/api/users/${userId}`);
+      const res = await fetch(`http://localhost:3000/api/users/${userId}`);
       const data = await res.json();
       setUser(data.user);
     };
