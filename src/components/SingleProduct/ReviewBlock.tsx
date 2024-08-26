@@ -29,7 +29,7 @@ const fetchReviews = async (productId: string) => {
     throw new Error('Product ID is required');
   }
 
-  const response = await fetch(`http://localhost:3000/api/review?id=${productId}`);
+  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/review?id=${productId}`);
   if (!response.ok) {
     throw new Error(`Error: ${response.statusText}`);
   }

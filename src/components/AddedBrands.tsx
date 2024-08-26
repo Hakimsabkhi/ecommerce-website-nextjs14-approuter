@@ -23,6 +23,7 @@ const AddedBrands: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const BrandesPerPage = 5; // Number of categories to display per page
+ 
     const Deletebrand = async (brandId: string) => {
         setLoading(true);
         try {

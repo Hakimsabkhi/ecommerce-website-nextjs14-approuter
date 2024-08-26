@@ -27,7 +27,7 @@ interface Products {
 // Function to fetch categories data
 const fetchProduct = async (): Promise<Products[]> => {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/products`); // Adjust the API endpoint
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/products/getAllProduct`); // Adjust the API endpoint
     if (!res.ok) {
       throw new Error('Failed to fetch categories');
     }

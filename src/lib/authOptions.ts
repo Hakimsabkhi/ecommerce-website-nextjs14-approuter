@@ -63,8 +63,9 @@ export const authOptions: NextAuthOptions = {
         try {
           await connectToDatabase();
           const user = await UserModel.findOne({ email: credentials.email }) as UserType | null;
-
+          
           if (user && bcrypt.compareSync(credentials.password, user.password || '')) {
+            
             return { id: user._id.toString(), name: user.username, email: user.email, role: user.role };
           } else {
             return null;
@@ -116,11 +117,11 @@ export const authOptions: NextAuthOptions = {
             password: undefined,
           }) as UserType;
           await newUser.save();
-        } else {
+        } /* else {
           existingUser.username = user.name!;
           existingUser.role = user.role;
           await existingUser.save();
-        }
+        } */
         return true;
       } catch (error) {
         console.error('Error during sign-in:', error);

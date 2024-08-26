@@ -71,7 +71,7 @@ const Header: React.FC = () => {
           </button>
         </div>
         {session?.user?(
-          <Dropdown
+       <Dropdown
             
               
                     username= {session.user?.name ?? ""}
@@ -79,7 +79,7 @@ const Header: React.FC = () => {
           
                 
            
-          />
+          /> 
         ):(
           <div className="flex items-center gap-2 w-[269px]">
             <Link href="/signin" aria-label="signin page">
