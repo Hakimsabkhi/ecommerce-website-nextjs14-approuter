@@ -247,7 +247,7 @@ const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
         </div>
       </div>
       {/* mid */}
-     <ReviewBlock product={product} productId={productId}  /> 
+    {/*  <ReviewBlock product={product} productId={productId}  />  */}
     </main>
   );
 };

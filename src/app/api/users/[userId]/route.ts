@@ -6,6 +6,8 @@ import { getToken } from 'next-auth/jwt';
 export async function GET(req: NextRequest, { params }: { params: { userId: string } })  {
   await connectToDatabase();
   const { userId } = params;
+  console.log(userId);
+  
   const user = await User.findById(userId);
   if (!user) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 });

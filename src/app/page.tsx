@@ -8,17 +8,18 @@ import Rules from "@/components/Rules";
 import Latestarticle from "@/components/Latestarticle";
 import "./globals.css";
 
+
 export default function HomePage() {
   return (
-    <>
-      <Banner />
+<>
+     {/*  <Banner />
       <Categories />
        <Sellers />
      <Brands />
      <Collection />
       <Furniture />
       <Rules />
-      <Latestarticle /> 
+      <Latestarticle />   */}
     </>
   );
 }

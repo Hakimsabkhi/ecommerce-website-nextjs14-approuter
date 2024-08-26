@@ -2,28 +2,16 @@ import { useSession, signOut } from 'next-auth/react';
 import { useEffect, useState, useRef } from 'react';
 import { FaRegUserCircle } from 'react-icons/fa';
 
-interface User {
-  name:string
-  email: string;
+
+interface DropdownProps {
+  username: string;
   role: string;
 }
 
-const Dropdown = () => {
+const Dropdown: React.FC<DropdownProps> = ({ username,role }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [users, setUsers] = useState<User[]>([]);
-  const { data: session } = useSession();
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      if (session) {
-        const res = await fetch(`http://localhost:3000/api/users`);
-        const data = await res.json();
-        setUsers(data.users);
-      }
-    };
-    fetchUserDetails();
-  }, [session]);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -42,15 +30,7 @@ const Dropdown = () => {
     };
   }, []);
 
-  if (!session) {
-    return <div>Loading...</div>;
-  }
 
-  const user = {
-    name: (session.user as any).name,
-    email: (session.user as any).email,
-    role: (session.user as any).role,
-  };
 
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
@@ -66,11 +46,11 @@ const Dropdown = () => {
         <div className="origin-top-right absolute right-0 z-50 mt-2 w-[269px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div className="py-1">
             <div className="px-4 py-2 text-sm text-gray-900">
-              <div className="font-bold">{user.name}</div>
-              <div className="text-gray-500">Role: {user.role}</div>
+              <div className="font-bold">{username}</div>
+              <div className="text-gray-500">Role: {role}</div>
             </div>
             <div className="border-t border-gray-100"></div>
-            {user.role === 'Admin' && (
+            {role === 'Admin' && (
               <a
                 href="/admin/dashboard"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

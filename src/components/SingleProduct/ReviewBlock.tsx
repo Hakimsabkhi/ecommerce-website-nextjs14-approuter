@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+
+import React from 'react';
 import { FaStar } from 'react-icons/fa';
 import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
 import { IoStorefrontOutline } from 'react-icons/io5';

@@ -2,27 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from "@/lib/db";
 import Products from "@/models/Product";
 import cloudinary from "@/lib/cloudinary";
-import upload from "@/lib/multer";
+
 import stream from "stream";
-import { promisify } from "util";
+
 import User from "@/models/User";
-import Category from "@/models/Category";
-import Brand from "@/models/Brand";
+
 import { getToken } from 'next-auth/jwt';
 
-export async function GET(){
-  try{
-    await connectToDatabase();
-    await User.find();
-    await Category.find();
-    await Brand.find();
-    const products = await  Products.find({}).populate("user").populate("category").populate("brand");
-    return NextResponse.json(products, { status: 200 });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'Error fetching data' }, { status: 500 });
-  }
-}
+
 export async function POST(req: NextRequest) {
   await connectToDatabase();
   //check token

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -44,7 +44,7 @@ const AddedCategories: React.FC = () => {
 
     const getCategory = async () => {
         try {
-          const response = await fetch('http://loaclhost:3000/api/category/getAllCategory');
+          const response = await fetch('/api/category/getAllCategory');
       
           if (!response.ok) {
             throw new Error('Failed to fetch categories');

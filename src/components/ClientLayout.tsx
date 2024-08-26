@@ -6,11 +6,14 @@ import Bb from "./bb";
 
 import Header from "./Header";
 import Headertop from "./Headertop";
-import CategoryHeader from "./Category/CategoryHeader";
+import HeaderBottom from "./Headerbottom";
 
-const ClientLayout: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+interface ClientLayoutProps {
+  children: React.ReactNode;
+
+  // Use the imported Category type
+}
+const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
   const pathname = usePathname();
 
   const excludedPaths = ["/configurateur", "/signin"];
@@ -23,7 +26,7 @@ const ClientLayout: React.FC<{ children: React.ReactNode }> = ({
     <div className=" flex flex-col  h-full">
       <Headertop />
       <Header />
-      <CategoryHeader />
+      <HeaderBottom />
       {children}
       <Bb />
     </div>
