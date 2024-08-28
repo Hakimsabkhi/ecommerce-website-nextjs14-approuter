@@ -2,28 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import Review from '@/models/Review';
 
-
-
-
-export async function GET(req: NextRequest) {
-  await connectToDatabase();
-  const { searchParams } = new URL(req.url);
-  const productId = searchParams.get('id');
-
-  if (!productId || typeof productId !== 'string') {
-    return NextResponse.json(
-      { message: 'product is required and should be a string' },
-      { status: 400 }
-    );
-  }
-  try {
-    const review = await Review.find({ product: productId });
-    return NextResponse.json(review);
-  } catch (error) {
-    return NextResponse.json({ message: 'Error fetching Review' }, { status: 500 });
-  }
-}
-
 export async function POST(req: NextRequest) {
     await connectToDatabase();
   
@@ -55,7 +33,7 @@ export async function POST(req: NextRequest) {
     } else if (isNaN(Number(rating)) || Number(rating) < 1 || Number(rating) > 5) {
       errorMessage = 'Rating must be a number between 1 and 5';
     }
-      const existingReviw = await Review.findOne({ email:email });
+      const existingReviw = await Review.findOne({ email:email ,product:product });
       if (existingReviw) {
         return NextResponse.json({ message: 'Review already exists' }, { status: 400 });
       }

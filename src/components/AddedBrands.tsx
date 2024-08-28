@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import Image from 'next/image';
+import BottonAdmin from './BottonAdmin';
 
 type Brand = {
     _id: string;
@@ -96,6 +97,7 @@ const AddedBrands: React.FC = () => {
         <div className='mx-auto w-[90%] py-8 flex flex-col gap-8'>
             <div className="flex items-center justify-between">
                 <p className='text-3xl font-bold'>ALL Brand</p>
+                <BottonAdmin/>
                 <a href="/BrandList/AddBrand" className="w-[15%]">
                     <button className='bg-primary font-bold hover:bg-[#15335D] text-white rounded-lg w-full h-10'>
                         Add a new Brand

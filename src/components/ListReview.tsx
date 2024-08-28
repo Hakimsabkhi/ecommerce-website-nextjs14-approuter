@@ -1,10 +1,9 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import Link from 'next/link';
-import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { FaStar } from 'react-icons/fa';
+
 
 interface reviewData {
     _id: string;
@@ -26,11 +25,25 @@ const ListReviw: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const ReviewsesPerPage = 5; // Number of categories to display per page
+    const router = useRouter();
+
+    const handleback = () => {
+        router.push('/ReviewList'); // Navigate to the home page
+    };
+
+  
     const DeleteReviews = async (ReviewsId: string) => {
         setLoading(true);
         try {
-            await axios.delete(`/api/Reviews/${ReviewsId}`);
-            // Refresh categories after deletion
+            const response = await fetch(`/api/review/deleteReviwerById/${ReviewsId}`, {
+                method: 'DELETE',
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to delete review');
+            }
+    
+            // Refresh reviews after deletion
             getReviews();
         } catch (err: any) {
             setError(`[Reviews_DELETE] ${err.message}`);
@@ -38,18 +51,29 @@ const ListReviw: React.FC = () => {
             setLoading(false);
         }
     };
+    
 
     const getReviews = async () => {
+        setLoading(true);
         try {
-            const response = await axios.get(`/api/review?id=${productId}`);
-            setAddedReviews(response.data);
-            setFilteredReviews(response.data);
+            const response = await fetch(`/api/review/getAllReviewByProduct?id=${productId}`, {
+                method: 'GET',
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to fetch reviews');
+            }
+    
+            const data = await response.json();
+            setAddedReviews(data);
+            setFilteredReviews(data);
         } catch (err: any) {
             setError(`[Reviews_GET] ${err.message}`);
         } finally {
             setLoading(false);
         }
     };
+    
 
     useEffect(() => {
         getReviews();
@@ -86,7 +110,7 @@ const ListReviw: React.FC = () => {
         <div className='mx-auto w-[90%] py-8 flex flex-col gap-8'>
             <div className="flex items-center justify-between">
                 <p className='text-3xl font-bold'>REVIEW</p>
-                
+                <button onClick={handleback} className='bg-[#15335D] w-28 h-10 rounded-md text-white'>Back</button>
             </div>
             <input
                 type="text"
@@ -144,9 +168,9 @@ const ListReviw: React.FC = () => {
                         })}</td>
 
                             <td className="border-b flex items-center justify-center gap-2 py-2  ">                                
-                                    <Link href={`/ReviewsList/${item._id}`}>
+                                    <Link href={`/ReviewList/${productId}/${item._id}`}>
                                         <button className="bg-primary w-28 h-10 rounded-md">
-                                            Modify
+                                            Reply
                                         </button>
                                     </Link>
                                     <button onClick={() => DeleteReviews(item._id)} className="bg-primary w-28 h-10 rounded-md">

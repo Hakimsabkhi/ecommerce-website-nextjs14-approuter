@@ -1,14 +1,10 @@
 "use client";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import ReviewBlock from "./ReviewBlock";
-
-
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
-
 import { useParams } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { useSession } from "next-auth/react";
 
@@ -61,27 +57,29 @@ const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
     reviewData.append("email", finalEmail);
     reviewData.append("name", finalName);
     reviewData.append("product", productId);
-
     try {
-      const response = await axios.post("/api/review", reviewData);
+      const response = await fetch("/api/review/postReviewByProduct", {
+          method: "POST",
+          body: reviewData,
+      });
 
-      if (response.status !== 200) {
-        throw new Error("Network response was not ok");
+      if (!response.ok) {
+          throw new Error("Network response was not ok");
       }
 
       toast.success("Review submitted successfully!", {
-        position: "top-right" as any,
+          position: "top-right",
       });
 
       // Force re-render by changing key
       setKey(prevKey => prevKey + 1);
-    } catch (error) {
+  } catch (error) {
       console.error("Error submitting review:", error);
       toast.error("Failed to submit review", {
-        position: "top-right" as any,
+          position: "top-right",
       });
-    }
-  };
+  }
+};
   return (
     <main className=" desktop max-lg:w-[95%] my-10 bg-white rounded-lg flex flex-col gap-20  ">
       {/* top */}

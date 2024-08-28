@@ -1,6 +1,5 @@
 "use client"
 import ListerReview from '@/components/ListerReview';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 type Product = {
     _id: string;
@@ -22,8 +21,12 @@ const Page = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('/api/products');
-                setProducts(response.data); // Assuming response.data is an array of products
+                const response = await fetch('/api/products/getAllProduct');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setProducts(data); // Assuming data is an array of products
             } catch (error) {
                 console.error('Error fetching products:', error);
             }

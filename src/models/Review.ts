@@ -7,6 +7,7 @@ product:string;
   text?: string;
   email: string;
   name: string;
+  reply:string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -18,6 +19,7 @@ const ReviewSchema: Schema = new Schema(
     text: { type: String, required: true },
     email: { type: String, require: true },
     name: { type: String, require: true },
+    reply:{type:String,}
   },
   { timestamps: true }
 );

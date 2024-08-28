@@ -48,7 +48,9 @@ const NavAdmin= () => {
               <Link href="/ProductList">
                 <p className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Products</p>
               </Link>
-              
+              <Link href="/ReviewList">
+                <p className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Reviews</p>
+              </Link>
             </div>
           </div>
         </div>

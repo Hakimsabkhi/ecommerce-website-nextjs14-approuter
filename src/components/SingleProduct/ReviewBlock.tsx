@@ -30,7 +30,7 @@ const fetchReviews = async (productId: string) => {
     throw new Error('Product ID is required');
   }
 
-  const response = await fetch(`/api/review?id=${productId}`);
+  const response = await fetch(`/api/review/getAllReviewByProduct?id=${productId}`);
   if (!response.ok) {
     throw new Error(`Error: ${response.statusText}`);
   }

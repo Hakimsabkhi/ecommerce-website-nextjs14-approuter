@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 import Link from 'next/link';
+import BottonAdmin from './BottonAdmin';
 
 type User = {
     _id:string;
@@ -118,10 +119,12 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
     return (
         <div className='mx-auto w-[90%] py-8 flex flex-col gap-8'>
             <div className="flex items-center justify-between">
-                <p className='text-3xl font-bold'>ALL Products</p>                
+                <p className='text-3xl font-bold'>ALL Products</p>
+                <BottonAdmin/>                
                 <Link href="/ProductList/AddProduct">
                     <button className='bg-primary text-white rounded-lg px-4 w-full h-10'>
                         <p>Add the new Product</p>
+                        
                     </button>
                 </Link>
             </div>
