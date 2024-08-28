@@ -1,13 +1,13 @@
 // app/layout.tsx
+import { getServerSession } from "next-auth/next";
+import { authOptions } from '@/lib/authOptions'; // Ensure the path is correct
 import SessionProviderWrapper from '@/components/SessionProviderWrapper';
-
 import ClientLayout from '@/components/ClientLayout';
 import { Poppins } from 'next/font/google';
-import './/globals.css'; // Ensure global styles are imported
+import './globals.css'; // Ensure global styles are imported
 import { Metadata } from 'next';
-const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] });
-//import { fetchCategories } from '@/lib/featcher';
 
+const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] });
 
 export const metadata: Metadata = {
   title: "e-commerce app",
@@ -15,16 +15,19 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
- // const categories = await fetchCategories(); 
+  // Fetch the session server-side
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
       <body className={poppins.className}>
-      <SessionProviderWrapper>
-        <ClientLayout>{children}</ClientLayout>
-      </SessionProviderWrapper>
+        <SessionProviderWrapper session={session}>
+          <ClientLayout>{children}</ClientLayout>
+        </SessionProviderWrapper>
       </body>
     </html>
   );
 };
 
 export default RootLayout;
+

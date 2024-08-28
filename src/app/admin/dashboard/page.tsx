@@ -19,7 +19,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (status === "loading") return; // Do nothing while loading
-    if (!session || !session.user || session.user.role !== "SuperAdmin") {
+    if (!session || !session.user ||( session.user.role !== "SuperAdmin" && session.user.role!=="Admin")) {
       router.push("/");
     } else {
       fetchUsers();
@@ -44,7 +44,7 @@ const AdminDashboard = () => {
       if (!session?.user?.id) {
         throw new Error('User not authenticated');
       }
-  console.log(session);
+  
   
       // Perform the API request
       const response = await fetch(`/api/users/${userId}`, {
@@ -60,7 +60,8 @@ const AdminDashboard = () => {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to update role');
       }
-  
+      setDropdownOpen(null); // Close the dropdown
+
       // Refresh the user list or update the UI
       fetchUsers();
     } catch (error) {
@@ -164,10 +165,10 @@ const AdminDashboard = () => {
                               }
                               className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                             >
-                              Make Writer
+                              Make Consulter
                             </button>
                           </li>
-                          <li>
+                          {session?.user?.role !== 'Admin'  && (<li>
                             <button
                               onClick={() =>
                                 handleChangeRole(user._id, "Admin")
@@ -176,7 +177,7 @@ const AdminDashboard = () => {
                             >
                               Make Admin
                             </button>
-                          </li>
+                          </li>)}
                           <li>
                             <button
                               onClick={() =>
@@ -184,7 +185,7 @@ const AdminDashboard = () => {
                               }
                               className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                             >
-                              Make Visitor
+                              Make Visiteur
                             </button>
                           </li>
                         </ul>

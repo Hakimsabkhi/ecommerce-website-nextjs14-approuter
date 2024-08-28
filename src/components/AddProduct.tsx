@@ -114,7 +114,7 @@ const AddProduct = () => {
         formData.append('stock', productData.stock);
         formData.append('price', productData.price);
         formData.append('discount', productData.discount);
-        formData.append('user', session?.user?.id || '');
+       
         if (image) formData.append('image', image);
 
         try {

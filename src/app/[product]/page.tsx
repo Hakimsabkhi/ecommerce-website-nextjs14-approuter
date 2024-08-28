@@ -3,6 +3,7 @@ import Products from '@/components/Products';
 import Chairsbanner from '@/components/Chairsbanner';
 
 import { ICategory } from '@/models/Category';
+import { notFound } from 'next/navigation';
 
 interface HomePageProps {
   params: {
@@ -41,7 +42,7 @@ const fetchCategoryData = async (id: string): Promise<ICategory | null> => {
     return data;
   } catch (error) {
     console.error('Error fetching category data:', error);
-    return null;
+    return notFound();
   }
 };
 

@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
     // Find the user by email
     const user = await User.findOne({ email:token.email});
-console.log(token.email)
+
      
     if (!user || user.role !== 'Admin' && user.role !== 'Consulter'&& user.role !== 'SuperAdmin') {
       return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
@@ -37,7 +37,7 @@ console.log(token.email)
     const stock = formData.get('stock') as string;
     const discount = formData.get('discount') as string;
     const price = formData.get('price') as string;
-    const user = formData.get('user') as string;
+   
     const imageFile = formData.get('image') as File | null;
     if (!name || !description || !ref || !category || !brand || !stock || !price || !user) {
       return NextResponse.json({ message: 'All required fields must be filled' }, { status: 400 });

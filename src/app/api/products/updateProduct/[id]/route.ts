@@ -51,7 +51,7 @@ export async function PUT(
         const stock = formData.get('stock');
         const price = formData.get('price');
         const discount = formData.get('discount');
-        const user = formData.get('user') as string;
+       
       
       const imageFile = formData.get("image") as File | null;
       const id = params.id; // Get ID from params

@@ -23,7 +23,7 @@ const Headerbottom: React.FC = () => {
               className="flex items-center gap-3 duration-300 hover:text-orange-400"
               aria-label={category.name}
             >
-              {category.logoUrl && (
+              {category?.logoUrl && (
                 <Image
                   src={category.logoUrl}
                   alt={category.name}

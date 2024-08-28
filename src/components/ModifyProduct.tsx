@@ -138,7 +138,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     updateFormData.append('stock', formData.stock.toString());
     updateFormData.append('price', formData.price.toString());
     updateFormData.append('discount', formData.discount || '');
-    updateFormData.append('user', session?.user?.id || '');
+    
     if (image) updateFormData.append('image', image);
   
     try {

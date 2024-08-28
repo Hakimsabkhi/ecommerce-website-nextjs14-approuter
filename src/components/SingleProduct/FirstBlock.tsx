@@ -58,7 +58,7 @@ const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
                         <div className="flex flex-col gap-5">
                             <p className="text-3xl font-bold">{product.name}</p>
                             <div className="flex gap-4 items-center">
-                                <p className="flex items-center font-bold">SKU <span className="text-[#525566]">: SO-450</span></p>
+                                <p className="flex items-center font-bold">SKU <span className="text-[#525566]">: {product.ref}</span></p>
                                 <p className="text-[#525566] font-bold flex items-center gap-2"><IoCheckboxOutline size={25} /> {product.status}</p>
                             </div>
                             <div className="flex gap-3 items-center">
