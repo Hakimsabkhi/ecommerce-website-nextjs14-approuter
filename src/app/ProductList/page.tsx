@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+
 import AddedProducts from '@/components/AddedProducts';
 interface User {
     _id: string;

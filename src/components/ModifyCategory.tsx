@@ -1,10 +1,11 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
-import axios from "axios";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { fetchCategories } from "@/lib/featcher";
 
 interface CategoryData {
   name: string;
@@ -97,7 +98,7 @@ const ModifyCategory = () => {
     if (selectedBanner) {
       formData.append("banner", selectedBanner);
     }
-    formData.append('user', session?.user?.id.toString() || '');
+  
   
     try {
       const response = await fetch(`/api/category/updateCategory/${params.id}`, {
@@ -109,7 +110,7 @@ const ModifyCategory = () => {
       if (!response.ok) {
         throw new Error('Failed to update category');
       }
-  
+      await fetchCategories();
       router.push("/CategoryList");
     } catch (error) {
       console.error("Error updating category:", error);

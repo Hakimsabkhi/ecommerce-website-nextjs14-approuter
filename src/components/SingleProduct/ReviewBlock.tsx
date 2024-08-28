@@ -1,10 +1,9 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
 import { IoStorefrontOutline } from 'react-icons/io5';
 
-interface review {
+interface Review {
   _id: string;
   name: string;
   createdAt: string;
@@ -23,13 +22,15 @@ interface Product {
 interface ReviewBlockProps {
   productId: string;
   product: Product | null;
+  refresh?: boolean; 
 }
+
 const fetchReviews = async (productId: string) => {
   if (!productId) {
     throw new Error('Product ID is required');
   }
 
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/review?id=${productId}`);
+  const response = await fetch(`/api/review?id=${productId}`);
   if (!response.ok) {
     throw new Error(`Error: ${response.statusText}`);
   }
@@ -38,26 +39,35 @@ const fetchReviews = async (productId: string) => {
   return data; // Ensure you return the fetched data
 };
 
+const ReviewBlock: React.FC<ReviewBlockProps> = ({ productId, product,refresh }) => {
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-const ReviewBlock: React.FC<ReviewBlockProps> = async ({ productId, product }) => {
+  useEffect(() => {
+    const loadReviews = async () => {
+      try {
+        const data = await fetchReviews(productId);
+        setReviews(data);
+      } catch (error) {
+        setError((error as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-
-
-
-
-  const reviews = await fetchReviews(productId);
-
+    loadReviews();
+  }, [productId, refresh]);
 
   const numberOfReviews = reviews.length;
 
-  if (!product) {
-    return <div className="h-[495px]">Product not found.</div>;
-  }
 
   return (
     <div className="flex flex-col gap-4">
       <div className="px-4 flex items-center justify-between">
-        <label htmlFor="review" className="text-lg uppercase">{numberOfReviews} reviews for {product.name}</label>
+        <label htmlFor="review" className="text-lg uppercase">
+          {numberOfReviews} reviews for {product?.name}
+        </label>
         <select id="review" className="bg-gray-200 border border-gray-300 text-[#525566] rounded-full block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-[#525566] dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           <option>default</option>
         </select>
@@ -113,7 +123,7 @@ const ReviewBlock: React.FC<ReviewBlockProps> = async ({ productId, product }) =
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-2">
                       <IoStorefrontOutline size={30} className="text-primary" />
-                      <p className="text-lg font-bold">{product.user.username}</p>
+                      <p className="text-lg font-bold">{product?.user?.username}</p>
                     </div>
                     <p className="text-[#525566]">April 12, 2023</p>
                   </div>

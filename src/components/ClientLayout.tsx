@@ -16,7 +16,7 @@ interface ClientLayoutProps {
 const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
   const pathname = usePathname();
 
-  const excludedPaths = ["/configurateur", "/signin"];
+  const excludedPaths = ["/signup", "/signin"];
 
   if (excludedPaths.includes(pathname)) {
     return <>{children}</>;

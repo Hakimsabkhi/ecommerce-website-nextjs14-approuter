@@ -49,17 +49,17 @@ const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
   const params = useParams<{ id?: string }>(); // Adjust params based on your route setup
   const productId = params.id ?? "";
   const { data: session } = useSession();
-
+  const [key, setKey] = useState(0);
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const finalName = name || session?.user?.name || '';
     const finalEmail = email || session?.user?.email || '';
-    
+
     const reviewData = new FormData();
     reviewData.append("rating", rating.toString());
     reviewData.append("text", review);
-    reviewData.append("email", finalEmail); // Correctly naming the field
-    reviewData.append("name", finalName); // Correctly naming the field
+    reviewData.append("email", finalEmail);
+    reviewData.append("name", finalName);
     reviewData.append("product", productId);
 
     try {
@@ -69,16 +69,16 @@ const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
         throw new Error("Network response was not ok");
       }
 
-      // Handle successful response here
       toast.success("Review submitted successfully!", {
-        position: "top-right" as any, // Cast to any
+        position: "top-right" as any,
       });
-    } catch (error) {
-      // Handle error here
-      console.error("Error submitting review:", error);
 
+      // Force re-render by changing key
+      setKey(prevKey => prevKey + 1);
+    } catch (error) {
+      console.error("Error submitting review:", error);
       toast.error("Failed to submit review", {
-        position: "top-right" as any, // Cast to any
+        position: "top-right" as any,
       });
     }
   };
@@ -247,7 +247,7 @@ const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
         </div>
       </div>
       {/* mid */}
-    {/*  <ReviewBlock product={product} productId={productId}  />  */}
+     <ReviewBlock product={product} productId={productId} key={key} /> 
     </main>
   );
 };

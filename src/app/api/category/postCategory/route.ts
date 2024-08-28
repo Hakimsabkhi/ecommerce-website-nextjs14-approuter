@@ -20,20 +20,20 @@ export async function POST(req: NextRequest) {
     const user = await User.findOne({ email:token.email});
 
     
-    if (!user || user.role !== 'Admin' && user.role !== 'Rédacteur') {
+    if (!user || user.role !== 'Admin' && user.role !== 'Consulter'&& user.role !== 'SuperAdmin') {
       return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
     }
   try {
     // Handle form data
     const formData = await req.formData();
     const name = formData.get('name') as string;
-    const user = formData.get('user') as string;
-    const imageFile = formData.get('image') as File | null;
+      const imageFile = formData.get('image') as File | null;
     const logoFile = formData.get('logo') as File | null;
     const bannerFile = formData.get('banner') as File | null;
     if (!name || !user) {
       return NextResponse.json({ message: 'Name is required' }, { status: 400 });
     }
+
 
     const existingCategory = await Category.findOne({ name });
     if (existingCategory) {
@@ -121,6 +121,7 @@ export async function POST(req: NextRequest) {
     
     
     const newCategory = new Category({ name, logoUrl, imageUrl, bannerUrl, user });
+
     await newCategory.save();
     return NextResponse.json(newCategory, { status: 201 });
   } catch (error) {

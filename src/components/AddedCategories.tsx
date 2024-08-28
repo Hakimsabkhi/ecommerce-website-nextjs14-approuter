@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { fetchCategories } from '@/lib/featcher';
 
 type Category = {
     _id: string;
@@ -33,6 +34,7 @@ const AddedCategories: React.FC = () => {
           }
       
           // Refresh categories after deletion
+          await fetchCategories();
           getCategory();
         } catch (err: any) {
           setError(`[Category_DELETE] ${err.message}`);

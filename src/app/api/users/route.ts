@@ -16,12 +16,12 @@ const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
     // Find the user by email
     const user = await User.findOne({ email:token.email});
 
-    if (!user || user.role !== 'Admin') {
+    if (!user || user.role !== 'SuperAdmin') {
       return NextResponse.json({ error: 'Foridden:Access is denied' }, { status: 404 });
     }
   try {
     // Fetch all users excluding those with 'Admin' role
-    const users = await User.find({ role: { $ne: 'Admin' } });
+    const users = await User.find({ role: { $ne: 'SuperAdmin' } });
     return NextResponse.json(users, { status: 200 });
   } catch (error) {
     console.error(error);

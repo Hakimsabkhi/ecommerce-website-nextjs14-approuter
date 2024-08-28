@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -126,10 +126,9 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
       setImage(e.target.files[0]);
     }
   };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+  
     const updateFormData = new FormData();
     updateFormData.append('name', formData.name);
     updateFormData.append('description', formData.description);
@@ -141,16 +140,24 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     updateFormData.append('discount', formData.discount || '');
     updateFormData.append('user', session?.user?.id || '');
     if (image) updateFormData.append('image', image);
-
+  
     try {
-      await axios.put(`/api/products/${formData._id}`, updateFormData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      const response = await fetch(`/api/products/${formData._id}`, {
+        method: 'PUT',
+        body: updateFormData,
       });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'An error occurred');
+      }
+  
       router.push('/ProductList');
     } catch (err: any) {
-      setError(`Error: ${err.response?.data?.message || err.message}`);
+      setError(`Error: ${err.message}`);
     }
   };
+  
 
   return (
     <form onSubmit={handleSubmit} className='mx-auto w-[90%] max-lg:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8'>

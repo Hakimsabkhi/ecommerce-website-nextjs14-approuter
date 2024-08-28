@@ -36,7 +36,7 @@ const extractPublicId = (url: string): string => {
       const user = await User.findOne({ email:token.email});
   
       
-      if (!user || user.role !== 'Admin' && user.role !== 'Rédacteur') {
+      if (!user || user.role !== 'Admin' && user.role !== 'Consulter'&& user.role !== 'SuperAdmin') {
         return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
       }
     try {

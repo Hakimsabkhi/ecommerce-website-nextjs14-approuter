@@ -19,7 +19,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (status === "loading") return; // Do nothing while loading
-    if (!session || !session.user || session.user.role !== "Admin") {
+    if (!session || !session.user || session.user.role !== "SuperAdmin") {
       router.push("/");
     } else {
       fetchUsers();
@@ -99,10 +99,10 @@ const AdminDashboard = () => {
               <th scope="col" className="px-6 py-3">
                 Email
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Role
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Actions
               </th>
             </tr>
@@ -119,8 +119,8 @@ const AdminDashboard = () => {
                 >
                   {user.email}
                 </th>
-                <td className="px-6 py-4">{user.role}</td>
-                <td className="px-6 py-4 relative">
+                <td className="px-6 py-4 text-center">{user.role}</td>
+                <td className="px-6 py-4 relative text-center">
                   <div className="relative inline-block text-left">
                     <div>
                       <button
@@ -160,7 +160,7 @@ const AdminDashboard = () => {
                           <li>
                             <button
                               onClick={() =>
-                                handleChangeRole(user._id, "Rédacteur")
+                                handleChangeRole(user._id, "Consulter")
                               }
                               className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                             >
@@ -180,7 +180,7 @@ const AdminDashboard = () => {
                           <li>
                             <button
                               onClick={() =>
-                                handleChangeRole(user._id, "Visitor")
+                                handleChangeRole(user._id, "Visiteur")
                               }
                               className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                             >

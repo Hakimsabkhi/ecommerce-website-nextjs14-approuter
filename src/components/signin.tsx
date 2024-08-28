@@ -16,7 +16,7 @@ const SignIn = () => {
   const { data: session, status } = useSession();//get for session
   useEffect(() => {
     if (session) {
-      if (session?.user?.role === 'Admin') {
+      if (session?.user?.role === 'SuperAdmin') {
           router.push('/admin/dashboard');
         } else {
           router.push('/');
@@ -114,7 +114,8 @@ const SignIn = () => {
               Sign In with Google
             </button>
             <button
-              type="button"              
+              type="button"      
+              onClick={() => router.push('/signup')}    
               className="  text-blue-600 hover:text-blue-400 font-bold py-2 px-4 w-full   focus:shadow-outline"
             >
               Don&apos;t have an account

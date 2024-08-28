@@ -23,14 +23,14 @@ export async function PUT(
       const user = await User.findOne({ email:token.email});
   
       
-      if (!user || user.role !== 'Admin' && user.role !== 'Rédacteur') {
+      if (!user || user.role !== 'Admin' && user.role !== 'Consulter'&& user.role !== 'SuperAdmin') {
         return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
       }
     try {
       // Handle form data
       const formData = await req.formData();
       const name = formData.get("name") as string;
-      const user = formData.get("user") as string;
+      
       const imageFile = formData.get("image") as File | null;
       const logoFile = formData.get("logo") as File | null;
       const bannerFile = formData.get("banner") as File | null;

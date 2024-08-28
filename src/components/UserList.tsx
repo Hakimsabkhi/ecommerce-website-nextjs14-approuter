@@ -28,8 +28,8 @@ const UserList: React.FC<UserListProps> = ({ users, onDelete, onRoleChange }) =>
                   onChange={e => onRoleChange(user._id, e.target.value)}
                   className="p-2 border border-gray-300 rounded"
                 >
-                  <option value="Visitor">Visitor</option>
-                  <option value="Redacteur">Redacteur</option>
+                  <option value="Visiteur">Visitor</option>
+                  <option value="Consulter">Consulter</option>
                   <option value="Admin">Admin</option>
                 </select>
               </td>

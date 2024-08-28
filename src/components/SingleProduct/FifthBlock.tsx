@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { FaEye, FaCartPlus, FaRegHeart, FaHeart } from 'react-icons/fa';
@@ -71,4 +72,3 @@ const FifthBlock: React.FC = () => {
 }
 
 export default FifthBlock;
-

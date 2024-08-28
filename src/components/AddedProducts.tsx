@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+
 import Link from 'next/link';
 
 type User = {
@@ -41,19 +41,35 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
     const getProducts = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('/api/products');
-            setFilteredProducts(response.data);
+            const response = await fetch('/api/products/getAllProduct', {
+                method: 'GET',
+            });
+            console.log(response)
+            if (!response.ok) {
+                throw new Error('Failed to fetch products');
+            }
+    
+            const data = await response.json();
+            setFilteredProducts(data);
         } catch (err: any) {
             setError(`[products_GET] ${err.message}`);
         } finally {
             setLoading(false);
         }
     };
+    
 
     const deleteProduct = async (productId: string) => {
         setLoading(true);
         try {
-            await axios.delete(`/api/products/${productId}`);
+            const response = await fetch(`/api/products/deleteProduct/${productId}`, {
+                method: 'DELETE',
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to delete the product');
+            }
+    
             // Refresh products after deletion
             getProducts();
         } catch (err: any) {
@@ -62,6 +78,7 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
             setLoading(false);
         }
     };
+    
 
     useEffect(() => {
         setFilteredProducts(products);
@@ -136,7 +153,7 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
                             <td className="border px-4 py-2">{item.name}</td>
                             <td className="border px-4 py-2">{item.imageUrl}</td>
                             <td className="border px-4 py-2 flex justify-between items-center">
-                                <p>{item.user.username}</p>
+                                <p>{item?.user?.username}</p>
                                 <div className="flex items-center gap-2">
                                     <Link href={`/ProductList/${item._id}`}>
                                         <button className="bg-primary w-28 h-10 rounded-md">

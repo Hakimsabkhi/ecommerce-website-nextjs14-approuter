@@ -11,14 +11,14 @@ declare module 'next-auth' {
   interface Session {
     UserModel: DefaultSession['user'] & {
       id: string;
-      role: 'Visitor' | 'Rédacteur' | 'Admin';
+      role:  'Visiteur' | 'Consulter' | 'Admin' | 'SuperAdmin';
     };
   }
 
   // Extend the User interface
   interface User {
     id: string;
-    role: 'Visitor' | 'Rédacteur' | 'Admin';
+    role: 'Visiteur' | 'Consulter' | 'Admin' | 'SuperAdmin';
   }
 }
 
@@ -27,7 +27,7 @@ type UserType = {
   username: string;
   email: string;
   password?: string;
-  role: 'Visitor' | 'Rédacteur' | 'Admin';
+  role:  'Visiteur' | 'Consulter' | 'Admin' | 'SuperAdmin';
   save: () => Promise<UserType>;
 };
 
@@ -91,7 +91,7 @@ export const authOptions: NextAuthOptions = {
           id: token.id as string,
           name: token.name as string,
           email: token.email as string,
-          role: token.role as 'Visitor' | 'Rédacteur' | 'Admin',
+          role: token.role as 'Visiteur' | 'Consulter' | 'Admin'| 'SuperAdmin',
         };
       }
       return session;

@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-
+import { fetchCategories } from '@/lib/featcher';
 import Image from 'next/image';
 
 const AddCategory = () => {
@@ -90,8 +90,7 @@ const AddCategory = () => {
         formData.append('image', image);
         formData.append('logo', icon); // Correctly naming the field
         formData.append('banner', banner); // Added banner field
-        formData.append('user', session?.user?.id.toString() || ''); // Ensure user ID is a string
-      
+       
         try {
           const response = await fetch('/api/category/postCategory', {
             method: 'POST',
@@ -102,7 +101,7 @@ const AddCategory = () => {
             const errorData = await response.json();
             throw new Error(errorData.message || 'Error posting category');
           }
-      
+          await fetchCategories();
           router.push('/CategoryList'); // Redirect to categories page after successful submission
         } catch (err: any) {
           setError(`Error: ${err.message}`);

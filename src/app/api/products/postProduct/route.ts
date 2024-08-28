@@ -21,9 +21,9 @@ export async function POST(req: NextRequest) {
 
     // Find the user by email
     const user = await User.findOne({ email:token.email});
-
-    
-    if (!user || user.role !== 'Admin' && user.role !== 'Rédacteur') {
+console.log(token.email)
+     
+    if (!user || user.role !== 'Admin' && user.role !== 'Consulter'&& user.role !== 'SuperAdmin') {
       return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
     }
   try {

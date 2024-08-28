@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -49,7 +48,7 @@ const AddProduct = () => {
         // Fetch categories from the API
         const fetchCategories = async () => {
           try {
-            const response = await fetch('http://loaclhost:3000/api/category/getAllCategory');
+            const response = await fetch('/api/category/getAllCategory');
             if (!response.ok) {
               throw new Error('Failed to fetch categories');
             }
@@ -119,15 +118,21 @@ const AddProduct = () => {
         if (image) formData.append('image', image);
 
         try {
-            await axios.post('/api/products/', formData, { 
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+            const response = await fetch('/api/products/postProduct', {
+                method: 'POST',
+                body: formData,
             });
+        
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to submit product');
+            }
+        
             router.push('/ProductList'); // Redirect to products page after successful submission
         } catch (err: any) {
-            setError(`Error: ${err.response?.data?.message || err.message}`);
+            setError(`Error: ${err.message}`);
         }
+        
     };
 
     return (
