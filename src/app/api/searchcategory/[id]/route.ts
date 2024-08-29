@@ -1,17 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Category from '@/models/Category';
-import Brand from '@/models/Brand';
-import User from '@/models/User';
-import Product from '@/models/Product';
 
-export async function GET(req: NextRequest) {
+export async function GET(  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   await dbConnect();
 
   try {
     // Extract the 'category' query parameter from the request URL
-    const { searchParams } = new URL(req.url);
-    const category = searchParams.get('category');
+ 
+    const category = params.id;
 
     if (!category || typeof category !== 'string') {
       return NextResponse.json(
@@ -26,11 +25,8 @@ export async function GET(req: NextRequest) {
     if (!foundCategory) {
       return NextResponse.json({ message: 'Category not found' }, { status: 404 });
     }
-    await User.find({});
-    await Brand.find({});
-    // Find products by the category ID
-    const products = await Product.find({ category: foundCategory._id }).populate('category brand user');
-    return NextResponse.json(products, { status: 200 });
+
+    return NextResponse.json(foundCategory, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });

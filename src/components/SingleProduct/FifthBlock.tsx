@@ -39,7 +39,7 @@ const FifthBlock: React.FC = () => {
     const fetchCategory = async () => {
       if (categoryId) {
         try {
-          const response = await fetch(`/api/search?category=${categoryId}`);
+          const response = await fetch(`/api/search/${categoryId}`);
           const data = await response.json();
           setProducts(data);
           setClickedStates(new Array(data.length).fill(false)); // Initialize clickedStates based on product length

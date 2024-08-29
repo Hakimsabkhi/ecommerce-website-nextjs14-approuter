@@ -12,6 +12,7 @@ interface ClientLayoutProps {
   children: React.ReactNode;
 }
 
+
 const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
   const { data: session } = useSession(); // Fetch session using useSession hook
   const pathname = usePathname();

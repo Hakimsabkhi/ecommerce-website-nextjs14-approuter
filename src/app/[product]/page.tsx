@@ -3,6 +3,13 @@ import Products from '@/components/Products';
 import Chairsbanner from '@/components/Chairsbanner';
 
 import { ICategory } from '@/models/Category';
+import { notFound } from 'next/navigation';
+
+interface HomePageProps {
+  params: {
+    product?: string;
+  };
+}
 
 interface ProductData {
   _id: string;
@@ -16,18 +23,18 @@ interface ProductData {
   discount?: number;
   color?: string;
   material?: string;
-  status?: string;
+  status
+  ?: string;
+}
+interface brand{
+_id:string;
+name:string;
 }
 
-interface brand {
-  _id: string;
-  name: string;
-}
-
-// Server Component Function
-async function fetchCategoryData(id: string): Promise<ICategory | null> {
+// Function to fetch category data by ID
+const fetchCategoryData = async (id: string): Promise<ICategory | null> => {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/searchcategory?category=${id}`);
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/searchcategory/${id}`); // Adjust the API endpoint
     if (!res.ok) {
       throw new Error('Category not found');
     }
@@ -35,13 +42,14 @@ async function fetchCategoryData(id: string): Promise<ICategory | null> {
     return data;
   } catch (error) {
     console.error('Error fetching category data:', error);
-    return null;
+    return notFound();
   }
-}
+};
 
-async function fetchProductsData(id: string): Promise<ProductData[]> {
+// Function to fetch products data by category ID
+const fetchProductsData = async (id: string): Promise<ProductData[]> => {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/search?category=${id}`);
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/search/${id}`); // Adjust the API endpoint
     if (!res.ok) {
       throw new Error('Products not found');
     }
@@ -51,11 +59,12 @@ async function fetchProductsData(id: string): Promise<ProductData[]> {
     console.error('Error fetching products data:', error);
     return [];
   }
-}
+};
 
-async function fetchBrandData(): Promise<brand[]> {
+// Function to fetch brand data
+const fetchBrandData = async (): Promise<brand[]> => {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/brand/getAllBrand`);
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/brand/getAllBrand`); // Adjust the API endpoint
     if (!res.ok) {
       throw new Error('Brand not found');
     }
@@ -65,19 +74,19 @@ async function fetchBrandData(): Promise<brand[]> {
     console.error('Error fetching brand data:', error);
     return [];
   }
-}
+};
 
-// Page Component
-export default async function HomePage({ params }: { params: { product?: string } }) {
+export default async function HomePage({ params }: HomePageProps) {
   const id = params?.product;
   const category = id ? await fetchCategoryData(id) : null;
   const products = id ? await fetchProductsData(id) : [];
-  const brands = await fetchBrandData();
+  const brand = await fetchBrandData();
 
   return (
     <div>
       <Chairsbanner category={category || undefined} />
-      <Products products={products} brands={brands} />
+      {/* Uncomment the following line to render products */}
+      <Products products={products} brands={brand} /> 
     </div>
   );
 }
