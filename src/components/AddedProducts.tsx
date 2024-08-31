@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from 'react';
 
 import Link from 'next/link';
-import BottonAdmin from './BottonAdmin';
+import { toast } from 'react-toastify';
+import Dialog from './dialogDelete/Dialog';
+
 
 type User = {
     _id:string;
@@ -33,14 +35,21 @@ type AddedProductsProps = {
 const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
     console.log(products)
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const productsPerPage = 5;
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const handleDeleteClick = () => {
+        setIsDialogOpen(true);
+      };
+    
+      const handleCloseDialog = () => {
+        setIsDialogOpen(false);
+      };
 
     const getProducts = async () => {
-        setLoading(true);
+        
         try {
             const response = await fetch('/api/products/getAllProduct', {
                 method: 'GET',
@@ -54,14 +63,12 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
             setFilteredProducts(data);
         } catch (err: any) {
             setError(`[products_GET] ${err.message}`);
-        } finally {
-            setLoading(false);
-        }
+        } 
     };
     
 
     const deleteProduct = async (productId: string) => {
-        setLoading(true);
+     
         try {
             const response = await fetch(`/api/products/deleteProduct/${productId}`, {
                 method: 'DELETE',
@@ -70,21 +77,21 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
             if (!response.ok) {
                 throw new Error('Failed to delete the product');
             }
-    
-            // Refresh products after deletion
             getProducts();
+            toast.success("Category delete successfully!" );
+            // Refresh products after deletion
+            
         } catch (err: any) {
-            setError(`[Product_DELETE] ${err.message}`);
-        } finally {
-            setLoading(false);
-        }
+           // setError(`[Product_DELETE] ${err.message}`);
+           toast.error("faild Product_DELETE");
+        } 
     };
     
 
     useEffect(() => {
         setFilteredProducts(products);
         setCurrentPage(1);
-        setLoading(false);
+       
     }, [products]);
 
     useEffect(() => {
@@ -104,13 +111,7 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-    if (loading) {
-        return (/* loading start */
-        <div className="flex justify-center items-center h-[400px]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>   
-      </div>
-      /*  loading end  */)
-    }
+   
 
     if (error) {
         return <div>Error: {error}</div>;
@@ -120,9 +121,9 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
         <div className='mx-auto w-[90%] py-8 flex flex-col gap-8'>
             <div className="flex items-center justify-between">
                 <p className='text-3xl font-bold'>ALL Products</p>
-                <BottonAdmin/>                
-                <Link href="/ProductList/AddProduct">
-                    <button className='bg-primary text-white rounded-lg px-4 w-full h-10'>
+                              
+                <Link href="/admin/productlist/addproduct">
+                    <button className='bg-primary font-bold hover:bg-[#15335D] text-white rounded-lg w-[200px] h-10'>
                         <p>Add the new Product</p>
                         
                     </button>
@@ -158,14 +159,17 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
                             <td className="border px-4 py-2 flex justify-between items-center">
                                 <p>{item?.user?.username}</p>
                                 <div className="flex items-center gap-2">
-                                    <Link href={`/ProductList/${item._id}`}>
+                                    <Link href={`/admin/productlist/${item._id}`}>
                                         <button className="bg-primary w-28 h-10 rounded-md">
                                             Modify
                                         </button>
                                     </Link>
-                                    <button onClick={() => deleteProduct(item._id)} className="bg-primary w-28 h-10 rounded-md">
+                                    <button onClick={handleDeleteClick}  className="bg-primary w-28 h-10 rounded-md">
                                         Delete
                                     </button>
+                                    {isDialogOpen &&     < Dialog  handleCloseDialog={handleCloseDialog} Delete={deleteProduct} id={item._id}
+                                    name={item.name}/>}
+                                    
                                 </div>
                             </td>
                         </tr>

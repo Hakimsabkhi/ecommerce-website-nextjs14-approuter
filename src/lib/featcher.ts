@@ -5,6 +5,7 @@ interface Category {
   _id: string;
   name: string;
   logoUrl?: string;
+ 
 }
 
 export const fetchCategories = async (): Promise<Category[]> => {

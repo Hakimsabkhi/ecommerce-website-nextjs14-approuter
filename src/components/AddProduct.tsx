@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { toast } from 'react-toastify';
+
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,7 +18,7 @@ interface Brand {
 }
 
 const AddProduct = () => {
-    const { data: session, status } = useSession();
+ 
     const router = useRouter();
     const [categories, setCategories] = useState<Category[]>([]);
     const [brands, setBrands] = useState<Brand[]>([]); // New state for brands
@@ -25,12 +26,7 @@ const AddProduct = () => {
     const [image, setImage] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null); // State for image preview
 
-    useEffect(() => {
-        if (status === 'loading') return;
-        if (!session || !session.user || session.user.role !== 'Admin') {
-            router.push('/signin');
-        }
-    }, [session, status, router]);
+   
 
     const [productData, setProductData] = useState({
         name: '',
@@ -40,8 +36,7 @@ const AddProduct = () => {
         brand: '', // Added brand to productData
         stock: '',
         price: '',
-        discount: '',
-        user: session?.user?.id || '',
+        discount: ''
     });
 
     useEffect(() => {
@@ -128,10 +123,16 @@ const AddProduct = () => {
                 throw new Error(errorData.message || 'Failed to submit product');
             }
         
-            router.push('/ProductList'); // Redirect to products page after successful submission
-        } catch (err: any) {
-            setError(`Error: ${err.message}`);
-        }
+          
+            toast.success("Product submitted successfully!", {
+        
+                onClose: () => router.push('/admin/productlist')
+            });
+              
+            } catch (err: any) {
+             
+                toast.error(`Error: ${err instanceof Error ? err.message : 'Unknown error'}` );
+            }
         
     };
 
@@ -270,7 +271,7 @@ const AddProduct = () => {
                 </button>
 
             </div>
-            <Link href="/ProductList" className="w-full flex justify-end">
+            <Link href="/admin/productlist" className="w-full flex justify-end">
                 <button className='bg-primary text-white rounded-md w-[20%] max-lg:w-[50%] h-10'>
                     <p className="text-white">
                         Cancel

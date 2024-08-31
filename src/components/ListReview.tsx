@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { FaStar } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import Dialog from './dialogDelete/Dialog';
 
 
 interface reviewData {
@@ -20,20 +22,26 @@ const ListReviw: React.FC = () => {
   const productId = params.id ?? "";
     const [addedReviews, setAddedReviews] = useState<reviewData[]>([]);
     const [filteredReviews, setFilteredReviews] = useState<reviewData[]>([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const ReviewsesPerPage = 5; // Number of categories to display per page
     const router = useRouter();
-
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const handleDeleteClick = () => {
+        setIsDialogOpen(true);
+      };
+    
+      const handleCloseDialog = () => {
+        setIsDialogOpen(false);
+      };
     const handleback = () => {
-        router.push('/ReviewList'); // Navigate to the home page
+        router.push('/admin/reviewlist'); // Navigate to the home page
     };
 
   
     const DeleteReviews = async (ReviewsId: string) => {
-        setLoading(true);
+        
         try {
             const response = await fetch(`/api/review/deleteReviwerById/${ReviewsId}`, {
                 method: 'DELETE',
@@ -42,19 +50,18 @@ const ListReviw: React.FC = () => {
             if (!response.ok) {
                 throw new Error('Failed to delete review');
             }
-    
+            toast.success("Brand delete successfully!", );
+            handleCloseDialog();
             // Refresh reviews after deletion
             getReviews();
         } catch (err: any) {
             setError(`[Reviews_DELETE] ${err.message}`);
-        } finally {
-            setLoading(false);
-        }
+        } 
     };
     
 
     const getReviews = async () => {
-        setLoading(true);
+        
         try {
             const response = await fetch(`/api/review/getAllReviewByProduct?id=${productId}`, {
                 method: 'GET',
@@ -69,9 +76,7 @@ const ListReviw: React.FC = () => {
             setFilteredReviews(data);
         } catch (err: any) {
             setError(`[Reviews_GET] ${err.message}`);
-        } finally {
-            setLoading(false);
-        }
+        } 
     };
     
 
@@ -94,13 +99,7 @@ const ListReviw: React.FC = () => {
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-    if (loading) {
-        return (/* loading start */
-        <div className="flex justify-center items-center h-[400px]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>   
-      </div>
-      /*  loading end  */)
-    }
+
 
     if (error) {
         return <div>Error: {error}</div>;
@@ -168,14 +167,16 @@ const ListReviw: React.FC = () => {
                         })}</td>
 
                             <td className="border-b flex items-center justify-center gap-2 py-2  ">                                
-                                    <Link href={`/ReviewList/${productId}/${item._id}`}>
+                                    <Link href={`/admin/reviewlist/${productId}/${item._id}`}>
                                         <button className="bg-primary w-28 h-10 rounded-md">
                                             Reply
                                         </button>
                                     </Link>
-                                    <button onClick={() => DeleteReviews(item._id)} className="bg-primary w-28 h-10 rounded-md">
+                                    <button onClick={handleDeleteClick}  className="bg-primary w-28 h-10 rounded-md">
                                         Delete
-                                    </button>                                
+                                    </button>
+                                    {isDialogOpen &&     < Dialog  handleCloseDialog={handleCloseDialog} Delete={DeleteReviews} id={item._id}
+                                    name={item.name}/>}                                         
                             </td>
                         </tr>
                     ))}
@@ -194,6 +195,7 @@ const ListReviw: React.FC = () => {
                     </button>
                 ))}
             </div>
+        
         </div>
     );
 };
