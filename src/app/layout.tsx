@@ -5,7 +5,7 @@ import SessionProviderWrapper from '@/components/SessionProviderWrapper';
 import ClientLayout from '@/components/ClientLayout';
 import { Poppins } from 'next/font/google';
 import './globals.css'; // Ensure global styles are imported
-
+import "react-toastify/dist/ReactToastify.css";
 import { Metadata } from 'next';
 import { ToastContainer } from "react-toastify";
 

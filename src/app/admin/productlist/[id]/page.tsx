@@ -36,7 +36,7 @@ const Page = () => {
         // Fetch product data by ID
         const fetchProductData = async () => {
             try {
-                const response = await fetch(`/api/products/${params.id}`);
+                const response = await fetch(`/api/products/getProductById/${params.id}`);
                 if (!response.ok) {
                     throw new Error(`Error: ${response.statusText}`);
                 }

@@ -40,6 +40,7 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const productsPerPage = 5;
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
     const handleDeleteClick = () => {
         setIsDialogOpen(true);
       };
@@ -58,12 +59,13 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
             if (!response.ok) {
                 throw new Error('Failed to fetch products');
             }
-    
             const data = await response.json();
             setFilteredProducts(data);
         } catch (err: any) {
             setError(`[products_GET] ${err.message}`);
-        } 
+        }finally{
+            setLoading(false);
+        }
     };
     
 
@@ -77,10 +79,10 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
             if (!response.ok) {
                 throw new Error('Failed to delete the product');
             }
-            getProducts();
+             getProducts();
+             setCurrentPage(1);
             toast.success("Category delete successfully!" );
-            // Refresh products after deletion
-            
+            handleCloseDialog();
         } catch (err: any) {
            // setError(`[Product_DELETE] ${err.message}`);
            toast.error("faild Product_DELETE");
@@ -89,16 +91,13 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
     
 
     useEffect(() => {
-        setFilteredProducts(products);
-        setCurrentPage(1);
-       
-    }, [products]);
+        getProducts();
+    }, []);
 
     useEffect(() => {
         const filtered = products.filter(product =>
             product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            product.ref.toLowerCase().includes(searchTerm.toLowerCase()) 
-           // product.user.toLowerCase().includes(searchTerm.toLowerCase())
+            product.ref.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredProducts(filtered);
         setCurrentPage(1);
@@ -112,7 +111,13 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
    
-
+    if (loading) {
+        return (/* loading start */
+        <div className="flex justify-center items-center h-[400px]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>   
+      </div>
+      /*  loading end  */)
+    }
     if (error) {
         return <div>Error: {error}</div>;
     }
@@ -139,7 +144,7 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
             <table className="table-auto w-full mt-4">
                 <thead>
                     <tr>    
-                        <th className="text-start py-2">ID</th>
+                       {/*  <th className="text-start py-2">ID</th> */}
                         <th className="text-start py-2">REF</th>
                         <th className="text-start py-2">Name</th>
                         <th className="text-start py-2">ImageURL</th>                
@@ -152,7 +157,7 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
                 <tbody>
                     {currentProducts.map((item) => (
                         <tr key={item._id} className='bg-[#15335D] text-white'>
-                            <td className="border px-4 py-2">{item._id}</td>
+                            {/* <td className="border px-4 py-2">{item._id}</td> */}
                             <td className="border px-4 py-2">{item.ref}</td>
                             <td className="border px-4 py-2">{item.name}</td>
                             <td className="border px-4 py-2">{item.imageUrl}</td>

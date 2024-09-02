@@ -13,7 +13,7 @@ export async function GET(
     try {
       await dbConnect();
       const { id } = params; // Get `id` from params
-  
+      
       if (!id) {
         return new NextResponse(JSON.stringify({ message: "Invalid or missing product ID" }), { status: 400 });
       }

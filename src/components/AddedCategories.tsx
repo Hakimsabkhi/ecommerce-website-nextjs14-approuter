@@ -47,10 +47,10 @@ const AddedCategories: React.FC = () => {
       
           // Refresh categories after deletion
           await fetchCategories();
-       
+          handleCloseDialog();
           getCategory();
           toast.success("Category delete successfully!" );
-         handleCloseDialog();
+         
         } catch (err: any) {
          /*  setError(`[Category_DELETE] ${err.message}`);
           setError(`Error: ${err.message}`); */

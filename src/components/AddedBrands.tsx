@@ -43,8 +43,9 @@ const AddedBrands: React.FC = () => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            toast.success("Brand delete successfully!" );
             handleCloseDialog();
+            toast.success("Brand delete successfully!" );
+           
            
             await getBrand();
 

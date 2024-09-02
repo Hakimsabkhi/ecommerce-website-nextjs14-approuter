@@ -65,7 +65,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     // Fetch categories from the API
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://loaclhost:3000/api/category/getAllCategory');
+        const response = await fetch('/api/category/getAllCategory');
         if (!response.ok) {
           throw new Error(`Failed to fetch categories: ${response.statusText} (Status: ${response.status})`);
         }
@@ -138,7 +138,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     if (image) updateFormData.append('image', image);
   
     try {
-      const response = await fetch(`/api/products/${formData._id}`, {
+      const response = await fetch(`/api/products/updateProduct/${formData._id}`, {
         method: 'PUT',
         body: updateFormData,
       });
@@ -147,10 +147,10 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
         const errorData = await response.json();
         throw new Error(errorData.message || 'An error occurred');
       }
-      toast.success(" Modification Product  successfully!");
+      toast.success(`Product  ${formData.name} modification successfully!`);
       router.push('/admin/productlist');
     } catch (err: any) {
-      setError(`Error: ${err.message}`);
+      toast.error(`Error: ${err instanceof Error ? err.message : 'Unknown error'}`);
     }
   };
   

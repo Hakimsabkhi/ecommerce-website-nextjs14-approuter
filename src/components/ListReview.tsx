@@ -1,203 +1,192 @@
 "use client";
+
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { FaStar } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import Dialog from './dialogDelete/Dialog';
+import { FaStar } from 'react-icons/fa6';
+import Link from 'next/link';
 
+interface ReviewData {
+  _id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+  rating: number;
+  text: string;
+}
 
-interface reviewData {
-    _id: string;
-    name: string;
-    email:string;
-    createdAt: string;
-    rating: number;
-    text: string;
+const ListReview: React.FC = () => {
+  const { id: productId } = useParams<{ id?: string }>();
+  const [addedReviews, setAddedReviews] = useState<ReviewData[]>([]);
+  const [filteredReviews, setFilteredReviews] = useState<ReviewData[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const reviewsPerPage = 5; // Number of reviews to display per page
+  const router = useRouter();
+ 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleDeleteClick = () => {
+  
+    setIsDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    
+  };
+
+  const handleDeleteConfirm = async (id: string) => {
+  
+    try {
+      const response = await fetch(`/api/review/deleteReviwerById/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete review');
+      }
+      toast.success("Review deleted successfully!");
+      handleCloseDialog();
+      getReviews();
+    } catch (err: any) {
+      setError(`[Reviews_DELETE] ${err.message}`);
+    }
+  };
+
+  const getReviews = async () => {
+    if (!productId) return;
+
+    try {
+      const response = await fetch(`/api/review/getAllReviewByProduct?id=${productId}`, {
+        method: 'GET',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch reviews');
+      }
+
+      const data = await response.json();
+      setAddedReviews(data);
+      setFilteredReviews(data);
+    } catch (err: any) {
+      setError(`[Reviews_GET] ${err.message}`);
+    }
+  };
+
+  useEffect(() => {
+    getReviews();
+  }, [productId]);
+
+  useEffect(() => {
+    const filtered = addedReviews.filter(review =>
+      review.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredReviews(filtered);
+    setCurrentPage(1); // Reset to the first page when search term changes
+  }, [searchTerm, addedReviews]);
+
+  const indexOfLastReview = currentPage * reviewsPerPage;
+  const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
+  const currentReviews = filteredReviews.slice(indexOfFirstReview, indexOfLastReview);
+  const totalPages = Math.ceil(filteredReviews.length / reviewsPerPage);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  if (error) {
+    return <div>Error: {error}</div>;
   }
 
-const ListReviw: React.FC = () => {
-    
-  const params = useParams<{ id?: string }>(); // Adjust params based on your route setup
-  const productId = params.id ?? "";
-    const [addedReviews, setAddedReviews] = useState<reviewData[]>([]);
-    const [filteredReviews, setFilteredReviews] = useState<reviewData[]>([]);
-    const [error, setError] = useState<string | null>(null);
-    const [searchTerm, setSearchTerm] = useState<string>('');
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const ReviewsesPerPage = 5; // Number of categories to display per page
-    const router = useRouter();
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const handleDeleteClick = () => {
-        setIsDialogOpen(true);
-      };
-    
-      const handleCloseDialog = () => {
-        setIsDialogOpen(false);
-      };
-    const handleback = () => {
-        router.push('/admin/reviewlist'); // Navigate to the home page
-    };
-
-  
-    const DeleteReviews = async (ReviewsId: string) => {
-        
-        try {
-            const response = await fetch(`/api/review/deleteReviwerById/${ReviewsId}`, {
-                method: 'DELETE',
-            });
-    
-            if (!response.ok) {
-                throw new Error('Failed to delete review');
-            }
-            toast.success("Brand delete successfully!", );
-            handleCloseDialog();
-            // Refresh reviews after deletion
-            getReviews();
-        } catch (err: any) {
-            setError(`[Reviews_DELETE] ${err.message}`);
-        } 
-    };
-    
-
-    const getReviews = async () => {
-        
-        try {
-            const response = await fetch(`/api/review/getAllReviewByProduct?id=${productId}`, {
-                method: 'GET',
-            });
-    
-            if (!response.ok) {
-                throw new Error('Failed to fetch reviews');
-            }
-    
-            const data = await response.json();
-            setAddedReviews(data);
-            setFilteredReviews(data);
-        } catch (err: any) {
-            setError(`[Reviews_GET] ${err.message}`);
-        } 
-    };
-    
-
-    useEffect(() => {
-        getReviews();
-    }, []);
-
-    useEffect(() => {
-        const filtered = addedReviews.filter(Reviews =>
-            Reviews.name.toLowerCase().includes(searchTerm.toLowerCase())             
-        );
-        setFilteredReviews(filtered);
-        setCurrentPage(1); // Reset to the first page when search term changes
-    }, [searchTerm, addedReviews]);
-
-    const indexOfLastReviews = currentPage * ReviewsesPerPage;
-    const indexOfFirstReviews = indexOfLastReviews - ReviewsesPerPage;
-    const currentReviewss = filteredReviews.slice(indexOfFirstReviews, indexOfLastReviews);
-    const totalPages = Math.ceil(filteredReviews.length / ReviewsesPerPage);
-
-    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
-
-
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-
-    return (
-        <div className='mx-auto w-[90%] py-8 flex flex-col gap-8'>
-            <div className="flex items-center justify-between">
-                <p className='text-3xl font-bold'>REVIEW</p>
-                <button onClick={handleback} className='bg-[#15335D] w-28 h-10 rounded-md text-white'>Back</button>
-            </div>
-            <input
-                type="text"
-                placeholder="Search categories"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className='mt-4 p-2 border border-gray-300 rounded'
-            />
-            <table className="table-auto w-full mt-4">
-                <thead>
-                    <tr>
-                        
-                        <th className="py-2 text-start uppercase ">name</th>
-                        <th className=" py-2 text-start uppercase ">email</th>
-                        <th className=" py-2 text-start uppercase ">rating</th>
-                        <th className=" py-2 text-start uppercase ">                        
-                        text                                                                                                                   
-                        </th>
-                       
-                        <th className=" py-2 text-start uppercase ">                        
-                        createdAt                                                                                                                   
-                        </th>
-                        <th className=" py-2 text-center uppercase ">                        
-                            Action                                                                                                                  
-                        </th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    {currentReviewss.map((item, index) => (
-                        <tr key={index} className='bg-[#15335D] text-white'>
-                            <td className="border px-4 py-2 ">{item.name}</td>
-                            <td className="border px-4 py-2">{item.email}</td>
-                            <td className="border px-4 py-2 ">      <div className="text-orange-400 flex items-center gap-1">
-                    {[...Array(item.rating)].map((_, index) => (
+  return (
+    <div className="py-2  relative">
+      <div className="w-[93%] px-4 md:px-8 lg-6 mx-auto">
+        <h2 className="font-manrope font-bold text-4xl text-black text-center mb-11">
+          People Love Us
+        </h2>
+        <input
+          type="text"
+          placeholder="Search reviews..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="mb-6 px-4 py-2 border rounded-md w-full md:w-1/2 mx-auto"
+        />
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xl font-bold text-gray-950 uppercase tracking-wider">Name</th>
+              <th className="px-6 py-3 text-left text-xl font-bold text-gray-950  uppercase tracking-wider">Reviw</th>
+              <th className="px-6 py-3 text-left text-xl font-bold text-gray-950  uppercase tracking-wider">Rating</th>
+              <th className="px-6 py-3 text-left text-xl font-bold text-gray-950  uppercase tracking-wider">Date</th>
+              <th className="px-6 py-3 text-left text-xl font-bold text-gray-950  uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="bg-[#15335D] divide-y divide-gray-200">
+            {currentReviews.map(review => (
+              <tr key={review._id}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm  text-white font-bold sm:flex gap-6 items-center">  <img
+                    src="https://pagedone.io/asset/uploads/1704364459.png"
+                    alt="Portrait of Robert"
+                    className="w-10 h-10 rounded-full"
+                  /> {review.name}</td>
+                   <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                    {review.text}
+                   </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm">
+                <div className="text-orange-400 flex items-center gap-1">
+                {[...Array(review.rating)].map((_, index) => (
                   <FaStar key={index} />
                 ))}
-                {[...Array(5 - item.rating)].map((_, index) => (
-                  <FaStar key={index + item.rating} className="text-gray-300" />
+                {[...Array(5 - review.rating)].map((_, index) => (
+                  <FaStar key={index + review.rating} className="text-gray-300" />
                 ))}
-              
-                    </div></td>
-                            <td className="border-b px-4 py-2  ">{item.text}</td>
-                            <td className="border-b px-4 py-2  ">{new Date(item.createdAt).toLocaleDateString(
-                          "FR-FR",
-                          {
-                            day: "2-digit",
-                            month: "numeric",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                            second: "2-digit",
-                            timeZone: "Africa/Tunis", 
-                                                
-                        })}</td>
-
-                            <td className="border-b flex items-center justify-center gap-2 py-2  ">                                
-                                    <Link href={`/admin/reviewlist/${productId}/${item._id}`}>
+                </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-warning-200">
+                  {new Date(review.createdAt).toLocaleDateString()}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <div className="flex items-center gap-2 text-white">
+                                    <Link href={`/admin/reviewlist/${productId}/${review._id}`}>
                                         <button className="bg-primary w-28 h-10 rounded-md">
                                             Reply
                                         </button>
                                     </Link>
-                                    <button onClick={handleDeleteClick}  className="bg-primary w-28 h-10 rounded-md">
+                                    <button onClick={()=>handleDeleteClick()}  className="bg-primary w-28 h-10 rounded-md">
                                         Delete
                                     </button>
-                                    {isDialogOpen &&     < Dialog  handleCloseDialog={handleCloseDialog} Delete={DeleteReviews} id={item._id}
-                                    name={item.name}/>}                                         
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <div className='flex justify-center mt-4'>
-                {Array.from({ length: totalPages }, (_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => paginate(index + 1)}
-                        className={`mx-1 px-3 py-1 rounded ${
-                            currentPage === index + 1 ? 'bg-primary text-white' : 'bg-gray-300 text-black'
-                        }`}
-                    >
-                        {index + 1}
-                    </button>
-                ))}
-            </div>
-        
+                                    {isDialogOpen &&     < Dialog  handleCloseDialog={handleCloseDialog} Delete={handleDeleteConfirm} id={review._id}
+                                    name={review.name}/>}
+                                    
+                                </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="flex justify-center mt-6">
+          <nav>
+            <ul className="flex">
+              {Array.from({ length: totalPages }, (_, index) => (
+                <li key={index} className="mx-1">
+                  <button
+                    onClick={() => paginate(index + 1)}
+                    className={`px-4 py-2 border rounded ${
+                      currentPage === index + 1 ? 'bg-primary text-white' : 'bg-white text-black'
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
-    );
+      </div>
+      
+    </div>
+  );
 };
 
-export default ListReviw;
+export default ListReview;

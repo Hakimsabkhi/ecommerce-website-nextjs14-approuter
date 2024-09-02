@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
+import {IUser} from "./User";
 
 
 export interface IReview extends Document {
@@ -8,6 +9,7 @@ product:string;
   email: string;
   name: string;
   reply:string;
+  user: IUser | string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -19,7 +21,8 @@ const ReviewSchema: Schema = new Schema(
     text: { type: String, required: true },
     email: { type: String, require: true },
     name: { type: String, require: true },
-    reply:{type:String,}
+    reply:{type:String,},
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true }
 );
