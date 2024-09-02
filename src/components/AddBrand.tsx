@@ -1,12 +1,12 @@
 "use client";
-import { useSession } from 'next-auth/react';
+
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-
 import Image from 'next/image';
+import { toast } from 'react-toastify';
 
 const AddBrand = () => {
-    const { data: session, status } = useSession();
+   
     const router = useRouter();
     const [name, setName] = useState('');
     const [place, setPlace] = useState('');
@@ -16,12 +16,7 @@ const AddBrand = () => {
     const [iconPreview, setIconPreview] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        if (status === 'loading') return; // Do nothing while loading
-        if (!session || !session.user || session.user.role !== 'Admin') {
-            router.push('/signin');
-        }
-    }, [router, session, status]);
+ 
 
     useEffect(() => {
         if (image) {
@@ -87,20 +82,25 @@ const AddBrand = () => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-    
+            toast.success("Brand submitted successfully!", {
+               
+                onClose: () => router.push('/admin/brandlist')
+            });
             await response.json(); // or await response.text() if you expect text response
-    
-            router.push('/BrandList');
+           
+           
+            
             
         } catch (err: any) {
-            setError(`Error: ${err.message}`);
+          
+            toast.error(`Error: ${err instanceof Error ? err.message : 'Unknown error'}` );
         }
     };
     
 
     return (
         <div className='mx-auto w-[90%] max-xl:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8'>
-            <p className='text-3xl font-bold'>Add Brand</p>
+            <p className='text-3xl font-bold'>Add Brand</p>  
             <form onSubmit={handleSubmit} className='flex max-lg:flex-col max-lg:gap-4 lg:items-center gap-4'>
                 <div className='flex items-center w-[40%] max-lg:w-full gap-6 justify-between'>
                     <p className="text-xl max-lg:text-base font-bold">Name*</p>
@@ -168,6 +168,7 @@ const AddBrand = () => {
                     <button type="submit" className='bg-primary text-white rounded-md w-full hover:bg-[#15335D] h-10'>
                         <p className="text-white">Add Brand</p>
                     </button>
+                  
                 </div>
             </form>
             {error && <p className="text-red-500">{error}</p>}

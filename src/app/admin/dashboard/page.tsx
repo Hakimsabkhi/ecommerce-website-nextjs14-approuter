@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import NavAdmin from "@/components/NavAdmin";
+
 
 interface User {
   _id: string;
@@ -17,14 +17,14 @@ const AdminDashboard = () => {
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    if (status === "loading") return; // Do nothing while loading
+ useEffect(() => {
+   
     if (!session || !session.user ||( session.user.role !== "SuperAdmin" && session.user.role!=="Admin")) {
       router.push("/");
     } else {
       fetchUsers();
     }
-  }, [router, session, status]);
+  }, [router, session]); 
 
 
   const fetchUsers = async () => {
@@ -77,19 +77,10 @@ const AdminDashboard = () => {
     setDropdownOpen(dropdownOpen === userId ? null : userId);
   };
 
-  if (status === "loading" || !session || !session.user) {
-    return (
-      <div className="flex justify-center items-center h-screen text-xl text-gray-600">
-        <div className="flex justify-center items-center h-[400px]">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
-        </div>
-      </div>
-    );
-  }
+
 
   return (
     <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
-      <NavAdmin />
       <h1 className="text-4xl font-bold mb-8 text-center text-gray-900">
         Admin Dashboard
       </h1>

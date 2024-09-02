@@ -5,7 +5,9 @@ import SessionProviderWrapper from '@/components/SessionProviderWrapper';
 import ClientLayout from '@/components/ClientLayout';
 import { Poppins } from 'next/font/google';
 import './globals.css'; // Ensure global styles are imported
+
 import { Metadata } from 'next';
+import { ToastContainer } from "react-toastify";
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] });
 
@@ -22,7 +24,20 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <body className={poppins.className}>
         <SessionProviderWrapper session={session}>
-          <ClientLayout>{children}</ClientLayout>
+          <ClientLayout>
+          <ToastContainer 
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+              />
+            {children}</ClientLayout>
         </SessionProviderWrapper>
       </body>
     </html>

@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { useSession } from 'next-auth/react';
+
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 interface ProductData {
   _id: string;
@@ -18,7 +19,7 @@ interface ProductData {
   price: number;
   discount?: string;
   imageUrl?: string;
-  user: string;
+
 }
 
 interface ModifyProductProps {
@@ -36,7 +37,7 @@ interface Brand {
 }
 
 const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
-  const { data: session, status } = useSession();
+
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
@@ -54,16 +55,11 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     stock: productData?.stock || 0,
     price: productData?.price || 0,
     discount: productData?.discount || '',
-    imageUrl: productData?.imageUrl || '',
-    user: productData?.user || '',
+    imageUrl: productData?.imageUrl || ''
+    
   });
 
-  useEffect(() => {
-    if (status === 'loading') return;
-    if (!session || !session.user || session.user.role !== 'Admin') {
-      router.push('/signin');
-    }
-  }, [session, status, router]);
+
 
   useEffect(() => {
     // Fetch categories from the API
@@ -151,8 +147,8 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
         const errorData = await response.json();
         throw new Error(errorData.message || 'An error occurred');
       }
-  
-      router.push('/ProductList');
+      toast.success(" Modification Product  successfully!");
+      router.push('/admin/productlist');
     } catch (err: any) {
       setError(`Error: ${err.message}`);
     }
@@ -295,7 +291,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
         <button type="submit" className='bg-primary text-white rounded-md w-[20%] max-lg:w-[50%] h-10'>
           <p className="text-white">Modify Product</p>
         </button>
-        <Link href="/ProductList" className='border border-gray-400 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10'>
+        <Link href="/admin/productlist" className='border border-gray-400 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10'>
         
           <p className="text-black">Cancel</p>
        

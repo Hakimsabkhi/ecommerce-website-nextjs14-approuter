@@ -1,10 +1,9 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
-
+import React, { useEffect, useState, ChangeEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
+import { toast } from 'react-toastify';
 interface BrandData {
   name: string;
   place: string;
@@ -85,10 +84,13 @@ const ModifyBrand = () => {
       if (!response.ok) {
         throw new Error("Error updating brand");
       }
-  
-      router.push("/BrandList");
+      toast.success("Brand submitted successfully!", {
+       
+        onClose: () => router.push('/admin/brandlist')
+    });
+      
     } catch (error) {
-      console.error("Error updating brand:", error);
+      toast.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
   
@@ -204,12 +206,13 @@ const ModifyBrand = () => {
           </button>
         </div>
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
-          <Link href="/BrandList">
+          <Link href="/admin/brandlist">
             <button className="bg-white border-2 border-gray-400 text-white rounded-md w-full h-10 flex items-center justify-center">
               <p className="text-black font-bold">Cancel</p>
             </button>
           </Link>
         </div>
+        
       </form>
     </div>
   );

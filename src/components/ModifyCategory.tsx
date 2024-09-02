@@ -1,11 +1,12 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import React, { useEffect, useState, ChangeEvent  } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+
 import { fetchCategories } from "@/lib/featcher";
+import { toast } from "react-toastify";
 
 interface CategoryData {
   name: string;
@@ -15,7 +16,7 @@ interface CategoryData {
 }
 
 const ModifyCategory = () => {
-  const { data: session, status } = useSession();
+ 
   const params = useParams() as { id: string }; // Explicitly type the params object
   const router = useRouter();
   const [categoryData, setCategoryData] = useState<CategoryData>({
@@ -24,12 +25,6 @@ const ModifyCategory = () => {
     logoUrl: "",
     bannerUrl: ""
   });
-  useEffect(() => {
-    if (status === 'loading') return; // Do nothing while loading
-    if (!session || !session.user || session.user.role !== 'Admin') {
-        router.push('/signin');
-    }
-}, [router, session, status]);
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [selectedIcon, setSelectedIcon] = useState<File | null>(null);
@@ -111,9 +106,10 @@ const ModifyCategory = () => {
         throw new Error('Failed to update category');
       }
       await fetchCategories();
-      router.push("/CategoryList");
+      toast.success("Category submitted successfully!");
+    router.push('/admin/categorylist')
     } catch (error) {
-      console.error("Error updating category:", error);
+      toast.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
   
@@ -255,12 +251,13 @@ const ModifyCategory = () => {
           </button>
         </div>
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
-          <Link href="/CategoryList">
+          <Link href="/admin/categorylist">
             <button className="bg-white border-2 border-gray-400 text-black rounded-md w-full h-10 flex items-center justify-center">
               <p className="font-bold">Cancel</p>
             </button>
           </Link>
         </div> 
+      
       </form>
     </div>
   );

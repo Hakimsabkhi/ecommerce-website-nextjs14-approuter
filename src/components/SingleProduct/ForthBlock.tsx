@@ -4,8 +4,7 @@ import ReviewBlock from "./ReviewBlock";
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { useParams } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import {  toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 
 interface Product {
@@ -67,17 +66,13 @@ const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
           throw new Error("Network response was not ok");
       }
 
-      toast.success("Review submitted successfully!", {
-          position: "top-right",
-      });
+      toast.success("Review submitted successfully!");
 
       // Force re-render by changing key
       setKey(prevKey => prevKey + 1);
   } catch (error) {
       console.error("Error submitting review:", error);
-      toast.error("Failed to submit review", {
-          position: "top-right",
-      });
+      toast.error("Do not add two reviews");
   }
 };
   return (
@@ -239,7 +234,7 @@ const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
               >
                 Submit
               </button>
-              <ToastContainer />
+             
             </form>
           </div>
         </div>

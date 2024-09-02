@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-
 import Link from 'next/link';
 import Image from 'next/image';
-import BottonAdmin from './BottonAdmin';
+import { toast} from 'react-toastify';
+import Dialog from './dialogDelete/Dialog';
 
 type Brand = {
     _id: string;
@@ -19,14 +19,21 @@ type Brand = {
 const AddedBrands: React.FC = () => {
     const [addedBrand, setAddedBrand] = useState<Brand[]>([]);
     const [filteredBrand, setFilteredBrand] = useState<Brand[]>([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const BrandesPerPage = 5; // Number of categories to display per page
- 
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const handleDeleteClick = () => {
+        setIsDialogOpen(true);
+      };
+    
+      const handleCloseDialog = () => {
+        setIsDialogOpen(false);
+      };
     const Deletebrand = async (brandId: string) => {
-        setLoading(true);
+        
         try {
             const response = await fetch(`/api/brand/deleteBrand/${brandId}`, {
                 method: 'DELETE',
@@ -36,13 +43,14 @@ const AddedBrands: React.FC = () => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
-            // Refresh categories after deletion
+            toast.success("Brand delete successfully!" );
+            handleCloseDialog();
+           
             await getBrand();
+
         } catch (err: any) {
-            setError(`[Brand_DELETE] ${err.message}`);
-        } finally {
-            setLoading(false);
+            
+            toast.error(`[Brand_DELETE] ${err.message}` );
         }
     };
     const getBrand = async () => {
@@ -57,7 +65,7 @@ const AddedBrands: React.FC = () => {
             setFilteredBrand(data);
         } catch (err: any) {
             setError(`[Brand_GET] ${err.message}`);
-        } finally {
+        }finally{
             setLoading(false);
         }
     };
@@ -81,6 +89,7 @@ const AddedBrands: React.FC = () => {
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
+   
     if (loading) {
         return (/* loading start */
         <div className="flex justify-center items-center h-[400px]">
@@ -88,7 +97,6 @@ const AddedBrands: React.FC = () => {
       </div>
       /*  loading end  */)
     }
-
     if (error) {
         return <div>Error: {error}</div>;
     }
@@ -97,8 +105,8 @@ const AddedBrands: React.FC = () => {
         <div className='mx-auto w-[90%] py-8 flex flex-col gap-8'>
             <div className="flex items-center justify-between">
                 <p className='text-3xl font-bold'>ALL Brand</p>
-                <BottonAdmin/>
-                <a href="/BrandList/AddBrand" className="w-[15%]">
+           
+                <a href="/admin/brandlist/addbrand" className="w-[15%]">
                     <button className='bg-primary font-bold hover:bg-[#15335D] text-white rounded-lg w-full h-10'>
                         Add a new Brand
                     </button>
@@ -134,14 +142,16 @@ const AddedBrands: React.FC = () => {
                             <td className="border px-4 py-2">{item.name}</td>
                             <td className="border-b px-4 py-2  ">{item.place}</td>
                             <td className="border-b flex items-center justify-center gap-2 py-2  ">                                
-                                    <Link href={`/BrandList/${item._id}`}>
+                                    <Link href={`/admin/brandlist/${item._id}`}>
                                         <button className="bg-primary w-28 h-10 rounded-md">
                                             Modify
                                         </button>
                                     </Link>
-                                    <button onClick={() => Deletebrand(item._id)} className="bg-primary w-28 h-10 rounded-md">
+                                    <button onClick={handleDeleteClick}  className="bg-primary w-28 h-10 rounded-md">
                                         Delete
-                                    </button>                                
+                                    </button>
+                                    {isDialogOpen &&     < Dialog  handleCloseDialog={handleCloseDialog} Delete={Deletebrand} id={item._id}
+                                    name={item.name}/>}                                
                             </td>
                         </tr>
                     ))}
@@ -160,6 +170,7 @@ const AddedBrands: React.FC = () => {
                     </button>
                 ))}
             </div>
+          
         </div>
     );
 };

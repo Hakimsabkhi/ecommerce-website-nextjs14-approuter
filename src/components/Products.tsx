@@ -2,7 +2,7 @@ import React from "react";
 import "../app/globals.css";
 import FilterComponent from "./ProductPage/FilterComponent";
 import Pagination from "./ProductPage/Pagination";
-import ProductList from "./ProductPage/ProductList";
+import ProductList from "@/components/ProductPage/ProductList";
 
 interface ProductsProps {
   products: ProductData[];

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import BottonAdmin from "./BottonAdmin";
+
 
 type User = {
   _id: string;
@@ -78,7 +78,7 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex items-center justify-between">
         <p className="text-3xl font-bold uppercase"> Product Reviews</p>
-        <BottonAdmin/>
+    
       </div>
       <input
         type="text"
@@ -112,7 +112,7 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
                 />
               </td>
               <td className="border px-4 py-2 flex justify-center items-center">
-                <Link href={`/ReviewList/${item._id}`}>
+                <Link href={`/admin/reviewlist/${item._id}`}>
                   <button className="bg-primary w-28 h-10 rounded-md uppercase">
                     Reviews
                   </button>
