@@ -24,6 +24,7 @@ const AddedBrands: React.FC = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const BrandesPerPage = 5; // Number of categories to display per page
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
     const handleDeleteClick = () => {
         setIsDialogOpen(true);
       };
@@ -64,7 +65,9 @@ const AddedBrands: React.FC = () => {
             setFilteredBrand(data);
         } catch (err: any) {
             setError(`[Brand_GET] ${err.message}`);
-        } 
+        }finally{
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -87,6 +90,13 @@ const AddedBrands: React.FC = () => {
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
    
+    if (loading) {
+        return (/* loading start */
+        <div className="flex justify-center items-center h-[400px]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>   
+      </div>
+      /*  loading end  */)
+    }
     if (error) {
         return <div>Error: {error}</div>;
     }

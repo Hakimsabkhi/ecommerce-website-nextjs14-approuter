@@ -95,11 +95,8 @@ const AddCategory = () => {
             throw new Error(errorData.message || 'Error posting category');
           }    
           await fetchCategories();
-          toast.success("Category submitted successfully!", {
-        
-            onClose: () => router.push('admin/categorylist')
-        });
-          
+          toast.success("Category submitted successfully!");
+          router.push('/admin/categorylist')
         } catch (err: any) {
          
             toast.error(`Error: ${err instanceof Error ? err.message : 'Unknown error'}` );

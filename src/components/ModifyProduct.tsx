@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 interface ProductData {
   _id: string;
@@ -146,7 +147,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
         const errorData = await response.json();
         throw new Error(errorData.message || 'An error occurred');
       }
-  
+      toast.success(" Modification Product  successfully!");
       router.push('/admin/productlist');
     } catch (err: any) {
       setError(`Error: ${err.message}`);

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { fetchCategories } from '@/lib/featcher';
 import {toast } from 'react-toastify';
 import Dialog from './dialogDelete/Dialog';
+import { flag } from '@/assets/image';
 
 
 type Category = {
@@ -24,7 +25,7 @@ const AddedCategories: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const categoriesPerPage = 5; // Number of categories to display per page
-
+    const [loading, setLoading] = useState(true);
     const handleDeleteClick = () => {
         setIsDialogOpen(true);
       };
@@ -49,7 +50,7 @@ const AddedCategories: React.FC = () => {
        
           getCategory();
           toast.success("Category delete successfully!" );
-        handleCloseDialog();
+         handleCloseDialog();
         } catch (err: any) {
          /*  setError(`[Category_DELETE] ${err.message}`);
           setError(`Error: ${err.message}`); */
@@ -71,6 +72,8 @@ const AddedCategories: React.FC = () => {
           setFilteredCategory(data);
         } catch (err: any) {
           setError(`[Category_GET] ${err.message}`);
+        }finally{
+            setLoading(false);
         }
       };
       
@@ -94,7 +97,13 @@ const AddedCategories: React.FC = () => {
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  
+    if (loading) {
+        return (/* loading start */
+        <div className="flex justify-center items-center h-[400px]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>   
+      </div>
+      /*  loading end  */)
+    }
 
     if (error) {
         return <div>Error: {error}</div>;
@@ -105,7 +114,7 @@ const AddedCategories: React.FC = () => {
             <div className="flex items-center justify-between">
                 <p className='text-3xl font-bold'>ALL categories</p>
                 
-                <a href="admin/categorylist/addcategory" className="w-[15%]">
+                <a href="categorylist/addcategory" className="w-[15%]">
                     <button className='bg-primary font-bold hover:bg-[#15335D] text-white rounded-lg w-full h-10'>
                         Add a new category
                     </button>
