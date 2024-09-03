@@ -26,12 +26,19 @@ export async function middleware(req: NextRequest) {
   if (token && isAuthPath) {
     return NextResponse.redirect(new URL('/', req.url));
   }
+  if (req.nextUrl.pathname.startsWith('/admin')) {
+    const userRole = token?.role;
+  
+    if (userRole !== 'SuperAdmin' && userRole !== 'Admin'&& userRole !== 'Consulter') {
+      return NextResponse.redirect(new URL('/', req.url));
+    }
+  }
 // If the path is /admin, check the user's role
-if (req.nextUrl.pathname.startsWith('/admin')) {
+if (req.nextUrl.pathname.startsWith('/admin/dashboard')) {
   const userRole = token?.role;
 
   if (userRole !== 'SuperAdmin' && userRole !== 'Admin') {
-    return NextResponse.redirect(new URL('/unauthorized', req.url));
+    return NextResponse.redirect(new URL('/', req.url));
   }
 }
 

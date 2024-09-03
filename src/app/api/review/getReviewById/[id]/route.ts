@@ -1,7 +1,7 @@
 import connectToDatabase from "@/lib/db";
 import Review from "@/models/Review";
 import { NextRequest, NextResponse } from "next/server";
-
+import User from "@/models/User";
 // GET function to handle GET requests
 export async function GET(
     req: NextRequest,
@@ -19,7 +19,10 @@ export async function GET(
     }
   
     try {
-      const review = await Review.findById(id);
+      await User.find({});
+
+      const review = await Review.findById(id).populate('user', '_id username email');
+      console.log(review)
       if (!review) {
         return NextResponse.json({ message: "Review not found" }, { status: 404 });
       }

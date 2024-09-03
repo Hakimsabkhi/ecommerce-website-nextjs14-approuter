@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface ReviewData {
   _id: string;
@@ -11,7 +11,7 @@ interface ReviewData {
   reply: string;
   user: {
     _id: string;
-    name: string;
+    username: string;
   };
   createdAt: string;
   updatedAt: string;
@@ -21,7 +21,9 @@ interface user {
   name: string;
 }
 const ReplyReview: React.FC = () => {
+  
   const { review: id } = useParams<{ review?: string }>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [review, setReviewData] = useState<ReviewData>({
     _id: "",
@@ -31,27 +33,28 @@ const ReplyReview: React.FC = () => {
     reply: "",
     user: {
       _id: "",
-      name: "",
+      username: "",
     },
     createdAt: "",
     updatedAt: "",
   });
-  useEffect(() => {
-    // Fetch brand data by ID
-    const fetchReviewData = async () => {
-      try {
-        const response = await fetch(`/api/review/getReviewById/${id}`);
-        if (!response.ok) {
-          throw new Error("Error fetching brand data");
-        }
-        const data = await response.json();
-        setReviewData(data);
-      } catch (error) {
-        console.error("Error fetching brand data:", error);
+  // Move fetchReviewData outside of useEffect so it can be reused
+  const fetchReviewData = async () => {
+    try {
+      const response = await fetch(`/api/review/getReviewById/${id}`);
+      if (!response.ok) {
+        throw new Error("Error fetching review data");
       }
-    };
+      const data = await response.json();
+      setReviewData(data);
+    } catch (error) {
+      console.error("Error fetching review data:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchReviewData();
+   
   }, [id]);
   const handleReplySubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -68,7 +71,12 @@ const ReplyReview: React.FC = () => {
         if (!response.ok) {
           throw new Error("Error updating review reply");
         }
-
+       
+       if (inputRef.current) {
+        inputRef.current.value = "";
+       
+      }
+      fetchReviewData();
       
        
       } catch (error) {
@@ -81,15 +89,23 @@ const ReplyReview: React.FC = () => {
       e.preventDefault();
       const form = e.currentTarget.form;
       form?.requestSubmit();
+      
     }
   };
+  const createdAtDate = new Date(review.createdAt).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+
+  const updatedAtDate = new Date(review.updatedAt).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
   return (
     <div className="top-[20%] p-6 w-[90%] left-[5%] relative">
-     <div className="text-center text-xs text-gray-500 leading-none"> {new Date(review.createdAt).toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      })}{" "}
+     <div className="text-center text-xs text-gray-500 leading-none"> {createdAtDate}
       </div>
       <div className="flex w-full  space-x-3 max-w-2xl">
         <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
@@ -106,11 +122,14 @@ const ReplyReview: React.FC = () => {
           <div className="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
             <p className="text-sm">{review.text}</p>
           </div>
+          <span className="text-xs p-2 text-gray-500 leading-none">{review.name}</span>
           <span className="text-xs text-gray-500 leading-none">
             {new Date(review.createdAt).toLocaleTimeString()}
           </span>
         </div>
       </div>
+     {updatedAtDate !== createdAtDate && <div className="text-center text-xs text-gray-500 leading-none"> {updatedAtDate} 
+      </div>}
       {review?.user && (
         <div className=" flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
           <div>
@@ -120,11 +139,13 @@ const ReplyReview: React.FC = () => {
             <span className="text-xs text-gray-500 leading-none">
               {new Date(review.updatedAt).toLocaleTimeString()}
             </span>
+            <span className="text-xs p-2 text-gray-500 leading-none">{review?.user?.username}</span>
           </div>
+        
           <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
             {" "}
             <Image
-              alt={review?.user?.name}
+              alt={review?.user?.username}
               src={
                 "https://res.cloudinary.com/dx499gc6x/image/upload/v1725270570/categories/pcvgp7u9obrtrjzhybsd.webp"
               }
@@ -132,11 +153,13 @@ const ReplyReview: React.FC = () => {
               height={500}
             />
           </div>
+
         </div>
       )}
       <div className="bg-gray-300 p-4">
       <form onSubmit={handleReplySubmit} className="bg-gray-300 p-4">
         <input
+          ref={inputRef} 
           className=" items-center h-10 w-full rounded px-3 text-sm"
           name="reply"
           type="text"

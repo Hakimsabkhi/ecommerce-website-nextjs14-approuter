@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import Review from '@/models/Review';
+import User from '@/models/User';
 
 
 
@@ -17,7 +18,10 @@ export async function GET(req: NextRequest) {
     );
   }
   try {
-    const review = await Review.find({ product: productId });
+    await User.find({})
+    const review = await Review.find({ product: productId }).populate('user','_id username email') .populate('likes', '_id username email')
+    .populate('dislikes', '_id username email');
+
     return NextResponse.json(review);
   } catch (error) {
     return NextResponse.json({ message: 'Error fetching Review' }, { status: 500 });
