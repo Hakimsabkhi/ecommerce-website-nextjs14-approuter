@@ -27,7 +27,7 @@ export async function POST(
         }
 
         const user = await User.findOne({ email: token.email });
-        const userId = token.id as string;
+        const userId = user?.id as string;
         const userIdObjectId = new mongoose.Types.ObjectId(userId);
         if (!userId) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
@@ -54,6 +54,7 @@ export async function POST(
             } else {
                 // Remove dislike if it exists and add like
                 if (hasDisliked) {
+                    post.dislikes = post.dislikes.filter(dislikeId => dislikeId.toString() !== userIdObjectId.toString());
                     post.dislikes = post.dislikes.filter((dislikeId) => dislikeId !== userIdString);
                 }
                 post.likes.push(userIdString);
@@ -65,6 +66,7 @@ export async function POST(
             } else {
                 // Remove like if it exists and add dislike
                 if (hasLiked) {
+                    post.likes = post.likes.filter(likeId => likeId.toString() !== userIdObjectId.toString());
                     post.likes = post.likes.filter((likeId) => likeId !== userIdString);
                 }
                 post.dislikes.push(userIdString);

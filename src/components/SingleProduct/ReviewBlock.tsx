@@ -16,7 +16,7 @@ interface Review {
     username: string;
   };
   likes:User[]; 
-  dislikes:string[];
+  dislikes:User[];
   createdAt: string;
   updatedAt: string;
 }
@@ -57,51 +57,6 @@ const ReviewBlock: React.FC<ReviewBlockProps> = ({ productId, product,refresh })
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { data: session } = useSession() ;
-
-    const handleVote = async (action: 'like' | 'dislike' ,id:string) => {
-    try {
-      const formData = new FormData();
-      formData.append("action", action);
-      const response = await fetch(`/api/review/vote/${id}`, {
-        method: 'POST',
-       
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to vote');
-      }
-
-      const updatedPost = await response.json();
-
-   
-    } catch (error) {
-      console.error('Failed to vote', error);
-    }
-  };
-  const handleVotedelete = async (action: 'like' | 'dislike' ,id:string) => {
-    try {
-      const formData = new FormData();
-      formData.append("action", action);
-      const response = await fetch(`/api/review/voteDelete/${id}`, {
-        method: 'DELETE',
-       
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to vote');
-      }
-
-      const updatedPost = await response.json();
-
-   
-    } catch (error) {
-      console.error('Failed to vote', error);
-    }
-  };
-
- 
   useEffect(() => {
     const loadReviews = async () => {
       try {
@@ -116,6 +71,41 @@ const ReviewBlock: React.FC<ReviewBlockProps> = ({ productId, product,refresh })
 
     loadReviews();
   }, [productId, refresh]);
+    const handleVote = async (action: 'like' | 'dislike' ,id:string) => {
+      if (!session) {
+        console.log("User is not logged in");
+        return; // Exit the function if the user is not logged in
+      } 
+      try {
+      const formData = new FormData();
+      formData.append("action", action);
+      const response = await fetch(`/api/review/vote/${id}`, {
+        method: 'POST',
+       
+        body: formData,
+      });
+ 
+      if (!response.ok) {
+        throw new Error('Failed to vote');
+      }
+      const updatedReviews = await fetchReviews(productId);
+      setReviews(updatedReviews);
+
+      
+   
+    } catch (error) {
+      console.error('Failed to vote', error);
+    }
+  };
+  const getDislikeColor = (review:Review) => {
+    return review.dislikes.some(user => user.email === session?.user?.email) ? 'red' : 'black';
+  };
+  const getlikeColor = (review:Review) => {
+    return review.likes.some(user => user.email === session?.user?.email) ? 'blue' : 'black';
+  };
+
+ 
+ 
 
   const numberOfReviews = reviews.length;
   
@@ -168,15 +158,15 @@ const ReviewBlock: React.FC<ReviewBlockProps> = ({ productId, product,refresh })
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
                   <button  onClick={() => handleVote('like',review._id)}>
-                    <AiOutlineLike size={25} />
+                    <AiOutlineLike size={25} color={getlikeColor(review)} />
                     </button>
                     <p className="text-2xl">{review.likes ? review.likes.length : 0}</p>
                   </div>
 
                   <div className="flex items-center gap-2">
-                  {session?.user?.email && review.likes.some(user => user.email === session?.user?.email)  && <button  onClick={() => handleVote('dislike',review._id)}>
-                    <AiOutlineDislike size={25} />
-                  </button>}
+                <button  onClick={() => handleVote('dislike',review._id)}>
+                    <AiOutlineDislike size={25} color={getDislikeColor(review)} />
+                  </button>
                     <p className="text-2xl">{review.dislikes ? review.dislikes.length : 0}</p>
                   </div>
 
