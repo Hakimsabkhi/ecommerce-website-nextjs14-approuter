@@ -17,6 +17,7 @@ type Product = {
     stock: number;
     user: User; // Reference to a User document or User ID
     discount: number;
+    status:string;
     createdAt: Date;
     updatedAt: Date;
 };

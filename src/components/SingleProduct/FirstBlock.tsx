@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { twibble2, twibble3, twibble4,star } from '@/assets/image';
 import { IoCheckboxOutline } from "react-icons/io5";
 import Head from 'next/head';
+import ProductQ from './ProductQ';
 
 const noimage ='https://res.cloudinary.com/dx499gc6x/image/upload/v1723623372/na_mma1mw.webp';
 
@@ -59,7 +60,7 @@ const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
                             <p className="text-3xl font-bold">{product.name}</p>
                             <div className="flex gap-4 items-center">
                                 <p className="flex items-center font-bold">SKU <span className="text-[#525566]">: {product.ref}</span></p>
-                                <p className="text-[#525566] font-bold flex items-center gap-2"><IoCheckboxOutline size={25} /> {product.status}</p>
+                                <p className="text-[#525566] font-bold flex items-center gap-2"><IoCheckboxOutline size={25} /></p>
                             </div>
                             <div className="flex gap-3 items-center">
                                 <div className="flex gap-1">
@@ -72,19 +73,7 @@ const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
                                 <p>(2 customer reviews)</p>
                             </div>
                             <p>The slender organic forms are fluid and graceful. Noguchi emphasizes the lightness of the elements with thin yet comfortable design.</p>
-                            <p className="text-primary text-3xl font-bold max-lg:justify-center flex">{product.price} TND</p>
-                            <div className="flex items-center max-lg:flex-col gap-3 max-lg:justify-center">
-                                <p>Quantity</p>
-                                <div className="flex items-center">
-                                    <p className="p-3 border-2 text-xl"></p>
-                                </div>
-                                <button className="text-white bg-primary hover:bg-[#15335D] h-10 w-[20%] font-bold rounded-md">
-                                    <p>Add to cart</p>
-                                </button>
-                                <button className="text-white bg-black h-10 w-[20%] font-bold rounded-md">
-                                    <p>Buy now</p>
-                                </button>
-                            </div>
+                          <ProductQ product={product}/>
                         </div>
                     </div>
                 ) : (

@@ -218,7 +218,7 @@ const AddProduct = () => {
         <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4">
           <p className="text-xl font-bold">Quantity *</p>
           <input
-            type="text"
+            type="number"
             name="stock"
             value={productData.stock}
             onChange={handleChange}
@@ -240,7 +240,7 @@ const AddProduct = () => {
         <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4">
           <p className="text-xl font-bold">Price *</p>
           <input
-            type="text"
+            type="number"
             name="price"
             value={productData.price}
             onChange={handleChange}
@@ -251,8 +251,10 @@ const AddProduct = () => {
         <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4">
           <p className="text-xl font-bold">Discount</p>
           <input
-            type="text"
+            type="number"
             name="discount"
+            min="0"
+            max="100"
             value={productData.discount}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5"

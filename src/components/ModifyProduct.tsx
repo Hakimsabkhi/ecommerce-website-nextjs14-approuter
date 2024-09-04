@@ -258,7 +258,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
         <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
           <p className="text-xl font-bold">Price *</p>
           <input 
-            type="text" 
+            type="number" 
             name="price"
             value={formData.price}
             onChange={handleChange}
@@ -269,8 +269,10 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
         <div className='flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4'>
           <p className="text-xl font-bold">Discount</p>
           <input 
-            type="text" 
+            type="number" 
             name="discount"
+             min="0"
+            max="100"
             value={formData.discount || ''}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5" 
