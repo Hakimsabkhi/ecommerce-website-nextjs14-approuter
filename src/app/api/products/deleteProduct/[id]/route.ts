@@ -4,7 +4,7 @@ import Product from "@/models/Product";
 import cloudinary from "@/lib/cloudinary";
 import User from "@/models/User";
 import { getToken } from "next-auth/jwt";
-
+import Review from "@/models/Review";
 
 
 const extractPublicId = (url: string): string => {
@@ -34,20 +34,24 @@ const extractPublicId = (url: string): string => {
   
       // Find the user by email
       const user = await User.findOne({ email:token.email});
-  
+
       
       if (!user || user.role !== 'Admin' && user.role !== 'Consulter'&& user.role !== 'SuperAdmin') {
         return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
       }
     try {
       const { id } = params;
-  
+      
       // Find the product by ID
       const product = await Product.findById(id);
+      
+     
       if (!product) {
         return NextResponse.json({ message: 'Product not found' }, { status: 404 });
       }
-  
+   
+        await Review.deleteMany({ product: product.id });
+   
       // If the product has an associated image, delete it from Cloudinary
       if (product.imageUrl) {
         const publicId = extractPublicId(product.imageUrl);
@@ -57,7 +61,7 @@ const extractPublicId = (url: string): string => {
       }
   
       // Delete the product from the database
-      await Product.findByIdAndDelete(id);
+      await Product.findByIdAndDelete(id); 
   
       return NextResponse.json({ message: 'Product deleted successfully' }, { status: 200 });
     } catch (error) {

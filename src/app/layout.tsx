@@ -7,6 +7,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css"; // Ensure global styles are imported
 import StoreProvider from "../../StoreProvider/StoreProvider";
 import { Metadata } from "next";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

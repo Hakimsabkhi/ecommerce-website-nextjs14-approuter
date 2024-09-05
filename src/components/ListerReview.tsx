@@ -92,7 +92,7 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
           <tr>
             <th className="text-start py-2">REF</th>
             <th className="text-start py-2">Name</th>
-            <th className="text-start py-2">ImageURL</th>
+            <th className="text-center py-2">ImageURL</th>
             <th className="flex items-center justify-center gap-20 py-2 text-center">
               Action
             </th>
@@ -103,12 +103,13 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
             <tr key={item._id} className="bg-[#15335D] text-white">
               <td className="border px-4 py-2">{item.ref}</td>
               <td className="border px-4 py-2">{item.name}</td>
-              <td className="border px-4 py-2">
+              <td className="border px-4 py-2  text-center">
                 <Image
                   alt={item.name}
                   src={item.imageUrl}
                   height={60}
                   width={60}
+                   className="mx-auto"
                 />
               </td>
               <td className="border px-4 py-2 flex justify-center items-center">

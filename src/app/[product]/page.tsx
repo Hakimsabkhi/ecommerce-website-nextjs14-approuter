@@ -34,7 +34,11 @@ name:string;
 // Function to fetch category data by ID
 const fetchCategoryData = async (id: string): Promise<ICategory | null> => {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/searchcategory/${id}`); // Adjust the API endpoint
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/searchcategory/${id}` , {
+      method: 'GET',
+     
+      next: { revalidate: 0 }, // Disable caching to always fetch the latest data
+    })
     if (!res.ok) {
       throw new Error('Category not found');
     }
@@ -49,7 +53,11 @@ const fetchCategoryData = async (id: string): Promise<ICategory | null> => {
 // Function to fetch products data by category ID
 const fetchProductsData = async (id: string): Promise<ProductData[]> => {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/search/${id}`); // Adjust the API endpoint
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/search/${id}`, {
+      method: 'GET',
+     
+      next: { revalidate: 0 }, // Disable caching to always fetch the latest data
+    }) // Adjust the API endpoint
     if (!res.ok) {
       throw new Error('Products not found');
     }
@@ -64,7 +72,11 @@ const fetchProductsData = async (id: string): Promise<ProductData[]> => {
 // Function to fetch brand data
 const fetchBrandData = async (): Promise<brand[]> => {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/brand/getAllBrand`); // Adjust the API endpoint
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/brand/getAllBrand`, {
+      method: 'GET',
+     
+      next: { revalidate: 0 }, // Disable caching to always fetch the latest data
+    })// Adjust the API endpoint
     if (!res.ok) {
       throw new Error('Brand not found');
     }

@@ -3,7 +3,10 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { twibble2, twibble3, twibble4, star } from "@/assets/image";
 import { IoCheckboxOutline } from "react-icons/io5";
+
 import Head from "next/head";
+import ProductQ from './ProductQ';
+
 
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../../store/cartSlice";

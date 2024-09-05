@@ -13,6 +13,7 @@ export interface IProduct extends Document {
   stock: number;
   user: IUser | string; // Reference to a User document or User ID
   discount?: number;
+  status:string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -26,6 +27,7 @@ const ProductSchema = new mongoose.Schema({
   stock: Number,
   price: Number,
   discount: { type: Number},
+  status: { type: String, default: 'in stock' },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   imageUrl: String,
 },{ timestamps: true });

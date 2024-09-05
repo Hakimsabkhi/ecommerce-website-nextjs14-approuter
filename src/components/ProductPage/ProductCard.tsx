@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaEye, FaRegHeart } from "react-icons/fa";
-import { FaCartShopping, FaHeart } from "react-icons/fa6";
+import { FaCartShopping, FaCircleXmark, FaHeart } from "react-icons/fa6";
 import { star } from "@/assets/image";
 import { useParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -85,8 +85,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
                   <p className="text-2xl font-bold rounded-lg text-primary">
                     {item.price - item.price * (item.discount / 100)} TND
                   </p>
-                  <span className="text-gray-300 line-through text-2xl font-bold">
-                    {item.price} TND
+                  <span className="text-primary line-through text-xl font-bold">
+                  <p className="text-gray-300" >{item.price} TND</p>  
                   </span>
                 </div>
               ) : (
@@ -108,6 +108,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
           </p>
         </div>
         <div className="flex mb-1 text-lg max-md:text-sm justify-between">
+
           <button
             onClick={() => {
               addToCartHandler(item);

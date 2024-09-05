@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import Dialog from "@/components/dialogDelete/Dialog";
+import { toast } from "react-toastify";
 
 interface User {
   _id: string;
@@ -15,17 +17,29 @@ const AdminDashboard = () => {
   const { data: session, status } = useSession();
   const [users, setUsers] = useState<User[]>([]);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const router = useRouter();
+  const [selectedUser, setSelectedUser] = useState({ id: '', email: '' });
+  const handleDeleteClick = (user:User) => {
+    setSelectedUser({ id: user._id, email: user.email });
+    setIsDialogOpen(true);
+  };
 
- useEffect(() => {
-   
-    if (!session || !session.user ||( session.user.role !== "SuperAdmin" && session.user.role!=="Admin")) {
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+  };
+
+  useEffect(() => {
+    if (
+      !session ||
+      !session.user ||
+      (session.user.role !== "SuperAdmin" && session.user.role !== "Admin")
+    ) {
       router.push("/");
     } else {
       fetchUsers();
     }
-  }, [router, session]); 
-
+  }, [router, session]);
 
   const fetchUsers = async () => {
     const res = await fetch(`/api/users`);
@@ -33,19 +47,35 @@ const AdminDashboard = () => {
     setUsers(data);
   };
 
-  const handleDeleteUser = async (userId: string) => {
-    await fetch(`/api/users/${userId}`, { method: "DELETE" });
-    fetchUsers();
+  const handleDeleteUser = async (id: string) => {
+    try {
+
+      const response = await fetch(`/api/users/deleteuserbyid/${id}`, {
+        method: "DELETE",
+      });
+
+      // Check if the response is OK (status in the range 200-299)
+      if (!response.ok) {
+        throw new Error(`Failed to delete user. Status: ${response.status}`);
+      }
+
+      fetchUsers();
+      toast.success("User delete successfully!");
+      handleCloseDialog();
+    } catch (error) {
+      
+      toast.error("[User_DELETE] ");
+     
+    }
   };
 
   const handleChangeRole = async (userId: string, newRole: string) => {
     try {
       // Ensure the session and user ID are available
       if (!session?.user?.id) {
-        throw new Error('User not authenticated');
+        throw new Error("User not authenticated");
       }
-  
-  
+
       // Perform the API request
       const response = await fetch(`/api/users/${userId}`, {
         method: "PUT",
@@ -54,11 +84,11 @@ const AdminDashboard = () => {
         },
         body: JSON.stringify({ role: newRole }),
       });
-  
+
       // Check for HTTP errors
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to update role');
+        throw new Error(errorData.error || "Failed to update role");
       }
       setDropdownOpen(null); // Close the dropdown
 
@@ -66,18 +96,14 @@ const AdminDashboard = () => {
       fetchUsers();
     } catch (error) {
       // Handle errors, e.g., show a notification or log the error
-      console.error('Error changing role:', error);
+      console.error("Error changing role:", error);
       // Optionally, show a user-friendly error message
     }
   };
-  
-  
 
   const toggleDropdown = (userId: string) => {
     setDropdownOpen(dropdownOpen === userId ? null : userId);
   };
-
-
 
   return (
     <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
@@ -114,7 +140,7 @@ const AdminDashboard = () => {
                 <td className="px-6 py-4 text-center">{user.role}</td>
                 <td className="px-6 py-4 relative text-center">
                   <div className="relative inline-block text-left">
-                    <div>
+                    <div className="flex gap-2 justify-items-center ">
                       <button
                         id="dropdownDefaultButton"
                         data-dropdown-toggle={`dropdown-${user._id}`}
@@ -139,6 +165,21 @@ const AdminDashboard = () => {
                           />
                         </svg>
                       </button>
+                      <button
+                        onClick={() => handleDeleteClick(user)}
+                             className="bg-red-600 text-white hover:bg-red-800 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-red-600 dark:hover:bg-red-700"
+
+                      >
+                        <MdOutlineDeleteOutline className="w-6 h-6" />
+                      </button>
+                      {isDialogOpen && (
+                    <Dialog 
+                      handleCloseDialog={handleCloseDialog}
+                      Delete={handleDeleteUser}
+                      id={selectedUser.id} // Pass selected user's id
+                    name={selectedUser.email} 
+                    />
+                  )}
                     </div>
                     {dropdownOpen === user._id && (
                       <div
@@ -159,16 +200,18 @@ const AdminDashboard = () => {
                               Make Consulter
                             </button>
                           </li>
-                          {session?.user?.role !== 'Admin'  && (<li>
-                            <button
-                              onClick={() =>
-                                handleChangeRole(user._id, "Admin")
-                              }
-                              className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                            >
-                              Make Admin
-                            </button>
-                          </li>)}
+                          {session?.user?.role !== "Admin" && (
+                            <li>
+                              <button
+                                onClick={() =>
+                                  handleChangeRole(user._id, "Admin")
+                                }
+                                className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                              >
+                                Make Admin
+                              </button>
+                            </li>
+                          )}
                           <li>
                             <button
                               onClick={() =>
@@ -182,7 +225,6 @@ const AdminDashboard = () => {
                         </ul>
                       </div>
                     )}
-                    
                   </div>
                 </td>
               </tr>

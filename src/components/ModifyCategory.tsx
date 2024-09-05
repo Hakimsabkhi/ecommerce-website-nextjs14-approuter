@@ -106,7 +106,7 @@ const ModifyCategory = () => {
         throw new Error('Failed to update category');
       }
       await fetchCategories();
-      toast.success("Category submitted successfully!");
+      toast.success(`Category ${categoryData.name} modification successfully!`);
     router.push('/admin/categorylist')
     } catch (error) {
       toast.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
