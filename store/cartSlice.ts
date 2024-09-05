@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface CartItem {
-  _id: string; 
+  _id: string;
   name: string;
   description: string;
   ref: string;
@@ -12,19 +12,26 @@ export interface CartItem {
   color?: string;
   material?: string;
   status?: string;
-  quantity: number; 
+  quantity: number;
 }
 
 interface CartState {
   items: CartItem[];
 }
 
-const initialState: CartState = {
-  items: [],
+// Load cart state from localStorage or use initialState if not available
+const loadCartState = (): CartState => {
+  const savedState = localStorage.getItem("cart");
+  if (savedState) {
+    return JSON.parse(savedState);
+  }
+  return { items: [] };
 };
 
+const initialState: CartState = loadCartState();
+
 const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState,
   reducers: {
     addItem: (state, action: PayloadAction<Omit<CartItem, "quantity">>) => {
@@ -37,6 +44,7 @@ const cartSlice = createSlice({
       } else {
         state.items.push({ ...action.payload, quantity: 1 });
       }
+      saveCartState(state);
     },
 
     removeItem: (state, action: PayloadAction<{ _id: string }>) => {
@@ -53,13 +61,36 @@ const cartSlice = createSlice({
           );
         }
       }
+      saveCartState(state);
+    },
+
+    updateItemQuantity(
+      state,
+      action: PayloadAction<{ _id: string; quantity: number }>
+    ) {
+      const { _id, quantity } = action.payload;
+      const item = state.items.find((i) => i._id === _id);
+      if (item) {
+        item.quantity = quantity;
+        if (item.quantity <= 0) {
+          state.items = state.items.filter((i) => i._id !== _id);
+        }
+      }
+      saveCartState(state);
     },
 
     clearCart: (state) => {
       state.items = [];
+      saveCartState(state);
     },
   },
 });
 
-export const { addItem, clearCart, removeItem } = cartSlice.actions;
+// Save cart state to localStorage
+const saveCartState = (state: CartState) => {
+  localStorage.setItem("cart", JSON.stringify(state));
+};
+
+export const { addItem, clearCart, removeItem, updateItemQuantity } =
+  cartSlice.actions;
 export default cartSlice.reducer;
