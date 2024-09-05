@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useRef, useState } from "react";
 import ReviewBlock from "./ReviewBlock";
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
@@ -65,7 +65,11 @@ const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
       if (!response.ok) {
           throw new Error("Network response was not ok");
       }
-
+      setName('');
+    setEmail('');
+    setReview('');
+    setRating(0);
+    setSaveInfo(false);
       toast.success("Review submitted successfully!");
 
       // Force re-render by changing key
@@ -191,6 +195,7 @@ const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
               <label className="flex flex-col gap-2">
                 <label>Name:</label>
                 <input
+                
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -203,6 +208,7 @@ const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
               <label className="flex flex-col gap-2">
                 <label>Email:</label>
                 <input
+                
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}

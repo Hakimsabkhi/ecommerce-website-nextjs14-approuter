@@ -25,7 +25,9 @@ const AddedBrands: React.FC = () => {
     const BrandesPerPage = 5; // Number of categories to display per page
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [loading, setLoading] = useState(true);
-    const handleDeleteClick = () => {
+    const [selectedBrand, setSelectedBrand] = useState({ id: '', name: '' });
+    const handleDeleteClick = (brand:Brand) => {
+        setSelectedBrand({ id: brand._id, name: brand.name });
         setIsDialogOpen(true);
       };
     
@@ -43,8 +45,9 @@ const AddedBrands: React.FC = () => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            toast.success("Brand delete successfully!" );
             handleCloseDialog();
+            toast.success("Brand delete successfully!" );
+           
            
             await getBrand();
 
@@ -147,11 +150,11 @@ const AddedBrands: React.FC = () => {
                                             Modify
                                         </button>
                                     </Link>
-                                    <button onClick={handleDeleteClick}  className="bg-primary w-28 h-10 rounded-md">
+                                    <button onClick={()=>handleDeleteClick(item)}  className="bg-primary w-28 h-10 rounded-md">
                                         Delete
                                     </button>
-                                    {isDialogOpen &&     < Dialog  handleCloseDialog={handleCloseDialog} Delete={Deletebrand} id={item._id}
-                                    name={item.name}/>}                                
+                                    {isDialogOpen &&     < Dialog  handleCloseDialog={handleCloseDialog} Delete={Deletebrand}  id={selectedBrand.id} // Pass selected user's id
+                    name={selectedBrand.name} />}                                
                             </td>
                         </tr>
                     ))}

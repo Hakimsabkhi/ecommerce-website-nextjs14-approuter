@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaEye, FaRegHeart } from "react-icons/fa";
-import { FaCartShopping, FaHeart } from "react-icons/fa6";
+import { FaCartShopping, FaCircleXmark, FaHeart } from "react-icons/fa6";
 import { star } from "@/assets/image";
 
 interface Brand {
@@ -68,8 +68,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
                   <p className="text-2xl font-bold rounded-lg text-primary">
                     {item.price - item.price * (item.discount / 100)} TND
                   </p>
-                  <span className="text-gray-300 line-through text-2xl font-bold">
-                    {item.price} TND
+                  <span className="text-primary line-through text-xl font-bold">
+                  <p className="text-gray-300" >{item.price} TND</p>  
                   </span>
                 </div>
               ) : (
@@ -91,18 +91,46 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
           </p>
         </div>
         <div className="flex mb-1 text-lg max-md:text-sm justify-between">
+        {item.status != 'out-of-stock' ? (item.stock > 0 ? (
           <button className="AddtoCart bg-primary hover:bg-[#15335D] text-white w-[50%] max-md:rounded-[3px] max-2xl:text-sm group/box">
-            <p className="absolute  flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease">
-              Add to cart
-            </p>
-            <p className="text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] lg:group-hover/box:translate-x-[-30%] ease">
-              <FaCartShopping
-                className="w-6 h-6"
-                aria-hidden="true"
-                fill="currentColor"
-              />
-            </p>
-          </button>
+          <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease">
+            Add to cart
+          </p>
+          <p className="text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] lg:group-hover/box:translate-x-[-30%] ease">
+            <FaCartShopping
+              className="w-6 h-6"
+              aria-hidden="true"
+              fill="currentColor"
+            />
+          </p>
+        </button>
+      ) : (
+        <button className="AddtoCart bg-gray-400 hover:bg-gray-500 text-white w-[50%] max-md:rounded-[3px] max-2xl:text-sm group/box" disabled>
+        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease">
+        Out of stock
+        </p>
+        <p className="text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] lg:group-hover/box:translate-x-[-30%] ease">
+          <FaCircleXmark
+            className="w-6 h-6"
+            aria-hidden="true"
+            fill="currentColor"
+          />
+        </p>
+      </button>
+     
+      )):(<button className="AddtoCart bg-gray-400 hover:bg-gray-500 text-white w-[50%] max-md:rounded-[3px] max-2xl:text-sm group/box" disabled>
+        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease">
+        Out of stock
+        </p>
+        <p className="text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] lg:group-hover/box:translate-x-[-30%] ease">
+          <FaCircleXmark
+            className="w-6 h-6"
+            aria-hidden="true"
+            fill="currentColor"
+          />
+        </p>
+      </button>)}
+
           <a href={`/${item.category?.name}/${item._id}`}className="w-[30%]">
             <button className="AddtoCart bg-white max-md:rounded-[3px] w-full group/box text-primary border border-primary">
               <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-y-[-100%] ease">

@@ -118,3 +118,15 @@ body {
 
 
 }
+th,td {
+  border: 1px solid #ffffff; /* White lines for separation */
+  padding: 3px;
+  text-align: left;
+
+  font-weight: 400;
+}
+
+th {
+
+  color: #ffffff;
+}

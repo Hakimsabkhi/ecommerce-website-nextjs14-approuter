@@ -26,7 +26,7 @@ const Dialog: React.FC <DialogProps>= ({handleCloseDialog,Delete,id,name}) => {
     <div
       className="min-w-screen h-screen animated fadeIn faster fixed left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover backdrop-filter backdrop-brightness-75"      
     >
-      <div className="absoluteopacity-80 inset-0 z-0"></div>
+      <div className="absoluteopacity-80 inset-0 z-0 "></div>
       <div className="w-full max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg bg-white">
         {/* content */}
         <div>
@@ -42,7 +42,7 @@ const Dialog: React.FC <DialogProps>= ({handleCloseDialog,Delete,id,name}) => {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="2"
+               
                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
@@ -82,7 +82,7 @@ const Dialog: React.FC <DialogProps>= ({handleCloseDialog,Delete,id,name}) => {
               className={`mb-2 md:mb-0 px-5 py-2 text-sm shadow-sm font-medium tracking-wider rounded-full ${
                 isButtonVisible
                   ? 'bg-gray-300 border-gray-300 text-gray-600 cursor-not-allowed'
-                  : buttonColor + ' border border-primary  hover:bg-[#15335D] hover:border-[#15335D]'
+                  : buttonColor + ' border border-primary text-white hover:bg-[#15335D] hover:border-[#15335D]'
               }`}>
               Delete
             </button>

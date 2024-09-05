@@ -84,11 +84,8 @@ const ModifyBrand = () => {
       if (!response.ok) {
         throw new Error("Error updating brand");
       }
-      toast.success("Brand submitted successfully!", {
-       
-        onClose: () => router.push('/admin/brandlist')
-    });
-      
+      toast.success(`Brand  ${brandData.name} modification successfully!`);
+    router.push('/admin/brandlist');
     } catch (error) {
       toast.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
