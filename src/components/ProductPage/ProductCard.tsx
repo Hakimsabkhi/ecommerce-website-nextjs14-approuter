@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaEye, FaRegHeart } from "react-icons/fa";
-import { FaCartShopping, FaCircleXmark, FaHeart } from "react-icons/fa6";
+import { FaCartShopping, FaHeart } from "react-icons/fa6";
 import { star } from "@/assets/image";
 import { useParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -109,7 +109,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
         </div>
         <div className="flex mb-1 text-lg max-md:text-sm justify-between">
 
-          <button
+        {item.status != 'out-of-stock' ? (item.stock > 0 ? ( <button
             onClick={() => {
               addToCartHandler(item);
             }}
@@ -125,7 +125,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
                 fill="currentColor"
               />
             </p>
-          </button>
+          </button> ) : (
+        <button className="AddtoCart bg-gray-400 hover:bg-gray-500 text-white w-[50%] max-md:rounded-[3px] max-2xl:text-sm group/box" disabled>
+        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease">
+        Out of stock
+        </p>
+        
+      </button>
+     
+      )):(<button className="AddtoCart bg-gray-400 hover:bg-gray-500 text-white w-[50%] max-md:rounded-[3px] max-2xl:text-sm group/box" disabled>
+        <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300   ease">
+        Out of stock
+        </p>
+       
+      </button>)}
+
           <a href={`/${item.category?.name}/${item._id}`} className="w-[30%]">
             <button className="AddtoCart bg-white max-md:rounded-[3px] w-full group/box text-primary border border-primary">
               <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-y-[-100%] ease">

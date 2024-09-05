@@ -275,13 +275,13 @@ const AddProduct = () => {
       <div className="w-full flex justify-end gap-4">
         <button
           type="submit"
-          className="bg-primary text-white rounded-md w-[20%] max-lg:w-[50%] h-10  hover:bg-[#15335D]"
+          className="bg-gray-800 text-white rounded-md w-[20%] max-lg:w-[50%] h-10  hover:bg-gray-600"
         >
           <p className="text-white">Add the New Product</p>
         </button>
         <Link
           href="/admin/productlist"
-          className="border border-gray-400 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10 text-black  hover:text-white hover:bg-[#15335D] "
+          className="border border-gray-400 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10 text-black  hover:text-white hover:bg-gray-600 "
         >
           Cancel
         </Link>

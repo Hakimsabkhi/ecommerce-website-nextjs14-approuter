@@ -14,8 +14,12 @@ interface ReviewData {
   createdAt: string;
   rating: number;
   text: string;
+  user:user
 }
-
+interface user {
+ _id:string;
+ username:string
+}
 const ListReview: React.FC = () => {
   const { id: productId } = useParams<{ id?: string }>();
   const [addedReviews, setAddedReviews] = useState<ReviewData[]>([]);
@@ -129,6 +133,7 @@ const ListReview: React.FC = () => {
               <th className="px-6 py-3 text-left text-xl font-bold text-gray-950  uppercase tracking-wider">Reviw</th>
               <th className="px-6 py-3 text-left text-xl font-bold text-gray-950  uppercase tracking-wider">Rating</th>
               <th className="px-6 py-3 text-left text-xl font-bold text-gray-950  uppercase tracking-wider">Date</th>
+              <th>Reply</th>
               <th className="px-6 py-3 text-left text-xl font-bold text-gray-950  uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
@@ -155,6 +160,9 @@ const ListReview: React.FC = () => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-warning-200">
                   {new Date(review.createdAt).toLocaleDateString()}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-warning-200">
+                  {review?.user?.username}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <div className="flex items-center gap-2 text-white">

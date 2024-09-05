@@ -110,7 +110,7 @@ const AddedBrands: React.FC = () => {
                 <p className='text-3xl font-bold'>ALL Brand</p>
            
                 <a href="/admin/brandlist/addbrand" className="w-[15%]">
-                    <button className='bg-primary font-bold hover:bg-[#15335D] text-white rounded-lg w-full h-10'>
+                    <button className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-full h-10'>
                         Add a new Brand
                     </button>
                 </a>
@@ -124,14 +124,17 @@ const AddedBrands: React.FC = () => {
             />
             <table className="table-auto w-full mt-4">
                 <thead>
-                    <tr>
-                        <th className="py-2 text-start">Icon</th>
-                        <th className=" py-2 text-start">ImageURL</th>
-                        <th className=" py-2 text-start">Name</th>
-                        <th className=" py-2 text-start">                        
+                    <tr className='bg-gray-800'>
+                        <th className="px-4 py-2">Icon</th>
+                        <th className=" px-4 py-2">ImageURL</th>
+                        <th className=" px-4 py-2">Name</th>
+                        <th className="px-4 py-2">                        
                             Place                                                                                                                   
                         </th>
-                        <th className=" py-2 text-center">                        
+                        <th className="px-4 py-2">                        
+                        Created By                                                                                                               
+                        </th>
+                        <th className="px-4 py-2 text-center">                        
                             Action                                                                                                                  
                         </th>
                         
@@ -139,18 +142,19 @@ const AddedBrands: React.FC = () => {
                 </thead>
                 <tbody>
                     {currentBrands.map((item, index) => (
-                        <tr key={index} className='bg-[#15335D] text-white'>
+                        <tr key={index} className='bg-white text-balck '>
                             <td className="border px-4 py-2 "><Image src={item.logoUrl} width={30} height={30} alt="icon"/></td>
                             <td className="border px-4 py-2">{item.imageUrl}</td>
                             <td className="border px-4 py-2">{item.name}</td>
+                            <td className="border-b px-4 py-2   ">{item.place}</td>
                             <td className="border-b px-4 py-2  ">{item.place}</td>
-                            <td className="border-b flex items-center justify-center gap-2 py-2  ">                                
+                            <td className="border-b flex items-center justify-center gap-2 ">                                
                                     <Link href={`/admin/brandlist/${item._id}`}>
-                                        <button className="bg-primary w-28 h-10 rounded-md">
+                                        <button className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md">
                                             Modify
                                         </button>
                                     </Link>
-                                    <button onClick={()=>handleDeleteClick(item)}  className="bg-primary w-28 h-10 rounded-md">
+                                    <button onClick={()=>handleDeleteClick(item)}  className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md">
                                         Delete
                                     </button>
                                     {isDialogOpen &&     < Dialog  handleCloseDialog={handleCloseDialog} Delete={Deletebrand}  id={selectedBrand.id} // Pass selected user's id
