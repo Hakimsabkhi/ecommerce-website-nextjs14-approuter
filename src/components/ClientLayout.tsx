@@ -12,12 +12,11 @@ interface ClientLayoutProps {
   children: React.ReactNode;
 }
 
-
 const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
   const { data: session } = useSession(); // Fetch session using useSession hook
   const pathname = usePathname();
 
-  const excludedPaths = ["/signup", "/signin"];
+  const excludedPaths = ["/signup", "/signin", "/checkout"];
 
   if (excludedPaths.includes(pathname)) {
     return <>{children}</>;
