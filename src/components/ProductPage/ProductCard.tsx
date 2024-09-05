@@ -1,11 +1,16 @@
 // components/ProductCard.tsx
-
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaEye, FaRegHeart } from "react-icons/fa";
 import { FaCartShopping, FaHeart } from "react-icons/fa6";
 import { star } from "@/assets/image";
+import { useParams } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem } from "../../../store/cartSlice";
+import { RootState } from "../../../store/store";
+import { toast } from "react-toastify";
 
 interface Brand {
   _id: string;
@@ -28,8 +33,7 @@ interface ProductData {
   category?: Category;
 }
 interface Category {
-  name:string;
-  
+  name: string;
 }
 
 interface ProductCardProps {
@@ -37,15 +41,28 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
+  const params = useParams() as { product?: string };
+  const product = params.product;
 
+  const [clicked, setClicked] = useState(false);
 
+  const handleClick = () => {
+    setClicked(!clicked);
+  };
 
+  const noimage =
+    "https://res.cloudinary.com/dx499gc6x/image/upload/v1723623372/na_mma1mw.webp";
 
+  const items = useSelector((state: RootState) => state.cart.items);
+  console.log(items);
 
-  const noimage ='https://res.cloudinary.com/dx499gc6x/image/upload/v1723623372/na_mma1mw.webp';
+  const dispatch = useDispatch();
 
+  const addToCartHandler = (product: ProductData) => {
+    dispatch(addItem(product));
+    toast.success(`${product.name} added to cart!`);
+  };
   return (
-
     <div className="bg-white rounded-lg duration-500 lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[481px] max-md:h-[320px] relative">
       <Link href={`/${item.category?.name}/${item._id}`}>
         <Image
@@ -91,7 +108,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
           </p>
         </div>
         <div className="flex mb-1 text-lg max-md:text-sm justify-between">
-          <button className="AddtoCart bg-primary hover:bg-[#15335D] text-white w-[50%] max-md:rounded-[3px] max-2xl:text-sm group/box">
+          <button
+            onClick={() => {
+              addToCartHandler(item);
+            }}
+            className="AddtoCart bg-primary hover:bg-[#15335D] text-white w-[50%] max-md:rounded-[3px] max-2xl:text-sm group/box"
+          >
             <p className="absolute  flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease">
               Add to cart
             </p>
@@ -103,7 +125,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
               />
             </p>
           </button>
-          <a href={`/${item.category?.name}/${item._id}`}className="w-[30%]">
+          <a href={`/${item.category?.name}/${item._id}`} className="w-[30%]">
             <button className="AddtoCart bg-white max-md:rounded-[3px] w-full group/box text-primary border border-primary">
               <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-y-[-100%] ease">
                 View
@@ -118,21 +140,30 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
             </button>
           </a>
           <button
+            onClick={handleClick}
             className="relative bg-white hover:bg-primary max-md:rounded-[3px] AddtoCart w-[13%] group/box text-primary hover:text-white border border-[#8D4407]"
-            
             aria-label="wishlist"
-            >
+          >
             <p className="absolute flex items-center justify-center w-full h-full">
-              <FaRegHeart className="w-5 h-5 max-2xl:w-3 max-2xl:h-3" aria-hidden="true" fill="currentColor" />
+              <FaRegHeart
+                className="w-5 h-5 max-2xl:w-3 max-2xl:h-3"
+                aria-hidden="true"
+                fill="currentColor"
+              />
             </p>
-            <p className={`absolute flex items-center justify-center w-full h-full  group-hover/box:opacity-100`}>
-              <FaHeart className="w-5 h-5 max-2xl:w-3 max-2xl:h-3" aria-hidden="true" fill="currentColor" />
+            <p
+              className={`absolute flex items-center justify-center w-full h-full  group-hover/box:opacity-100`}
+            >
+              <FaHeart
+                className="w-5 h-5 max-2xl:w-3 max-2xl:h-3"
+                aria-hidden="true"
+                fill="currentColor"
+              />
             </p>
           </button>
         </div>
       </div>
     </div>
-
   );
 };
 

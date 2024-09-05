@@ -1,15 +1,16 @@
 // app/layout.tsx
 import { getServerSession } from "next-auth/next";
-import { authOptions } from '@/lib/authOptions'; // Ensure the path is correct
-import SessionProviderWrapper from '@/components/SessionProviderWrapper';
-import ClientLayout from '@/components/ClientLayout';
-import { Poppins } from 'next/font/google';
-import './globals.css'; // Ensure global styles are imported
-
-import { Metadata } from 'next';
+import { authOptions } from "@/lib/authOptions"; // Ensure the path is correct
+import SessionProviderWrapper from "@/components/SessionProviderWrapper";
+import ClientLayout from "@/components/ClientLayout";
+import { Poppins } from "next/font/google";
+import "./globals.css"; // Ensure global styles are imported
+import StoreProvider from "../../StoreProvider/StoreProvider";
+import { Metadata } from "next";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] });
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
   title: "e-commerce app",
@@ -21,13 +22,14 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="en">
-      <body className={poppins.className}>
-        <SessionProviderWrapper session={session}>
-          <ClientLayout>
-          <ToastContainer 
+    <StoreProvider>
+      <html lang="en">
+        <body className={poppins.className}>
+          <SessionProviderWrapper session={session}>
+            <ClientLayout>
+              <ToastContainer
                 position="top-right"
-                autoClose={2000}
+                autoClose={5000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
@@ -37,12 +39,13 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
                 pauseOnHover
                 theme="colored"
               />
-            {children}</ClientLayout>
-        </SessionProviderWrapper>
-      </body>
-    </html>
+              ;{children}
+            </ClientLayout>
+          </SessionProviderWrapper>
+        </body>
+      </html>
+    </StoreProvider>
   );
 };
 
 export default RootLayout;
-

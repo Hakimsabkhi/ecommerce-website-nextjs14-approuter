@@ -8,9 +8,20 @@ import UserMenu from "./UserMenu";
 import CartModal from "./CartModal";
 import { TransitionLink } from "./utils/TransitionLink";
 import { luxehome } from "@/assets/image";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 interface HeaderProps {
   session: Session | null;
+}
+interface Category {
+  id: string;
+  name: string;
+  logoUrl: string;
+}
+
+interface HeaderProps {
+  categories?: Category[]; // Make categories optional
 }
 
 const Header: React.FC<HeaderProps> = ({ session }) => {
@@ -38,6 +49,10 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const items = useSelector((state: RootState) => state.cart.items);
+
+  const totalQuantity = items.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <div className="w-full max-lg:fixed max-lg:z-10 h-[109px] bg-[#15335E] justify-center flex">
@@ -75,10 +90,10 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
             <div className="relative cursor-pointer" onClick={toggleCartModal}>
               <SlBag size={25} />
               <span className="w-4 flex justify-center h-4 items-center text-xs rounded-full absolute -top-1 -right-1 text-white bg-primary">
-                <p>0</p>
+                <p>{totalQuantity}</p>
               </span>
             </div>
-            {isCartOpen && <CartModal />}
+            {isCartOpen && <CartModal items={items} />}
           </div>
           <span className="text-xl">$0.00</span>
         </div>
