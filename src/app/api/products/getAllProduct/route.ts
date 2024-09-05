@@ -14,6 +14,7 @@ export async function GET(){
       await Category.find();
       await Brand.find();
       const products = await  Products.find({}).populate("user").populate("category").populate("brand");
+    
       return NextResponse.json(products, { status: 200 });
     } catch (error) {
       console.error(error);

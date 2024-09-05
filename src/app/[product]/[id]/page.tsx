@@ -41,7 +41,11 @@ interface PageProps {
  async function getProduct(id: string): Promise<ProductData> {
   const res = await fetch(
     `${process.env.NEXTAUTH_URL}api/products/getProductById/${id}`
-  );
+    , {
+      method: 'GET',
+     
+      next: { revalidate: 0 }, // Disable caching to always fetch the latest data
+    })
   if (!res.ok) {
     throw new Error("Product not found");
   }

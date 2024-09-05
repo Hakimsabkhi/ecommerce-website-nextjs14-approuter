@@ -25,7 +25,7 @@ const ListReview: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const reviewsPerPage = 5; // Number of reviews to display per page
   const router = useRouter();
- 
+  const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDeleteClick = () => {
@@ -73,6 +73,8 @@ const ListReview: React.FC = () => {
       setFilteredReviews(data);
     } catch (err: any) {
       setError(`[Reviews_GET] ${err.message}`);
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -94,7 +96,15 @@ const ListReview: React.FC = () => {
   const totalPages = Math.ceil(filteredReviews.length / reviewsPerPage);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
+  if (loading) {
+    return (
+      /* loading start */
+      <div className="flex justify-center items-center h-[400px]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
+      </div>
+      /*  loading end  */
+    );
+  }
   if (error) {
     return <div>Error: {error}</div>;
   }

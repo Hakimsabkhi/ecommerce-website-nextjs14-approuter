@@ -15,7 +15,10 @@ interface BrandData {
   // Function to fetch categories data
   const fetchBrand= async (): Promise<BrandData[]> => {
     try {
-      const res = await fetch(`${process.env.NEXTAUTH_URL}/api/brand/getAllBrand`); // Adjust the API endpoint
+      const res = await fetch(`${process.env.NEXTAUTH_URL}/api/brand/getAllBrand`, {
+        method: 'GET',
+        next: { revalidate: 0 }, // Disable caching to always fetch the latest data
+      }); // Adjust the API endpoint
       if (!res.ok) {
         throw new Error('Failed to fetch categories');
       }

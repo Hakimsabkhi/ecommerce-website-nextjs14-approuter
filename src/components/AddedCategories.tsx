@@ -26,7 +26,9 @@ const AddedCategories: React.FC = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const categoriesPerPage = 5; // Number of categories to display per page
     const [loading, setLoading] = useState(true);
-    const handleDeleteClick = () => {
+    const [selectedCatgory, setSelectedCatgory] = useState({ id: '', name: '' });
+    const handleDeleteClick = (Category:Category) => {
+        setSelectedCatgory({ id: Category._id, name: Category.name });
         setIsDialogOpen(true);
       };
     
@@ -158,11 +160,11 @@ const AddedCategories: React.FC = () => {
                                             Modify
                                         </button>
                                     </Link>
-                                    <button onClick={handleDeleteClick}  className="bg-primary w-28 h-10 rounded-md">
+                                    <button onClick={()=>handleDeleteClick(item)}  className="bg-primary w-28 h-10 rounded-md">
                                         Delete
                                     </button>
-                                    {isDialogOpen &&     < Dialog  handleCloseDialog={handleCloseDialog} Delete={DeleteCategory} id={item._id}
-                                    name={item.name}/>}
+                                    {isDialogOpen &&     < Dialog  handleCloseDialog={handleCloseDialog} Delete={DeleteCategory} id={selectedCatgory.id}
+                                    name={selectedCatgory.name}/>}
                                 </div>
                             </td>
                         </tr>

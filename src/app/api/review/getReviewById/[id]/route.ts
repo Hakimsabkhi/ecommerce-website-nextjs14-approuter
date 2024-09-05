@@ -22,7 +22,7 @@ export async function GET(
       await User.find({});
 
       const review = await Review.findById(id).populate('user', '_id username email');
-      console.log(review)
+    
       if (!review) {
         return NextResponse.json({ message: "Review not found" }, { status: 404 });
       }

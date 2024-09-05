@@ -128,7 +128,7 @@ const ReplyReview: React.FC = () => {
           </span>
         </div>
       </div>
-     {updatedAtDate !== createdAtDate && <div className="text-center text-xs text-gray-500 leading-none"> {updatedAtDate} 
+     {updatedAtDate !== createdAtDate && review.user && <div className="text-center text-xs text-gray-500 leading-none"> {updatedAtDate} 
       </div>}
       {review?.user && (
         <div className=" flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">

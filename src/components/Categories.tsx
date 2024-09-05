@@ -11,7 +11,11 @@ interface Category {
   // Function to fetch categories data
   const fetchCategories = async (): Promise<Category[]> => {
     try {
-      const res = await fetch(`${process.env.NEXTAUTH_URL}/api/category/getAllCategory`); // Adjust the API endpoint
+      const res = await fetch(`${process.env.NEXTAUTH_URL}/api/category/getAllCategory`, {
+        method: 'GET',
+       
+        next: { revalidate: 0 }, // Disable caching to always fetch the latest data
+      })
       if (!res.ok) {
         throw new Error('Failed to fetch categories');
       }
