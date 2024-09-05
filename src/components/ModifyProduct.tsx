@@ -290,12 +290,12 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
         />
       </div>
       <div className="w-full flex justify-end gap-4">
-        <button type="submit" className='bg-primary text-white rounded-md w-[20%] max-lg:w-[50%] h-10'>
-          <p className="text-white">Modify Product</p>
+        <button type="submit" className='bg-gray-800 hover:bg-slate-600 rounded-md w-[20%] max-lg:w-[50%] h-10'>
+            <p className="text-white">Modify Product</p>
         </button>
-        <Link href="/admin/productlist" className='border border-gray-400 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10'>
+        <Link href="/admin/productlist" className='border border-gray-400 hover:bg-gray-600 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10'>
         
-          <p className="text-black">Cancel</p>
+          <p className="text-black hover:text-white ">Cancel</p>
        
         </Link>
       </div>

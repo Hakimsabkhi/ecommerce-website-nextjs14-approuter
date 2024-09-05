@@ -203,14 +203,14 @@ const AddCategory = () => {
         <div className="w-[30%] max-xl:w-[30%] max-md:w-[50%] items-start">
           <button
             type="submit"
-            className="bg-primary text-white rounded-md w-full hover:bg-[#15335D] h-10"
+            className="bg-gray-800 text-white rounded-md w-full hover:bg-gray-600 h-10"
           >
             <p className="text-white">Add the new category</p>
           </button>
         </div>
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
           <Link href="/admin/categorylist">
-            <button className="bg-white border-2 border-gray-400 text-black rounded-md w-full h-10 flex items-center justify-center">
+            <button className="bg-white border-2 border-gray-400 text-black hover:bg-slate-600 hover:border-0 hover:text-white rounded-md w-full h-10 flex items-center justify-center">
               <p className="font-bold">Cancel</p>
             </button>
           </Link>

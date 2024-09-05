@@ -245,14 +245,14 @@ const ModifyCategory = () => {
        <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
           <button
             type="submit"
-            className="bg-primary hover:bg-[#15335D] text-white rounded-md w-full h-10"
+            className="bg-gray-800 hover:bg-gray-600 text-white rounded-md w-full h-10"
           >
             <p className="text-white font-bold">Modify</p>
           </button>
         </div>
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
           <Link href="/admin/categorylist">
-            <button className="bg-white border-2 border-gray-400 text-black rounded-md w-full h-10 flex items-center justify-center">
+            <button className="bg-white border-2 border-gray-400 text-black hover:bg-gray-600 hover:text-white hover:border-0 rounded-md w-full h-10 flex items-center justify-center">
               <p className="font-bold">Cancel</p>
             </button>
           </Link>
