@@ -106,14 +106,14 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
-      <h1 className="text-4xl font-bold mb-8 text-center text-gray-900">
+    <div className="container mx-auto p-8">
+      <h1 className="text-4xl font-bold mb-8 text-center">
         Admin Dashboard
       </h1>
-      <div className="relative  shadow-lg rounded-lg bg-white">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
+      <div className="relative  shadow-lg rounded-lg ">
+        <table className="w-full text-sm text-left rtl:text-right ">
+          <thead className="text-xl uppercase ">
+            <tr className=" bg-gray-800">
               <th scope="col" className="px-6 py-3">
                 Email
               </th>
@@ -137,34 +137,31 @@ const AdminDashboard = () => {
                 >
                   {user.email}
                 </th>
-                <td className="px-6 py-4 text-center">{user.role}</td>
+                <td className="px-6 py-4 text-center">
+                  
+                <div className="flex items-center justify-center gap-2">
+                  <select
+                   className={`w-60 text-center text-white  rounded-md p-2 bg-slate-800`}
+
+                    value={user.role} // Set the default value
+                    onChange={(e) => handleChangeRole(user._id, e.target.value)} 
+                 >
+                    <option value="Consulter" className="">
+                    Consulter
+                    </option>
+                  {(session?.user?.role==="SuperAdmin")&&   <option value="Admin" className="">
+                    Admin
+                    </option> }
+                    <option value="Visiteur" className="">
+                    Visiteur
+                    </option>
+                  </select>
+
+                </div>
+                      </td>
                 <td className="px-6 py-4 relative text-center">
-                  <div className="relative inline-block text-left">
-                    <div className="flex gap-2 justify-items-center ">
-                      <button
-                        id="dropdownDefaultButton"
-                        data-dropdown-toggle={`dropdown-${user._id}`}
-                        onClick={() => toggleDropdown(user._id)}
-                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        type="button"
-                      >
-                        Change Role
-                        <svg
-                          className="w-2.5 h-2.5 ms-3"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 10 6"
-                        >
-                          <path
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="m1 1 4 4 4-4"
-                          />
-                        </svg>
-                      </button>
+                 
+                   
                       <button
                         onClick={() => handleDeleteClick(user)}
                              className="bg-red-600 text-white hover:bg-red-800 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-red-600 dark:hover:bg-red-700"
@@ -180,52 +177,7 @@ const AdminDashboard = () => {
                     name={selectedUser.email} 
                     />
                   )}
-                    </div>
-                    {dropdownOpen === user._id && (
-                      <div
-                        id={`dropdown-${user._id}`}
-                        className="z-10 absolute right-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700"
-                      >
-                        <ul
-                          className="py-2 text-sm text-gray-700 dark:text-gray-200"
-                          aria-labelledby="dropdownDefaultButton"
-                        >
-                          <li>
-                            <button
-                              onClick={() =>
-                                handleChangeRole(user._id, "Consulter")
-                              }
-                              className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                            >
-                              Make Consulter
-                            </button>
-                          </li>
-                          {session?.user?.role !== "Admin" && (
-                            <li>
-                              <button
-                                onClick={() =>
-                                  handleChangeRole(user._id, "Admin")
-                                }
-                                className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                              >
-                                Make Admin
-                              </button>
-                            </li>
-                          )}
-                          <li>
-                            <button
-                              onClick={() =>
-                                handleChangeRole(user._id, "Visiteur")
-                              }
-                              className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                            >
-                              Make Visiteur
-                            </button>
-                          </li>
-                        </ul>
-                      </div>
-                    )}
-                  </div>
+                    
                 </td>
               </tr>
             ))}

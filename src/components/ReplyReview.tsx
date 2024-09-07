@@ -156,8 +156,8 @@ const ReplyReview: React.FC = () => {
 
         </div>
       )}
-      <div className="bg-gray-300 p-4">
-      <form onSubmit={handleReplySubmit} className="bg-gray-300 p-4">
+      <div className="bg-gray-300 p-1">
+      <form onSubmit={handleReplySubmit} className="bg-gray-300 p-1">
         <input
           ref={inputRef} 
           className=" items-center h-10 w-full rounded px-3 text-sm"

@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,30 +19,34 @@ interface Brand {
 const AddProduct = () => {
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
-  const [brands, setBrands] = useState<Brand[]>([]); // New state for brands
+  const [brands, setBrands] = useState<Brand[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null); // State for image preview
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [images, setImages] = useState<File[]>([]);
 
   const [productData, setProductData] = useState({
     name: "",
     description: "",
     ref: "",
+    info: "",
     category: "",
-    brand: "", // Added brand to productData
+    brand: "",
     stock: "",
     price: "",
     discount: "",
+    color: "",
+    material: "",
+    weight: "",
+    warranty: "",
+    dimensions: "",
   });
 
   useEffect(() => {
-    // Fetch categories from the API
     const fetchCategories = async () => {
       try {
         const response = await fetch("/api/category/getAllCategory");
-        if (!response.ok) {
-          throw new Error("Failed to fetch categories");
-        }
+        if (!response.ok) throw new Error("Failed to fetch categories");
         const data = await response.json();
         setCategories(data);
       } catch (error) {
@@ -51,13 +54,10 @@ const AddProduct = () => {
       }
     };
 
-    // Fetch brands from the API
     const fetchBrands = async () => {
       try {
-        const response = await fetch(`/api/brand/getAllBrand`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch brands");
-        }
+        const response = await fetch("/api/brand/getAllBrand");
+        if (!response.ok) throw new Error("Failed to fetch brands");
         const data = await response.json();
         setBrands(data);
       } catch (error) {
@@ -65,7 +65,6 @@ const AddProduct = () => {
       }
     };
 
-    // Call the fetch functions
     fetchCategories();
     fetchBrands();
   }, []);
@@ -87,13 +86,35 @@ const AddProduct = () => {
       setImage(e.target.files[0]);
     }
   };
+  const handleImageChanges = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const fileArray = Array.from(files);
+   
+      if    (images.length + fileArray.length > 3) {
+        setError('Please select 1 or 2 images.');
+        return;
+      }
 
+
+      setImages(prevImages => [...prevImages, ...fileArray]);
+      setError(null);
+    }
+  };
+  const removeImage = (index: number) => {
+    setImages(prevImages => prevImages.filter((_, i) => i !== index));
+  };
+
+  useEffect(() => {
+    // Cleanup function to revoke object URLs when images are removed or component unmounts
+    return () => {
+      images.forEach(image => URL.revokeObjectURL(URL.createObjectURL(image)));
+    };
+  }, [images]);
   useEffect(() => {
     if (image) {
       const objectUrl = URL.createObjectURL(image);
       setImagePreview(objectUrl);
-
-      // Clean up object URL
       return () => URL.revokeObjectURL(objectUrl);
     }
   }, [image]);
@@ -103,13 +124,19 @@ const AddProduct = () => {
 
     const formData = new FormData();
     formData.append("name", productData.name);
+    formData.append("info", productData.info);
     formData.append("description", productData.description);
     formData.append("ref", productData.ref);
     formData.append("category", productData.category);
-    formData.append("brand", productData.brand); // Added brand to formData
+    formData.append("brand", productData.brand);
     formData.append("stock", productData.stock);
     formData.append("price", productData.price);
     formData.append("discount", productData.discount);
+    formData.append("color", productData.color);
+    formData.append("material", productData.material);
+    formData.append("weight", productData.weight);
+    formData.append("warranty", productData.warranty);
+    formData.append("dimensions", productData.dimensions);
 
     if (image) formData.append("image", image);
 
@@ -124,7 +151,7 @@ const AddProduct = () => {
         throw new Error(errorData.message || "Failed to submit product");
       }
 
-      toast.success(`Product ${productData.name} Add successfully!`);
+      toast.success(`Product ${productData.name} added successfully!`);
       router.push("/admin/productlist");
     } catch (err: any) {
       toast.error(
@@ -134,9 +161,9 @@ const AddProduct = () => {
   };
 
   return (
-    <form
+    <form 
       onSubmit={handleSubmit}
-      className="mx-auto w-[90%] max-lg:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8"
+      className="mx-auto w-[90%] max-lg:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8 uppercase"
     >
       <p className="text-3xl font-bold">ADD New Product</p>
       {error && <p className="text-red-500">{error}</p>}
@@ -262,26 +289,129 @@ const AddProduct = () => {
         </div>
       </div>
       <div className="flex items-center w-full gap-4">
+        <p className="text-xl font-bold">Info</p>
+        <textarea
+          name="info"
+          value={productData.info}
+          onChange={handleChange}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full block p-2.5"
+          required
+        />
+      </div>
+      <div className="flex items-center w-full gap-4">
         <p className="text-xl font-bold">Description</p>
         <textarea
           name="description"
           value={productData.description}
           onChange={handleChange}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full block p-2.5"
-          required
+          
         />
+      </div>
+      <div className="flex w-full gap-0">
+        <div className="flex items-center w-full gap-4">
+          <label className="text-xl font-bold">Color</label>
+          <input
+            type="text"
+            name="color"
+            value={productData.color}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
+          />
+        </div>
+        <div className="flex items-center w-full gap-4">
+          <label className="text-xl font-bold">Material</label>
+          <input
+            type="text"
+            name="material"
+            value={productData.material}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
+          />
+        </div>
+        <div className="flex items-center w-full gap-4">
+          <label className="text-xl font-bold">Weight</label>
+          <input
+            type="number"
+            name="weight"
+            value={productData.weight}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
+          />
+        </div>
+        <div className="flex items-center w-full gap-4">
+          <label className="text-xl font-bold">Warranty</label>
+          <input
+            type="number"
+            name="warranty"
+            value={productData.warranty}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
+          />
+        </div>
+        <div className="flex items-center w-full gap-4">
+          <label className="text-xl font-bold">Dimensions</label>
+          <input
+            type="text"
+            name="dimensions"
+            value={productData.dimensions}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
+          />
+        </div>
+      </div>
+    
+      <div className="flex max-lg:flex-col items-center max-lg:gap-8 justify-between">
+        <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4">
+          <p className="text-xl font-bold">Add Images *</p>
+          <input
+            type="file"
+            onChange={handleImageChanges}
+            multiple
+            className="hidden"
+            id="file-upload-multiple"
+          />
+          <label
+            htmlFor="file-upload-multiple"
+            className="bg-[#EFEFEF] text-white rounded-md w-[50%] h-10 border-2 flex justify-center items-center cursor-pointer"
+          >
+            <p className="text-black">Select Images</p>
+          </label>
+        </div>
+        {images.length > 0 && (
+          <div className="flex flex-wrap gap-4">
+            {images.map((img, index) => (
+              <div key={index} className="relative">
+                <Image
+                  src={URL.createObjectURL(img)}
+                  alt={`Image ${index}`}
+                  className="w-52 h-52 object-cover"
+                  width={60}
+                  height={60}
+                />
+                <button
+                  type="button"
+                  onClick={() => removeImage(index)}
+                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full px-2 py-1 text-xs"
+                >
+                  X
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="w-full flex justify-end gap-4">
         <button
           type="submit"
-          className="bg-gray-800 text-white rounded-md w-[20%] max-lg:w-[50%] h-10  hover:bg-gray-600"
+          className="bg-gray-800 text-white rounded-md w-[20%] max-lg:w-[50%] h-10 hover:bg-gray-600"
         >
           <p className="text-white">Add the New Product</p>
         </button>
         <Link
           href="/admin/productlist"
-          className="border border-gray-400 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10 text-black  hover:text-white hover:bg-gray-600 "
+          className="border border-gray-400 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10 text-black hover:text-white hover:bg-gray-600"
         >
           Cancel
         </Link>

@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { FaRegUserCircle } from 'react-icons/fa';
-import Dropdown from "@/components/Dropdown";
-import { Session } from "next-auth";
+import Dropdown from "@/components/Dropdown"
+import { useSession } from "next-auth/react";
 
-interface UserMenuProps {
-  session: Session | null;
-}
 
-const UserMenu: React.FC<UserMenuProps> = ({ session }) => {
+
+const UserMenu: React.FC = () => {
+  const {data:session}=useSession();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
+
 
   if (session?.user) {
     return (

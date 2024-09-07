@@ -19,7 +19,12 @@ interface ProductData {
   price: number;
   discount?: string;
   imageUrl?: string;
-
+  info?: string;
+  color?: string;
+  material?: string;
+  weight?: number;
+  warranty?: number;
+  dimensions?: string;
 }
 
 interface ModifyProductProps {
@@ -55,7 +60,13 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     stock: productData?.stock || 0,
     price: productData?.price || 0,
     discount: productData?.discount || '',
-    imageUrl: productData?.imageUrl || ''
+    imageUrl: productData?.imageUrl || '',
+    info: productData?.info || "",
+    color: productData?.color || "",
+    material: productData?.material || "",
+    weight: productData?.weight || 0,
+    warranty: productData?.warranty || 0,
+    dimensions: productData?.dimensions || "",
     
   });
 
@@ -113,6 +124,8 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
       ...prevFormData,
       [name]: name === 'category' || name === 'brand' 
         ? { _id: value } 
+        : (name === 'weight' || name === 'price' || name === 'stock') 
+        ? Number(value) || 0 // Convert these fields to number and default to 0 if empty/undefined
         : value
     }));
   };
@@ -134,7 +147,12 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     updateFormData.append('stock', formData.stock.toString());
     updateFormData.append('price', formData.price.toString());
     updateFormData.append('discount', formData.discount || '');
-    
+    updateFormData.append("info", formData.info || "");
+    updateFormData.append("color", formData.color || "");
+    updateFormData.append("material", formData.material || "");
+    updateFormData.append('weight', (formData.weight ?? 0).toString());  // Default to 0 if undefined
+    updateFormData.append('warranty', (formData.warranty ?? 0).toString()); 
+    updateFormData.append("dimensions", formData.dimensions || "");
     if (image) updateFormData.append('image', image);
   
     try {
@@ -279,6 +297,16 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
           />
         </div>
       </div>
+      <div className="flex items-center w-full gap-4">
+        <p className="text-xl font-bold">Info</p>
+        <textarea
+          name="info"
+          value={formData.info}
+          onChange={handleChange}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full block p-2.5"
+          required
+        />
+      </div>
       <div className='flex items-center w-full gap-4'>
         <p className="text-xl font-bold">Description</p>
         <textarea 
@@ -288,6 +316,58 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full block p-2.5" 
           required 
         />
+      </div>
+      <div className="flex w-full gap-0">
+        <div className="flex items-center w-full gap-4">
+          <label className="text-xl font-bold">Color</label>
+          <input
+            type="text"
+            name="color"
+            value={formData.color}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
+          />
+        </div>
+        <div className="flex items-center w-full gap-4">
+          <label className="text-xl font-bold">Material</label>
+          <input
+            type="text"
+            name="material"
+            value={formData.material}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
+          />
+        </div>
+        <div className="flex items-center w-full gap-4">
+          <label className="text-xl font-bold">Weight</label>
+          <input
+            type="number"
+            name="weight"
+            value={formData.weight}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
+          />
+        </div>
+        <div className="flex items-center w-full gap-4">
+          <label className="text-xl font-bold">Warranty</label>
+          <input
+            type="number"
+            name="warranty"
+            value={formData.warranty }
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
+          />
+        </div>
+        <div className="flex items-center w-full gap-4">
+          <label className="text-xl font-bold">Dimensions</label>
+          <input
+            type="text"
+            name="dimensions"
+            value={formData.dimensions}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
+          />
+        </div>
       </div>
       <div className="w-full flex justify-end gap-4">
         <button type="submit" className='bg-gray-800 hover:bg-slate-600 rounded-md w-[20%] max-lg:w-[50%] h-10'>

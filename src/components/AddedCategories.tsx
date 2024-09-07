@@ -137,9 +137,9 @@ const AddedCategories: React.FC = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="mt-4 p-2 border border-gray-300 rounded"
       />
-      <table className="table-auto w-full mt-4">
+      <table className="table-auto w-full mt-4 uppercase">
         <thead>
-          <tr className="bg-gray-800">
+          <tr className="bg-gray-800 ">
             <th className=" px-4 py-2 ">Icon</th>
             <th className=" px-4 py-2 ">ImageURL</th>
             <th className="px-4 py-2  ">Name</th>

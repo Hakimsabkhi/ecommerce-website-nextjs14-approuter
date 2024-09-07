@@ -4,29 +4,41 @@ import { ICategory } from './Category';
 import { IBrand } from './Brand';
 export interface IProduct extends Document {
   name: string;
-  description: string;
+  info:string;
+  description?: string;
   ref:string;
   price: number;
   imageUrl?: string;
+  material?:string;
+  color?:string;
+  dimensions?:string;
+  warranty?:Number,
   category: ICategory | string;//Reference to a category document or category ID
   brand: IBrand | string;//Reference to a brand document or brand ID 
   stock: number;
   user: IUser | string; // Reference to a User document or User ID
   discount?: number;
+  weight?:number;
   status:string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 const ProductSchema = new mongoose.Schema({
-  name: String,
-  description: String,
-  ref: String,
+  name:{ type: String, required: true },
+  info:{ type: String, required: true },
+  description: { type: String },
+  ref: { type: String, required: true },
+  material:{ type: String},
+  dimensions:{ type: String },
+  color:{type:String},
+  warranty:{ type: Number },
   category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
   brand: { type: mongoose.Schema.Types.ObjectId, ref: 'Brand' },
-  stock: Number,
-  price: Number,
+  stock:  { type: Number, required: true },
+  price:  { type: Number, required: true },
   discount: { type: Number},
+  weight:{type:Number},
   status: { type: String, default: 'in stock' },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   imageUrl: String,

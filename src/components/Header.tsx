@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Session } from "next-auth";
 import Image from "next/image";
 import { FiHeart } from "react-icons/fi";
@@ -11,23 +11,21 @@ import { luxehome } from "@/assets/image";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
-interface HeaderProps {
-  session: Session | null;
-}
+
 interface Category {
   id: string;
   name: string;
   logoUrl: string;
 }
 
-interface HeaderProps {
-  categories?: Category[]; // Make categories optional
-}
 
-const Header: React.FC<HeaderProps> = ({ session }) => {
+const Header: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = React.useState(false);
   const cartmodalRef = React.useRef<HTMLDivElement>(null);
 
+  const items = useSelector((state: RootState) => state.cart.items);
+
+  const [totalQuantity, setTotalQuantity] = useState(0);
   // Toggle cart modal with useCallback for performance optimization
   const toggleCartModal = React.useCallback(() => {
     setIsCartOpen((prev) => !prev);
@@ -50,9 +48,13 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
     };
   }, []);
 
-  const items = useSelector((state: RootState) => state.cart.items);
-
-  const totalQuantity = items.reduce((total, item) => total + item.quantity, 0);
+  useEffect(() => {
+    if (items) {
+      // Ensure items is defined and calculate total quantity
+      const quantity = items.reduce((total, item) => total + (item.quantity || 0), 0);
+      setTotalQuantity(quantity);
+    }
+  }, [items]);
 
   return (
     <div className="w-full max-lg:fixed max-lg:z-10 h-[109px] bg-[#15335E] justify-center flex">
@@ -83,7 +85,7 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
             <CiSearch className="w-8 h-8 transform duration-500 group-hover:w-10 group-hover:h-10" />
           </button>
         </div>
-        <UserMenu session={session} />
+        <UserMenu  />
         <div className="flex items-center gap-4 w-[133px] text-white">
           <FiHeart size={25} />
           <div className="relative" ref={cartmodalRef}>

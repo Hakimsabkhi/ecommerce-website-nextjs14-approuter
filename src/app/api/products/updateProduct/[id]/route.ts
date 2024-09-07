@@ -51,7 +51,12 @@ export async function PUT(
         const stock = formData.get('stock');
         const price = formData.get('price');
         const discount = formData.get('discount');
-       
+        const info = formData.get('info') as string | null;
+        const color = formData.get('color') as string | null;
+        const material = formData.get('material') as string | null;
+        const weight = formData.get('weight') as string | null;
+        const warranty = formData.get('warranty') as string | null;
+        const dimensions = formData.get('dimensions') as string | null;
       
       const imageFile = formData.get("image") as File | null;
       const id = params.id; // Get ID from params
@@ -140,7 +145,24 @@ export async function PUT(
       if (discount !== undefined && discount !== null && !isNaN(Number(discount))) {
         existingProduct.discount =  Number(discount);
       }
-     
+      if (info !== null){
+         existingProduct.info = info;
+      }
+        if (color !== null){
+          existingProduct.color = color;
+        } 
+        if (material !== null) {
+          existingProduct.material = material;
+        }
+        if (weight !== null && !isNaN(Number(weight))){
+          existingProduct.weight = parseFloat(weight);
+        } 
+        if (warranty !== null && !isNaN(Number(warranty))){
+          existingProduct.warranty = parseFloat(warranty);
+        } 
+        if (dimensions !== null) {
+          existingProduct.dimensions = dimensions;
+        }
       if (imageUrl !== undefined && imageUrl !== null) {
         existingProduct.imageUrl = imageUrl;
       }

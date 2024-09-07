@@ -37,10 +37,16 @@ export async function POST(req: NextRequest) {
     const stock = formData.get('stock') as string;
     const discount = formData.get('discount') as string;
     const price = formData.get('price') as string;
+    const info = formData.get('info') as string;
+    const material = formData.get('material') as string;
+    const  dimensions = formData.get('dimensions') as string;
+    const color = formData.get('color') as string;
+    const weight = formData.get('weight') as string;
+    const warranty = formData.get('warranty')as string ;
    
     const imageFile = formData.get('image') as File | null;
-    if (!name || !description || !ref || !category || !brand || !stock || !price || !user) {
-      return NextResponse.json({ message: 'All required fields must be filled' }, { status: 400 });
+    if (!name || !ref || !info || !brand || !stock || !price || !user) {
+      return NextResponse.json({ message: 'Required fields: name, info, ref, category, brand, stock, price' }, { status: 400 });
     }
     const existingProducts = await Products.findOne({ ref });
             if (existingProducts) {
@@ -78,7 +84,7 @@ export async function POST(req: NextRequest) {
 
 
 
-    const newProducts = new Products({ name,description,ref,category,brand,stock,price  , imageUrl,discount, user });
+    const newProducts = new Products({ name,info,description,ref,material,color,warranty,dimensions,category,brand,stock,price ,discount , imageUrl, user ,weight});
     await newProducts.save();
     return NextResponse.json(newProducts, { status: 201 });
   } catch (error) {
