@@ -124,11 +124,11 @@ const AddedCategories: React.FC = () => {
       <div className="flex items-center justify-between">
         <p className="text-3xl font-bold">ALL categories</p>
 
-        <a href="categorylist/addcategory" className="w-[15%]">
+        <Link href="categorylist/addcategory" className="w-[15%]">
           <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-full h-10">
             Add a new category
           </button>
-        </a>
+        </Link>
       </div>
       <input
         type="text"
@@ -192,8 +192,8 @@ const AddedCategories: React.FC = () => {
             onClick={() => paginate(index + 1)}
             className={`mx-1 px-3 py-1 rounded ${
               currentPage === index + 1
-                ? "bg-primary text-white"
-                : "bg-gray-300 text-black"
+                 ? "bg-gray-800 text-white"
+                : "bg-gray-300 text-black hover:bg-gray-600 hover:text-white"
             }`}
           >
             {index + 1}

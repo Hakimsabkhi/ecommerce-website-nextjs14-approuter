@@ -11,10 +11,15 @@ type Brand = {
     place: string;
     imageUrl: string;
     logoUrl: string;
+    user:user;
     createdAt: Date;
     updatedAt: Date;
 
 };
+interface user{
+ _id:string;
+ username:string;
+}
 
 const AddedBrands: React.FC = () => {
     const [addedBrand, setAddedBrand] = useState<Brand[]>([]);
@@ -109,11 +114,11 @@ const AddedBrands: React.FC = () => {
             <div className="flex items-center justify-between">
                 <p className='text-3xl font-bold'>ALL Brand</p>
            
-                <a href="/admin/brandlist/addbrand" className="w-[15%]">
+                <Link href="/admin/brandlist/addbrand" className="w-[15%]">
                     <button className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-full h-10'>
                         Add a new Brand
                     </button>
-                </a>
+                </Link>
             </div>
             <input
                 type="text"
@@ -147,7 +152,7 @@ const AddedBrands: React.FC = () => {
                             <td className="border px-4 py-2">{item.imageUrl}</td>
                             <td className="border px-4 py-2">{item.name}</td>
                             <td className="border-b px-4 py-2   ">{item.place}</td>
-                            <td className="border-b px-4 py-2  ">{item.place}</td>
+                            <td className="border-b px-4 py-2  ">{item?.user?.username}</td>
                             <td className="border-b flex items-center justify-center gap-2 ">                                
                                     <Link href={`/admin/brandlist/${item._id}`}>
                                         <button className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md">
@@ -170,7 +175,9 @@ const AddedBrands: React.FC = () => {
                         key={index}
                         onClick={() => paginate(index + 1)}
                         className={`mx-1 px-3 py-1 rounded ${
-                            currentPage === index + 1 ? 'bg-primary text-white' : 'bg-gray-300 text-black'
+                            currentPage === index + 1 
+                             ? "bg-gray-800 text-white"
+                : "bg-gray-300 text-black hover:bg-gray-600 hover:text-white"
                         }`}
                     >
                         {index + 1}

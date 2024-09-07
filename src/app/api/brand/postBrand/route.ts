@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
         logoUrl = logoResult.secure_url;
       }
   
-      const newBrand = new Brand({ name,place, logoUrl, imageUrl });
+      const newBrand = new Brand({ name,place, logoUrl, imageUrl,user });
       await newBrand.save();
       return NextResponse.json(newBrand, { status: 201 });
     } catch (error) {

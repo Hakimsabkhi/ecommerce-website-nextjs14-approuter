@@ -39,7 +39,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
                 pauseOnHover
                 theme="colored"
               />
-              ;{children}
+              {children}
             </ClientLayout>
           </SessionProviderWrapper>
         </body>

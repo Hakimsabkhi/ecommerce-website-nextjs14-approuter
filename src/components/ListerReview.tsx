@@ -89,20 +89,20 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
       />
       <table className="table-auto w-full mt-4">
         <thead>
-          <tr>
-            <th className="text-start py-2">REF</th>
-            <th className="text-start py-2">Name</th>
-            <th className="text-center py-2">ImageURL</th>
-            <th className="flex items-center justify-center gap-20 py-2 text-center">
+          <tr className="bg-gray-800 ">
+            <th className="px-4 py-2 text-center">REF</th>
+            <th className="px-4 py-2 text-center">Name</th>
+            <th className="px-4 py-2 text-center ">ImageURL</th>
+            <th className="px-4 py-2  text-center">
               Action
             </th>
           </tr>
         </thead>
         <tbody>
           {currentProducts.map((item) => (
-            <tr key={item._id} className="bg-[#15335D] text-white">
-              <td className="border px-4 py-2">{item.ref}</td>
-              <td className="border px-4 py-2">{item.name}</td>
+            <tr key={item._id} className="bg-white text-balck">
+              <td className="border px-4 py-2 text-center">{item.ref}</td>
+              <td className="border px-4 py-2 text-center">{item.name}</td>
               <td className="border px-4 py-2  text-center">
                 <Image
                   alt={item.name}
@@ -114,7 +114,7 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
               </td>
               <td className="border px-4 py-2 flex justify-center items-center">
                 <Link href={`/admin/reviewlist/${item._id}`}>
-                  <button className="bg-primary w-28 h-10 rounded-md uppercase">
+                  <button className="bg-gray-800 hover:bg-gray-600 text-white  w-28 h-10 rounded-md uppercase">
                     Reviews
                   </button>
                 </Link>
@@ -130,8 +130,8 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
             onClick={() => paginate(index + 1)}
             className={`mx-1 px-3 py-1 rounded ${
               currentPage === index + 1
-                ? "bg-primary text-white"
-                : "bg-gray-300 text-black"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-300 text-black hover:bg-gray-600 hover:text-white"
             }`}
           >
             {index + 1}

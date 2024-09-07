@@ -55,7 +55,7 @@ const ReplyReview: React.FC = () => {
   useEffect(() => {
     fetchReviewData();
    
-  }, [id]);
+  }, []);
   const handleReplySubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

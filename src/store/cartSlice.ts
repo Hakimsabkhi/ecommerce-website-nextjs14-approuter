@@ -1,4 +1,3 @@
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface CartItem {
@@ -22,12 +21,10 @@ interface CartState {
 
 // Load cart state from localStorage or use initialState if not available
 const loadCartState = (): CartState => {
-  if (typeof window !== "undefined") {
   const savedState = localStorage.getItem("cart");
   if (savedState) {
     return JSON.parse(savedState);
   }
-}
   return { items: [] };
 };
 
