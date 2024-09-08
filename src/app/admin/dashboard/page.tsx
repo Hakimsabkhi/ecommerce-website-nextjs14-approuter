@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { MdOutlineDeleteOutline } from "react-icons/md";
-import Dialog from "@/components/dialogDelete/Dialog";
+import DeletePopup from "@/components/Popup/DeletePopup";
 import { toast } from "react-toastify";
 
 interface User {
@@ -17,29 +17,25 @@ const AdminDashboard = () => {
   const { data: session, status } = useSession();
   const [users, setUsers] = useState<User[]>([]);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const router = useRouter();
-  const [selectedUser, setSelectedUser] = useState({ id: '', email: '' });
-  const handleDeleteClick = (user:User) => {
+  const [loadingUserId, setLoadingUserId] = useState<string | null>(null);
+  const [selectedUser, setSelectedUser] = useState({ id: "", email: "" });
+  const handleDeleteClick = (user: User) => {
+    setLoadingUserId(user._id); 
     setSelectedUser({ id: user._id, email: user.email });
-    setIsDialogOpen(true);
+    setIsPopupOpen(true);
+ 
   };
 
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setLoadingUserId(null);
   };
 
   useEffect(() => {
-    if (
-      !session ||
-      !session.user ||
-      (session.user.role !== "SuperAdmin" && session.user.role !== "Admin")
-    ) {
-      router.push("/");
-    } else {
-      fetchUsers();
-    }
-  }, [router, session]);
+    fetchUsers();
+  }, []);
 
   const fetchUsers = async () => {
     const res = await fetch(`/api/users`);
@@ -48,8 +44,8 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteUser = async (id: string) => {
+    
     try {
-
       const response = await fetch(`/api/users/deleteuserbyid/${id}`, {
         method: "DELETE",
       });
@@ -61,15 +57,16 @@ const AdminDashboard = () => {
 
       fetchUsers();
       toast.success("User delete successfully!");
-      handleCloseDialog();
+      handleClosePopup();
     } catch (error) {
-      
       toast.error("[User_DELETE] ");
-     
+    } finally {
+      setLoadingUserId(null);
     }
   };
 
   const handleChangeRole = async (userId: string, newRole: string) => {
+    setLoadingUserId(userId);
     try {
       // Ensure the session and user ID are available
       if (!session?.user?.id) {
@@ -98,18 +95,14 @@ const AdminDashboard = () => {
       // Handle errors, e.g., show a notification or log the error
       console.error("Error changing role:", error);
       // Optionally, show a user-friendly error message
+    } finally {
+      setLoadingUserId(null); 
     }
-  };
-
-  const toggleDropdown = (userId: string) => {
-    setDropdownOpen(dropdownOpen === userId ? null : userId);
   };
 
   return (
     <div className="container mx-auto p-8">
-      <h1 className="text-4xl font-bold mb-8 text-center">
-        Admin Dashboard
-      </h1>
+      <h1 className="text-4xl font-bold mb-8 text-center">Admin Dashboard</h1>
       <div className="relative  shadow-lg rounded-lg ">
         <table className="w-full text-sm text-left rtl:text-right ">
           <thead className="text-xl uppercase ">
@@ -133,51 +126,50 @@ const AdminDashboard = () => {
               >
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  className="px-6 py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
                   {user.email}
                 </th>
-                <td className="px-6 py-4 text-center">
-                  
-                <div className="flex items-center justify-center gap-2">
-                  <select
-                   className={`w-60 text-center text-white  rounded-md p-2 bg-slate-800`}
-
-                    value={user.role} // Set the default value
-                    onChange={(e) => handleChangeRole(user._id, e.target.value)} 
-                 >
-                    <option value="Consulter" className="">
-                    Consulter
-                    </option>
-                  {(session?.user?.role==="SuperAdmin")&&   <option value="Admin" className="">
-                    Admin
-                    </option> }
-                    <option value="Visiteur" className="">
-                    Visiteur
-                    </option>
-                  </select>
-
-                </div>
-                      </td>
-                <td className="px-6 py-4 relative text-center">
-                 
-                   
-                      <button
-                        onClick={() => handleDeleteClick(user)}
-                             className="bg-red-600 text-white hover:bg-red-800 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-red-600 dark:hover:bg-red-700"
-
-                      >
-                        <MdOutlineDeleteOutline className="w-6 h-6" />
-                      </button>
-                      {isDialogOpen && (
-                    <Dialog 
-                      handleCloseDialog={handleCloseDialog}
+                <td className="px-6 py-2  text-center">
+                  <div className="flex items-center justify-center">
+                    <select
+                      className={`w-[50%]  text-center border-2  p-2  `}
+                      value={user.role} // Set the default value
+                      onChange={(e) =>
+                        handleChangeRole(user._id, e.target.value)
+                      }
+                      disabled={loadingUserId === user._id}
+                    >
+                      <option value="Consulter" className="">
+                        Consulter
+                      </option>
+                      {session?.user?.role === "SuperAdmin" && (
+                        <option value="Admin" className="">
+                          Admin
+                        </option>
+                      )}
+                      <option value="Visiteur" className="">
+                        Visiteur
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td className="px-6 py-2 relative text-center">
+                  <button
+                    onClick={() => handleDeleteClick(user)}
+                    className="bg-red-500 w-[50%] text-white  py-2 rounded"
+                    disabled={loadingUserId === user._id}
+                  >
+                    {loadingUserId ===user._id ? "Processing..." : "DELETE"}
+                  </button>
+                  {isPopupOpen && (
+                    <DeletePopup
+                      handleClosePopup={handleClosePopup}
                       Delete={handleDeleteUser}
                       id={selectedUser.id} // Pass selected user's id
-                    name={selectedUser.email} 
+                      name={selectedUser.email}
                     />
                   )}
-                    
                 </td>
               </tr>
             ))}

@@ -3,10 +3,10 @@
 import React from "react";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import Bb from "./bb";
-import Header from "./Header";
-import Headertop from "./Headertop";
-import HeaderBottom from "./Headerbottom";
+import Footer from "@/components/menu/Footer";
+import Header from "./menu/Header";
+import Headertop from "./menu/Headertop";
+import HeaderBottom from "./menu/Headerbottom";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -30,7 +30,7 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
       <div className="flex-grow">
       {children}
       </div>
-      <Bb />
+      <Footer />
     </div>
   );
 };

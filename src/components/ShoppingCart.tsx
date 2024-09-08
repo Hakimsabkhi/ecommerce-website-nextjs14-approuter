@@ -6,12 +6,12 @@ import { IoCheckboxOutline } from "react-icons/io5";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState } from "../store";
 import {
   clearCart,
   removeItem,
   updateItemQuantity,
-} from "../../store/cartSlice";
+} from "../store/cartSlice";
 import PaypalButton from "@/app/Helper/PaypalButton";
 
 // Define the shape of the cart item

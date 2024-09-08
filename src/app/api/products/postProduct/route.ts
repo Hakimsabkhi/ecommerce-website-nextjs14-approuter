@@ -43,7 +43,18 @@ export async function POST(req: NextRequest) {
     const color = formData.get('color') as string;
     const weight = formData.get('weight') as string;
     const warranty = formData.get('warranty')as string ;
-   
+    const imageFiles: File[] = [];
+    const entries = Array.from(formData.entries()); // Convert entries to an array
+    for (let i = 0; i < entries.length; i++) {
+      const file = formData.get(`images[${i}]`) as File;
+      if (file) {
+        imageFiles.push(file);
+      }
+    }
+    
+
+
+
     const imageFile = formData.get('image') as File | null;
     if (!name || !ref || !info || !brand || !stock || !price || !user) {
       return NextResponse.json({ message: 'Required fields: name, info, ref, category, brand, stock, price' }, { status: 400 });
@@ -81,11 +92,36 @@ export async function POST(req: NextRequest) {
 
       imageUrl = result.secure_url; // Extract the secure_url from the result
     }
+ // Upload images to Cloudinary
+ const uploadedImages = await Promise.all(
+  imageFiles.map(async (imageFile) => {
+    const imageBuffer = await imageFile.arrayBuffer();
+    const bufferStream = new stream.PassThrough();
+    bufferStream.end(Buffer.from(imageBuffer));
+
+    const result = await new Promise<any>((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: 'Products/images',
+          format: 'webp',
+        },
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          resolve(result);
+        }
+      );
+      bufferStream.pipe(uploadStream);
+    });
+
+    return result.secure_url; // Extract the secure_url
+  })
+);
 
 
-
-    const newProducts = new Products({ name,info,description,ref,material,color,warranty,dimensions,category,brand,stock,price ,discount , imageUrl, user ,weight});
-    await newProducts.save();
+    const newProducts = new Products({ name,info,description,ref,material,color,warranty,dimensions,category,brand,stock,price ,discount , imageUrl, user ,weight, images: uploadedImages,});
+    await newProducts.save(); 
     return NextResponse.json(newProducts, { status: 201 });
   } catch (error) {
     return NextResponse.json({ message: 'Error creating Product' }, { status: 500 });

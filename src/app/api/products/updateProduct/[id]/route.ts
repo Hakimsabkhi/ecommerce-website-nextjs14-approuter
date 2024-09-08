@@ -60,7 +60,14 @@ export async function PUT(
       
       const imageFile = formData.get("image") as File | null;
       const id = params.id; // Get ID from params
-  
+      const imageFiles: File[] = [];
+      const entries = Array.from(formData.entries()); // Convert entries to an array
+      for (let i = 0; i < entries.length; i++) {
+        const file = formData.get(`images[${i}]`) as File;
+        if (file) {
+          imageFiles.push(file);
+        }
+      }
       if (!id) {
         return NextResponse.json(
           { message: "ID  are required" },
@@ -117,7 +124,32 @@ export async function PUT(
   
         imageUrl = newImageUrl; // Update imageUrl with the uploaded URL
       }
-  
+   // Upload images to Cloudinary
+ const uploadedImages = await Promise.all(
+  imageFiles.map(async (imageFile) => {
+    const imageBuffer = await imageFile.arrayBuffer();
+    const bufferStream = new stream.PassThrough();
+    bufferStream.end(Buffer.from(imageBuffer));
+
+    const result = await new Promise<any>((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: 'Products/images',
+          format: 'webp',
+        },
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          resolve(result);
+        }
+      );
+      bufferStream.pipe(uploadStream);
+    });
+
+    return result.secure_url; // Extract the secure_url
+  })
+);
       
       // Update category with new values
       // Ensure proper type conversions and default values
@@ -166,11 +198,13 @@ export async function PUT(
       if (imageUrl !== undefined && imageUrl !== null) {
         existingProduct.imageUrl = imageUrl;
       }
-      
+      if (uploadedImages && uploadedImages.length > 0) {
+        existingProduct.images = [...existingProduct.images, ...uploadedImages];
+      }
       // Optional: Update the updatedAt field if adding new information
       existingProduct.updatedAt = new Date();
       
-  
+     
       existingProduct.user = user;
       await existingProduct.save();
   

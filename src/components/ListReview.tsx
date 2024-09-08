@@ -3,10 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import Dialog from './dialogDelete/Dialog';
+import DeletePopup from './Popup/DeletePopup';
 import { FaStar } from 'react-icons/fa6';
 import Link from 'next/link';
 import Image from 'next/image';
+import LoadingSpinner from './LoadingSpinner';
 
 interface ReviewData {
   _id: string;
@@ -31,15 +32,15 @@ const ListReview: React.FC = () => {
   const reviewsPerPage = 5; // Number of reviews to display per page
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleDeleteClick = () => {
   
-    setIsDialogOpen(true);
+    setIsPopupOpen(true);
   };
 
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
     
   };
 
@@ -54,7 +55,7 @@ const ListReview: React.FC = () => {
         throw new Error('Failed to delete review');
       }
       toast.success("Review deleted successfully!");
-      handleCloseDialog();
+      handleClosePopup();
       getReviews();
     } catch (err: any) {
       setError(`[Reviews_DELETE] ${err.message}`);
@@ -104,9 +105,7 @@ const ListReview: React.FC = () => {
   if (loading) {
     return (
       /* loading start */
-      <div className="flex justify-center items-center h-[400px]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
-      </div>
+      <LoadingSpinner/>
       /*  loading end  */
     );
   }
@@ -177,7 +176,7 @@ const ListReview: React.FC = () => {
                                     <button onClick={()=>handleDeleteClick()}  className="bg-gray-800 hover:bg-gray-600 w-28 h-10 rounded-md">
                                         Delete
                                     </button>
-                                    {isDialogOpen &&     < Dialog  handleCloseDialog={handleCloseDialog} Delete={handleDeleteConfirm} id={review._id}
+                                    {isPopupOpen &&     <DeletePopup handleClosePopup={handleClosePopup} Delete={handleDeleteConfirm} id={review._id}
                                     name={review.name}/>}
                                     
                                 </div>

@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 
 import Link from "next/link";
 import { toast } from "react-toastify";
-import Dialog from "./dialogDelete/Dialog";
+import DeletePopup from "./Popup/DeletePopup";
+import LoadingSpinner from "./LoadingSpinner";
 
 type User = {
   _id: string;
@@ -38,16 +39,19 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const productsPerPage = 5;
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState({ id: '', name: '' });
+  const [loadingProductId, setLoadingProductId] = useState<string | null>(null);
   const handleDeleteClick = (product:Product) => {
+    setLoadingProductId(product._id); 
     setSelectedProduct({ id: product._id, name: product.name });
-    setIsDialogOpen(true);
+    setIsPopupOpen(true);
   };
 
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setLoadingProductId(null);
   };
 
   const getProducts = async () => {
@@ -80,13 +84,16 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
       getProducts();
       setCurrentPage(1);
       toast.success("Category delete successfully!");
-      handleCloseDialog();
+      handleClosePopup();
     } catch (err: any) {
       // setError(`[Product_DELETE] ${err.message}`);
       toast.error("faild Product_DELETE");
+    }finally{
+      setLoadingProductId(null); 
     }
   };
   const updateProductStatus = async (productId: string, newStatus: string) => {
+    setLoadingProductId(productId)
     try {
       const updateFormData = new FormData();
       updateFormData.append('status', newStatus);
@@ -110,6 +117,8 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
       console.error('Failed to update product status:', error);
       // Optionally show an error message to the user
       toast.error('Failed to update product status');
+    }finally{
+      setLoadingProductId(null)
     }
   };
   
@@ -141,9 +150,7 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
   if (loading) {
     return (
       /* loading start */
-      <div className="flex justify-center items-center h-[400px]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
-      </div>
+     <LoadingSpinner/>
       /*  loading end  */
     );
   }
@@ -197,7 +204,7 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
                      ? "bg-gray-800 text-white"
                 : "bg-red-700 text-white"
                   }`}
-
+                 
                     value={item.status} // Set the default value
                     onChange={(e) => updateProductStatus(item._id, e.target.value)} 
                  >
@@ -217,12 +224,13 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
                   <button
                     onClick={()=>handleDeleteClick(item)}
                     className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md"
+                    disabled={loadingProductId === item._id}
                   >
-                    Delete
+                     {loadingProductId ===item._id ? "Processing..." : "DELETE"}
                   </button>
-                  {isDialogOpen && (
-                    <Dialog
-                      handleCloseDialog={handleCloseDialog}
+                  {isPopupOpen && (
+                    <DeletePopup
+                      handleClosePopup={handleClosePopup}
                       Delete={deleteProduct}
                       id={selectedProduct.id}
                       name={selectedProduct.name}

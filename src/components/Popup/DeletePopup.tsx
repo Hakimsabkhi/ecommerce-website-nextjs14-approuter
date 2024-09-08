@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-interface DialogProps {
-    handleCloseDialog: () => void;
+interface PopupProps {
+    handleClosePopup: () => void;
     Delete:( id:string)=>void;
     id:string;
     name:string;
   }
   
-const Dialog: React.FC <DialogProps>= ({handleCloseDialog,Delete,id,name}) => {
+const Popup: React.FC <PopupProps>= ({handleClosePopup,Delete,id,name}) => {
     const [isButtonVisible, setIsButtonVisible] = useState(true);
     const [inputValue, setInputValue] = useState('');
     const [buttonColor, setButtonColor] = useState('bg-primary');
@@ -72,7 +72,7 @@ const Dialog: React.FC <DialogProps>= ({handleCloseDialog,Delete,id,name}) => {
           {/* footer */}
           <div className="p-3 mt-2 text-center space-x-4 md:block">
             <button
-            onClick={handleCloseDialog}
+            onClick={handleClosePopup}
              className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-primary rounded-full hover:shadow-lg hover:bg-[#15335D] hover:border-[#15335D] hover:text-white">
               Cancel
             </button>
@@ -93,4 +93,4 @@ const Dialog: React.FC <DialogProps>= ({handleCloseDialog,Delete,id,name}) => {
   );
 };
 
-export default Dialog;
+export default Popup;

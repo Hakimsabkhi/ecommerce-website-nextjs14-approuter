@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Session } from "next-auth";
+
 import Image from "next/image";
 import { FiHeart } from "react-icons/fi";
 import { SlBag } from "react-icons/sl";
 import { CiSearch } from "react-icons/ci";
-import UserMenu from "./UserMenu";
-import CartModal from "./CartModal";
-import { TransitionLink } from "./utils/TransitionLink";
+import UserMenu from "../UserMenu";
+import CartModal from "../CartModal";
+
 import { luxehome } from "@/assets/image";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState } from "../../store";
+import Link from "next/link";
 
 
 interface Category {
@@ -59,7 +60,7 @@ const Header: React.FC = () => {
   return (
     <div className="w-full max-lg:fixed max-lg:z-10 h-[109px] bg-[#15335E] justify-center flex">
       <div className="flex w-[90%] max-xl:w-[95%] max-lg:hidden justify-between gap-14 items-center max-lg:bg-white">
-        <TransitionLink href="/" aria-label="Home page">
+        <Link href="/" aria-label="Home page">
           <div className="mb-1">
             <Image
               width={250}
@@ -70,7 +71,7 @@ const Header: React.FC = () => {
               style={{ objectFit: "contain" }}
             />
           </div>
-        </TransitionLink>
+        </Link>
         <div className="relative w-[800px]">
           <input
             className="w-full h-12 px-4 py-2 rounded-full max-lg:hidden border border-gray-300"

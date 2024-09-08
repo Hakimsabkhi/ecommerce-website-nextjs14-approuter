@@ -19,7 +19,6 @@ import { CiMail } from "react-icons/ci";
 import { FaFacebookF } from "react-icons/fa6";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
-import { TransitionLink } from './utils/TransitionLink';
 import { FaArrowRight } from "react-icons/fa6";
 export default function Bb() {
     return (
@@ -39,36 +38,36 @@ export default function Bb() {
                         <div className='flex-col flex gap-4'>
                             <p className="text-white  text-xl max-md:text-2xl  ">Quick links</p>
                             <div className='flex-col gap-2 text-xs max-md:text-base flex'>
-                                <TransitionLink href="/">
+                                <Link href="/">
                                     <p className="   hover:text-white cursor-pointer">
                                         Home
                                     </p>
-                                </TransitionLink>
-                                <TransitionLink href="/about">
+                                </Link>
+                                <Link href="/about">
                                     <p className="   hover:text-white cursor-pointer">
                                         About
                                     </p>
-                                </TransitionLink>
-                                <TransitionLink href="#">
+                                </Link>
+                                <Link href="#">
                                     <p className="   hover:text-white cursor-pointer">
                                         Annonce
                                     </p>
-                                </TransitionLink>
-                                <TransitionLink href="#">
+                                </Link>
+                                <Link href="#">
                                     <p className="   hover:text-white cursor-pointer">
                                         Services
                                     </p>
-                                </TransitionLink>
-                                <TransitionLink href="/blog">
+                                </Link>
+                                <Link href="/blog">
                                     <p className="   hover:text-white cursor-pointer">
                                         Blogs
                                     </p>
-                                </TransitionLink>
-                                <TransitionLink href="/">
+                                </Link>
+                                <Link href="/">
                                     <p className="   hover:text-white cursor-pointer">
                                         devenez vendeur
                                     </p>
-                                </TransitionLink>                                
+                                </Link>                                
                             </div>
                         </div>
                         <div className='flex flex-col mb-6 max-md:mb-9 gap-4'>

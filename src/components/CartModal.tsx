@@ -3,7 +3,7 @@ import Image from "next/image";
 import { FaRegTrashAlt } from "react-icons/fa";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { addItem, removeItem, updateItemQuantity } from "../../store/cartSlice";
+import { addItem, removeItem, updateItemQuantity } from "../store/cartSlice";
 
 // Define the shape of the cart item
 interface CartItem {

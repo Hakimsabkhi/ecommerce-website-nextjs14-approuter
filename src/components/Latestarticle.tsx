@@ -3,9 +3,10 @@ import Image from 'next/image';
 
 import {itemsarticle} from "@/assets/data"
 
-import { TransitionLink } from './utils/TransitionLink';
+
 import { FaArrowRight } from "react-icons/fa6";
 import { FaReadme } from "react-icons/fa6";
+import Link from 'next/link';
 const Latestarticle = () => {
     return (
         <div className='py-8 h-fit w-[96%] mx-auto flex flex-col justify-center items-center gap-10 '>
@@ -13,7 +14,7 @@ const Latestarticle = () => {
                 <h3 className=' font-bold max-md:text-2xl text-4xl text-gray-800'>
                     Latest articles
                 </h3>
-                <TransitionLink href="/blog">
+                <Link href="/blog">
                     <div className='relative flex items-center border-2 justify-center p-4 px-12 py-4 overflow-hidden  transition duration-300 ease-out  rounded-full group'>
                         <span className="absolute flex items-center  justify-center w-full h-full text-white duration-300 -translate-x-full bg-black lg:group-hover:translate-x-0 ease">
                             <FaArrowRight  className='w-5 h-5 ' />
@@ -23,7 +24,7 @@ const Latestarticle = () => {
                         </span>
                         <span className="relative invisible">Visit the Blog</span>                          
                     </div>
-                </TransitionLink>
+                </Link>
             </div>
             <div className='grid grid-cols-4 max-xl:grid-cols-2 max-md:grid-cols-1 w-full group gap-10     '>
                 {itemsarticle.map((item, index) => (

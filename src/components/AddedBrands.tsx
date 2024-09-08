@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { toast} from 'react-toastify';
-import Dialog from './dialogDelete/Dialog';
+import DeletePopup from "@/components/Popup/DeletePopup";
+import LoadingSpinner from './LoadingSpinner';
 
 type Brand = {
     _id: string;
@@ -28,16 +29,21 @@ const AddedBrands: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const BrandesPerPage = 5; // Number of categories to display per page
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [selectedBrand, setSelectedBrand] = useState({ id: '', name: '' });
+    const [loadingBrandId, setLoadingBrandId] = useState<string | null>(null);
     const handleDeleteClick = (brand:Brand) => {
+
+        setLoadingBrandId(brand._id); 
+        
         setSelectedBrand({ id: brand._id, name: brand.name });
-        setIsDialogOpen(true);
+        setIsPopupOpen(true);
       };
     
-      const handleCloseDialog = () => {
-        setIsDialogOpen(false);
+      const handleClosePopup = () => {
+        setIsPopupOpen(false);
+        setLoadingBrandId(null); 
       };
     const Deletebrand = async (brandId: string) => {
         
@@ -50,7 +56,7 @@ const AddedBrands: React.FC = () => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            handleCloseDialog();
+            handleClosePopup();
             toast.success("Brand delete successfully!" );
            
            
@@ -59,7 +65,9 @@ const AddedBrands: React.FC = () => {
         } catch (err: any) {
             
             toast.error(`[Brand_DELETE] ${err.message}` );
-        }
+        }finally{
+            setLoadingBrandId(null); 
+          }
     };
     const getBrand = async () => {
         try {
@@ -100,9 +108,7 @@ const AddedBrands: React.FC = () => {
    
     if (loading) {
         return (/* loading start */
-        <div className="flex justify-center items-center h-[400px]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>   
-      </div>
+       <LoadingSpinner/>
       /*  loading end  */)
     }
     if (error) {
@@ -160,9 +166,9 @@ const AddedBrands: React.FC = () => {
                                         </button>
                                     </Link>
                                     <button onClick={()=>handleDeleteClick(item)}  className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md">
-                                        Delete
+                                    {loadingBrandId ===item._id ? "Processing..." : "DELETE"}
                                     </button>
-                                    {isDialogOpen &&     < Dialog  handleCloseDialog={handleCloseDialog} Delete={Deletebrand}  id={selectedBrand.id} // Pass selected user's id
+                                    {isPopupOpen &&     < DeletePopup  handleClosePopup={handleClosePopup} Delete={Deletebrand}  id={selectedBrand.id} // Pass selected user's id
                     name={selectedBrand.name} />}                                
                             </td>
                         </tr>

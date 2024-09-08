@@ -1,4 +1,4 @@
-import mongoose ,{Model}from 'mongoose';
+import mongoose ,{Document,Model}from 'mongoose';
 import { IUser } from './User'; // Import the IUser interface
 import { ICategory } from './Category';  
 import { IBrand } from './Brand';
@@ -9,10 +9,11 @@ export interface IProduct extends Document {
   ref:string;
   price: number;
   imageUrl?: string;
+  images: string []; 
   material?:string;
   color?:string;
   dimensions?:string;
-  warranty?:Number,
+  warranty?:number,
   category: ICategory | string;//Reference to a category document or category ID
   brand: IBrand | string;//Reference to a brand document or brand ID 
   stock: number;
@@ -41,7 +42,8 @@ const ProductSchema = new mongoose.Schema({
   weight:{type:Number},
   status: { type: String, default: 'in stock' },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  imageUrl: String,
+  imageUrl: { type: String },
+  images: [{ type: String }], 
 },{ timestamps: true });
 
 

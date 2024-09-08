@@ -8,8 +8,8 @@ import Head from "next/head";
 import ProductQ from "./ProductQ";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../../store/cartSlice";
-import { RootState } from "../../../store/store";
+import { addItem } from "../../store/cartSlice";
+import { RootState } from "../../store";
 import { toast } from "react-toastify";
 
 const noimage =
@@ -136,27 +136,10 @@ const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
                 emphasizes the lightness of the elements with thin yet
                 comfortable design.
               </p>
-              <p className="text-primary text-3xl font-bold max-lg:justify-center flex">
-                {product.price} TND
-              </p>
-              <div className="flex items-center max-lg:flex-col gap-3 max-lg:justify-center">
-                <p>Quantity</p>
-                <div className="flex items-center">
-                  <p className="p-3 border-2 text-xl"></p>
-                </div>
-                <button
-                  onClick={() => {
-                    addToCartHandler(product);
-                  }}
-                  className="text-white bg-primary hover:bg-[#15335D] h-10 w-[20%] font-bold rounded-md"
-                >
-                  <p>Add to cart</p>
-                </button>
-                <button className="text-white bg-black h-10 w-[20%] font-bold rounded-md">
-                  <p>Buy now</p>
-                </button>
+             
+                <ProductQ  product={product} addToCartHandler={addToCartHandler}/>
               </div>
-            </div>
+           
           </div>
         ) : (
           <div className="h-[465.59px] max-lg:h-[1062px]"></div>

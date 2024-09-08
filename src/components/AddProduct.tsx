@@ -91,10 +91,10 @@ const AddProduct = () => {
     if (files) {
       const fileArray = Array.from(files);
    
-      if    (images.length + fileArray.length > 3) {
+      /* if    (images.length + fileArray.length > 3) {
         setError('Please select 1 or 2 images.');
         return;
-      }
+      } */
 
 
       setImages(prevImages => [...prevImages, ...fileArray]);
@@ -105,6 +105,7 @@ const AddProduct = () => {
     setImages(prevImages => prevImages.filter((_, i) => i !== index));
   };
 
+  
   useEffect(() => {
     // Cleanup function to revoke object URLs when images are removed or component unmounts
     return () => {
@@ -139,7 +140,9 @@ const AddProduct = () => {
     formData.append("dimensions", productData.dimensions);
 
     if (image) formData.append("image", image);
-
+    if (images) {
+      images.forEach((img, index) => formData.append(`images[${index}]`, img));
+    }
     try {
       const response = await fetch("/api/products/postProduct", {
         method: "POST",

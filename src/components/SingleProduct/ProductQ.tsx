@@ -16,9 +16,10 @@ interface Product {
 
 interface ProductQProps {
   product: Product | null;
+  addToCartHandler: (product: Product) => void;
 }
 
-const ProductQ: React.FC<ProductQProps> = ({ product }) => {
+const ProductQ: React.FC<ProductQProps> = ({ product,addToCartHandler }) => {
 
       if (!product) {
         return null; // Ensure the component returns null if product is not available
@@ -87,7 +88,7 @@ const ProductQ: React.FC<ProductQProps> = ({ product }) => {
       </button>
     </div>{/* Assuming you want to show the quantity here */}
       </div>
-      <button className="text-white bg-primary hover:bg-[#15335D] h-10 w-[20%] font-bold rounded-md">
+      <button  onClick={() => addToCartHandler(product)} className="text-white bg-primary hover:bg-[#15335D] h-10 w-[20%] font-bold rounded-md">
         <p>Add to cart</p>
       </button>
       <button className="text-white bg-black h-10 w-[20%] font-bold rounded-md">

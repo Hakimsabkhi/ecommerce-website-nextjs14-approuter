@@ -4,8 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { fetchCategories } from "@/lib/featcher";
 import { toast } from "react-toastify";
-import Dialog from "./dialogDelete/Dialog";
+import DeletePopup from "./Popup/DeletePopup";
 import { flag } from "@/assets/image";
+import LoadingSpinner from "./LoadingSpinner";
 
 type Category = {
   _id: string;
@@ -24,20 +25,23 @@ username:string;
 const AddedCategories: React.FC = () => {
   const [addedCategory, setAddedCategory] = useState<Category[]>([]);
   const [filteredCategory, setFilteredCategory] = useState<Category[]>([]);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const categoriesPerPage = 5; // Number of categories to display per page
   const [loading, setLoading] = useState(true);
   const [selectedCatgory, setSelectedCatgory] = useState({ id: "", name: "" });
+  const [loadingCategoryId, setLoadingCategoryId] = useState<string | null>(null);
   const handleDeleteClick = (Category: Category) => {
+    setLoadingCategoryId(Category._id); 
     setSelectedCatgory({ id: Category._id, name: Category.name });
-    setIsDialogOpen(true);
+    setIsPopupOpen(true);
   };
 
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setLoadingCategoryId(null);
   };
 
   const DeleteCategory = async (categoryId: string) => {
@@ -55,13 +59,15 @@ const AddedCategories: React.FC = () => {
 
       // Refresh categories after deletion
       await fetchCategories();
-      handleCloseDialog();
+      handleClosePopup();
       getCategory();
       toast.success("Category delete successfully!");
     } catch (err: any) {
       /*  setError(`[Category_DELETE] ${err.message}`);
           setError(`Error: ${err.message}`); */
       toast.error("faild Category_DELETE");
+    }finally {
+      setLoadingCategoryId(null);
     }
   };
 
@@ -108,9 +114,7 @@ const AddedCategories: React.FC = () => {
   if (loading) {
     return (
       /* loading start */
-      <div className="flex justify-center items-center h-[400px]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
-      </div>
+     <LoadingSpinner/>
       /*  loading end  */
     );
   }
@@ -168,12 +172,13 @@ const AddedCategories: React.FC = () => {
                   <button
                     onClick={() => handleDeleteClick(item)}
                     className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md"
+                    disabled={loadingCategoryId === item._id}
                   >
-                    Delete
+                    {loadingCategoryId ===item._id ? "Processing..." : "DELETE"}
                   </button>
-                  {isDialogOpen && (
-                    <Dialog
-                      handleCloseDialog={handleCloseDialog}
+                  {isPopupOpen && (
+                    <DeletePopup
+                      handleClosePopup={handleClosePopup}
                       Delete={DeleteCategory}
                       id={selectedCatgory.id}
                       name={selectedCatgory.name}

@@ -1,13 +1,7 @@
 
 
 import React from 'react';
-import Image from 'next/image';
-import { flag, phone, expert } from "@/assets/image";
-import { TransitionLink } from './utils/TransitionLink';
-import Link from 'next/link';
-import { CiPhone } from "react-icons/ci";
-import { CiMail } from "react-icons/ci";
-import { CiLocationOn } from "react-icons/ci";
+
 const Headertop: React.FC = () => {
     return (
         <header>
