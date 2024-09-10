@@ -9,17 +9,17 @@ export interface IProduct extends Document {
   ref:string;
   price: number;
   imageUrl?: string;
-  images: string []; 
+  images?: string []; 
   material?:string;
   color?:string;
   dimensions?:string;
-  warranty?:number,
+  warranty?:string,
   category: ICategory | string;//Reference to a category document or category ID
   brand: IBrand | string;//Reference to a brand document or brand ID 
   stock: number;
   user: IUser | string; // Reference to a User document or User ID
   discount?: number;
-  weight?:number;
+  weight?:string;
   status:string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -33,13 +33,13 @@ const ProductSchema = new mongoose.Schema({
   material:{ type: String},
   dimensions:{ type: String },
   color:{type:String},
-  warranty:{ type: Number },
+  warranty:{ type: String },
   category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
   brand: { type: mongoose.Schema.Types.ObjectId, ref: 'Brand' },
   stock:  { type: Number, required: true },
   price:  { type: Number, required: true },
   discount: { type: Number},
-  weight:{type:Number},
+  weight:{type:String},
   status: { type: String, default: 'in stock' },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   imageUrl: { type: String },

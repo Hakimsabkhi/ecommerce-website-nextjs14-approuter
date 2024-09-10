@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 interface ReviewData {
   _id: string;
@@ -39,7 +39,7 @@ const ReplyReview: React.FC = () => {
     updatedAt: "",
   });
   // Move fetchReviewData outside of useEffect so it can be reused
-  const fetchReviewData = async () => {
+  const fetchReviewData = useCallback(async () => {
     try {
       const response = await fetch(`/api/review/getReviewById/${id}`);
       if (!response.ok) {
@@ -50,12 +50,13 @@ const ReplyReview: React.FC = () => {
     } catch (error) {
       console.error("Error fetching review data:", error);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
-    fetchReviewData();
-   
-  }, []);
+    if (id) {
+      fetchReviewData();
+    }
+  }, [id, fetchReviewData]);
   const handleReplySubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

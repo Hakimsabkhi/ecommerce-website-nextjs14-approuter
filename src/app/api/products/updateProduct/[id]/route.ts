@@ -186,11 +186,11 @@ export async function PUT(
         if (material !== null) {
           existingProduct.material = material;
         }
-        if (weight !== null && !isNaN(Number(weight))){
-          existingProduct.weight = parseFloat(weight);
+        if (weight !== null ){
+          existingProduct.weight =weight;
         } 
-        if (warranty !== null && !isNaN(Number(warranty))){
-          existingProduct.warranty = parseFloat(warranty);
+        if (warranty !== null ){
+          existingProduct.warranty = warranty;
         } 
         if (dimensions !== null) {
           existingProduct.dimensions = dimensions;
@@ -199,7 +199,9 @@ export async function PUT(
         existingProduct.imageUrl = imageUrl;
       }
       if (uploadedImages && uploadedImages.length > 0) {
-        existingProduct.images = [...existingProduct.images, ...uploadedImages];
+        const images = existingProduct.images || [];
+
+        existingProduct.images = [...images, ...uploadedImages];
       }
       // Optional: Update the updatedAt field if adding new information
       existingProduct.updatedAt = new Date();

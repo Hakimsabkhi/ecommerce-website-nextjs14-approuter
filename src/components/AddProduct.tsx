@@ -292,7 +292,7 @@ const AddProduct = () => {
         </div>
       </div>
       <div className="flex items-center w-full gap-4">
-        <p className="text-xl font-bold">Info</p>
+        <p className="text-xl font-bold">Info*</p>
         <textarea
           name="info"
           value={productData.info}
@@ -335,7 +335,7 @@ const AddProduct = () => {
         <div className="flex items-center w-full gap-4">
           <label className="text-xl font-bold">Weight</label>
           <input
-            type="number"
+            type="text"
             name="weight"
             value={productData.weight}
             onChange={handleChange}
@@ -345,7 +345,7 @@ const AddProduct = () => {
         <div className="flex items-center w-full gap-4">
           <label className="text-xl font-bold">Warranty</label>
           <input
-            type="number"
+            type="text"
             name="warranty"
             value={productData.warranty}
             onChange={handleChange}

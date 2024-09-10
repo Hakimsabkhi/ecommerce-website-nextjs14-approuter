@@ -4,11 +4,16 @@ interface Product {
   _id: string;
   name: string;
   description: string;
+  info:string;
   ref: string;
   price: number;
   imageUrl?: string;
+  images?: string [];
   stock: number;
+  dimensions?:string;
   discount?: number;
+  warranty?:number;
+  weight?:number;
   color?: string;
   material?: string;
   status?: string;
@@ -20,11 +25,11 @@ interface ProductQProps {
 }
 
 const ProductQ: React.FC<ProductQProps> = ({ product,addToCartHandler }) => {
-
+  const [quantity, setQuantity] = useState<number>(1);
       if (!product) {
         return null; // Ensure the component returns null if product is not available
       }
-      const [quantity, setQuantity] = useState<number>(1);
+
 
       const increaseQuantity = () => {
         if (quantity < product.stock) {
@@ -88,18 +93,18 @@ const ProductQ: React.FC<ProductQProps> = ({ product,addToCartHandler }) => {
       </button>
     </div>{/* Assuming you want to show the quantity here */}
       </div>
-      <button  onClick={() => addToCartHandler(product)} className="text-white bg-primary hover:bg-[#15335D] h-10 w-[20%] font-bold rounded-md">
+      <button  onClick={() => addToCartHandler(product)} className="text-white bg-primary hover:bg-[#15335D] h-10 w-[70%] font-bold rounded-md">
         <p>Add to cart</p>
       </button>
-      <button className="text-white bg-black h-10 w-[20%] font-bold rounded-md">
+      <button className="text-white bg-black h-10 w-[60%] font-bold rounded-md">
         <p>Buy now</p>
       </button>
     </>
   ) : (
-    <button className="text-white bg-gray-500 h-10 w-[20%] font-bold rounded-md" disabled>
+    <button className="text-white bg-gray-500 h-10 w-[60%] font-bold rounded-md" disabled>
       <p>Out of stock</p>
     </button>
-  )):(<button className="text-white bg-gray-500 h-10 w-[20%] font-bold rounded-md" disabled>
+  )):(<button className="text-white bg-gray-500 h-10 w-[60%] font-bold rounded-md" disabled>
     <p>Out of stock</p>
   </button>)}
 </div>

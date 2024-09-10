@@ -11,16 +11,20 @@ interface Product {
   _id: string;
   name: string;
   description: string;
+  info:string;
   ref: string;
   price: number;
   imageUrl?: string;
+  images?: string [];
   brand?: Brand; // Make brand optional
   stock: number;
+  dimensions?:string;
   discount?: number;
+  warranty?:number;
+  weight?:number;
   color?: string;
   material?: string;
   status?: string;
-  user: user;
 }
 
 interface Brand {

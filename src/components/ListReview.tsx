@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import DeletePopup from './Popup/DeletePopup';
@@ -33,7 +33,27 @@ const ListReview: React.FC = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const getReviews = useCallback(async () => {
+    if (!productId) return;
 
+    try {
+      const response = await fetch(`/api/review/getAllReviewByProduct?id=${productId}`, {
+        method: 'GET',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch reviews');
+      }
+
+      const data = await response.json();
+      setAddedReviews(data);
+      setFilteredReviews(data);
+    } catch (err: any) {
+      setError(`[Reviews_GET] ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
+  }, [productId]);
   const handleDeleteClick = () => {
   
     setIsPopupOpen(true);
@@ -62,31 +82,11 @@ const ListReview: React.FC = () => {
     }
   };
 
-  const getReviews = async () => {
-    if (!productId) return;
-
-    try {
-      const response = await fetch(`/api/review/getAllReviewByProduct?id=${productId}`, {
-        method: 'GET',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch reviews');
-      }
-
-      const data = await response.json();
-      setAddedReviews(data);
-      setFilteredReviews(data);
-    } catch (err: any) {
-      setError(`[Reviews_GET] ${err.message}`);
-    }finally{
-      setLoading(false)
-    }
-  };
 
   useEffect(() => {
+  
     getReviews();
-  }, []);
+  }, [getReviews]);
 
   useEffect(() => {
     const filtered = addedReviews.filter(review =>
@@ -211,3 +211,7 @@ const ListReview: React.FC = () => {
 };
 
 export default ListReview;
+function getReviews() {
+  throw new Error('Function not implemented.');
+}
+

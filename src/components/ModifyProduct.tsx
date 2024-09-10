@@ -22,8 +22,8 @@ interface ProductData {
   info?: string;
   color?: string;
   material?: string;
-  weight?: number;
-  warranty?: number;
+  weight?: string;
+  warranty?: string;
   dimensions?: string;
   images?:string[];
 }
@@ -65,8 +65,8 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     info: productData?.info || '',
     color: productData?.color || '',
     material: productData?.material || '',
-    weight: productData?.weight || 0,
-    warranty: productData?.warranty || 0,
+    weight: productData?.weight || '',
+    warranty: productData?.warranty ||  '',
     dimensions: productData?.dimensions || '',
     images: productData?.images || [],
   });
@@ -131,7 +131,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
       ...prevFormData,
       [name]: name === 'category' || name === 'brand'
         ? { _id: value }
-        : (name === 'weight' || name === 'price' || name === 'stock')
+        : (name === 'price' || name === 'stock')
         ? Number(value) || 0
         : value
     }));
@@ -198,8 +198,8 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     updateFormData.append('info', formData.info || '');
     updateFormData.append('color', formData.color || '');
     updateFormData.append('material', formData.material || '');
-    updateFormData.append('weight', (formData.weight ?? 0).toString());
-    updateFormData.append('warranty', (formData.warranty ?? 0).toString());
+    updateFormData.append('weight', formData.weight || '');
+    updateFormData.append('warranty',formData.warranty|| '' );
     updateFormData.append('dimensions', formData.dimensions || '');
     if (image) updateFormData.append('image', image);
     images.forEach((img, index) => updateFormData.append(`images[${index}]`, img));
@@ -345,7 +345,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
         </div>
       </div>
       <div className="flex items-center w-full gap-4">
-        <p className="text-xl font-bold">Info</p>
+        <p className="text-xl font-bold">Info*</p>
         <textarea
           name="info"
           value={formData.info}
@@ -388,7 +388,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
         <div className="flex items-center w-full gap-4">
           <label className="text-xl font-bold">Weight</label>
           <input
-            type="number"
+            type="text"
             name="weight"
             value={formData.weight}
             onChange={handleChange}
@@ -398,7 +398,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
         <div className="flex items-center w-full gap-4">
           <label className="text-xl font-bold">Warranty</label>
           <input
-            type="number"
+            type="text"
             name="warranty"
             value={formData.warranty }
             onChange={handleChange}
