@@ -52,10 +52,12 @@ const ShoppingCart = () => {
   };
 
   const totalQuantity = items.reduce((total, item) => total + item.quantity, 0);
-  const totalPrice = items.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  const totalPrice = items.reduce((total, item) => {
+    const finalPrice = item.discount != null && item.discount > 0 
+      ? item.price - (item.price * item.discount / 100)
+      : item.price;
+    return total + finalPrice * item.quantity;
+  }, 0);
   const handleSuccess = () => {
     dispatch(clearCart());
     router.push("/");
@@ -70,8 +72,8 @@ const ShoppingCart = () => {
           <h1 className="text-3xl font-bold py-4">Shopping Cart</h1>
           <div className="flex flex-col divide-y-2">
             {items.map((item) => (
-              <div key={item._id} className="py-4 flex justify-between">
-                <div className="flex gap-4">
+              <div key={item._id} className="py-4 flex justify-between ">
+                <div className="flex gap-4 w-full ">
                   <Image
                     className="rounded-lg"
                     src={item.imageUrl || "/path/to/default-image.jpg"}
@@ -79,25 +81,26 @@ const ShoppingCart = () => {
                     width={150} // Add width
                     height={150} // Add height
                   />
-                  <div className="flex flex-col justify-between">
-                    <div className="flex flex-col gap-4">
+                  <div className="flex flex-col justify-between w-2/5">
+                    <div className="flex flex-col gap-2 ">
                       <p className="text-xl">{item.name}</p>
-                      <div className="flex items-center divide-x-2 text-gray-400">
-                        <p className="pr-2">{item.color}</p>
-                        <p className="px-2">{item.ref}</p>
+                      <div className=" text-gray-400">
+                        <p >{item.color}</p>
+                        <p >{item.ref}</p>
                       </div>
-                      <p>TND {item.price.toFixed(2)}</p>
+                      {item.discount != null && item.discount > 0 ? (
+                        <p> {(item.price - item.price * (item.discount ?? 0) / 100).toFixed(2)}TND</p>) : (
+                          <p>{item.price.toFixed(2)} TND</p>)}
                     </div>
                     <p className="text-gray-400 font-bold flex items-center gap-2">
-                      <IoCheckboxOutline size={25} /> In Stock
+                      <IoCheckboxOutline size={25} /><p className="uppercase">{item.status}</p> 
                     </p>
                   </div>
-                </div>
-                <div className="flex items-center">
-                  <p className="py-2 px-8 border-2 rounded-l-lg">
+                  <div className={`flex items-center w-2/5 `}>
+                <p className={"py-2 px-8 border-2 rounded-l-lg "}>
                     {item.quantity}
                   </p>
-                  <div className="border-t-2 border-r-2 border-b-2 py-1 px-2 rounded-r-lg">
+                  <div className="border-t-2 border-r-2 border-b-2 py-1 px-2 rounded-r-lg ">
                     <IoIosArrowUp
                       className="cursor-pointer"
                       onClick={() => incrementHandler(item)}
@@ -107,7 +110,10 @@ const ShoppingCart = () => {
                       onClick={() => decrementHandler(item)}
                     />
                   </div>
+                 
                 </div>
+                </div>
+                
                 <RxCross1
                   className="cursor-pointer"
                   onClick={() => removeCartHandler(item._id)}
@@ -164,13 +170,15 @@ const ShoppingCart = () => {
                           <p className="pr-2">{item.color}</p>
                           <p className="px-2">{item.ref}</p>
                         </div>
-                        <p>TND {item.price.toFixed(2)}</p>
+                        {item.discount != null && item.discount > 0 ? (
+                        <p> {(item.price - item.price * (item.discount ?? 0) / 100).toFixed(2)}TND</p>) : (
+                          <p>{item.price.toFixed(2)}</p>)}
                       </div>
                       <p className="text-gray-400 font-bold flex items-center gap-2">
                         <IoCheckboxOutline size={25} /> In Stock
                       </p>
                     </div>
-                    <div className="flex items-center">
+                    <div className={`flex items-center  ${!item.color ? 'md:pl-24' : ''}`}>
                       <p className="py-2 px-8 border-2 rounded-l-lg">
                         {item.quantity}
                       </p>

@@ -37,33 +37,21 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addItem: (state, action: PayloadAction<Omit<CartItem, "quantity">>) => {
-      const existingItem = state.items.find(
-        (item) => item._id === action.payload._id
-      );
+    addItem: (state, action: PayloadAction<{ item: Omit<CartItem, 'quantity'>; quantity: number }>) => {
+      const { item, quantity } = action.payload;
+      const existingItem = state.items.find(existingItem => existingItem._id === item._id);
 
       if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += quantity; // Increment existing item's quantity by the specified amount
       } else {
-        state.items.push({ ...action.payload, quantity: 1 });
+        state.items.push({ ...item, quantity }); // Add new item with specified quantity
       }
+
       saveCartState(state);
     },
 
     removeItem: (state, action: PayloadAction<{ _id: string }>) => {
-      const existingItem = state.items.find(
-        (item) => item._id === action.payload._id
-      );
-
-      if (existingItem) {
-        if (existingItem.quantity > 1) {
-          existingItem.quantity -= 1;
-        } else {
-          state.items = state.items.filter(
-            (item) => item._id !== action.payload._id
-          );
-        }
-      }
+      state.items = state.items.filter(item => item._id !== action.payload._id);
       saveCartState(state);
     },
 

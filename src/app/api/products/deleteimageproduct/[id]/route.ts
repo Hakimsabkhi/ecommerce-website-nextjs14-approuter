@@ -41,7 +41,7 @@ export async function DELETE(req: NextRequest) {
         }
       }
     // Remove imageUrl from the images array
-    product.images = product.images.filter((img: string) => img !== imageUrl);
+    product.images = product?.images?.filter((img: string) => img !== imageUrl);
 
    await product.save();
     return NextResponse.json({ message: 'Image removed successfully' }, { status: 200 });

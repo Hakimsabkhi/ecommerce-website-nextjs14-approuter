@@ -57,11 +57,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
   console.log(items);
 
   const dispatch = useDispatch();
-
-  const addToCartHandler = (product: ProductData) => {
-    dispatch(addItem(product));
-    toast.success(`${product.name} added to cart!`);
-  };
+  const addToCartHandler = (product: ProductData, quantity: number) => {
+    // Ensure dispatch is available
+ 
+   // Dispatch the action with item and quantity
+   dispatch(addItem({ item: product, quantity }));
+ 
+   // Show success notification
+   toast.success(`${product.name} added to cart !`);
+ };
   return (
     <div className="bg-white rounded-lg duration-500 lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[481px] max-md:h-[320px] relative">
       <Link href={`/${item.category?.name}/${item._id}`}>
@@ -111,7 +115,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
 
         {item.status != 'out-of-stock' ? (item.stock > 0 ? ( <button
             onClick={() => {
-              addToCartHandler(item);
+              addToCartHandler(item,1);
             }}
             className="AddtoCart bg-primary hover:bg-[#15335D] text-white w-[50%] max-md:rounded-[3px] max-2xl:text-sm group/box"
           >

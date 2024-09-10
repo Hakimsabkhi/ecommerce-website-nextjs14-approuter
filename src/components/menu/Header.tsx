@@ -11,6 +11,7 @@ import { luxehome } from "@/assets/image";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import Link from "next/link";
+import Total from "./Total";
 
 
 interface Category {
@@ -98,7 +99,8 @@ const Header: React.FC = () => {
             </div>
             {isCartOpen && <CartModal items={items} />}
           </div>
-          <span className="text-xl">$0.00</span>
+          
+         <Total items={items}/>
         </div>
       </div>
     </div>

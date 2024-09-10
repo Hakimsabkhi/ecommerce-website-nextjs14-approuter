@@ -16,7 +16,7 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
   const { data: session } = useSession(); // Fetch session using useSession hook
   const pathname = usePathname();
 
-  const excludedPaths = ["/signup", "/signin", "/checkout"];
+  const excludedPaths = ["/signup", "/signin", "/ShoppingCart"];
 
   if (excludedPaths.includes(pathname)) {
     return <>{children}</>;

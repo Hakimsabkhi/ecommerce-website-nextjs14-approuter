@@ -29,7 +29,7 @@ interface Product {
 
 const SecondBlock: React.FC<{ product: Product | null }> = ({ product }) => {
     return (
-        <main className=' desktop max-lg:w-[95%] my-10 bg-white rounded-lg  flex max-lg:flex-col max-lg:pt-52 max-md:pt-48 max-sm:pt-20 justify-between '>
+        <main className=' desktop max-lg:w-[95%] my-10 bg-white rounded-lg  flex max-lg:flex-col justify-between '>
             {product?
                 (
             <div className="w-[50%] max-lg:w-full justify-between px-4">
