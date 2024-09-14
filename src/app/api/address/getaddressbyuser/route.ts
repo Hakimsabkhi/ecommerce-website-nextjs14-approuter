@@ -12,6 +12,9 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     const user = await User.findOne({ email:token.email});
+    if (!user ) {
+      return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
+    }
     // Fetch all categories but only return the name and imageUrl fields
     const address = await Address.find({user})// Only select the 'name' and 'imageUrl' fields
 

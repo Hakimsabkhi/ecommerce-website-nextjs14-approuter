@@ -27,7 +27,7 @@ interface CartItem {
   quantity: number;
 }
 interface ShoppingCartProps {
-  onCheckout: (price: number, discount: number) => void;
+  onCheckout: (price: number, discount: number, items: CartItem[]) => void; // Add items parameter
 }
 const ShoppingCart: React.FC<ShoppingCartProps> = ({ onCheckout }) => {
   const router = useRouter();
@@ -197,7 +197,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ onCheckout }) => {
 
           <div className="mt-8 space-y-2">
             <button
-               onClick={() => onCheckout(totalPrice,  totalDiscount )}
+               onClick={() => onCheckout(totalPrice,  totalDiscount ,items)}
               type="button"
               className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-primary hover:bg-[#15335E] text-white rounded-md"
             >
@@ -336,7 +336,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ onCheckout }) => {
 
           <div className="mt-8 space-y-2">
             <button
-           onClick={() => onCheckout(totalPrice,  totalDiscount )}
+           onClick={() => onCheckout(totalPrice,  totalDiscount,items )}
               type="button"
               className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-primary hover:bg-[#15335E] text-white rounded-md"
             >

@@ -1,11 +1,19 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Governorate, city } from "@/assets/tunisia";
 import { toast } from "react-toastify";
+import PaypalButton from "@/app/Helper/PaypalButton";
+import { CartItem } from '@/store/cartSlice'; 
+import { json } from "stream/consumers";
 
 interface AddressProps {
+  checkoutData:checkoutData;
+  onOrderSummary: () => void;
+}
+interface checkoutData{
   totalPrice: number;
   totalDiscount: number;
+  items: CartItem[];
 }
 interface Governorate {
   id: number;
@@ -17,22 +25,45 @@ interface Municipality {
   name: string;
   governorate_id: number;
 }
-
+type Address = {
+  _id: string;
+  governorate: string;
+  city: string;
+  address: string;
+  zipcode: string;
+};
 // Sample data
 const governorates: Governorate[] = Governorate;
 
 const municipalities: Municipality[] = city;
-const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
-    const [error, setError] = useState<string | null>(null);
-  const [selectedGovernorate, setSelectedGovernorate] = useState<number | undefined>(undefined);
-  const [filteredMunicipalities, setFilteredMunicipalities] = useState<Municipality[]>([]);
+const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary }) => {
+  const [error, setError] = useState<string | null>(null);
+  const [addresses, setAddresses] = useState<Address[]>([]);
+  const [selectedGovernorate, setSelectedGovernorate] = useState<
+    number | undefined
+  >(undefined);
+  const [filteredMunicipalities, setFilteredMunicipalities] = useState<
+    Municipality[]
+  >([]);
   const [addressData, setAddressData] = useState({
     governorate: "",
     city: "",
     address: "",
     phone: "",
+    zipcode: "",
   });
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
 
+  const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedPaymentMethod(e.target.value); // Update the selected payment method
+  };
+  const toggleFormVisibility = () => {
+    setIsFormVisible(true);
+  };
+  const toggleForminVisibility = () => {
+    setIsFormVisible(false);
+  };
   useEffect(() => {
     // Update municipalities based on selected governorate
     if (selectedGovernorate !== undefined) {
@@ -53,22 +84,53 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
       governorate: event.target.options[event.target.selectedIndex].text, // Update state with selected governorate name
     }));
   };
-  
-  const handleCityChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+
+  const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setAddressData((prevData) => ({
       ...prevData,
       city: event.target.options[event.target.selectedIndex].text, // Update state with selected city name
     }));
   };
-  
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAddressData({ ...addressData, [event.target.name]: event.target.value });
   };
+  const getAddress = useCallback(async () => {
+    try {
+      const response = await fetch("/api/address/getaddressbyuser", {
+        method: "GET",
+      });
 
+      if (!response.ok) {
+        throw new Error("Failed to fetch address");
+      }
+
+      const data = await response.json();
+      setIsFormVisible(false);
+      setAddresses(data); // Update state with fetched data
+    } catch (err: any) {
+      setError(`[address_GET] ${err.message}`);
+    }
+  }, []);
+
+  useEffect(() => {
+    getAddress(); // Call the async function when the component mounts
+  }, [getAddress]);
+  const deleteProduct = async (id: string) => {
+    try {
+      const response = await fetch(`/api/address/deleteAddressbyuser/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete the product");
+      }
+      getAddress();
+    } catch (err: any) {
+      // setError(`[Product_DELETE] ${err.message}`);
+      toast.error("faild Product_DELETE");
+    }
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -77,6 +139,7 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
     formData.append("city", addressData.city);
     formData.append("address", addressData.address);
     formData.append("phone", addressData.phone);
+    formData.append("zipcode", addressData.zipcode);
 
     try {
       const response = await fetch("/api/address/postAddress", {
@@ -89,37 +152,86 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
         // Handle different statuses with specific messages
         switch (response.status) {
           case 400:
-            toast.error(result.message || 'All fields are required.');
+            toast.error(result.message || "All fields are required.");
             break;
           case 405:
-            toast.error(result.message || 'You have reached the limit of 2 addresses.');
+            toast.error(
+              result.message || "You have reached the limit of 2 addresses."
+            );
             break;
           case 500:
-            toast.error(result.message || 'Error creating address.');
+            toast.error(result.message || "Error creating address.");
             break;
           default:
-            toast.error(result.message || 'An unexpected error occurred.');
+            toast.error(result.message || "An unexpected error occurred.");
         }
         return; // Exit function to avoid proceeding with the success case
       }
+      getAddress();
       toast.success(`Address added successfully!`);
       await response.json(); // or await response.text() if you expect text response
-
     } catch (error) {
-      console.log({error})
+      console.log({ error });
       toast.error(
         `${error instanceof Error ? error.message : "Unknown error"}`
       );
     }
   };
+  const handleorderSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+      // Cast the selected elements to appropriate types
+      const selectedAddress = (document.querySelector(
+        'select[name="address-method"]'
+      ) as HTMLInputElement | null)?.value;
+      const selectedPaymentMethod = (document.querySelector(
+        'input[name="payment-method"]:checked'
+      ) as HTMLInputElement | null)?.value;
+    
+  
+    if (!selectedAddress || !selectedPaymentMethod) {
+      toast.error("Please select an address and payment method");
+      return;
+    }
+   
+    const orderData = {
+      
+      address: selectedAddress,
+      paymentMethod: selectedPaymentMethod,
+      order: checkoutData // Add your actual order items here
+    };
+    
+    
+    try {
+      const response = await fetch("/api/order/postorder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
 
-
+      onOrderSummary();
+    
+      await response.json(); // or await response.text() if you expect text response
+    } catch (error) {
+      console.log({ error });
+      toast.error(
+        `${error instanceof Error ? error.message : "Unknown error"}`
+      );
+    }
+  };
+//console.log(checkoutData.items)
   return (
     <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-      <div  className="mx-auto max-w-screen-xl px-4 2xl:px-0">
+      <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
         <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
           <div className="min-w-0 flex-1 space-y-8">
-            <form onSubmit={handleSubmit} className="space-y-4">
+          {isFormVisible && (
+             <div
+             className="min-w-screen h-screen animated fadeIn faster fixed left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover backdrop-filter backdrop-brightness-75"      
+           >
+             <div className="absoluteopacity-80 inset-0 z-0 "></div>
+            <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg bg-white">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                 Delivery Details
               </h2>
@@ -133,9 +245,8 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
                     </label>
                   </div>
                   <select
-                  name="governorate"
+                    name="governorate"
                     id="select-governorate"
-                   
                     onChange={handleGovernorateChange}
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                   >
@@ -156,14 +267,14 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
                     </label>
                   </div>
                   <select
-                   name="city"
-                   onChange={handleCityChange}
+                    name="city"
+                    onChange={handleCityChange}
                     id="select-city-input-3"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                   >
                     <option value="">Select City</option>
                     {filteredMunicipalities.map((municipality) => (
-                      <option key={municipality.id} value={municipality.id }>
+                      <option key={municipality.id} value={municipality.id}>
                         {municipality.name}
                       </option>
                     ))}
@@ -171,7 +282,7 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
                 </div>
 
                 <div>
-                  <label  className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                  <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                     Phone Number*
                   </label>
                   <div className="flex items-center">
@@ -230,9 +341,9 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
 
                     <div className="relative w-full">
                       <input
-                      name="phone"
-                      value={addressData.phone}
-                      onChange={handleChange}
+                        name="phone"
+                        value={addressData.phone}
+                        onChange={handleChange}
                         type="text"
                         id="phone-input"
                         className="z-20 block w-full rounded-e-lg border border-s-0 border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500"
@@ -243,28 +354,44 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
                     </div>
                   </div>
                 </div>
-
                 <div>
                   <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                     {" "}
-                    Address{" "}
+                    Zip Code*{" "}
                   </label>
                   <input
-                 value={addressData.address}
-                 onChange={handleChange}
-                    name="address"
-                    type="Address"
-                    id="Address"
+                    value={addressData.zipcode}
+                    onChange={handleChange}
+                    name="zipcode"
+                    type="zipcode"
+                    id="zipcode"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                    placeholder="xx street "
+                    placeholder="xxxx "
                     required
                   />
                 </div>
 
                 <div className="sm:col-span-2">
+                  <div className="mb-4 ">
+                    <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                      {" "}
+                      Address*{" "}
+                    </label>
+                    <input
+                      value={addressData.address}
+                      onChange={handleChange}
+                      name="address"
+                      type="Address"
+                      id="Address"
+                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                      placeholder="xx street "
+                      required
+                    />
+                  </div>
+                  <div className="flex justify-start gap-2">
                   <button
                     type="submit"
-                    className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+                    className="flex w-full items-center justify-center gap-2 rounded-lg border text-white border-primary bg-primary px-5 py-2.5 text-sm font-medium  hover:bg-[#15335E] hover:border-[#15335E] "
                   >
                     <svg
                       className="h-5 w-5"
@@ -283,105 +410,69 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
                         d="M5 12h14m-7 7V5"
                       />
                     </svg>
-                    Add new address
+                    Add  address
                   </button>
+                  <button
+                  onClick={()=>toggleForminVisibility()}
+                  type="button"
+                  className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+
+                  >Canncel</button>
+                </div>
                 </div>
               </div>
             </form>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                  <div className="flex items-start">
-                    <div className="flex h-5 items-center">
-                      <input
-                        id="pay-on-delivery"
-                        aria-describedby="pay-on-delivery-text"
-                        type="radio"
-                        name="payment-method"
-                        value=""
-                        className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-                      />
-                    </div>
-
-                    <div className="ms-4 text-sm">
-                      <label className="font-medium leading-none text-gray-900 dark:text-white">
-                        {" "}
-                        Payment on delivery{" "}
-                      </label>
-                      <p
-                        id="pay-on-delivery-text"
-                        className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400"
-                      >
-                        +$15 payment processing fee
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex items-center gap-2">
-                    <button
-                      type="button"
-                      className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+            </div>)}
+         <div className="sm:col-span-2 ">
+         <h3 className="text-xl font-semibold pb-3 text-gray-900 dark:text-white">
+                Delivery Address
+              </h3>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-1 mb-4">
+              <select
+                name="address-method"
+                className="rounded-lg border w-border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800 w-full"
+              >
+                {addresses.map((address) => (
+                  <option key={address._id} value={address._id}>
+                    {address.address}, {address.governorate}/{address.city}/
+                    {address.zipcode}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button 
+             onClick={toggleFormVisibility}
+                    type="button"
+                    className="flex w-full items-center justify-center gap-2  rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+                  >
+                    <svg
+                      className="h-5 w-5"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="none"
+                      viewBox="0 0 24 24"
                     >
-                      Delete
-                    </button>
-
-
-                   
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 12h14m-7 7V5"
+                      />
+                    </svg>
+                   Add new address
+                  </button>
+                
                   </div>
-                </div>
-                    </div>
-            <div className="space-y-4">
+
+            <div className="space-y-4 ">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                 Payment
               </h3>
 
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                  <div className="flex items-start">
-                    <div className="flex h-5 items-center">
-                      <input
-                        id="credit-card"
-                        aria-describedby="credit-card-text"
-                        type="radio"
-                        name="payment-method"
-                        value=""
-                        className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-                        checked
-                      />
-                    </div>
-
-                    <div className="ms-4 text-sm">
-                      <label className="font-medium leading-none text-gray-900 dark:text-white">
-                        {" "}
-                        Credit Card{" "}
-                      </label>
-                      <p
-                        id="credit-card-text"
-                        className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400"
-                      >
-                        Pay with your credit card
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex items-center gap-2">
-                    <button
-                      type="button"
-                      className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                    >
-                      Delete
-                    </button>
-
-                    <div className="h-3 w-px shrink-0 bg-gray-200 dark:bg-gray-700"></div>
-
-                    <button
-                      type="button"
-                      className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                    >
-                      Edit
-                    </button>
-                  </div>
-                </div>
-
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
                   <div className="flex items-start">
                     <div className="flex h-5 items-center">
@@ -390,12 +481,13 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
                         aria-describedby="pay-on-delivery-text"
                         type="radio"
                         name="payment-method"
-                        value=""
+                        value=" Payment on delivery"
+                        onChange={handlePaymentMethodChange}
                         className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
                       />
                     </div>
 
-                    <div className="ms-4 text-sm">
+                    <div className="ms-4 text-sm ">
                       <label className="font-medium leading-none text-gray-900 dark:text-white">
                         {" "}
                         Payment on delivery{" "}
@@ -404,27 +496,11 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
                         id="pay-on-delivery-text"
                         className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400"
                       >
-                        +$15 payment processing fee
+                        payment processing
                       </p>
                     </div>
-                  </div>
-
-                  <div className="mt-4 flex items-center gap-2">
-                    <button
-                      type="button"
-                      className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                    >
-                      Delete
-                    </button>
-
-                    <div className="h-3 w-px shrink-0 bg-gray-200 dark:bg-gray-700"></div>
-
-                    <button
-                      type="button"
-                      className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                    >
-                      Edit
-                    </button>
+                 
+                  
                   </div>
                 </div>
 
@@ -436,12 +512,13 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
                         aria-describedby="paypal-text"
                         type="radio"
                         name="payment-method"
-                        value=""
+                        value="paypal"
+                        onChange={handlePaymentMethodChange}
                         className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
                       />
                     </div>
 
-                    <div className="ms-4 text-sm">
+                    <div className="ms-4 text-sm grid justify-items gap-2 ">
                       <label className="font-medium leading-none text-gray-900 dark:text-white">
                         {" "}
                         Paypal account{" "}
@@ -452,122 +529,16 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
                       >
                         Connect to your account
                       </p>
+                     
+                      </div>
+                      
                     </div>
-                  </div>
-
-                  <div className="mt-4 flex items-center gap-2">
-                    <button
-                      type="button"
-                      className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                    >
-                      Delete
-                    </button>
-
-                    <div className="h-3 w-px shrink-0 bg-gray-200 dark:bg-gray-700"></div>
-
-                    <button
-                      type="button"
-                      className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                    >
-                      Edit
-                    </button>
+                  
                   </div>
                 </div>
+               
               </div>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                Delivery Methods
-              </h3>
-
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                  <div className="flex items-start">
-                    <div className="flex h-5 items-center">
-                      <input
-                        id="dhl"
-                        aria-describedby="dhl-text"
-                        type="radio"
-                        name="delivery-method"
-                        value=""
-                        className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-                        checked
-                      />
-                    </div>
-
-                    <div className="ms-4 text-sm">
-                      <label className="font-medium leading-none text-gray-900 dark:text-white">
-                        {" "}
-                        $15 - DHL Fast Delivery{" "}
-                      </label>
-                      <p
-                        id="dhl-text"
-                        className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400"
-                      >
-                        Get it by Tommorow
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                  <div className="flex items-start">
-                    <div className="flex h-5 items-center">
-                      <input
-                        id="fedex"
-                        aria-describedby="fedex-text"
-                        type="radio"
-                        name="delivery-method"
-                        value=""
-                        className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-                      />
-                    </div>
-
-                    <div className="ms-4 text-sm">
-                      <label className="font-medium leading-none text-gray-900 dark:text-white">
-                        {" "}
-                        Free Delivery - FedEx{" "}
-                      </label>
-                      <p
-                        id="fedex-text"
-                        className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400"
-                      >
-                        Get it by Friday, 13 Dec 2023
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                  <div className="flex items-start">
-                    <div className="flex h-5 items-center">
-                      <input
-                        id="express"
-                        aria-describedby="express-text"
-                        type="radio"
-                        name="delivery-method"
-                        value=""
-                        className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-                      />
-                    </div>
-
-                    <div className="ms-4 text-sm">
-                      <label className="font-medium leading-none text-gray-900 dark:text-white">
-                        {" "}
-                        $49 - Express Delivery{" "}
-                      </label>
-                      <p
-                        id="express-text"
-                        className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400"
-                      >
-                        Get it today
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+             
           </div>
 
           <div className="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md">
@@ -590,7 +561,7 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
                 <li className="flex flex-wrap gap-4 text-base">
                   Discount{" "}
                   <span className="ml-auto font-bold">
-                    {totalDiscount.toFixed(2)} TND
+                    {checkoutData.totalDiscount.toFixed(2)} TND
                   </span>
                 </li>
                 <li className="flex flex-wrap gap-4 text-base">
@@ -601,17 +572,23 @@ const Address: React.FC<AddressProps> = ({ totalPrice, totalDiscount }) => {
                 </li>
                 <li className="flex flex-wrap gap-4 text-base font-bold">
                   Total{" "}
-                  <span className="ml-auto">{totalPrice.toFixed(2)} TND</span>
+                  <span className="ml-auto">{checkoutData.totalPrice.toFixed(2)} TND</span>
                 </li>
               </ul>
 
               <div className="mt-8 space-y-2">
-                <button
+              {selectedPaymentMethod != "paypal"   &&( <button
+                  onClick={ handleorderSubmit}
                   type="button"
-                  className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-primary hover:bg-[#15335E] text-white rounded-md"
+                  disabled={!selectedPaymentMethod}
+        className={`text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-primary ${
+          selectedPaymentMethod ? 'hover:bg-[#15335E]' : 'opacity-50 cursor-not-allowed'
+        } text-white rounded-md`}
                 >
                   Proceed to Payment
-                </button>
+                </button>)}
+                {selectedPaymentMethod === "paypal" && (  <PaypalButton amount="10.00" onSuccess={(details) => console.log(details)} />)}
+                 
                 <Link href="/">
                   <button
                     type="button"
