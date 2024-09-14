@@ -1,5 +1,5 @@
-import React from "react";
-import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+import React from 'react';
+import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 interface PaypalButtonProps {
   amount: string;
@@ -11,34 +11,43 @@ const PaypalButton: React.FC<PaypalButtonProps> = ({ amount, onSuccess }) => {
     <PayPalScriptProvider
       options={{
         clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
-        currency: "USD",
+        currency: 'USD',
       }}
     >
       <PayPalButtons
-        createOrder={(data, actions) => {
-          return (
-            actions.order?.create({
-              intent: "CAPTURE",
-              purchase_units: [
-                {
-                  amount: {
-                    currency_code: "USD",
-                    value: amount,
-                  },
-                },
-              ],
-            }) ?? Promise.reject("Order creation failed")
-          );
+        createOrder={async (data, actions) => {
+          try {
+            const response = await fetch('/api/paypal/create-order', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ amount }),
+            });
+
+            if (!response.ok) {
+              throw new Error('Failed to create order');
+            }
+
+            const order = await response.json();
+            return order.id; // Pass the order ID to PayPal
+          } catch (error) {
+            console.error('Error creating PayPal order:', error);
+            return Promise.reject('Order creation failed');
+          }
         }}
         onApprove={async (data, actions) => {
-          return (
-            actions.order?.capture().then((details) => {
-              onSuccess(details);
-            }) ?? Promise.reject("Capture failed")
-          );
+          try {
+            const details = await actions.order?.capture();
+            if (details) {
+              onSuccess(details); // Call the onSuccess callback with details
+            }
+          } catch (error) {
+            console.error('Error capturing order:', error);
+          }
         }}
         onError={(err) => {
-          console.error("PayPal Error:", err);
+          console.error('PayPal Error:', err);
         }}
       />
     </PayPalScriptProvider>

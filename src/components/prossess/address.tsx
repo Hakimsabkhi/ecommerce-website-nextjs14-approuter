@@ -587,7 +587,7 @@ const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary }) => {
                 >
                   Proceed to Payment
                 </button>)}
-                {selectedPaymentMethod === "paypal" && (  <PaypalButton amount="10.00" onSuccess={(details) => console.log(details)} />)}
+                {selectedPaymentMethod === "paypal" && (  <PaypalButton amount={checkoutData.totalPrice.toFixed(2)} onSuccess={(details) => console.log(details)} />)}
                  
                 <Link href="/">
                   <button
