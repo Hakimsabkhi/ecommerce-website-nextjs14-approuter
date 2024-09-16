@@ -75,8 +75,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ onCheckout }) => {
     router.push("/");
   };
   const removeCartHandler = (_id: string) => dispatch(removeItem({ _id }));
-  console.log("Total Price:", totalPrice);
-  console.log("FormattedPrice:", totalPrice.toFixed(2));
+
   return (
     <div className="py-20 w-full flex justify-center">
       <div className="xl:w-[80%] md:w-[98%] rounded-lg border-2 p-8 flex justify-between max-lg:hidden">
@@ -197,12 +196,16 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ onCheckout }) => {
 
           <div className="mt-8 space-y-2">
             <button
-               onClick={() => onCheckout(totalPrice,  totalDiscount ,items)}
+              onClick={() => onCheckout(totalPrice, totalDiscount, items)}
               type="button"
-              className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-primary hover:bg-[#15335E] text-white rounded-md"
+              className={`text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-primary hover:bg-[#15335E] ${
+                items.length > 0 ? "" : "opacity-50 cursor-not-allowed"
+              } text-white rounded-md`}
+              disabled={items.length === 0} // Disable button when items.length is 0
             >
               Checkout
             </button>
+
             <Link href="/">
               <button
                 type="button"
@@ -302,7 +305,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ onCheckout }) => {
           </div>
         </div>
         <div className="w-full rounded-lg bg-[#EFEFEF] h-fit p-6 flex flex-col gap-4 items-center">
-        <div className="flex border border-[#15335E] overflow-hidden rounded-md">
+          <div className="flex border border-[#15335E] overflow-hidden rounded-md">
             <input
               type="email"
               placeholder="Promo code"
@@ -336,7 +339,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ onCheckout }) => {
 
           <div className="mt-8 space-y-2">
             <button
-           onClick={() => onCheckout(totalPrice,  totalDiscount,items )}
+              onClick={() => onCheckout(totalPrice, totalDiscount, items)}
               type="button"
               className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-primary hover:bg-[#15335E] text-white rounded-md"
             >

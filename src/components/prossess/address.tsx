@@ -3,12 +3,13 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Governorate, city } from "@/assets/tunisia";
 import { toast } from "react-toastify";
 import PaypalButton from "@/app/Helper/PaypalButton";
-import { CartItem } from '@/store/cartSlice'; 
-import { json } from "stream/consumers";
+import { CartItem, clearCart } from '@/store/cartSlice'; 
+import { useDispatch } from "react-redux";
 
 interface AddressProps {
   checkoutData:checkoutData;
-  onOrderSummary: () => void;
+  onOrderSummary:  (ref: string) => void;
+  backcarte:  () => void;
 }
 interface checkoutData{
   totalPrice: number;
@@ -36,7 +37,7 @@ type Address = {
 const governorates: Governorate[] = Governorate;
 
 const municipalities: Municipality[] = city;
-const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary }) => {
+const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary ,backcarte}) => {
   const [error, setError] = useState<string | null>(null);
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedGovernorate, setSelectedGovernorate] = useState<
@@ -53,7 +54,8 @@ const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary }) => {
     zipcode: "",
   });
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Payment on delivery");
+  const dispatch = useDispatch();
 
   const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedPaymentMethod(e.target.value); // Update the selected payment method
@@ -177,6 +179,7 @@ const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary }) => {
       );
     }
   };
+
   const handleorderSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
       // Cast the selected elements to appropriate types
@@ -209,10 +212,15 @@ const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary }) => {
         },
         body: JSON.stringify(orderData),
       });
+  // Get the response data
+  const data = await response.json();
+    // Access ref and orderItems from the response
+    const { ref } = data;
 
-      onOrderSummary();
-    
-      await response.json(); // or await response.text() if you expect text response
+    onOrderSummary(ref);
+ 
+    toast.success("Order submitted successfully!");
+    dispatch(clearCart());
     } catch (error) {
       console.log({ error });
       toast.error(
@@ -481,8 +489,9 @@ const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary }) => {
                         aria-describedby="pay-on-delivery-text"
                         type="radio"
                         name="payment-method"
-                        value=" Payment on delivery"
+                        value="Payment on delivery"
                         onChange={handlePaymentMethodChange}
+                        checked={selectedPaymentMethod === "Payment on delivery"} 
                         className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
                       />
                     </div>
@@ -514,6 +523,7 @@ const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary }) => {
                         name="payment-method"
                         value="paypal"
                         onChange={handlePaymentMethodChange}
+                        checked={selectedPaymentMethod === "paypal"}
                         className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
                       />
                     </div>
@@ -588,11 +598,19 @@ const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary }) => {
                   Proceed to Payment
                 </button>)}
                 {selectedPaymentMethod === "paypal" && (  <PaypalButton amount={checkoutData.totalPrice.toFixed(2)} onSuccess={(details) => console.log(details)} />)}
-                 
+                
+                  <button
+                    onClick={()=>backcarte()}
+                    type="button"
+                    className="text-sm mt-2 px-4 py-2.5 w-full font-semibold tracking-wide   border border-blue-500 bg-blue-500 hover:bg-[#15335E] hover:border-[#15355E] text-white rounded-md"
+                  >
+                    Back{" "}
+                  </button>
+               
                 <Link href="/">
                   <button
                     type="button"
-                    className="text-sm mt-2 px-4 py-2.5 w-full font-semibold tracking-wide bg-transparent text-gray-800 border border-gray-300 rounded-md"
+                    className="text-sm mt-2 px-4 py-2.5 w-full font-semibold tracking-wide bg-transparent text-gray-800 border border-gray-300 rounded-md hover:bg-[#15335E] hover:text-white"
                   >
                     Canncel{" "}
                   </button>

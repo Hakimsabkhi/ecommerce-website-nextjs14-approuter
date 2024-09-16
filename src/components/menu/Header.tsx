@@ -97,7 +97,7 @@ const Header: React.FC = () => {
                 <p>{totalQuantity}</p>
               </span>
             </div>
-            {isCartOpen && <CartModal items={items} />}
+            {isCartOpen && items.length>0&&<CartModal items={items} />}
           </div>
           
          <Total items={items}/>

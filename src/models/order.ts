@@ -10,17 +10,15 @@ export interface IOrder extends Document {
   address: IAddress| string;
   orderItems: Array<{
     product: Schema.Types.ObjectId;
+    refproduct:string;
     name: string;
-    quantity: number;  // Changed to number
+    quantity: number ; // Changed to number
     image: string;
+    discount:number;
     price: number;     // Changed to number
   }>;
-  paymentInfo: {
-    id: string;
-    status: string;
-    taxPaid: number;
-    amountPaid: number;
-  };
+  paymentMethod:string;
+  total: number;
   orderStatus: string;
   createdAt: Date;
   updatedAt: Date;
@@ -34,10 +32,15 @@ const OrderSchema : Schema = new Schema({
     address: { type: mongoose.Schema.Types.ObjectId, ref: 'Address' },
     orderItems: [
         {
+          
           product: {
             type: Schema.Types.ObjectId,
             required: true,
             ref: 'Product',
+          },
+          refproduct:{
+            type:String,
+            required:true,
           },
           name: {
             type: String,
@@ -50,6 +53,9 @@ const OrderSchema : Schema = new Schema({
           image: {
             type: String,
             required: true,
+          },
+          discount:{
+            type:Number,
           },
           price: {
             type: Number,  // Changed to Number

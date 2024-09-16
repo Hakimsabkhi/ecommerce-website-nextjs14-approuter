@@ -5,6 +5,7 @@ import Order from "@/models/order"; // Adjust path to where your Order model is 
 import  connectDB  from "@/lib/db"; // MongoDB connection utility
 import User from "@/models/User";
 import { getToken } from "next-auth/jwt";
+import Address from "@/models/Address";
 // POST - Create a new order
 export async function POST(req: NextRequest) {
   try {
@@ -22,39 +23,46 @@ export async function POST(req: NextRequest) {
     }
 
     const { address, order, paymentMethod } = body;
-    console.log( paymentMethod)
+   
     // Validate required fields
     if (!user || !address || !order || !paymentMethod) {
       return NextResponse.json({ success: false, message: "Missing required fields" }, { status: 400 });
     }
-   console.log(order)
+
+
    const py={
     status:paymentMethod,
     amountPaid:order.totalPrice
    }
-   const items={
-    ref:order.items.ref,
-    name:order.items.name,
-    quantity:order.items.quantity,
-    image:order.items.imageUrl,
-    price:order.items.price,
-   }
+   const orderItems = order.items.map((item: any) => ({
+    product: item._id,
+    refproduct:item.ref,
+    name: item.name,
+    quantity: item.quantity,
+    image: item.imageUrl,
+    price: item.price,
+    discount: item.discount,
+  }));
     // Create a new order
     const newOrder = new Order({
       user,
       address,
-      orderItems:items,
+      orderItems,
       paymentMethod,
-      totalorder:py.amountPaid,
+      total:py.amountPaid,
       ref: `ORDER-${Math.random().toString(36).substring(2, 10).toUpperCase()}`, // Example ref generation
       orderStatus: 'Processing',
     });
 
     // Save the order to the database
      const savedOrder = await newOrder.save();
-
+  
     // Return success response
-    return NextResponse.json({ success: true, order: savedOrder }, { status: 201 });
+    return NextResponse.json({
+      success: true,
+      ref: savedOrder.ref, // Return the order reference
+  
+    }, { status: 201 });
   }  catch (error) {
     // Cast error as Error type to access its message property
     const err = error as Error;

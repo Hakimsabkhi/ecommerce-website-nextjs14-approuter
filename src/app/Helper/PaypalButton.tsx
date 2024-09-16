@@ -8,7 +8,7 @@ interface PaypalButtonProps {
 
 const PaypalButton: React.FC<PaypalButtonProps> = ({ amount, onSuccess }) => {
   return (
-    <PayPalScriptProvider
+   <PayPalScriptProvider
       options={{
         clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
         currency: 'USD',
@@ -28,8 +28,9 @@ const PaypalButton: React.FC<PaypalButtonProps> = ({ amount, onSuccess }) => {
             if (!response.ok) {
               throw new Error('Failed to create order');
             }
-
+            
             const order = await response.json();
+            console.log(order)
             return order.id; // Pass the order ID to PayPal
           } catch (error) {
             console.error('Error creating PayPal order:', error);
