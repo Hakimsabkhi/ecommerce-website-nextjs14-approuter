@@ -8,7 +8,6 @@ import { RxCross1 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { clearCart, removeItem, updateItemQuantity } from "../store/cartSlice";
-import PaypalButton from "@/app/Helper/PaypalButton";
 import Link from "next/link";
 
 // Define the shape of the cart item
@@ -81,7 +80,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ onCheckout }) => {
       <div className="xl:w-[80%] md:w-[98%] rounded-lg border-2 p-8 flex justify-between max-lg:hidden">
         <div className="flex flex-col w-[65%] divide-y-2">
           <h1 className="text-3xl font-bold py-4">Shopping Cart</h1>
-          <div className="flex flex-col divide-y-2">
+          {items.length > 0 ? (   <div className="flex flex-col divide-y-2">
             {items.map((item) => (
               <div key={item._id} className="py-4 flex justify-between ">
                 <div className="flex gap-4 w-full ">
@@ -158,7 +157,11 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ onCheckout }) => {
                 </div>
               </div>
             ))}
-          </div>
+          </div>) : (
+  <div className="flex flex-col divide-y-2 items-center "><Image alt="empty" src="https://res.cloudinary.com/dx499gc6x/image/upload/f_webp/v1726584013/empty_cart.45e2dadaaca71284eb3a_heojvk.webp
+" width={500} height={500}/>
+<span className="text-gray-600">Empty</span></div>
+)}
         </div>
 
         <div className="bg-gray-100 rounded-md p-4 md:sticky top-0">
@@ -218,10 +221,10 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ onCheckout }) => {
         </div>
       </div>
       {/* Mobile view */}
-      <div className="w-[95%] py-8 flex flex-col gap-8 lg:hidden">
+      <div className="w-[95%] py-8 flex flex-col gap-8  lg:hidden">
         <div className="flex flex-col w-full divide-y-2 px-4 border-2 rounded-lg">
           <h1 className="text-3xl font-bold py-4">Shopping Cart</h1>
-          <div className="flex flex-col divide-y-2">
+          {items.length > 0 ? (    <div className="flex flex-col divide-y-2">
             {items.map((item) => (
               <div
                 key={item._id}
@@ -302,7 +305,12 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ onCheckout }) => {
                 </div>
               </div>
             ))}
-          </div>
+          </div>): (
+  <div className="flex flex-col divide-y-2 items-center "><Image alt="empty" src="https://res.cloudinary.com/dx499gc6x/image/upload/f_webp/v1726584013/empty_cart.45e2dadaaca71284eb3a_heojvk.webp
+" width={500} height={500}/>
+<span className="text-gray-600">Empty</span></div>
+)}
+     
         </div>
         <div className="w-full rounded-lg bg-[#EFEFEF] h-fit p-6 flex flex-col gap-4 items-center">
           <div className="flex border border-[#15335E] overflow-hidden rounded-md">
@@ -341,7 +349,9 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ onCheckout }) => {
             <button
               onClick={() => onCheckout(totalPrice, totalDiscount, items)}
               type="button"
-              className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-primary hover:bg-[#15335E] text-white rounded-md"
+              className={`text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-primary hover:bg-[#15335E]  ${
+                items.length > 0 ? "" : "opacity-50 cursor-not-allowed"
+              } text-white rounded-md`}
             >
               Checkout
             </button>

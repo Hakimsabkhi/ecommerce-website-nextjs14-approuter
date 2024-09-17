@@ -1,7 +1,10 @@
 "use client";
-import React, { Key } from 'react';
+
+import React, { Key, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { FiCheckCircle } from 'react-icons/fi';
+import LoadingSpinner from '../LoadingSpinner';
+import Link from 'next/link';
 
 // Define interfaces
 interface Address {
@@ -10,7 +13,6 @@ interface Address {
   city: string;
   zipcode: string;
   address: string;
- 
 }
 
 interface OrderItem {
@@ -21,10 +23,9 @@ interface OrderItem {
   image: string;
   discount: number;
   price: number;
-
 }
 
-interface Data {
+interface Order {
   _id: string;
   user: string;
   ref: string;
@@ -33,31 +34,59 @@ interface Data {
   paymentMethod: string;
   total: number;
   orderStatus: string;
-  
- 
 }
 
 interface OrderSummaryProps {
-  data: Data; // Corrected from `Data` to `Data` with a capital D
+  data: string;
 }
 
-const OrderSummary: React.FC<OrderSummaryProps> = ( {data} ) => {
-  // Corrected from `itemsList` to `orderItems`
-
-console.log(data)
-
-  // Calculate total discount
-  const totalDiscount = (data.orderItems && Array.isArray(data.orderItems)) ? data.orderItems.reduce((acc, item) => {
-    if (item.discount) {
-      const itemDiscount = (item.price * item.discount) / 100;
-      acc += itemDiscount * item.quantity;
+// Fetch data from the API
+async function fetchData(orderRef: string): Promise<Order> {
+  const res = await fetch(
+    `api/order/getorderbyref/${orderRef}`,
+    {
+      method: 'GET',
+      next: { revalidate: 0 }, // Disable caching to always fetch the latest data
     }
-    return acc;
-  }, 0) : 0;
+  );
+  if (!res.ok) {
+    throw new Error("Order not found");
+  }
+  const data: Order = await res.json();
+  return data;
+}
+
+const OrderSummary: React.FC<OrderSummaryProps> = ({ data }) => {
+  const [order, setOrder] = useState<Order | null>(null); 
+  const [loading, setLoading] = useState(true);
+
+  // Fetch the order data when the component mounts
+  useEffect(() => {
+    const getOrderData = async () => {
+      try {
+        const result: Order = await fetchData(data);
+        setOrder(result);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getOrderData();
+  }, [data]);
+
+  if (loading) {
+    return <LoadingSpinner/>;
+  }
+
+  if (!order) {
+    return <div>Order data not found.</div>;
+  }
 
   return (
     <div className="w-full flex flex-col items-center py-8 pt-16">
-    <div className="bg-white shadow-lg rounded-lg p-6 w-[50%]">
+      <div className="bg-white shadow-lg rounded-lg p-6 w-[50%]">
         {/* Success Icon and Thank You Message */}
         <div className="flex items-center justify-center gap-2 mb-6">
           <FiCheckCircle className="text-green-500 w-12 h-12" />
@@ -68,20 +97,22 @@ console.log(data)
         <div className="border-t border-gray-300 mt-4 pt-4">
           <h3 className="text-xl font-semibold mb-2">Order Summary</h3>
           <p className="text-gray-700">
-            Your order <span className="font-bold">#{data.ref}</span> has been successfully paid.
+            Your order <span className="font-bold">#{order.ref}</span> has been successfully paid.
           </p>
 
           <div className="flex justify-between mt-4">
             <span className="text-lg font-bold">Total paid (TTC):</span>
-            <span className="text-lg font-bold"> {data.total ? data.total.toFixed(2) : '0.00'} TND</span>
+            <span className="text-lg font-bold">
+              {order.total ? order.total.toFixed(2) : '0.00'} TND
+            </span>
           </div>
 
           {/* Product Summary */}
           <div className="mt-6">
-            <p className="font-semibold text-lg mb-2">Items:</p>
+            <p className="font-semibold text-lg mb-2">Article:</p>
             <div className="flex flex-col divide-y divide-gray-200">
-              {data.orderItems && data.orderItems.length > 0 ? (
-                data.orderItems.map((item) => (
+              {order.orderItems.length > 0 ? (
+                order.orderItems.map((item: OrderItem) => (
                   <div key={item._id} className="py-4 flex justify-between items-center">
                     <div className="flex items-center gap-4">
                       <Image
@@ -95,22 +126,22 @@ console.log(data)
                         <p className="text-lg font-semibold">{item.name}</p>
                         {item.discount > 0 ? (
                           <p className="text-sm text-gray-600">
-                            {(item.price - (item.price * item.discount) / 100).toFixed(2)} TND (Discounted)
+                            {(item.price - (item.price * item.discount) / 100).toFixed(2)} TND
+                            (Discounted)
                           </p>
                         ) : (
-                          <p className="text-sm text-gray-600">
-                            {item.price.toFixed(2)} TND
-                          </p>
+                          <p className="text-sm text-gray-600">{item.price.toFixed(2)} TND</p>
                         )}
                         <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
                       </div>
                     </div>
                     <p className="text-lg font-bold">
                       {(
-                        (item.discount > 0
+                        item.discount > 0
                           ? (item.price - (item.price * item.discount) / 100) * item.quantity
-                          : item.price * item.quantity)
-                      ).toFixed(2)} TND
+                          : item.price * item.quantity
+                      ).toFixed(2)}{' '}
+                      TND
                     </p>
                   </div>
                 ))
@@ -121,28 +152,34 @@ console.log(data)
           </div>
 
           {/* Thank You Message */}
+          
           <div className="mt-8">
             <p className="text-gray-700">
-              Your order <span className="font-bold">#{data.ref}</span> was successfully paid.
+         Payment Method : <span className="font-bold">{order.paymentMethod}</span>
+            </p>
+          </div>
+          <div className="mt-8">
+            <p className="text-gray-700">
+              Your order <span className="font-bold">#{order.ref}</span> was successfully paid.
+            </p>
+          </div>
+          <div className="mt-8">
+            <p className="text-gray-700 uppercase font-bold">
+              Your address {order.address.governorate}/{order.address.city}/{order.address.zipcode}/{order.address.address} .
             </p>
           </div>
         </div>
 
         {/* Buttons */}
         <div className="flex justify-between mt-8">
-          <button
-            className="nav-btn hover:bg-NavbuttonH uppercase font-bold px-4 py-2"
-            // Navigate to the home page
-          >
+          
+          <Link href="/"className="nav-btn hover:bg-NavbuttonH uppercase font-bold px-4 py-2">
             Go to Home Page
-          </button>
+          </Link>
 
-          <button
-            className="nav-btn hover:bg-NavbuttonH uppercase font-bold px-4 py-2"
-            // Navigate to the order status page
-          >
+          <Link href="/orderhistory" className="nav-btn hover:bg-NavbuttonH uppercase font-bold px-4 py-2">
             Check Order Status
-          </button>
+          </Link>
         </div>
       </div>
     </div>

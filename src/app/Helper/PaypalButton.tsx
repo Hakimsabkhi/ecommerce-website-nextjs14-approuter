@@ -1,5 +1,5 @@
 import React from 'react';
-import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
+import {  PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 interface PaypalButtonProps {
   amount: string;
@@ -8,14 +8,15 @@ interface PaypalButtonProps {
 
 const PaypalButton: React.FC<PaypalButtonProps> = ({ amount, onSuccess }) => {
   return (
-   <PayPalScriptProvider
+    <PayPalScriptProvider
       options={{
-        clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
+        clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? '',
         currency: 'USD',
       }}
     >
       <PayPalButtons
-        createOrder={async (data, actions) => {
+        
+        createOrder={async (data: any, actions: any) => {
           try {
             const response = await fetch('/api/paypal/create-order', {
               method: 'POST',
@@ -28,26 +29,42 @@ const PaypalButton: React.FC<PaypalButtonProps> = ({ amount, onSuccess }) => {
             if (!response.ok) {
               throw new Error('Failed to create order');
             }
-            
+
             const order = await response.json();
-            console.log(order)
             return order.id; // Pass the order ID to PayPal
           } catch (error) {
             console.error('Error creating PayPal order:', error);
             return Promise.reject('Order creation failed');
           }
         }}
-        onApprove={async (data, actions) => {
+        onApprove={async (data: { orderID: string; payerID: string }, actions: any) => {
           try {
-            const details = await actions.order?.capture();
-            if (details) {
-              onSuccess(details); // Call the onSuccess callback with details
+            const response = await fetch('/api/paypal/execute-order', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                orderID: data.orderID,
+                payerID: data.payerID,
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error(`Failed to capture order: ${response.statusText}`);
             }
+
+            const result = await response.json();
+           
+
+            // Call the onSuccess handler passed in props
+            onSuccess(result);
           } catch (error) {
-            console.error('Error capturing order:', error);
+            console.error('Error capturing PayPal order:', error);
+            // Optionally handle the error, e.g., show a notification to the user
           }
         }}
-        onError={(err) => {
+        onError={(err: any) => {
           console.error('PayPal Error:', err);
         }}
       />

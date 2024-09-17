@@ -7,14 +7,9 @@ import { getToken } from 'next-auth/jwt';
 
 
 
-export async function GET(req: NextRequest,{ params }: { params: { ref: string } }) {
-  const { ref } = params;
-  if (!ref) {
-    return NextResponse.json(
-      { message: "Invalid or missing ref" },
-      { status: 400 }
-    );
-  }
+export async function GET(req: NextRequest ) {
+ 
+
   try {
     await connectToDatabase(); // Ensure the database connection is established
   
@@ -33,7 +28,7 @@ export async function GET(req: NextRequest,{ params }: { params: { ref: string }
    
     await Address.find({});
     // Fetch all categories but only return the name and imageUrl fields
-    const order = await Order.findOne({ref,user}).populate('address'); // Only select the 'name' and 'imageUrl' fields
+    const order = await Order.find({user}).populate('address').sort({ createdAt: -1 });; // Only select the 'name' and 'imageUrl' fields
 
     // Return the fetched category names and image URLs
     return new NextResponse(JSON.stringify(order), { status: 200 });

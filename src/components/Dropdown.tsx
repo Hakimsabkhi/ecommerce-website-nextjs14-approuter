@@ -47,10 +47,10 @@ const Dropdown: React.FC<DropdownProps> = ({ username, role }) => {
           Settings
         </Link>
         <Link
-          href="#"
+          href="/orderhistory"
           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
         >
-          Historique d’achat
+          Purchase History
         </Link>
         <Link
           href="#"

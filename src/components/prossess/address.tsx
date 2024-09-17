@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import PaypalButton from "@/app/Helper/PaypalButton";
 import { CartItem, clearCart } from '@/store/cartSlice'; 
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 interface AddressProps {
   checkoutData:checkoutData;
@@ -38,6 +39,7 @@ const governorates: Governorate[] = Governorate;
 
 const municipalities: Municipality[] = city;
 const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary ,backcarte}) => {
+ const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedGovernorate, setSelectedGovernorate] = useState<
@@ -54,7 +56,7 @@ const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary ,backcart
     zipcode: "",
   });
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Payment on delivery");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const dispatch = useDispatch();
 
   const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -228,6 +230,15 @@ const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary ,backcart
       );
     }
   };
+
+  const handleSuccess = (details: any) => {
+    if (details) {
+      // Perform necessary actions after successful payment
+      handleorderSubmit(new Event('submit') as unknown as React.FormEvent); // Trigger the form submission
+    } else {
+      toast.error("Payment details are missing.");
+    }
+  }
 //console.log(checkoutData.items)
   return (
     <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
@@ -597,7 +608,7 @@ const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary ,backcart
                 >
                   Proceed to Payment
                 </button>)}
-                {selectedPaymentMethod === "paypal" && (  <PaypalButton amount={checkoutData.totalPrice.toFixed(2)} onSuccess={(details) => console.log(details)} />)}
+                {selectedPaymentMethod === "paypal" && (  <PaypalButton amount={checkoutData.totalPrice.toFixed(2)} onSuccess={handleSuccess} />)}
                 
                   <button
                     onClick={()=>backcarte()}
