@@ -7,14 +7,9 @@ import { getToken } from 'next-auth/jwt';
 
 
 
-export async function GET(req: NextRequest,{ params }: { params: { ref: string } }) {
-  const { ref } = params;
-  if (!ref) {
-    return NextResponse.json(
-      { message: "Invalid or missing ref" },
-      { status: 400 }
-    );
-  }
+export async function GET(req: NextRequest ) {
+ 
+
   try {
     await connectToDatabase(); // Ensure the database connection is established
   
@@ -30,13 +25,13 @@ export async function GET(req: NextRequest,{ params }: { params: { ref: string }
         return NextResponse.json({ success: false, message: "Missing required connect" }, { status: 505 });
     }
   
-     await User.find();
+   
     await Address.find({});
     // Fetch all categories but only return the name and imageUrl fields
-    const order = await Order.findOne({ref}).populate('address').populate('user','username phone'); // Only select the 'name' and 'imageUrl' fields
-
+    const orders = await Order.find().populate('user').populate('address').sort({ createdAt: -1 });; // Only select the 'name' and 'imageUrl' fields
+console.log(orders)
     // Return the fetched category names and image URLs
-    return new NextResponse(JSON.stringify(order), { status: 200 });
+    return new NextResponse(JSON.stringify(orders), { status: 200 });
   
   } catch (error) {
     console.error('Error fetching order:', error);

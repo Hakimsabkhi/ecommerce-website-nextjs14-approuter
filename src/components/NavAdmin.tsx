@@ -10,7 +10,7 @@ const NavAdmin = () => {
   };
 
   return (
-    <nav className="bg-gray-800 w-[90%] relative left-[99px]">
+    <nav className="bg-gray-800 w-[100%] relative ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -67,6 +67,16 @@ const NavAdmin = () => {
                   Reviews
                 </p>
               </Link>
+              <Link href="/admin/orderlist">
+                <p
+                  onClick={() => handleClick('orderlist')}
+                  className={`text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer ${
+                    activeLink === 'orderlist' ? 'bg-gray-700' : ''
+                  }`}
+                >
+                  Orders
+                </p>
+              </Link>
             </div>
           </div>
         </div>
@@ -113,6 +123,16 @@ const NavAdmin = () => {
               }`}
             >
               Reviews
+            </p>orderlist
+          </Link>
+          <Link href="/admin/orderlist">
+            <p
+              onClick={() => handleClick('orderlist')}
+              className={`text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium cursor-pointer ${
+                activeLink === 'orderlist' ? 'bg-gray-700' : ''
+              }`}
+            >
+              Orders
             </p>
           </Link>
         </div>

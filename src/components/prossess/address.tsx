@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import PaypalButton from "@/app/Helper/PaypalButton";
 import { CartItem, clearCart } from '@/store/cartSlice'; 
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
+
 
 interface AddressProps {
   checkoutData:checkoutData;
@@ -39,7 +39,7 @@ const governorates: Governorate[] = Governorate;
 
 const municipalities: Municipality[] = city;
 const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary ,backcarte}) => {
- const router = useRouter();
+
   const [error, setError] = useState<string | null>(null);
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedGovernorate, setSelectedGovernorate] = useState<
@@ -56,7 +56,7 @@ const Address: React.FC<AddressProps> = ({ checkoutData,onOrderSummary ,backcart
     zipcode: "",
   });
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Payment on delivery");
   const dispatch = useDispatch();
 
   const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
