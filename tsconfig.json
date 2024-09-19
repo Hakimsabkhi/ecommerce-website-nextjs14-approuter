@@ -30,6 +30,7 @@
     ".next/types/**/*.ts",
     "types/next-auth.d.ts",
     "src/middleware.ts"
+ 
   ],
   "exclude": ["node_modules"]
 }

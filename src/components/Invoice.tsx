@@ -1,8 +1,10 @@
 "use client"
 import Image from 'next/image';
-import React, { Key, useEffect, useState } from 'react'
+import React, { Key, useEffect, useRef, useState } from 'react'
 import LoadingSpinner from './LoadingSpinner';
 import { useParams } from 'next/navigation';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 // Define interfaces
 interface Address {
@@ -46,7 +48,7 @@ function Invoice() {
 
     const [order, setOrder] = useState<Order | null>(null); 
     const [loading, setLoading] = useState(true);
-  
+    
 
     useEffect(() => {
       // Fetch category data by ID
@@ -70,22 +72,83 @@ function Invoice() {
       fetchOrderData();
      
     }, [params.id]);
-    const handlePrint = () => {
-      const printContent = document.getElementById('pdf-content');
-      if (printContent) {
-        const printWindow = window.open('', '', 'height=600,width=800');
-        printWindow?.document.write('<html><head><title>Print</title>');
-        printWindow?.document.write('<style>body { font-family: Arial, sans-serif; } /* Add your styles here */</style>');
-        printWindow?.document.write('</head><body >');
-        printWindow?.document.write(printContent.innerHTML);
-        printWindow?.document.write('</body></html>');
-        printWindow?.document.close();
-        printWindow?.focus();
-        printWindow?.print();
-      }
-    };
-    
 
+    const handlePrint = () => {
+      const content = document.getElementById('invoice-content');
+  if (content) {
+    html2canvas(content, { scale: 2 }).then((canvas) => {
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+
+      const pdfHeight = 297; // A4 height in mm
+      const totalPages = Math.ceil(imgHeight / pdfHeight);
+
+      // Add pages and content
+      for (let page = 0; page < totalPages; page++) {
+        const yOffset = -page * pdfHeight;
+        pdf.addImage(imgData, 'PNG', 0, yOffset, imgWidth, imgHeight);
+        if (page < totalPages - 1) {
+          pdf.addPage();
+        }
+      }
+
+      // Save the PDF and open it in a new window
+      const pdfOutput = pdf.output('blob');
+      const pdfUrl = URL.createObjectURL(pdfOutput);
+      window.open(pdfUrl);
+    }).catch((error) => {
+      console.error('Error generating PDF:', error);
+    });
+  } else {
+    console.error('Invoice content is not found');
+  }
+  };
+
+   const generatePDF = () => {
+  const content = document.getElementById('invoice-content');
+  if (content) {
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4',
+    });
+
+    // Use html2canvas to render the content
+    html2canvas(content, {  scale: 2  }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+
+      // Calculate image size in mm
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+
+      // Calculate the total number of pages needed
+      const pdfHeight = 297; // A4 height in mm
+      const totalPages = Math.ceil(imgHeight / pdfHeight);
+
+      // Add pages and content
+      for (let page = 0; page < totalPages; page++) {
+        const yOffset = -page * pdfHeight;
+        pdf.addImage(imgData, 'PNG', 0, yOffset, imgWidth, imgHeight);
+        if (page < totalPages - 1) {
+          pdf.addPage();
+        }
+      }
+
+      // Save the PDF
+      pdf.save('invoice.pdf');
+    });
+  } else {
+    console.error('Invoice content is not found');
+  }
+  };
+    
 if(!order){
     <div>no data</div>
 }
@@ -96,7 +159,7 @@ if (loading) {
 <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10">
   <div className="sm:w-11/12 lg:w-3/4 mx-auto">
 
-    <div id="pdf-content" className="flex flex-col p-4 sm:p-10 bg-white shadow-md rounded-xl dark:bg-neutral-800">
+    <div   id="invoice-content" className="flex flex-col p-4 sm:p-10 bg-white shadow-md rounded-xl dark:bg-neutral-800">
 
       <div className="flex justify-between">
         <div>
@@ -247,11 +310,11 @@ if (loading) {
 
     <div className="mt-6 flex justify-end gap-x-3">
       
-      <button   type='button' className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" >
+      <button onClick={  generatePDF} type='button' className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" >
       <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
         Invoice PDF
       </button>
-      <button type='button' onClick={handlePrint} className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-primary text-white hover:bg-[#15335E] focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" >
+      <button onClick={ handlePrint} type='button'  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-primary text-white hover:bg-[#15335E] focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" >
         <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
         Print
       </button>
