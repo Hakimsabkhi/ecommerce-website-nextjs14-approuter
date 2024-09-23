@@ -118,7 +118,7 @@ const CartModal: React.FC<CartModalProps> = ({ items }) => {
       </p>
 
      
-      <Link href="/ShoppingCart" passHref>
+      <Link href="/checkout" passHref>
         <button
           aria-label="check"
           className="w-full h-10 rounded-lg bg-orange-400 hover:bg-[#15335D] flex items-center justify-center mt-4"

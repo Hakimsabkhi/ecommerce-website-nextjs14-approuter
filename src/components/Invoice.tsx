@@ -33,6 +33,7 @@ interface Order {
   address: Address;
   orderItems: OrderItem[];
   paymentMethod: string;
+  deliveryCost:number;
   total: number;
   orderStatus: string;
   createdAt:string
@@ -274,11 +275,13 @@ if (loading) {
         <div className="w-full max-w-2xl sm:text-end space-y-2">
    
           <div className="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
-           {/*  <dl className="grid sm:grid-cols-5 gap-x-3">
-              <dt className="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Subtotal:</dt>
-              <dd className="col-span-2 text-gray-500 dark:text-neutral-500">$2750.00</dd>
-            </dl>
+         <dl className="grid sm:grid-cols-5 gap-x-3">
+              <dt className="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Fee Shopping:</dt>
+              <dd className="col-span-2 text-gray-500 dark:text-neutral-500">{order?.deliveryCost ? Number(order.deliveryCost).toFixed(2) : '0.00'}
 
+              TND</dd>
+            </dl>
+{/*
             <dl className="grid sm:grid-cols-5 gap-x-3">
               <dt className="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Total:</dt>
               <dd className="col-span-2 text-gray-500 dark:text-neutral-500">$2750.00</dd>
@@ -291,7 +294,7 @@ if (loading) {
 
             <dl className="grid sm:grid-cols-5 gap-x-3">
               <dt className="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Amount paid:</dt>
-              <dd className="col-span-2 text-gray-500 dark:text-neutral-500">{order?.total.toFixed(2)}TND</dd>
+              <dd className="col-span-2 text-gray-500 dark:text-neutral-500">{order?.total.toFixed(2)} TND</dd>
             </dl>
 
            {/*  <dl className="grid sm:grid-cols-5 gap-x-3">

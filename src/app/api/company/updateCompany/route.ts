@@ -5,6 +5,7 @@ import cloudinary from "@/lib/cloudinary";
 import stream from "stream";
 import { getToken } from "next-auth/jwt";
 import User from "@/models/User";
+import Address from "@/models/Address";
 // Utility function to extract public ID from the image URL
 const extractPublicId = (url: string): string => {
     const matches = url.match(/\/([^\/]+)\.(jpg|jpeg|png|gif|webp)$/);
@@ -33,8 +34,8 @@ export async function PUT( req: NextRequest ){
     try {
       // Handle form data
       const formData = await req.formData();
-      console.log(formData)
       const id =formData.get('id') as string ;
+      const IAddress=formData.get('idAddress')as string;
       const name = formData.get('name') as string | null;
       const addres = formData.get('address') as string | null;
       const city = formData.get('city') as string | null;
@@ -100,9 +101,17 @@ export async function PUT( req: NextRequest ){
   
   
       // Update adress with new values
-      if(addres && governorate && zipcode && city){
-        
-
+      if(IAddress){
+        const existingAddress= await Address.findById(IAddress);
+        if (!existingAddress) {
+          return NextResponse.json({ message: "Address not found" }, { status: 404 });
+        }
+        if (addres !== null) existingAddress.address = addres;
+        if (city !== null) existingAddress.city = city;
+        if (governorate !== null) existingAddress.governorate = governorate;
+        if (zipcode !== null) existingAddress.zipcode = zipcode;
+        existingAddress.user=user;
+        await existingAddress.save();
       }
     
       // Update company with new values if provided

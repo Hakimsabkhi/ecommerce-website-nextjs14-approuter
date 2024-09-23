@@ -99,7 +99,7 @@ const ProductQ: React.FC<ProductQProps> = ({ product,addToCartHandler }) => {
       <button  onClick={() => addToCartHandler(product,quantity)} className="text-white bg-primary hover:bg-[#15335D] h-10 w-[60%] font-bold rounded-md">
         <p>Add to cart</p>
       </button>
-      <Link href={"/ShoppingCart"} className="text-white bg-black h-10 w-[60%] font-bold text-center rounded-md">
+      <Link href={"/checkout"} className="text-white bg-black h-10 w-[60%] font-bold text-center rounded-md">
       <button 
      onClick={() => addToCartHandler(product,quantity)}
       className="text-white bg-black h-10 w-[60%] font-bold rounded-md">

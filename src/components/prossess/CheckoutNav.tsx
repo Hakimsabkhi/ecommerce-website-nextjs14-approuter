@@ -1,7 +1,7 @@
 import React from 'react';
 
   
-const Prossess: React.FC <{ currentStep: string }>=  ({ currentStep }) => {
+const CheckoutNav: React.FC <{ currentStep: string }>=  ({ currentStep }) => {
 
   return (
     <div className="w-screen pt-6 flex justify-center">
@@ -38,4 +38,4 @@ const Prossess: React.FC <{ currentStep: string }>=  ({ currentStep }) => {
   </div> );
 };
 
-export default Prossess;
+export default CheckoutNav;

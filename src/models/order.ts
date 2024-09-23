@@ -18,6 +18,8 @@ export interface IOrder extends Document {
     price: number;     // Changed to number
   }>;
   paymentMethod:string;
+  deliveryMethod:string;
+  deliveryCost:number;
   total: number;
   orderStatus: string;
   createdAt: Date;
@@ -65,6 +67,14 @@ const OrderSchema : Schema = new Schema({
       ],
       paymentMethod: { // Optional field for payment method
         type: String,
+      },
+      deliveryMethod:{
+        type:String,
+        require:true,
+      },
+      deliveryCost:{
+        type:Number,
+        
       },
       total: {
         type: Number,

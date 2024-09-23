@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
       const addresss= new Address({governorate,city,address:addres,zipcode });
      const address =await addresss.save(); 
 
-      const newCompany = new Company({ name, addresse:address,email,image:imageUrl,phone,facebook,linkedin,instagram,user });
+      const newCompany = new Company({ name, addresse:address,email,logoUrl:imageUrl,phone,facebook,linkedin,instagram,user });
       await newCompany.save();
       return NextResponse.json(newCompany, { status: 201 });
     } catch (error) {

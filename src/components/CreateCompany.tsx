@@ -1,8 +1,10 @@
 "use client"
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import LoadingSpinner from './LoadingSpinner';
 
 function CreateCompany() {
+  const [loading, setLoading] = useState(true);
   const [idCompany,setIdCompany]=useState('');
   const [idaddress,setIdaddress]=useState('');
   const [name, setName] = useState('');
@@ -26,46 +28,47 @@ function CreateCompany() {
       setIconPreview(URL.createObjectURL(file));
     }
   };
+  const fetchCompanyData =  useCallback(async () => {
+    try {
+      const response = await fetch(`/api/company/getCompany`);
+      if (!response.ok) {
+        throw new Error('Error fetching company data');
+      }
+      const data = await response.json();
+      setCompanyData(data);
+      setIdCompany(data._id || '');
+      setIdaddress(data.addresse._id || '');
+      // Pre-fill form with fetched data
+      setName(data.name || '');
+      setPhone(data.phone || '');
+      setEmail(data.email || '');
+      setAddress(data.addresse.address || '');
+      setCity(data.addresse.city || '');
+      setZipcode(data.addresse.zipcode || '');
+      setGovernorate(data.addresse.governorate || '');
+      setFacebook(data.facebook || '');
+      setLinkedin(data.linkedin || '');
+      setInstagram(data.instagram || '');
+      if (data.logoUrl) {
+        setIconPreview(data.logoUrl);
+      }
+    } catch (error) {
+      console.error('Error fetching company data:', error);
+    }finally{
+      setLoading(false);
+    }
+  }, []);
   useEffect(() => {
     // Fetch company data
-    const fetchCompanyData = async () => {
-      try {
-        const response = await fetch(`/api/company/getCompany`);
-        if (!response.ok) {
-          throw new Error('Error fetching company data');
-        }
-        const data = await response.json();
-        setCompanyData(data);
-        setIdCompany(data._id || '');
-        setIdaddress(data.addresse._id || '');
-        // Pre-fill form with fetched data
-        setName(data.name || '');
-        setPhone(data.phone || '');
-        setEmail(data.email || '');
-        setAddress(data.addresse.address || '');
-        setCity(data.addresse.city || '');
-        setZipcode(data.addresse.zipcode || '');
-        setGovernorate(data.addresse.governorate || '');
-        setFacebook(data.facebook || '');
-        setLinkedin(data.linkedin || '');
-        setInstagram(data.instagram || '');
-        if (data.logoUrl) {
-          setIconPreview(data.logoUrl);
-        }
-      } catch (error) {
-        console.error('Error fetching company data:', error);
-      }
-    };
+   
 
     fetchCompanyData();
-  }, []);
+  }, [fetchCompanyData]);
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('id', idCompany);
-    formData.append('idAddress', idaddress);
     formData.append('name', name);
     formData.append('phone', phone);
     formData.append('email', email);
@@ -92,6 +95,7 @@ function CreateCompany() {
       }
 
       const data = await response.json();
+      fetchCompanyData();
       console.log('Company added successfully:', data);
     } catch (error) {
       console.error('Error submitting the form:', error);
@@ -102,6 +106,8 @@ function CreateCompany() {
     e.preventDefault();
  
     const formData = new FormData();
+    formData.append('id', idCompany);
+    formData.append('idAddress', idaddress);
     formData.append('name', name);
     formData.append('phone', phone);
     formData.append('email', email);
@@ -128,12 +134,15 @@ function CreateCompany() {
       }
 
       const data = await response.json();
+      fetchCompanyData();
       console.log('Company added successfully:', data);
     } catch (error) {
       console.error('Error submitting the form:', error);
     }
   };
-
+  if (loading) {
+    return <LoadingSpinner />;
+  }
   return (
     <div className="mx-auto w-[90%] max-xl:w-[90%] py-8 max-lg:pt-20 gap-8">
       <p className="text-3xl font-bold">Company Details</p>
@@ -167,7 +176,7 @@ function CreateCompany() {
             />
           </div>
           <div className="mb-4">
-            <p className="block text-sm font-medium">Address*</p>
+            <p className="block text-sm font-medium">Email*</p>
             <input
               type="email"
               value={email}

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { historyproducts1 } from '@/assets/data';
 import Image from 'next/image';
+import { CiCalendarDate } from 'react-icons/ci';
 interface Address {
     _id: string;
     governorate: string;
@@ -27,6 +28,8 @@ interface Address {
     address: Address;
     orderItems: OrderItem[];
     paymentMethod: string;
+    deliveryCost:number;
+    deliveryMethod:string;
     total: number;
     orderStatus: string;
     createdAt:string;
@@ -76,6 +79,15 @@ const OrderHistory = () => {
                                 <p>Order number</p>
                                 <p>{order.ref}</p>
                             </div>
+                            <div className="max-md:flex max-md:justify-between max-md:w-full">
+                                <p> Shopping Fees</p>
+                                <p>{order.deliveryCost} TND</p>
+                            </div>
+                            <div className="max-md:flex max-md:justify-between max-md:w-full">
+                                <p>Method Delivery</p>
+                                <p className='uppercase'>{order.deliveryMethod}</p>
+                            </div>
+                          
                             <div className="max-md:flex max-md:justify-between max-md:w-full">
                                 <p>Total amount</p>
                                 <p>{order.total} TND</p>

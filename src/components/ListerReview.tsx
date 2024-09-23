@@ -26,7 +26,7 @@ type AddedProductsProps = {
 };
 
 const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
-  console.log(products);
+  
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +37,7 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
   useEffect(() => {
     setFilteredProducts(products);
     setCurrentPage(1);
-    setLoading(false);
+    
   }, [products]);
 
   useEffect(() => {
@@ -46,9 +46,11 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.ref.toLowerCase().includes(searchTerm.toLowerCase())
       // product.user.toLowerCase().includes(searchTerm.toLowerCase())
+      
     );
     setFilteredProducts(filtered);
     setCurrentPage(1);
+    setLoading(false);
   }, [searchTerm, products]);
 
   const indexOfLastProduct = currentPage * productsPerPage;

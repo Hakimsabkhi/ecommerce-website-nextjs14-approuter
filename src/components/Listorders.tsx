@@ -25,6 +25,8 @@ interface Order {
   ref: string;
   address: Address;
   paymentMethod: string;
+  deliveryMethod:string;
+  createdAt:string;
   total: number;
   orderStatus: string;
 }
@@ -77,7 +79,7 @@ const ListOrders: React.FC = () => {
       }
 };
   const getOrders = useCallback(async () => {
-    setLoading(true);
+  
     try {
       const response = await fetch("/api/order/getallorder", {
         method: "GET",
@@ -172,7 +174,9 @@ const ListOrders: React.FC = () => {
             <th className="px-4 py-2">REF</th>
             <th className="px-4 py-2">Customer Name</th>
             <th className="px-4 py-2">Total</th>
+            <th className="px-4 py-2">Delivery Method</th>
             <th className="px-4 py-2">Payment Method</th>
+            <th className="px-4 py-2">Date</th>
             <th className="px-4 text-center py-2">Action</th>
           </tr>
         </thead>
@@ -183,6 +187,8 @@ const ListOrders: React.FC = () => {
               <td className="border px-4 py-2">{item.user.username}</td>
               <td className="border px-4 py-2 text-end">{item.total} TND</td>
               <td className="border px-4 py-2">{item.paymentMethod}</td>
+              <td className="border px-4 py-2 uppercase">{item.deliveryMethod}</td>
+              <td className="border px-4 py-2 ">{new Date(item.createdAt).toLocaleDateString('en-GB')} - {new Date(item.createdAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</td>
               <td className="border px-4 py-2">
                 <div className="flex items-center justify-center gap-2">
                   <select

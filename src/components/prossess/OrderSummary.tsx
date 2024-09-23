@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { FiCheckCircle } from 'react-icons/fi';
 import LoadingSpinner from '../LoadingSpinner';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 // Define interfaces
 interface Address {
@@ -32,6 +33,8 @@ interface Order {
   address: Address;
   orderItems: OrderItem[];
   paymentMethod: string;
+  deliveryMethod:string;
+  deliveryCost:string;
   total: number;
   orderStatus: string;
 }
@@ -59,7 +62,7 @@ async function fetchData(orderRef: string): Promise<Order> {
 const OrderSummary: React.FC<OrderSummaryProps> = ({ data }) => {
   const [order, setOrder] = useState<Order | null>(null); 
   const [loading, setLoading] = useState(true);
-
+  const router =useRouter();
   // Fetch the order data when the component mounts
   useEffect(() => {
     const getOrderData = async () => {
@@ -160,6 +163,16 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ data }) => {
           </div>
           <div className="mt-8">
             <p className="text-gray-700">
+          Delivery Methods : <span className="font-bold uppercase">{order.deliveryMethod}</span>
+            </p>
+          </div>
+         {Number(order.deliveryCost)!=0 && <div className="mt-8">
+            <p className="text-gray-700">
+            Shopping Fees : <span className="font-bold">{Number(order.deliveryCost).toFixed(2)} TND</span>
+            </p>
+          </div>}
+          <div className="mt-8">
+            <p className="text-gray-700">
               Your order <span className="font-bold">#{order.ref}</span> was successfully paid.
             </p>
           </div>
@@ -173,13 +186,13 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ data }) => {
         {/* Buttons */}
         <div className="flex justify-between mt-8">
           
-          <Link href="/"className="nav-btn hover:bg-NavbuttonH uppercase font-bold px-4 py-2">
+          <button  onClick={()=>router.push("/")} className="nav-btn hover:bg-NavbuttonH uppercase font-bold px-4 py-2">
             Go to Home Page
-          </Link>
+          </button>
 
-          <Link href="/orderhistory" className="nav-btn hover:bg-NavbuttonH uppercase font-bold px-4 py-2">
+          <button onClick={()=>router.push("/orderhistory")} className="nav-btn hover:bg-NavbuttonH uppercase font-bold px-4 py-2">
             Check Order Status
-          </Link>
+          </button>
         </div>
       </div>
     </div>
