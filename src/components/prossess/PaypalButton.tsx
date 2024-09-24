@@ -1,5 +1,6 @@
 import React from 'react';
 import {  PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
+import { OnApproveData } from '@paypal/paypal-js';
 
 interface PaypalButtonProps {
   amount: string;
@@ -37,7 +38,13 @@ const PaypalButton: React.FC<PaypalButtonProps> = ({ amount, onSuccess }) => {
             return Promise.reject('Order creation failed');
           }
         }}
-        onApprove={async (data: { orderID: string; payerID: string }, actions: any) => {
+    
+        onApprove={async (data: OnApproveData, actions: any) => {
+          if (!data.payerID) {
+            console.error('Payer ID is not available.');
+            return; // Handle this case appropriately
+          }
+        
           try {
             const response = await fetch('/api/paypal/execute-order', {
               method: 'POST',
@@ -46,17 +53,16 @@ const PaypalButton: React.FC<PaypalButtonProps> = ({ amount, onSuccess }) => {
               },
               body: JSON.stringify({
                 orderID: data.orderID,
-                payerID: data.payerID,
+                payerID: data.payerID, // Now safe to use
               }),
             });
-
+        
             if (!response.ok) {
               throw new Error(`Failed to capture order: ${response.statusText}`);
             }
-
+        
             const result = await response.json();
-           
-
+        
             // Call the onSuccess handler passed in props
             onSuccess(result);
           } catch (error) {
