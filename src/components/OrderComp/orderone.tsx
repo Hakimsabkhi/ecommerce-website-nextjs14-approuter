@@ -5,7 +5,7 @@ import Image from "next/image";
 import { RxCross1 } from "react-icons/rx";
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from '../LoadingSpinner';
 // Define interfaces
 interface Address {
     _id: string;
@@ -111,7 +111,7 @@ if (loading) {
                     </div>
                    
                 </div>
-                {order?.orderItems.map((item) => (          <div className='flex flex-col  w-[80%] max-lg:w-[95%] divide-y-2  mx-auto border-b-2'>
+                {order?.orderItems.map((item) => (          <div key={item._id} className='flex flex-col  w-[80%] max-lg:w-[95%] divide-y-2  mx-auto border-b-2'>
                     <div className='flex max-xl:flex-col items-center justify-between py-4 max-xl:gap-10 '>
                         <div className="flex max-lg:justify-between max-lg:w-full gap-4 max-md:flex-col max-md:items-center">
                             <Image src={item.image} alt={item.name} width={200} height={200} />

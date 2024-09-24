@@ -1,7 +1,7 @@
 // app/layout.tsx
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOptions"; // Ensure the path is correct
-import SessionProviderWrapper from "@/components/SessionProviderWrapper";
+import SessionProviderWrapper from "@/components/ProviderComp/SessionProviderWrapper";
 import ClientLayout from "@/components/ClientLayout";
 import { Poppins } from "next/font/google";
 import "./globals.css"; // Ensure global styles are imported
@@ -9,7 +9,7 @@ import "./globals.css"; // Ensure global styles are imported
 import { Metadata } from "next";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import StoreProviders from "@/components/StoreProvider";
+import StoreProviders from "@/components/ProviderComp/StoreProvider";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 

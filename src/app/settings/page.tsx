@@ -1,5 +1,5 @@
 import AllAddress from "@/components/address/AllAddress";
-import SettingProfile from "@/components/SettingProfile";
+import SettingProfile from "@/components/settingsprofile";
 
 
 const Page = () => {

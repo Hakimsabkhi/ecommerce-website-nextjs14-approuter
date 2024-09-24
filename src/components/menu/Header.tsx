@@ -4,7 +4,7 @@ import Image from "next/image";
 import { FiHeart } from "react-icons/fi";
 import { SlBag } from "react-icons/sl";
 import { CiSearch } from "react-icons/ci";
-import UserMenu from "../UserMenu";
+import UserMenu from "../userComp/UserMenu";
 import CartModal from "../CartModal";
 
 import { luxehome } from "@/assets/image";
