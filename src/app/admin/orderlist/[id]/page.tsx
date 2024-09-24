@@ -1,8 +1,9 @@
 
-import Orderone from '@/components/orderone';
+import Orderone from '@/components/OrderComp/orderone';
 import React from 'react';
 
 const Page = () => {
+    
     return (
         <div>
            <Orderone/>

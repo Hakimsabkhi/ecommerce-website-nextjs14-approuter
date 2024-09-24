@@ -6,6 +6,8 @@ import { useParams } from 'next/navigation';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
+
+
 // Define interfaces
 interface Address {
   _id: string;
@@ -44,10 +46,9 @@ interface User{
 }
 
 
-function Invoice() {
+const Invoice=()=>{
   const params = useParams() as { id: string }; // Explicitly type the params object
-
-    const [order, setOrder] = useState<Order | null>(null); 
+  const [order, setOrder] = useState<Order | null>(null); 
     const [loading, setLoading] = useState(true);
     
 
@@ -77,7 +78,8 @@ function Invoice() {
     const handlePrint = () => {
       const content = document.getElementById('invoice-content');
   if (content) {
-    html2canvas(content, { scale: 2 }).then((canvas) => {
+    
+    html2canvas(content ).then((canvas) => {
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -122,7 +124,7 @@ function Invoice() {
     });
 
     // Use html2canvas to render the content
-    html2canvas(content, {  scale: 2  }).then((canvas) => {
+    html2canvas(content).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
 
       // Calculate image size in mm
@@ -160,7 +162,7 @@ if (loading) {
 <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10">
   <div className="sm:w-11/12 lg:w-3/4 mx-auto">
 
-    <div   id="invoice-content" className="flex flex-col p-4 sm:p-10 bg-white shadow-md rounded-xl dark:bg-neutral-800">
+    <div   id="invoice-content" className="flex flex-col p-4 sm:p-10 bg-white  rounded-xl dark:bg-neutral-800">
 
       <div className="flex justify-between">
         <div>

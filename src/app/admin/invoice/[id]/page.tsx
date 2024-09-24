@@ -1,11 +1,11 @@
 import Invoice from '@/components/Invoice'
 import React from 'react'
 
-export const page = () => {
+ const InvoicePage: React.FC = ()  => {
   return (
     <div>
         <Invoice/>
     </div>
   )
 }
-export default page;
+export default InvoicePage;
