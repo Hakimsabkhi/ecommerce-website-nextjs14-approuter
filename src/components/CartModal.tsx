@@ -3,7 +3,7 @@ import Image from "next/image";
 import { FaRegTrashAlt } from "react-icons/fa";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { addItem, removeItem, updateItemQuantity } from "../../store/cartSlice";
+import { addItem, removeItem, updateItemQuantity } from "../store/cartSlice";
 
 // Define the shape of the cart item
 interface CartItem {
@@ -28,10 +28,12 @@ interface CartModalProps {
 
 const CartModal: React.FC<CartModalProps> = ({ items }) => {
   const totalQuantity = items.reduce((total, item) => total + item.quantity, 0);
-  const totalPrice = items.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  const totalPrice = items.reduce((total, item) => {
+    const finalPrice = item.discount != null && item.discount > 0 
+      ? item.price - (item.price * item.discount / 100)
+      : item.price;
+    return total + finalPrice * item.quantity;
+  }, 0);
 
   const dispatch = useDispatch();
 
@@ -74,9 +76,16 @@ const CartModal: React.FC<CartModalProps> = ({ items }) => {
                 <p className="text-gray-400 text-xs">
                   Quantity: {item.quantity}
                 </p>
-                <p className="text-gray-400 text-xs">
-                  Price Unit: TND {item.price.toFixed(2)}
-                </p>
+                {item.discount != null && item.discount > 0 ? (
+  <p className="text-gray-400 text-xs">
+    Price Unit: TND {(item.price - item.price * (item.discount ?? 0) / 100).toFixed(2)}
+  </p>
+) : (
+  <p className="text-gray-400 text-xs">
+    Price Unit: TND {item.price.toFixed(2)}
+  </p>
+)}
+
               </div>
               <div className="flex items-center gap-2">
                 <button
@@ -108,14 +117,7 @@ const CartModal: React.FC<CartModalProps> = ({ items }) => {
         Total: TND {totalPrice.toFixed(2)}
       </p>
 
-      <Link href="/ShoppingCart" passHref>
-        <button
-          aria-label="view"
-          className="w-full h-10 rounded-lg border-2 border-black flex items-center justify-center mt-4"
-        >
-          <p className="text-xl text-black">View my cart ({totalQuantity})</p>
-        </button>
-      </Link>
+     
       <Link href="/checkout" passHref>
         <button
           aria-label="check"

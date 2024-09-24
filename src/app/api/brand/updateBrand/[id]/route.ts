@@ -142,7 +142,7 @@ export async function PUT(
       existingBrand.logoUrl = logoUrl;
       existingBrand.imageUrl = imageUrl;
       existingBrand.place = place;
-      
+      existingBrand.user=user;
       await existingBrand.save(); // Save the updated brand
       return NextResponse.json(existingBrand, { status: 200 });
     } catch (error) {

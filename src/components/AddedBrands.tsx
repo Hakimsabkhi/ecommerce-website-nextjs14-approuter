@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { toast} from 'react-toastify';
-import Dialog from './dialogDelete/Dialog';
+import DeletePopup from "@/components/Popup/DeletePopup";
+import LoadingSpinner from './LoadingSpinner';
 
 type Brand = {
     _id: string;
@@ -11,10 +12,15 @@ type Brand = {
     place: string;
     imageUrl: string;
     logoUrl: string;
+    user:user;
     createdAt: Date;
     updatedAt: Date;
 
 };
+interface user{
+ _id:string;
+ username:string;
+}
 
 const AddedBrands: React.FC = () => {
     const [addedBrand, setAddedBrand] = useState<Brand[]>([]);
@@ -23,16 +29,21 @@ const AddedBrands: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const BrandesPerPage = 5; // Number of categories to display per page
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [selectedBrand, setSelectedBrand] = useState({ id: '', name: '' });
+    const [loadingBrandId, setLoadingBrandId] = useState<string | null>(null);
     const handleDeleteClick = (brand:Brand) => {
+
+        setLoadingBrandId(brand._id); 
+        
         setSelectedBrand({ id: brand._id, name: brand.name });
-        setIsDialogOpen(true);
+        setIsPopupOpen(true);
       };
     
-      const handleCloseDialog = () => {
-        setIsDialogOpen(false);
+      const handleClosePopup = () => {
+        setIsPopupOpen(false);
+        setLoadingBrandId(null); 
       };
     const Deletebrand = async (brandId: string) => {
         
@@ -45,7 +56,7 @@ const AddedBrands: React.FC = () => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            handleCloseDialog();
+            handleClosePopup();
             toast.success("Brand delete successfully!" );
            
            
@@ -54,7 +65,9 @@ const AddedBrands: React.FC = () => {
         } catch (err: any) {
             
             toast.error(`[Brand_DELETE] ${err.message}` );
-        }
+        }finally{
+            setLoadingBrandId(null); 
+          }
     };
     const getBrand = async () => {
         try {
@@ -95,9 +108,7 @@ const AddedBrands: React.FC = () => {
    
     if (loading) {
         return (/* loading start */
-        <div className="flex justify-center items-center h-[400px]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>   
-      </div>
+       <LoadingSpinner/>
       /*  loading end  */)
     }
     if (error) {
@@ -109,11 +120,11 @@ const AddedBrands: React.FC = () => {
             <div className="flex items-center justify-between">
                 <p className='text-3xl font-bold'>ALL Brand</p>
            
-                <a href="/admin/brandlist/addbrand" className="w-[15%]">
+                <Link href="/admin/brandlist/addbrand" className="w-[15%]">
                     <button className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-full h-10'>
                         Add a new Brand
                     </button>
-                </a>
+                </Link>
             </div>
             <input
                 type="text"
@@ -147,7 +158,7 @@ const AddedBrands: React.FC = () => {
                             <td className="border px-4 py-2">{item.imageUrl}</td>
                             <td className="border px-4 py-2">{item.name}</td>
                             <td className="border-b px-4 py-2   ">{item.place}</td>
-                            <td className="border-b px-4 py-2  ">{item.place}</td>
+                            <td className="border-b px-4 py-2  ">{item?.user?.username}</td>
                             <td className="border-b flex items-center justify-center gap-2 ">                                
                                     <Link href={`/admin/brandlist/${item._id}`}>
                                         <button className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md">
@@ -155,9 +166,9 @@ const AddedBrands: React.FC = () => {
                                         </button>
                                     </Link>
                                     <button onClick={()=>handleDeleteClick(item)}  className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md">
-                                        Delete
+                                    {loadingBrandId ===item._id ? "Processing..." : "DELETE"}
                                     </button>
-                                    {isDialogOpen &&     < Dialog  handleCloseDialog={handleCloseDialog} Delete={Deletebrand}  id={selectedBrand.id} // Pass selected user's id
+                                    {isPopupOpen &&     < DeletePopup  handleClosePopup={handleClosePopup} Delete={Deletebrand}  id={selectedBrand.id} // Pass selected user's id
                     name={selectedBrand.name} />}                                
                             </td>
                         </tr>
@@ -170,7 +181,9 @@ const AddedBrands: React.FC = () => {
                         key={index}
                         onClick={() => paginate(index + 1)}
                         className={`mx-1 px-3 py-1 rounded ${
-                            currentPage === index + 1 ? 'bg-primary text-white' : 'bg-gray-300 text-black'
+                            currentPage === index + 1 
+                             ? "bg-gray-800 text-white"
+                : "bg-gray-300 text-black hover:bg-gray-600 hover:text-white"
                         }`}
                     >
                         {index + 1}

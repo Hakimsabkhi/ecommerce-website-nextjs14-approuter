@@ -1,172 +1,166 @@
-import React from "react";
+"use client";
+import OrderSummary from '@/components/prossess/OrderSummary';
+import CheckoutNav from '@/components/prossess/CheckoutNav';
+import RecapProduct from '@/components/prossess/RecapProduct'; // Ensure you have this component imported
+import PaymentSummary from '@/components/prossess/PaymentSummary';
+import PaymentMethode from '@/components/prossess/PaymentMethode';
+import Addresse from '@/components/prossess/addresse';
 
-const CheckoutPage: React.FC = () => {
+import { CartItem, clearCart, removeItem, updateItemQuantity } from '@/store/cartSlice';
+import { RootState } from '@/store';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import DeliveryMethod from '@/components/prossess/DeliveryMethod';
+
+const Checkout = () => {
+  const items = useSelector((state: RootState) => state.cart.items);
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  // Step state to control the view of the process
+  const [currentStep, setCurrentStep] = useState<'cart' | 'checkout' | 'order-summary'>('cart');
+  const [refOrder, setRefOrder] = useState('');
+  
+  // State for managing checkout data
+  const [checkoutData, setCheckoutData] = useState({
+    totalPrice: 0,
+    totalDiscount: 0,
+    items: [] as CartItem[],
+  });
+
+  // Function to handle checkout
+  const handleCheckout = (price: number, discount: number, items: CartItem[]) => {
+    setCheckoutData({ totalPrice: price, totalDiscount: discount, items });
+    setCurrentStep('checkout');
+  };
+
+  // Function to handle order summary
+  const handleOrderSummary = async (ref: string) => {
+    setRefOrder(ref);
+    setCurrentStep('order-summary');
+  };
+
+  // Go back to cart step
+  const handleCart = () => {
+    setCurrentStep('cart');
+  };
+
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('Payment on delivery');
+  
+  const [selectedMethod, setSelectedMethod] = useState<string>("fedex");
+  const [deliveryCost, setDeliveryCost] = useState<number>(0);
+  // Handle change of payment method
+  const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedPaymentMethod(e.target.value);
+  };
+  const handleMethodChange = (method: string, cost: number) => {
+    setSelectedMethod(method);
+    setDeliveryCost(cost);
+  };
+
+  // Increment item quantity
+  const incrementHandler = (item: CartItem) => {
+    if (item.quantity < item.stock) {
+      dispatch(updateItemQuantity({ _id: item._id, quantity: item.quantity + 1 }));
+    }
+  };
+
+  // Decrement item quantity
+  const decrementHandler = (item: CartItem) => {
+    if (item.quantity > 1) {
+      dispatch(updateItemQuantity({ _id: item._id, quantity: item.quantity - 1 }));
+    }
+  };
+
+  // Calculate totals
+  const totalQuantity = items.reduce((total, item) => total + item.quantity, 0);
+  const totalPrice = items.reduce((total, item) => {
+    const finalPrice = item.discount ? item.price - (item.price * item.discount) / 100 : item.price;
+    return total + finalPrice * item.quantity;
+  }, 0);
+  
+  const totalDiscount = items.reduce((total, item) => {
+    const originalPrice = item.price * item.quantity;
+    const discountedPrice = item.discount
+      ? item.price - (item.price * item.discount) / 100
+      : item.price;
+    const discountAmount = originalPrice - discountedPrice * item.quantity;
+    return total + discountAmount;
+  }, 0);
+
+
+
+  // Remove item from cart
+  const removeCartHandler = (_id: string) => {
+    dispatch(removeItem({ _id }));
+  };
+
   return (
-    <div className="font-[sans-serif] bg-white">
-      <div className="flex flex-col md:flex-row gap-12 md:gap-4 h-full">
-        {/* Left Sidebar */}
-        <div className="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 md:h-screen md:sticky md:top-0 lg:min-w-[370px] md:min-w-[300px]">
-          <div className="relative h-full">
-            <div className="px-4 py-8 md:overflow-auto md:h-[calc(100vh-60px)]">
-              <div className="space-y-4">
-                {[
-                  {
-                    src: "https://readymadeui.com/images/product10.webp",
-                    title: "Split Sneakers",
-                    size: "37",
-                    quantity: "2",
-                    price: "$40",
-                  },
-                  {
-                    src: "https://readymadeui.com/images/product11.webp",
-                    title: "Velvet Boots",
-                    size: "37",
-                    quantity: "2",
-                    price: "$40",
-                  },
-                  {
-                    src: "https://readymadeui.com/images/product14.webp",
-                    title: "Echo Elegance",
-                    size: "37",
-                    quantity: "2",
-                    price: "$40",
-                  },
-                  {
-                    src: "https://readymadeui.com/images/product13.webp",
-                    title: "Pumps",
-                    size: "37",
-                    quantity: "2",
-                    price: "$40",
-                  },
-                ].map((item, index) => (
-                  <div key={index} className="flex items-start gap-4">
-                    <div className="w-32 h-28 md:w-24 md:h-24 flex p-3 shrink-0 bg-gray-300 rounded-md">
-                      <img
-                        src={item.src}
-                        className="w-full object-contain"
-                        alt={item.title}
-                      />
-                    </div>
-                    <div className="w-full">
-                      <h3 className="text-base text-white">{item.title}</h3>
-                      <ul className="text-xs text-gray-300 space-y-2 mt-2">
-                        <li className="flex justify-between">
-                          Size <span>{item.size}</span>
-                        </li>
-                        <li className="flex justify-between">
-                          Quantity <span>{item.quantity}</span>
-                        </li>
-                        <li className="flex justify-between">
-                          Total Price <span>{item.price}</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+    <div>
+      <CheckoutNav currentStep={currentStep} />
+      {currentStep === 'cart' && (
+       < div className="mx-auto max-w-screen-2xl px-4 2xl:px-0 ">
+        <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
+        <div className="min-w-0 flex-1 space-y-8  bg-gray-100 p-4 rounded-md mb-4 ">
+        
+          <RecapProduct
+            items={items}
+            incrementHandler={incrementHandler}
+            decrementHandler={decrementHandler}
+            removeCartHandler={removeCartHandler}
+          />
+        </div>
+          <PaymentSummary
+              currentStep={currentStep}
+              items={items}
+              totalPrice={totalPrice}
+              totalDiscount={totalDiscount}
+              onCheckout={handleCheckout}
+              selectedPaymentMethod={selectedPaymentMethod}
 
-            <div className="md:absolute md:left-0 md:bottom-0 bg-gray-800 w-full p-4">
-              <h4 className="flex justify-between text-base text-white">
-                Total <span>$84.00</span>
-              </h4>
+              backcarte={handleCart} handleOrderSummary={function (ref: string): void {
+                throw new Error('Function not implemented.');
+              } } selectedMethod={selectedMethod} deliveryCost={deliveryCost}          />
+          
+           
+          </div>
+          </div>
+          
+      )}
+      {currentStep === 'checkout' && (
+        <div className="mx-auto max-w-screen-2xl px-4 2xl:px-0">
+          <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
+            <div className="min-w-0 flex-1 space-y-8 mb-4 ">
+              <Addresse />
+              <DeliveryMethod selectedMethod={selectedMethod}
+                onMethodChange={handleMethodChange}/>
+              <PaymentMethode
+                handlePaymentMethodChange={handlePaymentMethodChange}
+                selectedPaymentMethod={selectedPaymentMethod}
+              />
+            
             </div>
+            <PaymentSummary
+              handleOrderSummary={handleOrderSummary}
+              items={items}
+              totalPrice={totalPrice}
+              totalDiscount={totalDiscount}
+              currentStep={currentStep}
+              onCheckout={handleCheckout}
+              selectedPaymentMethod={selectedPaymentMethod}
+              backcarte={handleCart}
+              selectedMethod={selectedMethod}
+              deliveryCost={deliveryCost}
+            />
           </div>
         </div>
-
-        {/* Right Form Section */}
-        <div className="max-w-4xl w-full h-max rounded-md px-4 py-8 sticky top-0">
-          <h2 className="text-2xl font-bold text-gray-800">
-            Complete your order
-          </h2>
-          <form className="mt-8">
-            <div>
-              <h3 className="text-base text-gray-800 mb-4">Personal Details</h3>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <input
-                    type="text"
-                    placeholder="First Name"
-                    className="px-4 py-3 bg-gray-100 focus:bg-transparent text-gray-800 w-full text-sm rounded-md focus:outline-blue-600"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    className="px-4 py-3 bg-gray-100 focus:bg-transparent text-gray-800 w-full text-sm rounded-md focus:outline-blue-600"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="px-4 py-3 bg-gray-100 focus:bg-transparent text-gray-800 w-full text-sm rounded-md focus:outline-blue-600"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    placeholder="Phone No."
-                    className="px-4 py-3 bg-gray-100 focus:bg-transparent text-gray-800 w-full text-sm rounded-md focus:outline-blue-600"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-8">
-              <h3 className="text-base text-gray-800 mb-4">Shipping Address</h3>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Address Line"
-                    className="px-4 py-3 bg-gray-100 focus:bg-transparent text-gray-800 w-full text-sm rounded-md focus:outline-blue-600"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="City"
-                    className="px-4 py-3 bg-gray-100 focus:bg-transparent text-gray-800 w-full text-sm rounded-md focus:outline-blue-600"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="State"
-                    className="px-4 py-3 bg-gray-100 focus:bg-transparent text-gray-800 w-full text-sm rounded-md focus:outline-blue-600"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Zip Code"
-                    className="px-4 py-3 bg-gray-100 focus:bg-transparent text-gray-800 w-full text-sm rounded-md focus:outline-blue-600"
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-4 flex-col md:flex-row mt-8">
-                <button
-                  type="button"
-                  className="rounded-md px-6 py-3 w-full text-sm tracking-wide bg-transparent hover:bg-gray-100 border border-gray-300 text-gray-800"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="rounded-md px-6 py-3 w-full text-sm tracking-wide bg-blue-600 hover:bg-blue-700 text-white"
-                >
-                  Complete Purchase
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
+      )}
+      {currentStep === 'order-summary' && (
+        <OrderSummary data={refOrder} />
+      )}
     </div>
   );
 };
 
-export default CheckoutPage;
+export default Checkout;

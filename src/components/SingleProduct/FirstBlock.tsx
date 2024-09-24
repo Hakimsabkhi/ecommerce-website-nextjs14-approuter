@@ -1,15 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, MouseEvent } from "react";
 import Image from "next/image";
-import { twibble2, twibble3, twibble4, star } from "@/assets/image";
+import { star } from "@/assets/image";
 import { IoCheckboxOutline } from "react-icons/io5";
 
 import Head from "next/head";
 import ProductQ from "./ProductQ";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../../store/cartSlice";
-import { RootState } from "../../../store/store";
+import { addItem } from "../../store/cartSlice";
+import { RootState } from "../../store";
 import { toast } from "react-toastify";
 
 const noimage =
@@ -19,12 +19,17 @@ interface Product {
   _id: string;
   name: string;
   description: string;
+  info: string;
   ref: string;
   price: number;
   imageUrl?: string;
+  images?: string[];
   brand?: Brand; // Make brand optional
   stock: number;
+  dimensions?: string;
   discount?: number;
+  warranty?: number;
+  weight?: number;
   color?: string;
   material?: string;
   status?: string;
@@ -41,6 +46,34 @@ interface FirstBlockProps {
 }
 const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
   const [count, setCount] = useState<number>(0);
+  const [mainImage, setMainImage] = useState<string>(
+    product?.imageUrl || noimage
+  );
+  const [selectedImage, setSelectedImage] = useState<string>(
+    product?.imageUrl || noimage
+  );
+  const hasNoImages =
+    Array.isArray(product?.images) && product.images.length === 0;
+  const [isZoomed, setIsZoomed] = useState<boolean>(false);
+  const [mousePos, setMousePos] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
+
+  const handleMouseEnter = () => setIsZoomed(true);
+  const handleMouseLeave = () => setIsZoomed(false);
+
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    });
+  };
+  const handleImageClick = (image: string) => {
+    setMainImage(image); // Set the clicked image as the main image
+    setSelectedImage(image); // Set the selected image
+  };
 
   const increment = () => setCount(count + 1);
   const decrement = () => {
@@ -50,12 +83,16 @@ const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
   };
   const items = useSelector((state: RootState) => state.cart.items);
   console.log(items);
-
   const dispatch = useDispatch();
-
-  const addToCartHandler = (product: Product) => {
-    dispatch(addItem(product));
-    toast.success(`${product.name} added to cart!`);
+ 
+  const addToCartHandler = (product: Product, quantity: number) => {
+     // Ensure dispatch is available
+  
+    // Dispatch the action with item and quantity
+    dispatch(addItem({ item: product, quantity }));
+  
+    // Show success notification
+    toast.success(`${product.name} added to cart with quantity ${quantity}!`);
   };
   return (
     <>
@@ -65,33 +102,66 @@ const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
       <main className="w-full bg-white pb-10 pt-20 flex justify-center">
         {product ? (
           <div className="flex gap-10 max-2xl:flex-col w-[80%] max-lg:w-[95%] max-lg:h-[1062px] items-center">
-            <div className="flex gap-2 items-center max-2xl:flex-col">
-              <Image
-                src={product.imageUrl || noimage}
-                height={500}
-                width={500}
-                alt={product.name || "Product image"}
-                loading="eager"
-              />
-              <div className="flex 2xl:flex-col gap-8 max-sm:justify-around">
+            <div className="relative w-[50%] gap-2 pb-5 items-center">
+              <div
+                className="relative w-[500px] h-[500px] overflow-hidden cursor-zoom-in	"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onMouseMove={handleMouseMove}
+              >
                 <Image
-                  className="max-md:w-[30%] max-sm:w-[20%]"
-                  src={twibble2}
-                  alt="twibble2"
+                  src={mainImage}
+                  alt={product.name || "Product image"}
+                  layout="fill"
+                  objectFit="cover"
+                  loading="eager"
+                  className="transition-transform duration-300 ease-in-out"
                 />
-                <Image
-                  className="max-md:w-[30%] max-sm:w-[20%]"
-                  src={twibble3}
-                  alt="twibble3"
-                />
-                <Image
-                  className="max-md:w-[30%] max-sm:w-[20%]"
-                  src={twibble4}
-                  alt="twibble4"
-                />
+                {isZoomed && (
+                  <div
+                    className="absolute top-0 left-0 w-full h-full bg-no-repeat"
+                    style={{
+                      backgroundImage: `url(${mainImage})`,
+                      backgroundSize: "200%",
+                      backgroundPosition: `${mousePos.x}% ${mousePos.y}%`,
+                      transform: "scale(1.5)",
+                      pointerEvents: "none",
+                    }}
+                  />
+                )}
+              </div>
+              <div className="flex gap-8 max-sm:justify-around">
+                {product.images && product.images.length > 0 ? (
+                  product.images.map((image, index) => (
+                    <div
+                      key={index}
+                      className={`relative cursor-pointer max-md:w-[30%] max-sm:w-[20%] ${
+                        selectedImage === image
+                          ? "border-2 border-[#15335D]"
+                          : ""
+                      }`}
+                    >
+                      <Image
+                        src={image}
+                        alt={`Image ${index + 1}`}
+                        onClick={() => handleImageClick(image)}
+                        layout="responsive" // Ensures the image scales correctly
+                        width={500} // Example width, can be adjusted
+                        height={500} // Example height, can be adjusted
+                        style={{ objectFit: "cover", height: "50%" }} // Adjust height to 50% of parent container
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
-            <div className="flex flex-col gap-5">
+            <div
+              className={`flex flex-col ${
+                hasNoImages ? "w-[50%]" : "w-full"
+              } gap-5`}
+            >
               <p className="text-3xl font-bold">{product.name}</p>
               <div className="flex gap-4 items-center">
                 <p className="flex items-center font-bold">
@@ -131,31 +201,9 @@ const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
                 </div>
                 <p>(2 customer reviews)</p>
               </div>
-              <p>
-                The slender organic forms are fluid and graceful. Noguchi
-                emphasizes the lightness of the elements with thin yet
-                comfortable design.
-              </p>
-              <p className="text-primary text-3xl font-bold max-lg:justify-center flex">
-                {product.price} TND
-              </p>
-              <div className="flex items-center max-lg:flex-col gap-3 max-lg:justify-center">
-                <p>Quantity</p>
-                <div className="flex items-center">
-                  <p className="p-3 border-2 text-xl"></p>
-                </div>
-                <button
-                  onClick={() => {
-                    addToCartHandler(product);
-                  }}
-                  className="text-white bg-primary hover:bg-[#15335D] h-10 w-[20%] font-bold rounded-md"
-                >
-                  <p>Add to cart</p>
-                </button>
-                <button className="text-white bg-black h-10 w-[20%] font-bold rounded-md">
-                  <p>Buy now</p>
-                </button>
-              </div>
+              <p>{product.info}</p>
+
+              <ProductQ product={product} addToCartHandler={addToCartHandler} />
             </div>
           </div>
         ) : (

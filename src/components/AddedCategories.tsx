@@ -4,8 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { fetchCategories } from "@/lib/featcher";
 import { toast } from "react-toastify";
-import Dialog from "./dialogDelete/Dialog";
+import DeletePopup from "./Popup/DeletePopup";
 import { flag } from "@/assets/image";
+import LoadingSpinner from "./LoadingSpinner";
 
 type Category = {
   _id: string;
@@ -24,20 +25,23 @@ username:string;
 const AddedCategories: React.FC = () => {
   const [addedCategory, setAddedCategory] = useState<Category[]>([]);
   const [filteredCategory, setFilteredCategory] = useState<Category[]>([]);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const categoriesPerPage = 5; // Number of categories to display per page
   const [loading, setLoading] = useState(true);
   const [selectedCatgory, setSelectedCatgory] = useState({ id: "", name: "" });
+  const [loadingCategoryId, setLoadingCategoryId] = useState<string | null>(null);
   const handleDeleteClick = (Category: Category) => {
+    setLoadingCategoryId(Category._id); 
     setSelectedCatgory({ id: Category._id, name: Category.name });
-    setIsDialogOpen(true);
+    setIsPopupOpen(true);
   };
 
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setLoadingCategoryId(null);
   };
 
   const DeleteCategory = async (categoryId: string) => {
@@ -55,13 +59,15 @@ const AddedCategories: React.FC = () => {
 
       // Refresh categories after deletion
       await fetchCategories();
-      handleCloseDialog();
+      handleClosePopup();
       getCategory();
       toast.success("Category delete successfully!");
     } catch (err: any) {
       /*  setError(`[Category_DELETE] ${err.message}`);
           setError(`Error: ${err.message}`); */
       toast.error("faild Category_DELETE");
+    }finally {
+      setLoadingCategoryId(null);
     }
   };
 
@@ -108,9 +114,7 @@ const AddedCategories: React.FC = () => {
   if (loading) {
     return (
       /* loading start */
-      <div className="flex justify-center items-center h-[400px]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
-      </div>
+     <LoadingSpinner/>
       /*  loading end  */
     );
   }
@@ -124,11 +128,11 @@ const AddedCategories: React.FC = () => {
       <div className="flex items-center justify-between">
         <p className="text-3xl font-bold">ALL categories</p>
 
-        <a href="categorylist/addcategory" className="w-[15%]">
+        <Link href="categorylist/addcategory" className="w-[15%]">
           <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-full h-10">
             Add a new category
           </button>
-        </a>
+        </Link>
       </div>
       <input
         type="text"
@@ -137,9 +141,9 @@ const AddedCategories: React.FC = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="mt-4 p-2 border border-gray-300 rounded"
       />
-      <table className="table-auto w-full mt-4">
+      <table className="table-auto w-full mt-4 uppercase">
         <thead>
-          <tr className="bg-gray-800">
+          <tr className="bg-gray-800 ">
             <th className=" px-4 py-2 ">Icon</th>
             <th className=" px-4 py-2 ">ImageURL</th>
             <th className="px-4 py-2  ">Name</th>
@@ -168,12 +172,13 @@ const AddedCategories: React.FC = () => {
                   <button
                     onClick={() => handleDeleteClick(item)}
                     className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md"
+                    disabled={loadingCategoryId === item._id}
                   >
-                    Delete
+                    {loadingCategoryId ===item._id ? "Processing..." : "DELETE"}
                   </button>
-                  {isDialogOpen && (
-                    <Dialog
-                      handleCloseDialog={handleCloseDialog}
+                  {isPopupOpen && (
+                    <DeletePopup
+                      handleClosePopup={handleClosePopup}
                       Delete={DeleteCategory}
                       id={selectedCatgory.id}
                       name={selectedCatgory.name}
@@ -192,8 +197,8 @@ const AddedCategories: React.FC = () => {
             onClick={() => paginate(index + 1)}
             className={`mx-1 px-3 py-1 rounded ${
               currentPage === index + 1
-                ? "bg-primary text-white"
-                : "bg-gray-300 text-black"
+                 ? "bg-gray-800 text-white"
+                : "bg-gray-300 text-black hover:bg-gray-600 hover:text-white"
             }`}
           >
             {index + 1}

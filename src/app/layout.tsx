@@ -1,14 +1,15 @@
 // app/layout.tsx
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOptions"; // Ensure the path is correct
-import SessionProviderWrapper from "@/components/SessionProviderWrapper";
+import SessionProviderWrapper from "@/components/ProviderComp/SessionProviderWrapper";
 import ClientLayout from "@/components/ClientLayout";
 import { Poppins } from "next/font/google";
 import "./globals.css"; // Ensure global styles are imported
-import StoreProvider from "../../StoreProvider/StoreProvider";
+
 import { Metadata } from "next";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import StoreProviders from "@/components/ProviderComp/StoreProvider";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -22,14 +23,15 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getServerSession(authOptions);
 
   return (
-    <StoreProvider>
+  
       <html lang="en">
         <body className={poppins.className}>
           <SessionProviderWrapper session={session}>
+          <StoreProviders>
             <ClientLayout>
-              <ToastContainer
-                position="top-right"
-                autoClose={5000}
+            <ToastContainer 
+                position="top-center"
+                autoClose={2000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
@@ -39,12 +41,13 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
                 pauseOnHover
                 theme="colored"
               />
-              ;{children}
+              {children}
             </ClientLayout>
+            </StoreProviders>
           </SessionProviderWrapper>
         </body>
       </html>
-    </StoreProvider>
+    
   );
 };
 

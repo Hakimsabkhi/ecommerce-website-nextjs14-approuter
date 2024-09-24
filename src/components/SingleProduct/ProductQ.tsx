@@ -1,14 +1,21 @@
 "use client"
+import Link from "next/link";
 import React, { useState } from "react";
+
 interface Product {
   _id: string;
   name: string;
   description: string;
+  info:string;
   ref: string;
   price: number;
   imageUrl?: string;
+  images?: string [];
   stock: number;
+  dimensions?:string;
   discount?: number;
+  warranty?:number;
+  weight?:number;
   color?: string;
   material?: string;
   status?: string;
@@ -16,14 +23,15 @@ interface Product {
 
 interface ProductQProps {
   product: Product | null;
+  addToCartHandler: (product: Product,quantity:number) => void;
 }
 
-const ProductQ: React.FC<ProductQProps> = ({ product }) => {
-
+const ProductQ: React.FC<ProductQProps> = ({ product,addToCartHandler }) => {
+  
+  const [quantity, setQuantity] = useState<number>(1);
       if (!product) {
         return null; // Ensure the component returns null if product is not available
       }
-      const [quantity, setQuantity] = useState<number>(1);
 
       const increaseQuantity = () => {
         if (quantity < product.stock) {
@@ -87,18 +95,23 @@ const ProductQ: React.FC<ProductQProps> = ({ product }) => {
       </button>
     </div>{/* Assuming you want to show the quantity here */}
       </div>
-      <button className="text-white bg-primary hover:bg-[#15335D] h-10 w-[20%] font-bold rounded-md">
+
+      <button  onClick={() => addToCartHandler(product,quantity)} className="text-white bg-primary hover:bg-[#15335D] h-10 w-[60%] font-bold rounded-md">
         <p>Add to cart</p>
       </button>
-      <button className="text-white bg-black h-10 w-[20%] font-bold rounded-md">
+      <Link href={"/checkout"} className="text-white bg-black h-10 w-[60%] font-bold text-center rounded-md">
+      <button 
+     onClick={() => addToCartHandler(product,quantity)}
+      className="text-white bg-black h-10 w-[60%] font-bold rounded-md">
         <p>Buy now</p>
       </button>
+      </Link>
     </>
   ) : (
-    <button className="text-white bg-gray-500 h-10 w-[20%] font-bold rounded-md" disabled>
+    <button className="text-white bg-gray-500 h-10 w-[60%] font-bold rounded-md" disabled>
       <p>Out of stock</p>
     </button>
-  )):(<button className="text-white bg-gray-500 h-10 w-[20%] font-bold rounded-md" disabled>
+  )):(<button className="text-white bg-gray-500 h-10 w-[60%] font-bold rounded-md" disabled>
     <p>Out of stock</p>
   </button>)}
 </div>

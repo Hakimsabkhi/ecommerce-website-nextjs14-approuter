@@ -22,7 +22,7 @@ const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
   try {
   if(user.role !== 'Admin'){
     // Fetch all users excluding those with 'Admin' role
-    
+
     const users = await User.find({ role: { $ne: 'SuperAdmin' } });
     return NextResponse.json(users, { status: 200 });
   }else{

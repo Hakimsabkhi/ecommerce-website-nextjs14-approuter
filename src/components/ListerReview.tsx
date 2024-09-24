@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import LoadingSpinner from "./LoadingSpinner";
 
 
 type User = {
@@ -25,7 +26,7 @@ type AddedProductsProps = {
 };
 
 const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
-  console.log(products);
+  
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,7 +37,7 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
   useEffect(() => {
     setFilteredProducts(products);
     setCurrentPage(1);
-    setLoading(false);
+    
   }, [products]);
 
   useEffect(() => {
@@ -45,9 +46,11 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.ref.toLowerCase().includes(searchTerm.toLowerCase())
       // product.user.toLowerCase().includes(searchTerm.toLowerCase())
+      
     );
     setFilteredProducts(filtered);
     setCurrentPage(1);
+    setLoading(false);
   }, [searchTerm, products]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -63,9 +66,7 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
   if (loading) {
     return (
       /* loading start */
-      <div className="flex justify-center items-center h-[400px]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
-      </div>
+     <LoadingSpinner/>
       /*  loading end  */
     );
   }
@@ -89,20 +90,20 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
       />
       <table className="table-auto w-full mt-4">
         <thead>
-          <tr>
-            <th className="text-start py-2">REF</th>
-            <th className="text-start py-2">Name</th>
-            <th className="text-center py-2">ImageURL</th>
-            <th className="flex items-center justify-center gap-20 py-2 text-center">
+          <tr className="bg-gray-800 ">
+            <th className="px-4 py-2 text-center">REF</th>
+            <th className="px-4 py-2 text-center">Name</th>
+            <th className="px-4 py-2 text-center ">ImageURL</th>
+            <th className="px-4 py-2  text-center">
               Action
             </th>
           </tr>
         </thead>
         <tbody>
           {currentProducts.map((item) => (
-            <tr key={item._id} className="bg-[#15335D] text-white">
-              <td className="border px-4 py-2">{item.ref}</td>
-              <td className="border px-4 py-2">{item.name}</td>
+            <tr key={item._id} className="bg-white text-balck">
+              <td className="border px-4 py-2 text-center">{item.ref}</td>
+              <td className="border px-4 py-2 text-center">{item.name}</td>
               <td className="border px-4 py-2  text-center">
                 <Image
                   alt={item.name}
@@ -114,7 +115,7 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
               </td>
               <td className="border px-4 py-2 flex justify-center items-center">
                 <Link href={`/admin/reviewlist/${item._id}`}>
-                  <button className="bg-primary w-28 h-10 rounded-md uppercase">
+                  <button className="bg-gray-800 hover:bg-gray-600 text-white  w-28 h-10 rounded-md uppercase">
                     Reviews
                   </button>
                 </Link>
@@ -130,8 +131,8 @@ const ListerReview: React.FC<AddedProductsProps> = ({ products }) => {
             onClick={() => paginate(index + 1)}
             className={`mx-1 px-3 py-1 rounded ${
               currentPage === index + 1
-                ? "bg-primary text-white"
-                : "bg-gray-300 text-black"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-300 text-black hover:bg-gray-600 hover:text-white"
             }`}
           >
             {index + 1}

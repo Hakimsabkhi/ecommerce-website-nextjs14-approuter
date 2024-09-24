@@ -197,15 +197,15 @@ const ModifyBrand = () => {
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
           <button
             type="submit"
-            className="bg-primary hover:bg-[#15335D] text-white rounded-md w-full h-10"
+            className="bg-gray-800 text-white hover:bg-gray-600   rounded-md w-full h-10"
           >
-            <p className="text-white font-bold">Modify</p>
+            <p className=" font-bold">Modify</p>
           </button>
         </div>
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
           <Link href="/admin/brandlist">
-            <button className="bg-white border-2 border-gray-400 text-white rounded-md w-full h-10 flex items-center justify-center">
-              <p className="text-black font-bold">Cancel</p>
+            <button className="bg-white border-2 border-gray-400 hover:bg-gray-600 hover:border-0 hover:text-white rounded-md w-full h-10 flex items-center justify-center">
+              <p className=" font-bold">Cancel</p>
             </button>
           </Link>
         </div>

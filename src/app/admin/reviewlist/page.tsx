@@ -17,7 +17,7 @@ type Product = {
 
 const Page = () => {
     const [products, setProducts] = useState<Product[]>([]);
-    
+  
     useEffect(() => {
         const fetchProducts = async () => {
             try {

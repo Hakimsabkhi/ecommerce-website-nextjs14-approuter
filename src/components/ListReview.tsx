@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import Dialog from './dialogDelete/Dialog';
+import DeletePopup from './Popup/DeletePopup';
 import { FaStar } from 'react-icons/fa6';
 import Link from 'next/link';
+import Image from 'next/image';
+import LoadingSpinner from './LoadingSpinner';
 
 interface ReviewData {
   _id: string;
@@ -30,37 +32,8 @@ const ListReview: React.FC = () => {
   const reviewsPerPage = 5; // Number of reviews to display per page
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const handleDeleteClick = () => {
-  
-    setIsDialogOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-    
-  };
-
-  const handleDeleteConfirm = async (id: string) => {
-  
-    try {
-      const response = await fetch(`/api/review/deleteReviwerById/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete review');
-      }
-      toast.success("Review deleted successfully!");
-      handleCloseDialog();
-      getReviews();
-    } catch (err: any) {
-      setError(`[Reviews_DELETE] ${err.message}`);
-    }
-  };
-
-  const getReviews = async () => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const getReviews = useCallback(async () => {
     if (!productId) return;
 
     try {
@@ -77,14 +50,43 @@ const ListReview: React.FC = () => {
       setFilteredReviews(data);
     } catch (err: any) {
       setError(`[Reviews_GET] ${err.message}`);
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
+    }
+  }, [productId]);
+  const handleDeleteClick = () => {
+  
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    
+  };
+
+  const handleDeleteConfirm = async (id: string) => {
+  
+    try {
+      const response = await fetch(`/api/review/deleteReviwerById/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete review');
+      }
+      toast.success("Review deleted successfully!");
+      handleClosePopup();
+      getReviews();
+    } catch (err: any) {
+      setError(`[Reviews_DELETE] ${err.message}`);
     }
   };
 
+
   useEffect(() => {
+  
     getReviews();
-  }, [productId]);
+  }, [getReviews]);
 
   useEffect(() => {
     const filtered = addedReviews.filter(review =>
@@ -103,9 +105,7 @@ const ListReview: React.FC = () => {
   if (loading) {
     return (
       /* loading start */
-      <div className="flex justify-center items-center h-[400px]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
-      </div>
+      <LoadingSpinner/>
       /*  loading end  */
     );
   }
@@ -126,26 +126,28 @@ const ListReview: React.FC = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="mb-6 px-4 py-2 border rounded-md w-full md:w-1/2 mx-auto"
         />
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xl font-bold text-gray-950 uppercase tracking-wider">Name</th>
-              <th className="px-6 py-3 text-left text-xl font-bold text-gray-950  uppercase tracking-wider">Reviw</th>
-              <th className="px-6 py-3 text-left text-xl font-bold text-gray-950  uppercase tracking-wider">Rating</th>
-              <th className="px-6 py-3 text-left text-xl font-bold text-gray-950  uppercase tracking-wider">Date</th>
-              <th>Reply</th>
-              <th className="px-6 py-3 text-left text-xl font-bold text-gray-950  uppercase tracking-wider">Actions</th>
+        <table className="min-w-full divitable-auto w-full mt-4">
+          <thead className="bg-gray-800">
+            <tr className='text-white'>
+              <th className="px-4 py-2">Name</th>
+              <th className="px-4 py-2">Reviw</th>
+              <th className="px-4 py-2">Rating</th>
+              <th className="px-4 py-2">Date</th>
+              <th className="px-4 py-2">Reply</th>
+              <th className="px-4 py-2 text-center">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-[#15335D] divide-y divide-gray-200">
+          <tbody className="bg-white divide-y ">
             {currentReviews.map(review => (
               <tr key={review._id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm  text-white font-bold sm:flex gap-6 items-center">  <img
-                    src="https://pagedone.io/asset/uploads/1704364459.png"
+                <td className="px-6 py-4 whitespace-nowrap text-sm  font-bold sm:flex gap-6 items-center">  <Image
+                    src="https://res.cloudinary.com/dx499gc6x/image/upload/v1721829622/samples/animals/cat.jpg"
                     alt="Portrait of Robert"
                     className="w-10 h-10 rounded-full"
+                    width={300}
+                    height={300}
                   /> {review.name}</td>
-                   <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     {review.text}
                    </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
@@ -158,23 +160,23 @@ const ListReview: React.FC = () => {
                 ))}
                 </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-warning-200">
+                <td className="px-6 py-4 whitespace-nowrap text-sm ">
                   {new Date(review.createdAt).toLocaleDateString()}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-warning-200">
+                <td className="px-6 py-4 whitespace-nowrap text-sm ">
                   {review?.user?.username}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <div className="flex items-center gap-2 text-white">
+                <div className="flex items-center justify-center gap-2 text-white">
                                     <Link href={`/admin/reviewlist/${productId}/${review._id}`}>
-                                        <button className="bg-primary w-28 h-10 rounded-md">
+                                        <button className="bg-gray-800 hover:bg-gray-600 w-28 h-10 rounded-md">
                                             Reply
                                         </button>
                                     </Link>
-                                    <button onClick={()=>handleDeleteClick()}  className="bg-primary w-28 h-10 rounded-md">
+                                    <button onClick={()=>handleDeleteClick()}  className="bg-gray-800 hover:bg-gray-600 w-28 h-10 rounded-md">
                                         Delete
                                     </button>
-                                    {isDialogOpen &&     < Dialog  handleCloseDialog={handleCloseDialog} Delete={handleDeleteConfirm} id={review._id}
+                                    {isPopupOpen &&     <DeletePopup handleClosePopup={handleClosePopup} Delete={handleDeleteConfirm} id={review._id}
                                     name={review.name}/>}
                                     
                                 </div>
@@ -191,7 +193,8 @@ const ListReview: React.FC = () => {
                   <button
                     onClick={() => paginate(index + 1)}
                     className={`px-4 py-2 border rounded ${
-                      currentPage === index + 1 ? 'bg-primary text-white' : 'bg-white text-black'
+                      currentPage === index + 1 ? "bg-gray-800 text-white"
+                : "bg-gray-300 text-black hover:bg-gray-600 hover:text-white"
                     }`}
                   >
                     {index + 1}
@@ -208,3 +211,7 @@ const ListReview: React.FC = () => {
 };
 
 export default ListReview;
+function getReviews() {
+  throw new Error('Function not implemented.');
+}
+

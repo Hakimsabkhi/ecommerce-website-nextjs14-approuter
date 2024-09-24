@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { MdOutlineDeleteOutline } from "react-icons/md";
-import Dialog from "@/components/dialogDelete/Dialog";
+import DeletePopup from "@/components/Popup/DeletePopup";
 import { toast } from "react-toastify";
 
 interface User {
@@ -17,29 +17,25 @@ const AdminDashboard = () => {
   const { data: session, status } = useSession();
   const [users, setUsers] = useState<User[]>([]);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const router = useRouter();
-  const [selectedUser, setSelectedUser] = useState({ id: '', email: '' });
-  const handleDeleteClick = (user:User) => {
+  const [loadingUserId, setLoadingUserId] = useState<string | null>(null);
+  const [selectedUser, setSelectedUser] = useState({ id: "", email: "" });
+  const handleDeleteClick = (user: User) => {
+    setLoadingUserId(user._id); 
     setSelectedUser({ id: user._id, email: user.email });
-    setIsDialogOpen(true);
+    setIsPopupOpen(true);
+ 
   };
 
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setLoadingUserId(null);
   };
 
   useEffect(() => {
-    if (
-      !session ||
-      !session.user ||
-      (session.user.role !== "SuperAdmin" && session.user.role !== "Admin")
-    ) {
-      router.push("/");
-    } else {
-      fetchUsers();
-    }
-  }, [router, session]);
+    fetchUsers();
+  }, []);
 
   const fetchUsers = async () => {
     const res = await fetch(`/api/users`);
@@ -48,8 +44,8 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteUser = async (id: string) => {
+    
     try {
-
       const response = await fetch(`/api/users/deleteuserbyid/${id}`, {
         method: "DELETE",
       });
@@ -61,15 +57,16 @@ const AdminDashboard = () => {
 
       fetchUsers();
       toast.success("User delete successfully!");
-      handleCloseDialog();
+      handleClosePopup();
     } catch (error) {
-      
       toast.error("[User_DELETE] ");
-     
+    } finally {
+      setLoadingUserId(null);
     }
   };
 
   const handleChangeRole = async (userId: string, newRole: string) => {
+    setLoadingUserId(userId);
     try {
       // Ensure the session and user ID are available
       if (!session?.user?.id) {
@@ -98,22 +95,18 @@ const AdminDashboard = () => {
       // Handle errors, e.g., show a notification or log the error
       console.error("Error changing role:", error);
       // Optionally, show a user-friendly error message
+    } finally {
+      setLoadingUserId(null); 
     }
   };
 
-  const toggleDropdown = (userId: string) => {
-    setDropdownOpen(dropdownOpen === userId ? null : userId);
-  };
-
   return (
-    <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
-      <h1 className="text-4xl font-bold mb-8 text-center text-gray-900">
-        Admin Dashboard
-      </h1>
-      <div className="relative  shadow-lg rounded-lg bg-white">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
+    <div className="container mx-auto p-8">
+      <h1 className="text-4xl font-bold mb-8 text-center">Admin Dashboard</h1>
+      <div className="relative  shadow-lg rounded-lg ">
+        <table className="w-full text-sm text-left rtl:text-right ">
+          <thead className="text-xl uppercase ">
+            <tr className=" bg-gray-800">
               <th scope="col" className="px-6 py-3">
                 Email
               </th>
@@ -133,99 +126,50 @@ const AdminDashboard = () => {
               >
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  className="px-6 py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
                   {user.email}
                 </th>
-                <td className="px-6 py-4 text-center">{user.role}</td>
-                <td className="px-6 py-4 relative text-center">
-                  <div className="relative inline-block text-left">
-                    <div className="flex gap-2 justify-items-center ">
-                      <button
-                        id="dropdownDefaultButton"
-                        data-dropdown-toggle={`dropdown-${user._id}`}
-                        onClick={() => toggleDropdown(user._id)}
-                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        type="button"
-                      >
-                        Change Role
-                        <svg
-                          className="w-2.5 h-2.5 ms-3"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 10 6"
-                        >
-                          <path
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="m1 1 4 4 4-4"
-                          />
-                        </svg>
-                      </button>
-                      <button
-                        onClick={() => handleDeleteClick(user)}
-                             className="bg-red-600 text-white hover:bg-red-800 focus:outline-none rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-red-600 dark:hover:bg-red-700"
-
-                      >
-                        <MdOutlineDeleteOutline className="w-6 h-6" />
-                      </button>
-                      {isDialogOpen && (
-                    <Dialog 
-                      handleCloseDialog={handleCloseDialog}
+                <td className="px-6 py-2  text-center">
+                  <div className="flex items-center justify-center">
+                    <select
+                      className={`w-[50%]  text-center border-2  p-2  `}
+                      value={user.role} // Set the default value
+                      onChange={(e) =>
+                        handleChangeRole(user._id, e.target.value)
+                      }
+                      disabled={loadingUserId === user._id}
+                    >
+                      <option value="Consulter" className="">
+                        Consulter
+                      </option>
+                      {session?.user?.role === "SuperAdmin" && (
+                        <option value="Admin" className="">
+                          Admin
+                        </option>
+                      )}
+                      <option value="Visiteur" className="">
+                        Visiteur
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td className="px-6 py-2 relative text-center">
+                  <button
+                    onClick={() => handleDeleteClick(user)}
+                    className="bg-red-500 w-[50%] text-white  py-2 rounded"
+                    disabled={loadingUserId === user._id}
+                  >
+                    {loadingUserId ===user._id ? "Processing..." : "DELETE"}
+                  </button>
+                  {isPopupOpen && (
+                    <DeletePopup
+                      handleClosePopup={handleClosePopup}
                       Delete={handleDeleteUser}
                       id={selectedUser.id} // Pass selected user's id
-                    name={selectedUser.email} 
+                      name={selectedUser.email}
                     />
                   )}
-                    </div>
-                    {dropdownOpen === user._id && (
-                      <div
-                        id={`dropdown-${user._id}`}
-                        className="z-10 absolute right-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700"
-                      >
-                        <ul
-                          className="py-2 text-sm text-gray-700 dark:text-gray-200"
-                          aria-labelledby="dropdownDefaultButton"
-                        >
-                          <li>
-                            <button
-                              onClick={() =>
-                                handleChangeRole(user._id, "Consulter")
-                              }
-                              className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                            >
-                              Make Consulter
-                            </button>
-                          </li>
-                          {session?.user?.role !== "Admin" && (
-                            <li>
-                              <button
-                                onClick={() =>
-                                  handleChangeRole(user._id, "Admin")
-                                }
-                                className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                              >
-                                Make Admin
-                              </button>
-                            </li>
-                          )}
-                          <li>
-                            <button
-                              onClick={() =>
-                                handleChangeRole(user._id, "Visiteur")
-                              }
-                              className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                            >
-                              Make Visiteur
-                            </button>
-                          </li>
-                        </ul>
-                      </div>
-                    )}
-                  </div>
                 </td>
               </tr>
             ))}

@@ -51,11 +51,23 @@ export async function PUT(
         const stock = formData.get('stock');
         const price = formData.get('price');
         const discount = formData.get('discount');
-       
+        const info = formData.get('info') as string | null;
+        const color = formData.get('color') as string | null;
+        const material = formData.get('material') as string | null;
+        const weight = formData.get('weight') as string | null;
+        const warranty = formData.get('warranty') as string | null;
+        const dimensions = formData.get('dimensions') as string | null;
       
       const imageFile = formData.get("image") as File | null;
       const id = params.id; // Get ID from params
-  
+      const imageFiles: File[] = [];
+      const entries = Array.from(formData.entries()); // Convert entries to an array
+      for (let i = 0; i < entries.length; i++) {
+        const file = formData.get(`images[${i}]`) as File;
+        if (file) {
+          imageFiles.push(file);
+        }
+      }
       if (!id) {
         return NextResponse.json(
           { message: "ID  are required" },
@@ -112,7 +124,32 @@ export async function PUT(
   
         imageUrl = newImageUrl; // Update imageUrl with the uploaded URL
       }
-  
+   // Upload images to Cloudinary
+ const uploadedImages = await Promise.all(
+  imageFiles.map(async (imageFile) => {
+    const imageBuffer = await imageFile.arrayBuffer();
+    const bufferStream = new stream.PassThrough();
+    bufferStream.end(Buffer.from(imageBuffer));
+
+    const result = await new Promise<any>((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: 'Products/images',
+          format: 'webp',
+        },
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          resolve(result);
+        }
+      );
+      bufferStream.pipe(uploadStream);
+    });
+
+    return result.secure_url; // Extract the secure_url
+  })
+);
       
       // Update category with new values
       // Ensure proper type conversions and default values
@@ -140,15 +177,36 @@ export async function PUT(
       if (discount !== undefined && discount !== null && !isNaN(Number(discount))) {
         existingProduct.discount =  Number(discount);
       }
-     
+      if (info !== null){
+         existingProduct.info = info;
+      }
+        if (color !== null){
+          existingProduct.color = color;
+        } 
+        if (material !== null) {
+          existingProduct.material = material;
+        }
+        if (weight !== null ){
+          existingProduct.weight =weight;
+        } 
+        if (warranty !== null ){
+          existingProduct.warranty = warranty;
+        } 
+        if (dimensions !== null) {
+          existingProduct.dimensions = dimensions;
+        }
       if (imageUrl !== undefined && imageUrl !== null) {
         existingProduct.imageUrl = imageUrl;
       }
-      
+      if (uploadedImages && uploadedImages.length > 0) {
+        const images = existingProduct.images || [];
+
+        existingProduct.images = [...images, ...uploadedImages];
+      }
       // Optional: Update the updatedAt field if adding new information
       existingProduct.updatedAt = new Date();
       
-  
+     
       existingProduct.user = user;
       await existingProduct.save();
   

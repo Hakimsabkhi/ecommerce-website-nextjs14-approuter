@@ -26,6 +26,14 @@ export async function middleware(req: NextRequest) {
   if (token && isAuthPath) {
     return NextResponse.redirect(new URL('/', req.url));
   }
+  if (req.nextUrl.pathname.startsWith('/orderhistory')) {
+    const userRole = token?.role;
+  
+    if (userRole !== 'SuperAdmin' && userRole !== 'Admin'&& userRole !== 'Consulter' && userRole !== 'Visiteur') {
+      return NextResponse.redirect(new URL('/', req.url));
+    }
+  }
+
   if (req.nextUrl.pathname.startsWith('/admin')) {
     const userRole = token?.role;
   
@@ -45,7 +53,8 @@ if (req.nextUrl.pathname.startsWith('/admin/dashboard')) {
 if ( req.nextUrl.pathname.startsWith('/admin/categorylist') || 
 req.nextUrl.pathname.startsWith('/admin/productlist')||
 req.nextUrl.pathname.startsWith('/admin/brandlist')||
-req.nextUrl.pathname.startsWith('/admin/reviewlist')
+req.nextUrl.pathname.startsWith('/admin/reviewlist')||
+req.nextUrl.pathname.startsWith('/admin/orderlist')
 ) {
   const userRole = token?.role;
 
@@ -59,7 +68,7 @@ req.nextUrl.pathname.startsWith('/admin/reviewlist')
 export const config = {
   matcher: [
     '/admin/:path*',
-    
+    '/orderhistory'
   ],
 
 };

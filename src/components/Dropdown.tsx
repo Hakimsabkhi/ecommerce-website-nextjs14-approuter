@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 interface DropdownProps {
   username: string;
@@ -32,26 +33,26 @@ const Dropdown: React.FC<DropdownProps> = ({ username, role }) => {
         </div>
         <div className="border-t border-gray-100"></div>
         {(role === 'Admin' || role === 'SuperAdmin') && (
-          <a
+          <Link
             href="/admin/dashboard"
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           >
             Dashboard
-          </a>
+          </Link>
         )}
-        <a
-          href="#"
+        <Link
+          href="/settings"
           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
         >
           Settings
-        </a>
-        <a
-          href="#"
+        </Link>
+        <Link
+          href="/orderhistory"
           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
         >
-          Historique d’achat
-        </a>
-        <a
+          Purchase History
+        </Link>
+        <Link
           href="#"
           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           onClick={(e) => {
@@ -60,7 +61,7 @@ const Dropdown: React.FC<DropdownProps> = ({ username, role }) => {
           }}
         >
           Sign out
-        </a>
+        </Link>
       </div>
     </div>
   ) : null;

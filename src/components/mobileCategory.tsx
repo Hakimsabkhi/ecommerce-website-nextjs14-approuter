@@ -1,7 +1,8 @@
 // pages/categories.tsx
 import { GetStaticProps, NextPage } from 'next';
+import Link from 'next/link';
 import React from 'react';
-import { TransitionLink } from '@/components/utils/TransitionLink';
+
 
 interface Category {
   id: string;
@@ -41,11 +42,11 @@ const CategoriesPage: NextPage<CategoriesPageProps> = ({ categories }) => {
     <div>
       <ul className='text-sm'>
         {categories.map((category) => (
-          <TransitionLink key={category.id} href={`/category/${category.id}`}>
+          <Link key={category.id} href={`/category/${category.id}`}>
             <li className='cursor-pointer h-10 items-center flex pl-5 hover:bg-gray-200 border'>
               {category.name}
             </li>
-          </TransitionLink>
+          </Link>
         ))}
       </ul>
     </div>
