@@ -44,10 +44,9 @@ interface User{
 }
 
 
-function Invoice() {
+const Invoice=()=>{
   const params = useParams() as { id: string }; // Explicitly type the params object
-
-    const [order, setOrder] = useState<Order | null>(null); 
+  const [order, setOrder] = useState<Order | null>(null); 
     const [loading, setLoading] = useState(true);
     
 
