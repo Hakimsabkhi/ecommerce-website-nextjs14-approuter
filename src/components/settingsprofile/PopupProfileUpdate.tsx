@@ -1,6 +1,12 @@
 import React from 'react'
+interface PopupProfileUpdateParam{
+  setIsVisible:boolean
+}
 
-const PopupProfileUpdate = () => {
+const PopupProfileUpdate: React.FC <PopupProfileUpdateParam>= ({setIsVisible}) =>  {
+function close(){
+  setIsVisible(false);
+}
   return (
     <div className="min-w-screen h-screen animated fadeIn faster fixed left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover backdrop-filter backdrop-brightness-75">
                 <div className="absoluteopacity-80 inset-0 z-0 "></div>

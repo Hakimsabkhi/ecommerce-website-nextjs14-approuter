@@ -60,7 +60,7 @@ const Profile = () => {
               <p className="text-sm text-gray-600">Full Name</p>
               <p className="font-medium text-gray-900">{profile.username}</p>
             </div>
-            <button onClick={()=>handleUpadte} className="text-indigo-600 text-sm font-semibold hover:underline">
+            <button onClick={()=>handleUpadte()} className="text-indigo-600 text-sm font-semibold hover:underline">
               Update
             </button>
           </div>
@@ -105,7 +105,7 @@ const Profile = () => {
         </div>
       
       )}
-    {isVisible &&  <PopupProfileUpdate/>}
+    {isVisible &&  <PopupProfileUpdate setIsVisible={setIsVisible}/>}
     </div>
     
   );
