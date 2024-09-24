@@ -44,7 +44,7 @@ const Addresse: React.FC = () => {
     }, [getAddress]);
     
   return (
-    <><FormAddress isFormVisible={isFormVisible}toggleForminVisibility={toggleForminVisibility}  />
+    <><FormAddress isFormVisible={isFormVisible}toggleForminVisibility={toggleForminVisibility}  getAddress={getAddress}/>
     <div className="sm:col-span-2 ">
     <h3 className="text-xl font-semibold pb-3 text-gray-900 dark:text-white">
            Delivery Address

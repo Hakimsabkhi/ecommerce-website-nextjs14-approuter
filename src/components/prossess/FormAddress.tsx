@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 interface FormAddressProps{
     isFormVisible:boolean;
 
-       
+    getAddress():void;
        toggleForminVisibility():void;
     
 }
@@ -20,7 +20,7 @@ interface Governorate {
   const governorates: Governorate[] = Governorate;
 
 const municipalities: Municipality[] = city;
-const FormAddress: React.FC<FormAddressProps> = ({ isFormVisible , toggleForminVisibility}) => {
+const FormAddress: React.FC<FormAddressProps> = ({ isFormVisible , toggleForminVisibility,getAddress}) => {
   const [selectedGovernorate, setSelectedGovernorate] = useState<
     number | undefined
   >(undefined);
@@ -83,7 +83,8 @@ const FormAddress: React.FC<FormAddressProps> = ({ isFormVisible , toggleForminV
         }
         return; // Exit function to avoid proceeding with the success case
       }
-      //getAddress();
+      toggleForminVisibility
+      getAddress();
       toast.success(`Address added successfully!`);
       await response.json(); // or await response.text() if you expect text response
     } catch (error) {
@@ -231,10 +232,12 @@ const FormAddress: React.FC<FormAddressProps> = ({ isFormVisible , toggleForminV
                    name="phone"
                    value={addressData.phone}
                    onChange={handleChange}
-                   type="text"
+                   type="tel"
                    id="phone-input"
                    className="z-20 block w-full rounded-e-lg border border-s-0 border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500"
                    pattern="[0-9]{8}"
+                   minLength={8} // Enforce minimum length of 8
+                   maxLength={8}
                    placeholder="XX XXX XXX"
                    required
                  />
