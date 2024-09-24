@@ -38,6 +38,7 @@ interface CartItem {
 const PaymentSummary : React.FC<PaymentSummaryProps> = ({handleOrderSummary, totalPrice,totalDiscount,currentStep,items ,onCheckout,selectedPaymentMethod, backcarte,selectedMethod,deliveryCost}) => {
   const dispatch = useDispatch();
   const [totalWithShipping, setTotalWithShipping] = useState(totalPrice + deliveryCost);
+  const [paypal,setPaypal]=useState();
   useEffect(() => {
     setTotalWithShipping(totalPrice + deliveryCost);
   }, [totalPrice, deliveryCost]);
@@ -192,7 +193,7 @@ const PaymentSummary : React.FC<PaymentSummaryProps> = ({handleOrderSummary, tot
                 >
                   Proceed to Payment
                 </button>)}
-                {selectedPaymentMethod === "paypal" && (  <PaypalButton amount={totalWithShipping.toFixed(2)} onSuccess={handleSuccess} />)}
+                {selectedPaymentMethod === "paypal" && (  <PaypalButton  amount={Number(totalWithShipping).toFixed(2)}  onSuccess={handleSuccess} />)}
                 
                   <button
                     onClick={()=>backcarte()}

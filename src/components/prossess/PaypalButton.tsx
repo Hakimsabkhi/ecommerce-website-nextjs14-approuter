@@ -1,6 +1,7 @@
 import React from 'react';
 import {  PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { OnApproveData } from '@paypal/paypal-js';
+import { toast } from 'react-toastify';
 
 interface PaypalButtonProps {
   amount: string;
@@ -39,40 +40,25 @@ const PaypalButton: React.FC<PaypalButtonProps> = ({ amount, onSuccess }) => {
           }
         }}
     
-        onApprove={async (data: OnApproveData, actions: any) => {
-          if (!data.payerID) {
-            console.error('Payer ID is not available.');
-            return; // Handle this case appropriately
-          }
-        
+        onApprove={async (data, actions) => {
           try {
-            const response = await fetch('/api/paypal/execute-order', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                orderID: data.orderID,
-                payerID: data.payerID, // Now safe to use
-              }),
-            });
-        
-            if (!response.ok) {
-              throw new Error(`Failed to capture order: ${response.statusText}`);
+            const details = await actions.order?.capture();
+            if (details) {
+              onSuccess(details); // Trigger success logic
+              
+              toast.success('Payment successful!');
             }
-        
-            const result = await response.json();
-        
-            // Call the onSuccess handler passed in props
-            onSuccess(result);
           } catch (error) {
-            console.error('Error capturing PayPal order:', error);
-            // Optionally handle the error, e.g., show a notification to the user
+            console.error('Error capturing order:', error);
+            toast.error('Payment failed. Please try again.');
           }
         }}
         onError={(err: any) => {
           console.error('PayPal Error:', err);
         }}
+        forceReRender={[amount]} // Re-render when amount or address changes
+         // Ensure loading spinner is hidden after PayPal button initialization
+    
       />
     </PayPalScriptProvider>
   );
