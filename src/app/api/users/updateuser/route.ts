@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest) {
-  console.log(req)
+
   await connectToDatabase();
   try {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
@@ -14,12 +14,13 @@ export async function PUT(req: NextRequest) {
     }
 
     const user = await User.findOne({ email: token.email });
+ 
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
-
+  
     const { phone, currentPassword, newPassword, replyPassword } = await req.json();
-
+    console.log(currentPassword,newPassword,replyPassword)
     // Validate input
     if (!phone && (!currentPassword || !newPassword || !replyPassword)) {
       return NextResponse.json({ message: 'Invalid input' }, { status: 400 });
@@ -34,17 +35,17 @@ export async function PUT(req: NextRequest) {
     if (currentPassword && newPassword && replyPassword) {
       // Check if user.password exists
       if (!user.password) {
-        return NextResponse.json({ message: 'No existing password to compare' }, { status: 400 });
+        return NextResponse.json({ message: 'No existing password to compare' }, { status: 406 });
       }
 
       const isPasswordCorrect = await bcrypt.compare(currentPassword, user.password); // Fix: ensure password is defined
 
       if (!isPasswordCorrect) {
-        return NextResponse.json({ message: 'Current password is incorrect' }, { status: 401 });
+        return NextResponse.json({ message: 'Current password is incorrect' }, { status: 402 });
       }
 
       if (newPassword !== replyPassword) {
-        return NextResponse.json({ message: 'Passwords do not match' }, { status: 400 });
+        return NextResponse.json({ message: 'Passwords do not match' }, { status: 403 });
       }
 
       user.password = bcrypt.hashSync(newPassword, 12); // Hash the new password

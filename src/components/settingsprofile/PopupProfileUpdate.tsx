@@ -31,43 +31,39 @@ const PopupProfileUpdate: React.FC<PopupProfileUpdateParam> = ({ close,selectupd
         body: JSON.stringify(payload),
       });
 
+   
       if (!response.ok) {
-        throw new Error('Failed to update user information');
+        // Handle different status codes in the same block
+        if (response.status === 400) {
+          toast.error('Invalid input');
+        } else if (response.status === 401) {
+          toast.error('Unauthorized');
+        } else if (response.status === 404) {
+          toast.error('User not found');
+        } else if (response.status === 406) {
+          toast.error('No existing password to compare');
+        } else if (response.status === 402) {
+          toast.error('Current password is incorrect');
+        } else if (response.status === 403) {
+          toast.error('Passwords do not match');
+        } else if (response.status === 500) {
+          toast.error('Server error. Please try again later');
+        } else {
+          throw new Error('Unexpected error occurred');
+        }
+        return; // Exit if there's an error
       }
-
-    const data=await response.json();
-      // Handle successful update (e.g., show a success message)
+  
+      // Success - Handle the response
+      const data = await response.json();
       if (response.status === 200) {
-        // Success - User updated
-        toast.success('User updated successfully!')
-        fetchProfile()
-        close()
-      } else if (response.status === 400) {
-        // Error - Invalid input or passwords do not match
-        let errorMessage = data.message || 'Invalid input';
-        if (errorMessage === 'Passwords do not match') {
-          errorMessage = 'Passwords do not match';
-        } else if (errorMessage === 'No existing password to compare') {
-          errorMessage = 'No existing password to compare';
-        }
-        toast.error(`${errorMessage}`)
-         
-      } else if (response.status === 401) {
-       
-        let errorMessage = data.message || 'Unauthorized';
-        if (errorMessage === 'Current password is incorrect') {
-          errorMessage = 'Current password is incorrect';
-        }
-        toast.error(`${errorMessage}`)
-      } else if (response.status === 500) {
-        // Server error
-        toast.error("Server error. Please try again later")
-          
+        toast.success('User updated successfully!');
+        fetchProfile();
+        close();
       }
-    
     } catch (error) {
-      console.error('Error updating user information:', error);
-      toast.error('Error updating user information. Please check your connection.')
+      console.error('Error during update:', error);
+      toast.error('Something went wrong. Please try again.');
     }
   };
 
