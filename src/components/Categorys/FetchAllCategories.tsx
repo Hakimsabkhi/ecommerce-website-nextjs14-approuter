@@ -4,9 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { fetchCategories } from "@/lib/featcher";
 import { toast } from "react-toastify";
-import DeletePopup from "./Popup/DeletePopup";
+import DeletePopup from "../Popup/DeletePopup";
 import { flag } from "@/assets/image";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinner";
 
 type Category = {
   _id: string;

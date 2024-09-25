@@ -1,4 +1,4 @@
-import AddedCategories from '@/components/AddedCategories';
+import AddedCategories from '@/components/Categorys/FetchAllCategories';
 import React from 'react';
 
 const Page = () => {

@@ -3,11 +3,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import DeletePopup from './Popup/DeletePopup';
+import DeletePopup from '../Popup/DeletePopup';
 import { FaStar } from 'react-icons/fa6';
 import Link from 'next/link';
 import Image from 'next/image';
-import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from '../LoadingSpinner';
 
 interface ReviewData {
   _id: string;

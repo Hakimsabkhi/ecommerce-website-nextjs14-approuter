@@ -1,4 +1,4 @@
-import ModifyCategory from '@/components/ModifyCategory';
+import ModifyCategory from '@/components/Categorys/ModifyCategory';
 import React from 'react';
 
 const Page = () => {

@@ -74,7 +74,7 @@ const AdminDashboard = () => {
       }
 
       // Perform the API request
-      const response = await fetch(`/api/users/${userId}`, {
+      const response = await fetch(`/api/users/updateuserrole/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

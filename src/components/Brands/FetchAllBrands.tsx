@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { toast} from 'react-toastify';
 import DeletePopup from "@/components/Popup/DeletePopup";
-import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from '../LoadingSpinner';
 
 type Brand = {
     _id: string;

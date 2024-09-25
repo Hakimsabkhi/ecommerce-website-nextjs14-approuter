@@ -1,5 +1,5 @@
 
-import AddBrand from '@/components/AddBrand';
+import AddBrand from '@/components/Brands/AddBrand';
 import React from 'react';
 
 const Page = () => {
