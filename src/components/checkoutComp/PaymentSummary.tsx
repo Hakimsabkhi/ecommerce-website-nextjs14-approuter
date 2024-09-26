@@ -1,4 +1,4 @@
-import PaypalButton from '@/components/prossess/PaypalButton';
+import PaypalButton from '@/components/checkoutComp/PaypalButton';
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
@@ -42,6 +42,7 @@ const PaymentSummary : React.FC<PaymentSummaryProps> = ({handleOrderSummary, tot
   useEffect(() => {
     setTotalWithShipping(totalPrice + deliveryCost);
   }, [totalPrice, deliveryCost]);
+
   const handleorderSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
       // Cast the selected elements to appropriate types
@@ -120,7 +121,7 @@ const PaymentSummary : React.FC<PaymentSummaryProps> = ({handleOrderSummary, tot
         status: details.status,
         update_time: details.update_time,
       };
-      console.log(paymentDetails)
+      
       // Perform necessary actions after successful payment
       handleorderSubmit(new Event('submit') as unknown as React.FormEvent); // Trigger the form submission
     } else {

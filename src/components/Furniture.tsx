@@ -1,7 +1,8 @@
 
 import React from 'react';
+import ProductCard from './Products/ProductPage/ProductCard';
 
-import ProductCard from './ProductPage/ProductCard';
+
 interface Brand {
   _id: string;
   name: string;

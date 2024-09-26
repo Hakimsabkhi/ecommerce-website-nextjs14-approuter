@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     await connectDB();
     
     const body = await req.json();
-    console.log(body)
+    
     const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     price: item.price,
     discount: item.discount,
   }));
-  console.log("orderItems",orderItems)
+
     // Create a new order
     const newOrder = new Order({
       user,

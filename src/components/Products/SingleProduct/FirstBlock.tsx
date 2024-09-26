@@ -8,8 +8,8 @@ import Head from "next/head";
 import ProductQ from "./ProductQ";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../store/cartSlice";
-import { RootState } from "../../store";
+import { addItem } from "../../../store/cartSlice";
+import { RootState } from "../../../store";
 import { toast } from "react-toastify";
 
 const noimage =

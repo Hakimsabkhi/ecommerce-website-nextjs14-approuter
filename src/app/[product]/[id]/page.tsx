@@ -1,10 +1,10 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import FirstBlock from "@/components/SingleProduct/FirstBlock";
-import SecondBlock from "@/components/SingleProduct/SecondBlock";
-import ThirdBlock from "@/components/SingleProduct/ThirdBlock";
-import ForthBlock from "@/components/SingleProduct/ForthBlock";
-import FifthBlock from "@/components/SingleProduct/FifthBlock";
+import FirstBlock from "@/components/Products/SingleProduct/FirstBlock";
+import SecondBlock from "@/components/Products/SingleProduct/SecondBlock";
+import ThirdBlock from "@/components/Products/SingleProduct/ThirdBlock";
+import ForthBlock from "@/components/Products/SingleProduct/ForthBlock";
+import FifthBlock from "@/components/Products/SingleProduct/FifthBlock";
 
 interface ProductData {
   _id: string;

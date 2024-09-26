@@ -8,8 +8,8 @@ import { FaCartShopping, FaHeart } from "react-icons/fa6";
 import { star } from "@/assets/image";
 import { useParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../store/cartSlice";
-import { RootState } from "../../store";
+import { addItem } from "@/store/cartSlice";
+import { RootState } from "@/store";
 import { toast } from "react-toastify";
 
 interface Brand {

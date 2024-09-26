@@ -7,6 +7,7 @@ import LoadingSpinner from '../LoadingSpinner';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+
 // Define interfaces
 interface Address {
   _id: string;
@@ -43,6 +44,7 @@ interface OrderSummaryProps {
   data: string;
 }
 
+
 // Fetch data from the API
 async function fetchData(orderRef: string): Promise<Order> {
   const res = await fetch(
@@ -55,7 +57,9 @@ async function fetchData(orderRef: string): Promise<Order> {
   if (!res.ok) {
     throw new Error("Order not found");
   }
+
   const data: Order = await res.json();
+ 
   return data;
 }
 
@@ -64,11 +68,15 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ data }) => {
   const [loading, setLoading] = useState(true);
   const router =useRouter();
   // Fetch the order data when the component mounts
+
+
   useEffect(() => {
     const getOrderData = async () => {
       try {
         const result: Order = await fetchData(data);
+       
         setOrder(result);
+       
       } catch (error) {
         console.error(error);
       } finally {

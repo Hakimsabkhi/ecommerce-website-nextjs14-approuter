@@ -83,7 +83,7 @@ const PopupProfileUpdate: React.FC<PopupProfileUpdateParam> = ({ close,selectupd
                 maxLength={8}
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="border-2 border-double rounded-tl rounded-br w-full h-10"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
               />
             </div>
           </div>
@@ -97,21 +97,21 @@ const PopupProfileUpdate: React.FC<PopupProfileUpdateParam> = ({ close,selectupd
                 type="password"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
-                className="border-2 border-double rounded-tl rounded-br w-full h-10"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
               />
               <p className="text-sm text-gray-600">New Password</p>
               <input
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="border-2 border-double rounded-tl rounded-br w-full h-10"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
               />
               <p className="text-sm text-gray-600">Repeat Password</p>
               <input
                 type="password"
                 value={replyPassword}
                 onChange={(e) => setReplyPassword(e.target.value)}
-                className="border-2 border-double rounded-tl rounded-br w-full h-10"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
               />
             </div>
           </div>

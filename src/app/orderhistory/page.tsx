@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { historyproducts1 } from '@/assets/data';
 import Image from 'next/image';
+import Link from 'next/link';
 interface Address {
     _id: string;
     governorate: string;
@@ -60,6 +61,8 @@ const Page = () => {
           day: "numeric",
         });
       };
+
+     
     return (
         <div className='w-full py-20 flex justify-center'>
         <div className='w-[80%] max-lg:w-[95%] rounded-lg p-8 border-2 flex flex-col gap-2 '>
@@ -91,7 +94,7 @@ const Page = () => {
                             <p>Total amount</p>
                             <p>{order.total} TND</p>
                         </div>
-                        <button className='bg-[#F7F7F7] border-2 h-10 w-[15%] max-md:w-full rounded-lg '>View Invoice</button>
+                      {order.orderStatus==="Receive" && <Link  href={`/orderhistory/invoice/${order.ref}`}  className='bg-[#F7F7F7] border-2 h-10 w-[15%] max-md:w-full rounded-lg flex items-center justify-center'>View Invoice</Link>}
                     </div>
                     <table className="table-auto w-full max-md:hidden">
                         <thead>

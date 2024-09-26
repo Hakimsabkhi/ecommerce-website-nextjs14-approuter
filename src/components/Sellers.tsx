@@ -1,7 +1,6 @@
 import React from "react";
+import ProductCard from "./Products/ProductPage/ProductCard";
 
-import { FaEye, FaCartShopping, FaRegHeart, FaHeart } from "react-icons/fa6";
-import ProductCard from "./ProductPage/ProductCard";
 interface Brand {
   _id: string;
   name: string;
