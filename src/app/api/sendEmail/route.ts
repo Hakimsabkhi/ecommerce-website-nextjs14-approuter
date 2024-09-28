@@ -4,7 +4,7 @@ import  connectDB  from "@/lib/db";
 import User from '@/models/User';
 import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import nodemailer from "nodemailer";
 import Order from '@/models/order';
 import Company from '@/models/Company';
 import Address from '@/models/Address';

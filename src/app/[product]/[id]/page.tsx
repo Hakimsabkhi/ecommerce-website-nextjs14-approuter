@@ -44,7 +44,7 @@ interface PageProps {
 // Fetch product data on the server
  async function getProduct(id: string): Promise<ProductData> {
   const res = await fetch(
-    `${process.env.NEXTAUTH_URL}api/products/getProductById/${id}`
+    `${process.env.NEXTAUTH_URL}api/products/fgetProductById/${id}`
     , {
       method: 'GET',
      
