@@ -80,6 +80,9 @@ export function orderFormTemplate(
         display: block;
         margin: 13px 0;
       }
+     .toptext{
+        margin: 13px 0 0 20px;
+      }
     </style>
     
     <style type="text/css">
@@ -112,6 +115,13 @@ export function orderFormTemplate(
   <body style="word-spacing: normal">
     <div>
       <div style="margin: 0px auto; max-width: 600px">
+      <div >
+		<p class="toptext">
+		<span style="font-weight: bold">Dear  ${name},</span> <br/>
+Thank you for your order on ${namecomapny} from ${formattedDate}
+Following your successful order, 
+		</p>
+		</div>
         <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%">
           <tbody>
             <tr>
@@ -325,6 +335,12 @@ export function orderFormTemplate(
             </tr>
           </tbody>
         </table>
+        <div >
+          <h3 class="toptext">looking for further help</h3>
+          <p class="toptext">
+            If you any question on your order,please contact +216${phonecompany} and ${emailcompany} check your order status online
+          </p>
+          </div>
       </div>
      
      

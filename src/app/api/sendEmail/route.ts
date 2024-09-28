@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
 
     const mailOptions = {
       from: process.env.EMAIL_FROM,
-      to: email, // Sending to the user's email
+      to: `${email},${process.env.EMAIL_FROM} `,// Sending to the user's email
       subject: 'Your Order Confirmation',
       html: orderFormTemplate(name,
          email, 
