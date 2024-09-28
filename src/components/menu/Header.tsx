@@ -87,7 +87,7 @@ const Header: React.FC = () => {
             <CiSearch className="w-8 h-8 transform duration-500 group-hover:w-10 group-hover:h-10" />
           </button>
         </div>
-        <UserMenu  />
+      
         <div className="flex items-center gap-4 w-[133px] text-white">
           <FiHeart size={25} />
           <div className="relative" ref={cartmodalRef}>
@@ -102,6 +102,7 @@ const Header: React.FC = () => {
           
          <Total items={items}/>
         </div>
+        <UserMenu  />
       </div>
     </div>
   );
