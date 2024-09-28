@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import PopupProfileUpdate from './PopupProfileUpdate';
+import { useSession } from 'next-auth/react';
 
 interface UserProfile {
   username: string;
@@ -68,13 +69,13 @@ const Profile = () => {
            
           </div>
 
-          <div className="flex justify-between items-center border-b pb-2">
+   {profile.role!="Visiteur" &&  <div className="flex justify-between items-center border-b pb-2">
             <div>
               <p className="text-sm text-gray-600">Title</p>
               <p className="font-medium text-gray-900">{profile.role}</p>
             </div>
 
-          </div>
+          </div>}
           <div className="flex justify-between items-center border-b pb-2">
             <div>
               <p className="text-sm text-gray-600">Email address</p>

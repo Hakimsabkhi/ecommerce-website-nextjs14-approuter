@@ -38,7 +38,7 @@ const AdminDashboard = () => {
   }, []);
 
   const fetchUsers = async () => {
-    const res = await fetch(`/api/users`);
+    const res = await fetch(`/api/users/userdashboard`);
     const data = await res.json();
     setUsers(data);
   };

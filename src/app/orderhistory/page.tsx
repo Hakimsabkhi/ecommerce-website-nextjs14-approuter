@@ -81,10 +81,7 @@ const Page = () => {
                             <p>Order number</p>
                             <p>{order.ref}</p>
                         </div>
-                        <div className="max-md:flex max-md:justify-between max-md:w-full">
-                            <p> Shopping Fees</p>
-                            <p>{order.deliveryCost} TND</p>
-                        </div>
+                       
                         <div className="max-md:flex max-md:justify-between max-md:w-full">
                             <p>Method Delivery</p>
                             <p className='uppercase'>{order.deliveryMethod}</p>
@@ -94,61 +91,9 @@ const Page = () => {
                             <p>Total amount</p>
                             <p>{order.total} TND</p>
                         </div>
-                      {order.orderStatus==="Receive" && <Link  href={`/orderhistory/invoice/${order.ref}`}  className='bg-[#F7F7F7] border-2 h-10 w-[15%] max-md:w-full rounded-lg flex items-center justify-center'>View Invoice</Link>}
+                     <Link  href={`/orderhistory/invoice/${order.ref}`}  className='bg-[#F7F7F7] border-2 h-10 w-[15%] max-md:w-full rounded-lg flex items-center justify-center'>View Invoice</Link>
                     </div>
-                    <table className="table-auto w-full max-md:hidden">
-                        <thead>
-                            <tr className=" bg-slate-400 text-gray-400 border-b-2 ">
-                                <th className='text-start py-3'>Product</th>
-                                <th className='text-center py-3'>Price</th>
-                                <th className='text-center py-3'>quantity</th>
-                                <th className='text-center py-3'>Status</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody className='divide-y-2'>
-                            {order.orderItems.map((item,index) => (
-                                <tr key={index}>
-                                    <td className="flex items-center gap-4">
-                                        <Image alt={item.name}src={item.image} width={100} height={100}/>
-                                        <p>{item.name}</p>
-                                    </td>
-                                    <td className='text-gray-400 text-center'>  {item.discount > 0 ? (
-<>
-  {(item.price - (item.price * item.discount) / 100).toFixed(2)} TND
-  <span className="text-red-500"> (Discounted)</span>
-</>
-) : (
-`${item.price.toFixed(2)} TND`
-)}</td>
-                                    <td className='text-gray-400 text-center'>{item.quantity}</td>
-                                    <td className='text-gray-400 text-center'>{order.orderStatus}</td>
-                                  
-                                </tr>                              
-                            ))}      
-                        </tbody>
-                    </table>                        
-                    <table className="table-auto w-full md:hidden">
-                    <thead>
-                            <tr className=" text-gray-400 border-b-2 ">
-                                
-                            </tr>
-                        </thead>
-                        <tbody className='divide-y-2'>
-                            {historyproducts1.map((item,index) => (
-                                <tr key={index}>
-                                    <td className="flex items-center gap-4">
-                                        <Image src={item.src} alt="chair"/>
-                                        <div className="flex flex-col gap-6">
-                                            <p>{item.name}</p>
-                                            <p className="text-gray-400">{item.price}</p>
-                                        </div>                                            
-                                    </td>                                                                                
-                                    <td className='text-blue-400 '>View </td>
-                                </tr>                              
-                            ))}      
-                        </tbody>
-                    </table>                        
+                                       
                 </div>
            
             </div> ))}

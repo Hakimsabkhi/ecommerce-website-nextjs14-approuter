@@ -8,6 +8,7 @@ import { FaStar } from 'react-icons/fa6';
 import Link from 'next/link';
 import Image from 'next/image';
 import LoadingSpinner from '../LoadingSpinner';
+import Pagination from '../Pagination';
 
 interface ReviewData {
   _id: string;
@@ -188,19 +189,11 @@ const ListReview: React.FC = () => {
         <div className="flex justify-center mt-6">
           <nav>
             <ul className="flex">
-              {Array.from({ length: totalPages }, (_, index) => (
-                <li key={index} className="mx-1">
-                  <button
-                    onClick={() => paginate(index + 1)}
-                    className={`px-4 py-2 border rounded ${
-                      currentPage === index + 1 ? "bg-gray-800 text-white"
-                : "bg-gray-300 text-black hover:bg-gray-600 hover:text-white"
-                    }`}
-                  >
-                    {index + 1}
-                  </button>
-                </li>
-              ))}
+              
+          <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(totalPages)}
+          onPageChange={setCurrentPage}/>
             </ul>
           </nav>
         </div>

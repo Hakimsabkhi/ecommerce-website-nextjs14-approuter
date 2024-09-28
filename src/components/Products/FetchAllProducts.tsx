@@ -5,6 +5,7 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import DeletePopup from "../Popup/DeletePopup";
 import LoadingSpinner from "../LoadingSpinner";
+import Pagination from "../Pagination";
 
 type User = {
   _id: string;
@@ -243,20 +244,13 @@ const AddedProducts: React.FC<AddedProductsProps> = ({ products }) => {
         </tbody>
       </table>
       <div className="flex justify-center mt-4">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index}
-            onClick={() => paginate(index + 1)}
-            className={`mx-1 px-3 py-1 rounded ${
-              currentPage === index + 1
-                ? "bg-gray-800 text-white"
-                : "bg-gray-300 text-black hover:bg-gray-600 hover:text-white"
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
+    
+          <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(totalPages)}
+          onPageChange={setCurrentPage}/>
       </div>
+
     </div>
   );
 };

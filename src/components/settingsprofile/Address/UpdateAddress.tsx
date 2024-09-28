@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Governorate, city } from "@/assets/tunisia";
+import { toast } from 'react-toastify';
 
 interface AddressProps {
   address: Address;
-  togglecloseUpdateVisibility: () =>void;
- 
+  togglecloseUpdateVisibility: () => void;
+  getAddress:()=>void;
 }
-interface Address{
+
+interface Address {
+  _id:string;
   governorate: string;
   city: string;
   address: string;
   zipcode: string;
-
 }
-const UpdateAddress: React.FC<AddressProps> = ({ address,togglecloseUpdateVisibility}) => {
+
+const UpdateAddress: React.FC<AddressProps> = ({ address, togglecloseUpdateVisibility ,getAddress}) => {
   const [addressData, setAddressData] = useState({
     governorate: '',
     city: '',
@@ -23,7 +26,6 @@ const UpdateAddress: React.FC<AddressProps> = ({ address,togglecloseUpdateVisibi
 
   const [filteredMunicipalities, setFilteredMunicipalities] = useState<{ id: number, name: string }[]>([]);
 
-  // Initialize the addressData state with the passed address prop
   useEffect(() => {
     if (address) {
       setAddressData(address);
@@ -38,7 +40,6 @@ const UpdateAddress: React.FC<AddressProps> = ({ address,togglecloseUpdateVisibi
       city: '', // Reset city when governorate changes
     }));
 
-    // Filter cities based on the selected governorate
     const filteredCities = city.filter((c) => c.governorate_id === parseInt(governorateId));
     setFilteredMunicipalities(filteredCities);
   };
@@ -59,15 +60,38 @@ const UpdateAddress: React.FC<AddressProps> = ({ address,togglecloseUpdateVisibi
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append('governorate', addressData.governorate);
+    formData.append('city', addressData.city);
+    formData.append('address', addressData.address);
+    formData.append('zipcode', addressData.zipcode);
+
+    try {
+      const response = await fetch(`/api/address/updateAddressbyid/${address._id}`, {
+        method: 'PUT',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to update address');
+      }
+
+      // Display success message or perform additional actions
+      getAddress();
+      togglecloseUpdateVisibility();
+      toast.success( result.message);
+    } catch (err: any) {
+      console.error(err.message);
+    }
   };
 
   return (
-    <div
-      className="min-w-screen h-screen animated fadeIn faster fixed left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover backdrop-filter backdrop-brightness-75"
-    >
+    <div className="min-w-screen h-screen animated fadeIn faster fixed left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover backdrop-filter backdrop-brightness-75">
       <div className="absolute opacity-80 inset-0 z-0"></div>
       <div className="space-y-4 w-full max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg bg-white">
         <h2 className="text-xl font-semibold mb-4">Update Address</h2>
@@ -133,12 +157,12 @@ const UpdateAddress: React.FC<AddressProps> = ({ address,togglecloseUpdateVisibi
 
           <div className="flex justify-end items-end gap-2">
             <button type="submit" className="flex w-full items-center justify-end gap-2 rounded-lg text-indigo-600 text-sm font-semibold hover:underline ">
-                        Update
+              Update
             </button>
             <button
               type="button"
               onClick={togglecloseUpdateVisibility}
-               className="text-indigo-600 text-sm font-semibold hover:underline"
+              className="text-indigo-600 text-sm font-semibold hover:underline"
             >
               Cancel
             </button>

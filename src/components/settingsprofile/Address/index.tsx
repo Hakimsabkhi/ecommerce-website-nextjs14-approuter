@@ -115,7 +115,7 @@ const Address = () => {
           </button>
           </div>
         </div>
-    { isFormupdate && <UpdateAddress address={addressData} togglecloseUpdateVisibility={togglecloseUpdateVisibility}/>}
+    { isFormupdate && <UpdateAddress address={addressData} togglecloseUpdateVisibility={togglecloseUpdateVisibility}   getAddress={getAddress}/>}
         
       </div>))}
       <button type="button"  onClick={toggleFormVisibility} className="text-indigo-600 text-sm font-semibold hover:underline">

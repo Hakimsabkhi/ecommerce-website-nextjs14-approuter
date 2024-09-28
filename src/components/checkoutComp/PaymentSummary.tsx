@@ -38,11 +38,33 @@ interface CartItem {
 const PaymentSummary : React.FC<PaymentSummaryProps> = ({handleOrderSummary, totalPrice,totalDiscount,currentStep,items ,onCheckout,selectedPaymentMethod, backcarte,selectedMethod,deliveryCost}) => {
   const dispatch = useDispatch();
   const [totalWithShipping, setTotalWithShipping] = useState(totalPrice + deliveryCost);
-  const [paypal,setPaypal]=useState();
+
   useEffect(() => {
     setTotalWithShipping(totalPrice + deliveryCost);
   }, [totalPrice, deliveryCost]);
+  const sendMail = async (ref: string) => {
+    try {
+    
+      const response = await fetch('/api/sendEmail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      
+        
+        body: JSON.stringify(ref),
+      });
 
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
+
+       await response.json();
+      
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
+  };
   const handleorderSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
       // Cast the selected elements to appropriate types
@@ -89,7 +111,7 @@ const PaymentSummary : React.FC<PaymentSummaryProps> = ({handleOrderSummary, tot
     if (!ref) {
       throw new Error("Missing 'ref' in response");
     }
-
+    sendMail(ref);
     handleOrderSummary(ref);
     toast.success("Order submitted successfully!");
 

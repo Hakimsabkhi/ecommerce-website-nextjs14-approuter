@@ -26,7 +26,8 @@ export async function middleware(req: NextRequest) {
   if (token && isAuthPath) {
     return NextResponse.redirect(new URL('/', req.url));
   }
-  if (req.nextUrl.pathname.startsWith('/orderhistory')) {
+  if (req.nextUrl.pathname.startsWith('/orderhistory')|| 
+  req.nextUrl.pathname.startsWith('/checkout')) {
     const userRole = token?.role;
   
     if (userRole !== 'SuperAdmin' && userRole !== 'Admin'&& userRole !== 'Consulter' && userRole !== 'Visiteur') {
@@ -68,7 +69,8 @@ req.nextUrl.pathname.startsWith('/admin/orderlist')
 export const config = {
   matcher: [
     '/admin/:path*',
-    '/orderhistory'
+    '/orderhistory',
+    '/checkout'
   ],
 
 };

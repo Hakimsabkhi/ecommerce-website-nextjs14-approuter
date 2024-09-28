@@ -28,29 +28,7 @@ const Checkout = () => {
     totalDiscount: 0,
     items: [] as CartItem[],
   });
-  const sendMail = async (ref: string) => {
-    try {
-    
-      const response = await fetch('/api/sendEmail', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      
-        
-        body: JSON.stringify(ref),
-      });
 
-      if (!response.ok) {
-        throw new Error('Failed to send email');
-      }
-
-       await response.json();
-      
-    } catch (error) {
-      console.error('Error sending email:', error);
-    }
-  };
   // Function to handle checkout
   const handleCheckout = (price: number, discount: number, items: CartItem[]) => {
     setCheckoutData({ totalPrice: price, totalDiscount: discount, items });
@@ -60,7 +38,7 @@ const Checkout = () => {
   // Function to handle order summary
   const handleOrderSummary = async (ref: string) => {
     setRefOrder(ref);
-  sendMail(ref);
+
     setCurrentStep('order-summary');
   };
 
