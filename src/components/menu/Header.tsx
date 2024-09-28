@@ -59,7 +59,7 @@ const Header: React.FC = () => {
   }, [items]);
 
   return (
-    <div className="w-full max-lg:fixed max-lg:z-10 h-[109px] bg-[#15335E] justify-center flex">
+    <div className="w-full max-lg:fixed max-lg:z-10 h-[109px] bg-[#15335E] justify-center flex max-lg:hidden ">
       <div className="flex w-[90%] max-xl:w-[95%] max-lg:hidden justify-between gap-14 items-center max-lg:bg-white">
         <Link href="/" aria-label="Home page">
           <div className="mb-1">
