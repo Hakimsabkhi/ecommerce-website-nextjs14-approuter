@@ -59,7 +59,7 @@ const Header: React.FC = () => {
   }, [items]);
 
   return (
-    <div className="w-full max-lg:fixed max-lg:z-10 h-[109px] bg-[#15335E] justify-center flex">
+    <div className="w-full max-lg:fixed max-lg:z-10 h-[109px] bg-[#15335E] justify-center flex max-lg:hidden ">
       <div className="flex w-[90%] max-xl:w-[95%] max-lg:hidden justify-between gap-14 items-center max-lg:bg-white">
         <Link href="/" aria-label="Home page">
           <div className="mb-1">
@@ -87,7 +87,7 @@ const Header: React.FC = () => {
             <CiSearch className="w-8 h-8 transform duration-500 group-hover:w-10 group-hover:h-10" />
           </button>
         </div>
-        <UserMenu  />
+      
         <div className="flex items-center gap-4 w-[133px] text-white">
           <FiHeart size={25} />
           <div className="relative" ref={cartmodalRef}>
@@ -102,6 +102,7 @@ const Header: React.FC = () => {
           
          <Total items={items}/>
         </div>
+        <UserMenu  />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 "use client"
-import ListerReview from '@/components/ListerReview';
+import ListerReview from '@/components/ReviewComp/FetchAllReviews';
 import React, { useEffect, useState } from 'react';
 type Product = {
     _id: string;

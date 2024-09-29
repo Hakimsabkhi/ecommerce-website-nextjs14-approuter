@@ -1,4 +1,4 @@
-import AddedBrands from "@/components/AddedBrands";
+import AddedBrands from "@/components/Brands/FetchAllBrands";
 import React from 'react';
 
 const Page = () => {

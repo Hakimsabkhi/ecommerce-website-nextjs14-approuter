@@ -1,17 +1,17 @@
 "use client";
-import OrderSummary from '@/components/prossess/OrderSummary';
-import CheckoutNav from '@/components/prossess/CheckoutNav';
-import RecapProduct from '@/components/prossess/RecapProduct'; // Ensure you have this component imported
-import PaymentSummary from '@/components/prossess/PaymentSummary';
-import PaymentMethode from '@/components/prossess/PaymentMethode';
-import Addresse from '@/components/prossess/addresse';
+import OrderSummary from '@/components/checkoutComp/OrderSummary';
+import CheckoutNav from '@/components/checkoutComp/CheckoutNav';
+import RecapProduct from '@/components/checkoutComp/RecapProduct'; // Ensure you have this component imported
+import PaymentSummary from '@/components/checkoutComp/PaymentSummary';
+import PaymentMethode from '@/components/checkoutComp/PaymentMethode';
+import Addresse from '@/components/checkoutComp/addresse';
 
 import { CartItem, clearCart, removeItem, updateItemQuantity } from '@/store/cartSlice';
 import { RootState } from '@/store';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import DeliveryMethod from '@/components/prossess/DeliveryMethod';
+import DeliveryMethod from '@/components/checkoutComp/DeliveryMethod';
 
 const Checkout = () => {
   const items = useSelector((state: RootState) => state.cart.items);
@@ -38,6 +38,7 @@ const Checkout = () => {
   // Function to handle order summary
   const handleOrderSummary = async (ref: string) => {
     setRefOrder(ref);
+
     setCurrentStep('order-summary');
   };
 

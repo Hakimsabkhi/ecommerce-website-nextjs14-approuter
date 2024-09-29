@@ -1,5 +1,5 @@
 
-import ModifyBrand from '@/components/ModifyBrand';
+import ModifyBrand from '@/components/Brands/ModifyBrand';
 import React from 'react';
 
 const Page = () => {

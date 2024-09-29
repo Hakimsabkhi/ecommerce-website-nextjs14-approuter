@@ -1,4 +1,4 @@
-import ReplyReview from '@/components/ReplyReview'
+import ReplyReview from '@/components/ReviewComp/ReplyReview'
 import React from 'react'
 
 const page = () => {

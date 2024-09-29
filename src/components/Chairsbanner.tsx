@@ -1,6 +1,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 
 interface ChairsbannerProps {
@@ -18,11 +19,12 @@ const Chairsbanner: React.FC <ChairsbannerProps>= ({ category }) => {
   return (
     <div className='max-lg:pt-16'>
       <div className='relative w-full'>
-        <a 
-          href="/" 
+        <Link 
+          href={`/${category?.name}`}
+
           className='text-8xl max-md:text-3xl text-white transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/4 absolute font-bold'>
           {category ? category.name : 'Loading...'}
-        </a>
+        </Link>
         <div className='w-full h-full flex items-center justify-center'>
         
               <Image

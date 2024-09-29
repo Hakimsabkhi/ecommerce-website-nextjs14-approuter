@@ -1,7 +1,8 @@
 
 import React from 'react';
+import ProductCard from './Products/ProductPage/ProductCard';
 
-import ProductCard from './ProductPage/ProductCard';
+
 interface Brand {
   _id: string;
   name: string;
@@ -25,7 +26,7 @@ interface Products {
 // Function to fetch categories data
 const fetchProduct = async (): Promise<Products[]> => {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/products/getAllProduct`, {
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/products/fgetAllProduct`, {
       method: 'GET',
       next: { revalidate: 0 }, // Disable caching to always fetch the latest data
     }); // Adjust the API endpoint

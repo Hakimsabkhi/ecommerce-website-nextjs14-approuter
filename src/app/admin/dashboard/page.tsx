@@ -38,7 +38,7 @@ const AdminDashboard = () => {
   }, []);
 
   const fetchUsers = async () => {
-    const res = await fetch(`/api/users`);
+    const res = await fetch(`/api/users/userdashboard`);
     const data = await res.json();
     setUsers(data);
   };
@@ -74,7 +74,7 @@ const AdminDashboard = () => {
       }
 
       // Perform the API request
-      const response = await fetch(`/api/users/${userId}`, {
+      const response = await fetch(`/api/users/updateuserrole/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

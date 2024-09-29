@@ -29,7 +29,7 @@ export async function GET(req: NextRequest ) {
     await Address.find({});
     // Fetch all categories but only return the name and imageUrl fields
     const orders = await Order.find().populate('user').populate('address').sort({ createdAt: -1 });; // Only select the 'name' and 'imageUrl' fields
-console.log(orders)
+
     // Return the fetched category names and image URLs
     return new NextResponse(JSON.stringify(orders), { status: 200 });
   

@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
     }
     // Fetch all categories but only return the name and imageUrl fields
-    const address = await Address.find({user})// Only select the 'name' and 'imageUrl' fields
+    const address = await Address.find({user}).sort({ createdAt: -1 })// Only select the 'name' and 'imageUrl' fields
 
     // Return the fetched category names and image URLs
     return NextResponse.json(address, { status: 200 });

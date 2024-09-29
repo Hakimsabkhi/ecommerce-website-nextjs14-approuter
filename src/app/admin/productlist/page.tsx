@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 
-import AddedProducts from '@/components/AddedProducts';
+import AddedProducts from '@/components/Products/FetchAllProducts';
 interface User {
     _id: string;
     username: string;
